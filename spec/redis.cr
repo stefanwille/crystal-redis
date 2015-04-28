@@ -884,12 +884,17 @@ describe Redis do
       current_value = redis.get("foo") as String
       redis.watch("foo")
       results = redis.transaction do
-        puts "foo #{current_value}"
         other_redis = Redis.new
         other_redis.set("foo", "value set by other client")
         redis.set("foo", current_value + "2")
       end
       redis.get("foo").should eq("value set by other client")
+    end
+
+    it "#watch" do
+      redis.set("foo", "1")
+      redis.watch("foo")
+      redis.unwatch
     end
   end
 

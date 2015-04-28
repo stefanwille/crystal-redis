@@ -816,6 +816,10 @@ class Redis
     command(concat(["WATCH"], keys)) as RedisValue | Future
   end
 
+  def unwatch
+    command(["UNWATCH"]) as RedisValue | Future
+  end
+
   def command(request : Array(RedisValue))
     @strategy.command(request) as RedisValue | Future
   end
