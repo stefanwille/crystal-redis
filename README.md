@@ -62,8 +62,8 @@ or
 Then you can call Redis commands on the `redis` object:
 
 ```crystal
-  redis.set('foo', 'bar')
-  redis.get('foo')
+  redis.set("foo", "bar")
+  redis.get("foo")
 ```
 
 
@@ -81,8 +81,6 @@ General information about Redis is at http://redis.io/documentation
 
 ## TODO
 
-- Announce on mailing list
-- Publish the URL to http://redis.io/clients
 - Watch/Unwatch
 
 
