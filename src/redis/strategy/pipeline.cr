@@ -1,4 +1,7 @@
 # Strategy for sending commands in a pipeline.
+#
+# Used in Redis#pipelined.
+#
 class Redis::Strategy::Pipeline < Redis::Strategy::Base
   def initialize(connection)
     @connection = connection
