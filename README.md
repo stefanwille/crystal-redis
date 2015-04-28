@@ -1,7 +1,7 @@
 Redis Client for Crystal-Lang
 ================================
 
-A Redis client for the [Crystal](http://crystal-lang.org/ "Crystal") programming language.
+A Redis client for the Crystal programming language.
 
 
 ## Features
@@ -62,19 +62,47 @@ or
 Then you can call Redis commands on the `redis` object:
 
 ```crystal
-  redis.set("foo", "bar")
-  redis.get("foo")
+  redis.set('foo', 'bar')
+  redis.get('foo')
 ```
 
+See spec/redis.cr for more details about all the commands.
 
-## Documentation
 
-To get started, see https://github.com/stefanwille/crystal-redis/blob/master/examples/basic.cr.
-More examples are in https://github.com/stefanwille/crystal-redis/blob/master/examples/
+## TODO
 
-More details about the available commands are in http://redis.io/commands and spec/redis.cr.
+- Write examples for
+  o transactions
+  o pub/sub
+  o one per datatype
+- Cleanup the commit history
+- Announce on mailing list
+- Publish the URL to http://redis.io/clients
+- Watch/Unwatch
+- Documentation pointers
 
-General information about Redis is at http://redis.io/documentation
+- Dump/Restore
+- OBJECT
+- MOVE
+- Protocol spec
+- Reconnect
+- Unix domain sockets
+- Sentinel
+- Aesthetics:
+  - hgetall returns a hash instead of a list
+  - script_exists returns an array of booleans instead of ints
+  - setnx returns a boolean instead of an int
+  - msetnx returns a boolean instead of an int
+  - incrbyfloat returns a float, not a string
+  - hincrbyfloat returns a float, not a string
+  - hscan returns a hash, not an array
+  - zscan returns a hash, not an array
+  - hsetnx returns a boolean instead of an int
+  - sismember returns a boolean instead of an int
+  - exists returns a boolean instead of an int
+  - zadd returns a hash instead of an array
+  - zrange returns a hash instead of an array
+  - zscore returns a double instead of a string
 
 
 
@@ -96,5 +124,5 @@ unixsocketperm 755
 2. Create your feature branch (git checkout -b my-new-feature)
 3. Commit your changes (git commit -am 'Add some feature')
 4. Push to the branch (git push origin my-new-feature)
-5. Create a new pull request
+5. Create a new Pull Request
 
