@@ -3,7 +3,3 @@
 .deps.lock
 libs/
 ./redis
-try_hiredis
-main
-pipeline-performance
-transaction-performance
