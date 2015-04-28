@@ -66,7 +66,16 @@ Then you can call Redis commands on the `redis` object:
   redis.get("foo")
 ```
 
-See spec/redis.cr for more details about all the commands.
+
+## Documentation
+
+To get started, see https://github.com/stefanwille/crystal-redis/blob/master/examples/basic.cr.
+
+More examples are in https://github.com/stefanwille/crystal-redis/blob/master/examples/
+
+More details about the available commands are in http://redis.io/commands and spec/redis.cr.
+
+General information about Redis is at http://redis.io/documentation
 
 
 ## Hacking
