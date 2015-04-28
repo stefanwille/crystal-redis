@@ -1,5 +1,4 @@
-require "./*"
-
+# Strategy for sending commands in a pipeline.
 class Redis::Strategy::Pipeline < Redis::Strategy::Base
   def initialize(connection)
     @connection = connection

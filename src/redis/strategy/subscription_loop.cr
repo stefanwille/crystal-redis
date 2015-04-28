@@ -1,6 +1,4 @@
-require "./*"
-
-
+# Strategy for sending commands while the client is subscribed to at least one channel.
 class Redis::Strategy::SubscriptionLoop < Redis::Strategy::Base
   def initialize(connection, subscription)
     @connection = connection

@@ -1,5 +1,5 @@
-require "./*"
-
+# Strategy for sending commands as individual requests and responses,
+# which is the default case.
 class Redis::Strategy::SingleStatement < Redis::Strategy::Base
   def initialize(connection)
     @connection = connection

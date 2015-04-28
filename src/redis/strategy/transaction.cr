@@ -1,3 +1,4 @@
+# Strategy for sending commands in a transaction.
 class Redis::Strategy::Transaction < Redis::Strategy::Base
   property :results
 

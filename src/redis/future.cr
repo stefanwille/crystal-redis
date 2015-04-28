@@ -1,3 +1,8 @@
+# A future, as returned by Redis#pipelined or Redis#transaction.
+#
+# Futures are handles for values that will become available at a later point in time.
+# See https://github.com/stefanwille/crystal-redis/blob/master/examples/pipelining.cr
+# for an example.
 class Redis::Future
   def initialize
     @value

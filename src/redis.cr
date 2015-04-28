@@ -1,3 +1,6 @@
+# The entry point for the Redis client.
+#
+# See https://github.com/stefanwille/crystal-redis for documentation.
 class Redis
   alias RedisValue = Nil | Int32 | Int64 | String | Array(RedisValue)
   alias Request = Array(RedisValue)

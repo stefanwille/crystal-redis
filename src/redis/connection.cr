@@ -1,5 +1,6 @@
 require "socket"
 
+# A connection to a Redis instance.
 class Redis::Connection
   def initialize(host, port, unixsocket)
     if unixsocket
