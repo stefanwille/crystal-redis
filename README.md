@@ -85,30 +85,6 @@ General information about Redis is at http://redis.io/documentation
 - Publish the URL to http://redis.io/clients
 - Watch/Unwatch
 
-- Dump/Restore
-- OBJECT
-- MOVE
-- Protocol spec
-- Reconnect
-- Unix domain sockets
-- Sentinel
-- Aesthetics:
-  - hgetall returns a hash instead of a list
-  - script_exists returns an array of booleans instead of ints
-  - setnx returns a boolean instead of an int
-  - msetnx returns a boolean instead of an int
-  - incrbyfloat returns a float, not a string
-  - hincrbyfloat returns a float, not a string
-  - hscan returns a hash, not an array
-  - zscan returns a hash, not an array
-  - hsetnx returns a boolean instead of an int
-  - sismember returns a boolean instead of an int
-  - exists returns a boolean instead of an int
-  - zadd returns a hash instead of an array
-  - zrange returns a hash instead of an array
-  - zscore returns a double instead of a string
-
-
 
 ## Hacking
 
