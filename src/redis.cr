@@ -812,6 +812,10 @@ class Redis
     @strategy = Redis::Strategy::SingleStatement.new(@connection)
   end
 
+  def watch(*keys)
+    command(concat(["WATCH"], keys)) as RedisValue | Future
+  end
+
   def command(request : Array(RedisValue))
     @strategy.command(request) as RedisValue | Future
   end

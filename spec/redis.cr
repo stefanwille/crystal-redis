@@ -878,6 +878,19 @@ describe Redis do
       redis.get("foo").should eq("initial value")
       results.should eq([] of Redis::RedisValue)
     end
+
+    it "performs optimistic locking with #watch" do
+      redis.set("foo", "1")
+      current_value = redis.get("foo") as String
+      redis.watch("foo")
+      results = redis.transaction do
+        puts "foo #{current_value}"
+        other_redis = Redis.new
+        other_redis.set("foo", "value set by other client")
+        redis.set("foo", current_value + "2")
+      end
+      redis.get("foo").should eq("value set by other client")
+    end
   end
 
   describe "LUA scripting" do
