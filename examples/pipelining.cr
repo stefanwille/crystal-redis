@@ -20,7 +20,7 @@ end
 
 # Let's do a second batch:
 #
-# The responses of pipelined commands return futures.
+# The responses of pipelined commands are futures.
 
 puts "Running more commands pipelined, saving their futures"
 future_1 = Redis::Future.new

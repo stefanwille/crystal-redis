@@ -14,7 +14,7 @@ puts
 puts "Initializing foo"
 redis.set("foo", "the old value")
 
-results = redis.transaction do
+results = redis.multi do
   puts "Updating foo in transaction"
   redis.set("foo", "the new value")
 

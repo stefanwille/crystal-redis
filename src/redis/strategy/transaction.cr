@@ -1,6 +1,6 @@
 # Strategy for sending commands in a transaction.
 #
-# Used in Redis#transaction.
+# Used in Redis#multi.
 #
 class Redis::Strategy::Transaction < Redis::Strategy::Base
   property :results

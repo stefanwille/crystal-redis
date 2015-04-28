@@ -7,12 +7,12 @@ require "../src/redis"
 puts "Connect to Redis"
 redis = Redis.new
 
-# The responses of transaction commands return futures.
+# Commands sent in a transaction return futures.
 
 puts "Running several commands in transaction, saving their futures"
 future_1 = Redis::Future.new
 future_2 = Redis::Future.new
-redis.transaction do
+redis.multi do
   redis.set("foo1", "A")
   redis.set("foo2", "B")
   future_1 = redis.get("foo1") as Redis::Future

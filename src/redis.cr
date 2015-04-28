@@ -803,7 +803,7 @@ class Redis
     @strategy = Redis::Strategy::SingleStatement.new(@connection)
   end
 
-  def transaction
+  def multi
     @strategy = Redis::Strategy::Transaction.new(@connection)
     @strategy.begin
     yield(self)

@@ -855,12 +855,12 @@ describe Redis do
     end
   end
 
-  describe "#transaction" do
+  describe "#multi" do
     redis = Redis.new
 
     it "executes the commands in the block and returns the results" do
       futures = [] of Redis::Future
-      results = redis.transaction do
+      results = redis.multi do
         redis.set("foo", "new value")
         futures << redis.get("foo") as Redis::Future
       end
@@ -871,7 +871,7 @@ describe Redis do
 
     it "does not execute the commands in the block upon #discard" do
       redis.set("foo", "initial value")
-      results = redis.transaction do
+      results = redis.multi do
         redis.set("foo", "new value")
         redis.discard
       end
@@ -883,7 +883,7 @@ describe Redis do
       redis.set("foo", "1")
       current_value = redis.get("foo") as String
       redis.watch("foo")
-      results = redis.transaction do
+      results = redis.multi do
         other_redis = Redis.new
         other_redis.set("foo", "value set by other client")
         redis.set("foo", current_value + "2")
