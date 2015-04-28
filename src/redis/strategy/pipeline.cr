@@ -1,4 +1,4 @@
-# Strategy for sending commands in a pipeline.
+# Strategy for sending commands in pipelined mode.
 #
 # Used in Redis#pipelined.
 #
