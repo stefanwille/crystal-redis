@@ -1,9 +1,13 @@
+require "./redis/commands"
+
 # The entry point for the Redis client.
 #
 # See https://github.com/stefanwille/crystal-redis for documentation.
 class Redis
   alias RedisValue = Nil | Int32 | Int64 | String | Array(RedisValue)
   alias Request = Array(RedisValue)
+
+  include Redis::Commands
 
   def initialize(host = "localhost", port = 6379, unixsocket = nil)
     @connection = Connection.new(host, port, unixsocket)
@@ -23,8 +27,8 @@ class Redis
     command(["PING"]) as String | Future
   end
 
-  def echo(string)
-    command(["ECHO", string.to_s]) as String | Future
+  def string_command(request : Request)
+    command(request) as String
   end
 
   def quit
@@ -798,6 +802,16 @@ class Redis
     @strategy = Redis::Strategy::Pipeline.new(@connection)
     @strategy.begin
     yield
+    @strategy.commit as Array(RedisValue)
+  ensure
+    @strategy = Redis::Strategy::SingleStatement.new(@connection)
+  end
+
+  def pipelined
+    @strategy = Redis::Strategy::Pipeline.new(@connection)
+    @strategy.begin
+    future_client = FutureClient.new(@strategy)
+    yield(future_client)
     @strategy.commit as Array(RedisValue)
   ensure
     @strategy = Redis::Strategy::SingleStatement.new(@connection)
