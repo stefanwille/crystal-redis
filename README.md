@@ -89,6 +89,11 @@ unixsocket /tmp/redis.sock
 unixsocketperm 755
 ```
 
+Run the spec as usual via
+
+```bash
+$ crystal spec
+```
 
 ## Contributing
 
