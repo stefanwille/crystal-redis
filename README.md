@@ -78,12 +78,6 @@ General information about Redis is at http://redis.io/documentation
 
 
 
-
-## TODO
-
-- Watch/Unwatch
-
-
 ## Hacking
 
 To run the spec, you need a Redis server on `localhost` / port `6379` (which is the default port).
