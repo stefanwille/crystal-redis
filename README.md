@@ -17,7 +17,7 @@ A Redis client for the Crystal programming language.
 - All hyperloglog commands
 - All commands for bit operations
 - All sorted set commands
-- Pub/sub
+- Publish/subscribe
 
 
 ## Installation

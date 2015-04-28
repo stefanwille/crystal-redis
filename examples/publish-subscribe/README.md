@@ -12,6 +12,7 @@ Then start one or more publishers in separate terminal windows:
 $ crystal run examples/publish-subscribe/publish.cr
 ```
 
-Now, when you type a message into the prompt of one of the publishers, it will
+Now when you type a message in the prompt of one of the publishers, it will
 send it to all of the subscribers.
 
+More information on Redis publish/subscribe is available here: http://redis.io/topics/pubsub
