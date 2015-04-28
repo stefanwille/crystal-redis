@@ -62,48 +62,11 @@ or
 Then you can call Redis commands on the `redis` object:
 
 ```crystal
-  redis.set('foo', 'bar')
-  redis.get('foo')
+  redis.set("foo", "bar")
+  redis.get("foo")
 ```
 
 See spec/redis.cr for more details about all the commands.
-
-
-## TODO
-
-- Write examples for
-  o transactions
-  o pub/sub
-  o one per datatype
-- Cleanup the commit history
-- Announce on mailing list
-- Publish the URL to http://redis.io/clients
-- Watch/Unwatch
-- Documentation pointers
-
-- Dump/Restore
-- OBJECT
-- MOVE
-- Protocol spec
-- Reconnect
-- Unix domain sockets
-- Sentinel
-- Aesthetics:
-  - hgetall returns a hash instead of a list
-  - script_exists returns an array of booleans instead of ints
-  - setnx returns a boolean instead of an int
-  - msetnx returns a boolean instead of an int
-  - incrbyfloat returns a float, not a string
-  - hincrbyfloat returns a float, not a string
-  - hscan returns a hash, not an array
-  - zscan returns a hash, not an array
-  - hsetnx returns a boolean instead of an int
-  - sismember returns a boolean instead of an int
-  - exists returns a boolean instead of an int
-  - zadd returns a hash instead of an array
-  - zrange returns a hash instead of an array
-  - zscore returns a double instead of a string
-
 
 
 ## Hacking
