@@ -15,7 +15,7 @@ class Redis::Future
     if @ready
       @value
     else
-      raise Redis::Error.new "Redis: Future value not ready yet"
+      raise Redis::Error.new "Future value not ready yet"
     end
   end
 
