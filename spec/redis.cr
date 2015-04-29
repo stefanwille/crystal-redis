@@ -827,9 +827,9 @@ describe Redis do
 
     it "executes the commands in the block and returns the results" do
       futures = [] of Redis::Future
-      results = redis.pipelined do
-        redis.set("foo", "new value")
-        futures << redis.get("foo") as Redis::Future
+      results = redis.pipelined do |pipeline|
+        pipeline.set("foo", "new value")
+        futures << pipeline.get("foo")
       end
       results[1].should eq("new value")
       #future.not_nil!
@@ -860,9 +860,9 @@ describe Redis do
 
     it "executes the commands in the block and returns the results" do
       futures = [] of Redis::Future
-      results = redis.multi do
-        redis.set("foo", "new value")
-        futures << redis.get("foo") as Redis::Future
+      results = redis.multi do |multi|
+        multi.set("foo", "new value")
+        futures << multi.get("foo") as Redis::Future
       end
       results[1].should eq("new value")
       #future.not_nil!
@@ -871,9 +871,9 @@ describe Redis do
 
     it "does not execute the commands in the block upon #discard" do
       redis.set("foo", "initial value")
-      results = redis.multi do
-        redis.set("foo", "new value")
-        redis.discard
+      results = redis.multi do |multi|
+        multi.set("foo", "new value")
+        multi.discard
       end
       redis.get("foo").should eq("initial value")
       results.should eq([] of Redis::RedisValue)
@@ -883,10 +883,10 @@ describe Redis do
       redis.set("foo", "1")
       current_value = redis.get("foo") as String
       redis.watch("foo")
-      results = redis.multi do
+      results = redis.multi do |multi|
         other_redis = Redis.new
         other_redis.set("foo", "value set by other client")
-        redis.set("foo", current_value + "2")
+        multi.set("foo", current_value + "2")
       end
       redis.get("foo").should eq("value set by other client")
     end

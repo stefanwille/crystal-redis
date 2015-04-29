@@ -31,6 +31,10 @@ class Redis
     command(request) as String
   end
 
+  def string_or_nil_command(request : Request)
+    command(request) as String?
+  end
+
   def quit
     command(["QUIT"]) as String | Future
   end
@@ -43,15 +47,6 @@ class Redis
     command(["SELECT", database_number.to_s]) as String | Future
   end
 
-  def set(key, value, ex = nil, px = nil, nx = nil, xx = nil)
-    q = ["SET", key.to_s, value.to_s]
-    q << "EX" << ex.to_s if ex
-    q << "PX" << px.to_s if px
-    q << "NX" << nx.to_s if nx
-    q << "XX" << xx.to_s if xx
-    command(q) as String | Future
-  end
-
   def rename(old_key, new_key)
     command(["RENAME", old_key.to_s, new_key.to_s]) as String | Future
   end
@@ -60,12 +55,8 @@ class Redis
     command(["RENAMENX", old_key.to_s, new_key.to_s]) as Int64 | Future
   end
 
-  def get(key)
-    command(["GET", key.to_s]) as RedisValue | Future
-  end
-
   def del(*keys)
-    command(concat(["DEL"], keys)) as RedisValue | Future
+    command(concat(["DEL"], keys)) as Int64 | Future
   end
 
   def sort(key, by = nil, limit = nil, get = nil : Array(RedisValue)?, order = "ASC", alpha = nil : Boolean?, store = nil)
@@ -794,10 +785,6 @@ class Redis
     command(["PUBLISH", channel.to_s, message.to_s]) as Int64 | Future
   end
 
-  def discard
-    @strategy.discard
-  end
-
   def pipelined
     @strategy = Redis::Strategy::Pipeline.new(@connection)
     @strategy.begin
@@ -820,7 +807,8 @@ class Redis
   def multi
     @strategy = Redis::Strategy::Transaction.new(@connection)
     @strategy.begin
-    yield(self)
+    future_client = FutureClient.new(@strategy)
+    yield(future_client)
     @strategy.commit as Array(RedisValue)
   ensure
     @strategy = Redis::Strategy::SingleStatement.new(@connection)
