@@ -301,45 +301,45 @@ class Redis
     end
 
     def sismember(key, value)
-      command(["SISMEMBER", key.to_s, value.to_s]) as Int64 | Future
+      integer_command(["SISMEMBER", key.to_s, value.to_s])
     end
 
     def srem(key, *values)
       q = ["SREM", key.to_s]
       values.each { |value| q << value.to_s }
-      command(q) as Int64 | Future
+      integer_command(q)
     end
 
     def scard(key)
-      command(["SCARD", key.to_s]) as Int64 | Future
+      integer_command(["SCARD", key.to_s])
     end
 
     def sdiff(*keys)
       q = ["SDIFF"]
       keys.each { |key| q << key.to_s }
-      command(q) as Array(RedisValue) | Future
+      string_array_command(q)
     end
 
     def sdiffstore(destination_key, *keys)
       q = ["SDIFFSTORE", destination_key.to_s]
       keys.each { |key| q << key.to_s }
-      command(q) as Int64 | Future
+      integer_command(q)
     end
 
     def sinter(*keys)
       q = ["SINTER"]
       keys.each { |key| q << key.to_s }
-      command(q) as Array(RedisValue) | Future
+      string_array_command(q)
     end
 
     def sinterstore(destination_key, *keys)
       q = ["SINTERSTORE", destination_key.to_s]
       keys.each { |key| q << key.to_s }
-      command(q) as Int64 | Future
+      integer_command(q)
     end
 
     def smove(source, destination, member)
-      command(["SMOVE", source.to_s, destination.to_s, member.to_s]) as Int64 | Future
+      integer_command(["SMOVE", source.to_s, destination.to_s, member.to_s])
     end
 
     def spop(key, count = nil)
@@ -352,7 +352,7 @@ class Redis
     end
 
     def srandmember(key, count)
-      command(["SRANDMEMBER", key.to_s, count.to_s]) as Array(RedisValue) | Future
+      string_array_command(["SRANDMEMBER", key.to_s, count.to_s])
     end
 
     def sscan(key, cursor, match = nil, count = nil)
@@ -374,13 +374,13 @@ class Redis
     def sunion(*keys)
       q = ["SUNION"]
       keys.each { |key| q << key.to_s }
-      command(q) as Array(RedisValue) | Future
+      string_array_command(q)
     end
 
     def sunionstore(destination_key, *keys)
       q = ["SUNIONSTORE", destination_key.to_s]
       keys.each { |key| q << key.to_s }
-      command(q) as Int64 | Future
+      integer_command(q)
     end
 
     def blpop(keys, timeout_in_seconds)
@@ -398,11 +398,11 @@ class Redis
     end
 
     def rpoplpush(source, destination)
-      command(["RPOPLPUSH", source.to_s, destination.to_s]) as RedisValue | Future
+      string_or_nil_command(["RPOPLPUSH", source.to_s, destination.to_s]) as RedisValue | Future
     end
 
     def brpoplpush(source, destination, timeout_in_seconds)
-      command(["BRPOPLPUSH", source.to_s, destination.to_s, timeout_in_seconds.to_s]) as RedisValue | Future
+      string_or_nil_command(["BRPOPLPUSH", source.to_s, destination.to_s, timeout_in_seconds.to_s])
     end
 
     def hset(key, field, value)
