@@ -287,17 +287,17 @@ class Redis
     end
 
     def ltrim(key, start, stop)
-      command(["LTRIM", key.to_s, start.to_s, stop.to_s]) as RedisValue | Future
+      string_command(["LTRIM", key.to_s, start.to_s, stop.to_s])
     end
 
     def sadd(key, *values)
       q = ["SADD", key.to_s]
       values.each { |value| q << value.to_s }
-      command(q) as Int64 | Future
+      integer_command(q)
     end
 
     def smembers(key)
-      command(["SMEMBERS", key.to_s]) as Array(RedisValue) | Future
+      string_array_command(["SMEMBERS", key.to_s])
     end
 
     def sismember(key, value)
