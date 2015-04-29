@@ -27,14 +27,6 @@ class Redis
     command(["PING"]) as String | Future
   end
 
-  def string_command(request : Request)
-    command(request) as String
-  end
-
-  def string_or_nil_command(request : Request)
-    command(request) as String?
-  end
-
   def quit
     command(["QUIT"]) as String | Future
   end
@@ -806,12 +798,12 @@ class Redis
     @strategy = Redis::Strategy::SingleStatement.new(@connection)
   end
 
-  def watch(*keys)
-    command(concat(["WATCH"], keys)) as RedisValue | Future
+  def string_command(request : Request)
+    command(request) as String
   end
 
-  def unwatch
-    command(["UNWATCH"]) as RedisValue | Future
+  def string_or_nil_command(request : Request)
+    command(request) as String?
   end
 
   def command(request : Array(RedisValue))

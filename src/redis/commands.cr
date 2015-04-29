@@ -16,5 +16,14 @@ class Redis
     def get(key)
       string_or_nil_command(["GET", key.to_s])
     end
+
+    def watch(*keys)
+      string_command(concat(["WATCH"], keys))
+    end
+
+    def unwatch
+      string_command(["UNWATCH"])
+    end
+
   end
 end
