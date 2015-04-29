@@ -835,6 +835,14 @@ describe Redis do
       #future.not_nil!
       futures[0].value.should eq("new value")
     end
+
+    it "raises an exception if we call methods on the Redis object" do
+      redis.pipelined do |pipeline|
+        expect_raises Redis::Error do
+          redis.set("foo", "bar")
+        end
+      end
+    end
   end
 
   describe "hyperloglog" do

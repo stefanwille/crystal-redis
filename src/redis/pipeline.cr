@@ -1,14 +1,11 @@
-# Strategy for sending commands in pipelined mode.
+# Command interface for sending commands in pipelined mode.
 #
 # Used in Redis#pipelined.
 #
-class Redis::Strategy::Pipeline < Redis::Strategy::Base
+class Redis::Pipeline
   def initialize(connection)
     @connection = connection
     @futures = [] of Redis::Future
-  end
-
-  def begin
   end
 
   def command(request : Request)
@@ -28,6 +25,10 @@ class Redis::Strategy::Pipeline < Redis::Strategy::Base
       future.value = response
     end
     results
+  end
+
+  def discard
+    raise Redis::Error.new("We are in pipelined mode - nothing to discard")
   end
 
   private def flush

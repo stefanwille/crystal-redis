@@ -786,20 +786,11 @@ class Redis
   end
 
   def pipelined
-    @strategy = Redis::Strategy::Pipeline.new(@connection)
-    @strategy.begin
-    yield
-    @strategy.commit as Array(RedisValue)
-  ensure
-    @strategy = Redis::Strategy::SingleStatement.new(@connection)
-  end
-
-  def pipelined
-    @strategy = Redis::Strategy::Pipeline.new(@connection)
-    @strategy.begin
-    future_client = FutureClient.new(@strategy)
+    @strategy = Redis::Strategy::Pipelined.new
+    pipeline = Redis::Pipeline.new(@connection)
+    future_client = FutureClient.new(pipeline)
     yield(future_client)
-    @strategy.commit as Array(RedisValue)
+    pipeline.commit as Array(RedisValue)
   ensure
     @strategy = Redis::Strategy::SingleStatement.new(@connection)
   end
