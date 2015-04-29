@@ -168,15 +168,15 @@ class Redis
     def bitop(operation, key, *keys)
       q = ["BITOP", operation.to_s, key.to_s] of RedisValue
       keys.each { |key| q << key.to_s }
-      command(q)
+      integer_command(q)
     end
 
     def getbit(key, index)
-      command(["GETBIT", key.to_s, index.to_s]) as Int64 | Future
+      integer_command(["GETBIT", key.to_s, index.to_s])
     end
 
     def setbit(key, index, value)
-      command(["SETBIT", key.to_s, index.to_s, value.to_s]) as Int64 | Future
+      integer_command(["SETBIT", key.to_s, index.to_s, value.to_s])
     end
 
     def bitpos(key, bit, start = nil, to = nil)
@@ -187,11 +187,11 @@ class Redis
           q << to
         end
       end
-      command(q)
+      integer_command(q)
     end
 
     def dump(key)
-      command(["DUMP", key.to_s]) as String | Future
+      string_command(["DUMP", key.to_s])
     end
 
     def restore(key, ttl_in_milis : Int, serialized_value : String | Redis::Future)
@@ -203,7 +203,7 @@ class Redis
       if replace
         q << replace.to_s
       end
-      command(q) as String | Future
+      string_command(q)
     end
 
     def scan(cursor, match = nil, count = nil)
@@ -223,67 +223,67 @@ class Redis
     end
 
     def randomkey
-      command(["RANDOMKEY"]) as String | Future
+      string_command(["RANDOMKEY"])
     end
 
     def exists(key)
-      command(["EXISTS", key.to_s]) as Int64 | Future
+      integer_command(["EXISTS", key.to_s])
     end
 
     def keys(pattern)
-      command(["KEYS", pattern.to_s]) as Array(RedisValue) | Future
+      string_array_command(["KEYS", pattern.to_s])
     end
 
     def rpush(key, *values)
       q = ["RPUSH", key.to_s]
       values.each { |value| q << value.to_s }
-      command(q) as Int64 | Future
+      integer_command(q)
     end
 
     def lpush(key, *values)
       q = ["LPUSH", key.to_s]
       values.each { |value| q << value.to_s }
-      command(q) as Int64 | Future
+      integer_command(q)
     end
 
     def lpushx(key, value)
-      command(["LPUSHX", key.to_s, value.to_s]) as Int64 | Future
+      integer_command(["LPUSHX", key.to_s, value.to_s])
     end
 
     def rpushx(key, value)
-      command(["RPUSHX", key.to_s, value.to_s]) as Int64 | Future
+      integer_command(["RPUSHX", key.to_s, value.to_s])
     end
 
     def lrem(key, count, value)
-      command(["LREM", key.to_s, count.to_s, value.to_s]) as Int64 | Future
+      integer_command(["LREM", key.to_s, count.to_s, value.to_s])
     end
 
     def llen(key)
-      command(["LLEN", key.to_s]) as Int64 | Future
+      integer_command(["LLEN", key.to_s])
     end
 
     def lindex(key, index)
-      command(["LINDEX", key.to_s, index.to_s]) as String? | Future
+      string_or_nil_command(["LINDEX", key.to_s, index.to_s])
     end
 
     def lset(key, index, value)
-      command(["LSET", key.to_s, index.to_s, value.to_s]) as String | Future
+      string_command(["LSET", key.to_s, index.to_s, value.to_s])
     end
 
     def lpop(key)
-      command(["LPOP", key.to_s]) as String? | Future
+      string_or_nil_command(["LPOP", key.to_s])
     end
 
     def rpop(key)
-      command(["RPOP", key.to_s]) as String? | Future
+      string_or_nil_command(["RPOP", key.to_s])
     end
 
     def linsert(key, where, pivot, value)
-      command(["LINSERT", key.to_s, where.to_s, pivot.to_s, value.to_s]) as Int64 | Future
+      integer_command(["LINSERT", key.to_s, where.to_s, pivot.to_s, value.to_s])
     end
 
     def lrange(key, from, to)
-      command(["LRANGE", key.to_s, from.to_s, to.to_s]) as Array(RedisValue) | Future
+      string_array_command(["LRANGE", key.to_s, from.to_s, to.to_s])
     end
 
     def ltrim(key, start, stop)
