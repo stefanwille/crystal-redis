@@ -23,139 +23,6 @@ class Redis
     end
   end
 
-  def ping
-    command(["PING"]) as String | Future
-  end
-
-  def quit
-    command(["QUIT"]) as String | Future
-  end
-
-  def auth(password)
-    command(["AUTH", password]) as String | Future
-  end
-
-  def select(database_number)
-    command(["SELECT", database_number.to_s]) as String | Future
-  end
-
-  def rename(old_key, new_key)
-    command(["RENAME", old_key.to_s, new_key.to_s]) as String | Future
-  end
-
-  def renamenx(old_key, new_key)
-    command(["RENAMENX", old_key.to_s, new_key.to_s]) as Int64 | Future
-  end
-
-  def del(*keys)
-    command(concat(["DEL"], keys)) as Int64 | Future
-  end
-
-  def sort(key, by = nil, limit = nil, get = nil : Array(RedisValue)?, order = "ASC", alpha = nil : Boolean?, store = nil)
-    q = ["SORT", key.to_s]
-
-    if by
-      q << "BY" << by.to_s
-    end
-
-    if limit
-      if limit.length != 2
-        raise Error.new("limit must be an array of 2 elements (offset, count)")
-      end
-      offset, count = limit
-      q << "LIMIT" << offset.to_s << count.to_s
-    end
-
-    if get
-      get.each { |pattern| q << "GET" << pattern }
-    end
-
-    if order
-      _order = order.upcase
-      unless ["ASC", "DESC"].includes?(_order)
-        raise Error.new("Bad order #{order}")
-      end
-      q << _order
-    end
-
-    if alpha
-      q << "ALPHA"
-    end
-
-    if store
-      q << "STORE" << store.to_s
-    end
-
-    command(q) as Array(RedisValue) | Int64 | Future
-  end
-
-  def mget(*keys)
-    command(concat(["MGET"] of RedisValue, keys)) as RedisValue | Future
-  end
-
-  def mset(hash)
-    q = ["MSET"] of RedisValue
-    hash.each { |key, value| q << key.to_s << value.to_s }
-    command(q) as RedisValue | Future
-  end
-
-  def getset(key, value)
-    command(["GETSET", key.to_s, value]) as RedisValue | Future
-  end
-
-  def setex(key, value, expire_in_seconds)
-    command(["SETEX", key.to_s, expire_in_seconds.to_s, value.to_s]) as String | Future
-  end
-
-  def psetex(key, value, expire_in_milis)
-    command(["PSETEX", key.to_s, expire_in_milis.to_s, value.to_s]) as String | Future
-  end
-
-  def setnx(key, value)
-    command(["SETNX", key.to_s, value.to_s]) as Int64 | Future
-  end
-
-  def msetnx(hash)
-    q = ["MSETNX"] of RedisValue
-    hash.each { |key, value| q << key.to_s << value }
-    command(q) as Int64 | Future
-  end
-
-  def incr(key)
-    command(["INCR", key.to_s]) as Int64 | Future
-  end
-
-  def decr(key)
-    command(["DECR", key.to_s]) as Int64 | Future
-  end
-
-  def incrby(key, value)
-    command(["INCRBY", key.to_s, value.to_s]) as Int64 | Future
-  end
-
-  def incrbyfloat(key, value)
-    command(["INCRBYFLOAT", key.to_s, value.to_s]) as String | Future
-  end
-
-  def decrby(key, value)
-    command(["DECRBY", key.to_s, value.to_s]) as Int64 | Future
-  end
-
-  def append(key, value)
-    command(["APPEND", key.to_s, value.to_s]) as Int64 | Future
-  end
-
-  def strlen(key)
-    command(["STRLEN", key.to_s]) as Int64 | Future
-  end
-
-  def getrange(key, start_index, end_index)
-    command(["GETRANGE", key.to_s, start_index.to_s, end_index.to_s]) as String | Future
-  end
-
-  def setrange(key, start_index, s)
-    command(["SETRANGE", key.to_s, start_index.to_s, s.to_s]) as Int64 | Future
-  end
 
   def bitcount(key, from, to)
     command(["BITCOUNT", key.to_s, from.to_s, to.to_s]) as Int64 | Future
@@ -798,12 +665,20 @@ class Redis
     @strategy = Redis::Strategy::SingleStatement.new(@connection)
   end
 
+  def integer_command(request : Request)
+    command(request) as Int64
+  end
+
   def string_command(request : Request)
     command(request) as String
   end
 
   def string_or_nil_command(request : Request)
     command(request) as String?
+  end
+
+  def string_array_command(request : Request)
+    command(request) as Array(RedisValue)
   end
 
   def command(request : Array(RedisValue))
