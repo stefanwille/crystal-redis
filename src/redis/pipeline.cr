@@ -1,4 +1,4 @@
-# Command interface for sending commands in pipelined mode.
+# API for sending commands in pipelined mode.
 #
 # Used in Redis#pipelined.
 #

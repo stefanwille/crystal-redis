@@ -796,11 +796,12 @@ class Redis
   end
 
   def multi
-    @strategy = Redis::Strategy::Transaction.new(@connection)
-    @strategy.begin
-    future_client = FutureClient.new(@strategy)
+    @strategy = Redis::Strategy::Transactioned.new
+    transaction = Redis::Transaction.new(@connection)
+    transaction.begin
+    future_client = FutureClient.new(transaction)
     yield(future_client)
-    @strategy.commit as Array(RedisValue)
+    transaction.commit as Array(RedisValue)
   ensure
     @strategy = Redis::Strategy::SingleStatement.new(@connection)
   end

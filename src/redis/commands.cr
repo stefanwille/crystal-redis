@@ -16,9 +16,5 @@ class Redis
     def get(key)
       string_or_nil_command(["GET", key.to_s])
     end
-
-    def discard
-      @strategy.discard
-    end
   end
 end

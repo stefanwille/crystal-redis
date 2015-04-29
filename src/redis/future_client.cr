@@ -11,4 +11,8 @@ class FutureClient
   def string_or_nil_command(request : Request)
     @strategy.command(request) as Redis::Future
   end
+
+  def discard
+    @strategy.discard
+  end
 end

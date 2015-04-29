@@ -904,6 +904,14 @@ describe Redis do
       redis.watch("foo")
       redis.unwatch
     end
+
+    it "raises an exception if we call methods on the Redis object" do
+      redis.multi do |multi|
+        expect_raises Redis::Error do
+          redis.set("foo", "bar")
+        end
+      end
+    end
   end
 
   describe "LUA scripting" do
