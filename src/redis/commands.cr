@@ -710,11 +710,11 @@ class Redis
     end
 
     def ttl(key)
-      command(["TTL", key.to_s]) as Int64 | Future
+      integer_command(["TTL", key.to_s])
     end
 
     def pttl(key)
-      command(["PTTL", key.to_s]) as Int64 | Future
+      integer_command(["PTTL", key.to_s])
     end
 
     def type(key)

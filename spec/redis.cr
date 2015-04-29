@@ -170,7 +170,7 @@ describe Redis do
     it "#dump / #restore" do
       Redis.open do |redis|
         redis.set("foo", "9")
-        serialized_value = redis.dump("foo") as String
+        serialized_value = redis.dump("foo")
         # puts "**** ser: #{serialized_value.size}"
         # redis.del("foo")
         # redis.restore("foo", 0, serialized_value).should eq("OK")
@@ -870,7 +870,7 @@ describe Redis do
       futures = [] of Redis::Future
       results = redis.multi do |multi|
         multi.set("foo", "new value")
-        futures << multi.get("foo") as Redis::Future
+        futures << multi.get("foo")
       end
       results[1].should eq("new value")
       #future.not_nil!
@@ -889,7 +889,7 @@ describe Redis do
 
     it "performs optimistic locking with #watch" do
       redis.set("foo", "1")
-      current_value = redis.get("foo") as String
+      current_value = redis.get("foo").not_nil!
       redis.watch("foo")
       results = redis.multi do |multi|
         other_redis = Redis.new
@@ -983,7 +983,7 @@ describe Redis do
     it "#expireat" do
       redis.set("temp", "3")
       redis.expireat("temp", 1555555555005).should eq(1)
-      (redis.ttl("temp") as Int > 3000).should be_true
+      (redis.ttl("temp") > 3000).should be_true
     end
 
     it "#ttl" do
@@ -1001,14 +1001,14 @@ describe Redis do
     it "#pexpireat" do
       redis.set("temp", "3")
       redis.pexpireat("temp", 1555555555005).should eq(1)
-      (redis.pttl("temp") as Int > 3000).should be_true
+      (redis.pttl("temp") > 3000).should be_true
     end
 
     it "#pttl" do
       redis.set("temp", "9")
       redis.pttl("temp").should eq(-1)
       redis.pexpire("temp", 3000)
-      (redis.pttl("temp") as Int > 2998).should be_true
+      (redis.pttl("temp") > 2998).should be_true
     end
 
     it "#persist" do
