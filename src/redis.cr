@@ -52,6 +52,10 @@ class Redis
     command(request) as Int64?
   end
 
+  def integer_array_command(request : Request)
+    command(request) as Array(RedisValue)
+  end
+
   def string_command(request : Request)
     command(request) as String
   end

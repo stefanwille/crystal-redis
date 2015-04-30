@@ -629,24 +629,24 @@ class Redis
     def pfadd(key, *values)
       q = ["PFADD", key.to_s]
       values.each { |value| q << value.to_s }
-      command(q) as Int64 | Future
+      integer_command(q)
     end
 
     def pfmerge(*keys)
       q = ["PFMERGE"]
       keys.each { |key| q << key.to_s }
-      command(q) as String | Future
+      string_command(q)
     end
 
     def pfcount(key)
-      command(["PFCOUNT", key.to_s]) as Int64 | Future
+      integer_command(["PFCOUNT", key.to_s])
     end
 
     def eval(script : String, keys = [] of RedisValue, args = [] of RedisValue)
       q = ["EVAL", script, keys.length.to_s] of RedisValue
       q.concat(keys)
       q.concat(args)
-      command(q) as Array(RedisValue) | Future
+      string_array_command(q)
     end
 
     def evalsha(sha1, keys = [] of RedisValue, args = [] of RedisValue)
@@ -656,15 +656,15 @@ class Redis
       q = ["EVALSHA", sha1, keys.length.to_s] of RedisValue
       q.concat(keys)
       q.concat(args)
-      command(q) as Array(RedisValue) | Future
+      string_array_command(q)
     end
 
     def script_load(script : String)
-      command(["SCRIPT", "LOAD", script]) as String | Future
+      string_command(["SCRIPT", "LOAD", script])
     end
 
     def script_kill
-      command(["SCRIPT", "KILL"]) as String | Future
+      string_command(["SCRIPT", "KILL"])
     end
 
     def script_exists(sha1_array : Array(Reference))
@@ -672,31 +672,31 @@ class Redis
       sha1_array.each do |sha1|
         q << (sha1 as String)
       end
-      command(q)
+      integer_array_command(q)
     end
 
     def script_flush
-      command(["SCRIPT", "FLUSH"]) as String | Future
+      string_command(["SCRIPT", "FLUSH"])
     end
 
     def expire(key, seconds)
-      command(["EXPIRE", key.to_s, seconds.to_s]) as Int64 | Future
+      integer_command(["EXPIRE", key.to_s, seconds.to_s])
     end
 
     def pexpire(key, milis)
-      command(["PEXPIRE", key.to_s, milis.to_s]) as Int64 | Future
+      integer_command(["PEXPIRE", key.to_s, milis.to_s])
     end
 
     def expireat(key, unix_date)
-      command(["EXPIREAT", key.to_s, unix_date.to_s]) as Int64 | Future
+      integer_command(["EXPIREAT", key.to_s, unix_date.to_s])
     end
 
     def pexpireat(key, unix_date_in_milis)
-      command(["PEXPIREAT", key.to_s, unix_date_in_milis.to_s]) as Int64 | Future
+      integer_command(["PEXPIREAT", key.to_s, unix_date_in_milis.to_s])
     end
 
     def persist(key)
-      command(["PERSIST", key.to_s]) as Int64 | Future
+      integer_command(["PERSIST", key.to_s])
     end
 
     def ttl(key)
@@ -768,7 +768,7 @@ class Redis
     end
 
     def publish(channel, message)
-      command(["PUBLISH", channel.to_s, message.to_s]) as Int64 | Future
+      integer_command(["PUBLISH", channel.to_s, message.to_s])
     end
 
   end
