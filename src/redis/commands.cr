@@ -438,19 +438,19 @@ class Redis
     end
 
     def hlen(key)
-      command(["HLEN", key.to_s]) as Int64 | Future
+      integer_command(["HLEN", key.to_s])
     end
 
     def hmget(key, *fields)
       q = ["HMGET", key.to_s] of RedisValue
       fields.each { |field| q << field.to_s }
-      command(q) as Array(RedisValue) | Future
+      string_array_command(q)
     end
 
     def hmset(key, hash)
       q = ["HMSET", key.to_s] of RedisValue
       hash.each { |field, value| q << field.to_s << value }
-      command(q) as String | Future
+      string_command(q)
     end
 
     def hscan(key, cursor, match = nil, count = nil)
@@ -461,20 +461,15 @@ class Redis
           q << count
         end
       end
-      result = command(q)
-      # Keep the compiler happy.
-      unless result
-        "Redis: Missing result"
-      end
-      result as Array(RedisValue) | Future
+      string_array_command(q)
     end
 
     def hsetnx(key, field, value)
-      command(["HSETNX", key.to_s, field.to_s, value.to_s]) as Int64 | Future
+      integer_command(["HSETNX", key.to_s, field.to_s, value.to_s])
     end
 
     def hvals(key)
-      command(["HVALS", key.to_s]) as Array(RedisValue) | Future
+      string_array_command(["HVALS", key.to_s])
     end
 
     def zadd(key, *scores_and_members)
@@ -498,27 +493,27 @@ class Redis
       if with_scores
         q << "WITHSCORES"
       end
-      command(q) as Array(RedisValue) | Future
+      string_array_command(q)
     end
 
     def zcard(key)
-      command(["ZCARD", key.to_s]) as Int64 | Future
+      integer_command(["ZCARD", key.to_s])
     end
 
     def zscore(key, member)
-      command(["ZSCORE", key.to_s, member.to_s]) as String? | Future
+      string_or_nil_command(["ZSCORE", key.to_s, member.to_s])
     end
 
     def zcount(key, min, max)
-      command(["ZCOUNT", key.to_s, min.to_s, max.to_s]) as Int64 | Future
+      integer_command(["ZCOUNT", key.to_s, min.to_s, max.to_s])
     end
 
     def zlexcount(key, min, max)
-      command(["ZLEXCOUNT", key.to_s, min.to_s, max.to_s]) as Int64 | Future
+      integer_command(["ZLEXCOUNT", key.to_s, min.to_s, max.to_s])
     end
 
     def zincrby(key, increment, member)
-      command(["ZINCRBY", key.to_s, increment.to_s, member.to_s]) as String | Future
+      string_command(["ZINCRBY", key.to_s, increment.to_s, member.to_s])
     end
 
     def zrem(key, member)
