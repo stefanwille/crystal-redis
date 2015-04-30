@@ -214,12 +214,7 @@ class Redis
           q << count
         end
       end
-      result = command(q)
-      # Keep the compiler happy.
-      unless result
-        "Redis: Missing result"
-      end
-      result as Array(RedisValue) | Future
+      string_array_command(q)
     end
 
     def randomkey
@@ -363,12 +358,7 @@ class Redis
           q << count
         end
       end
-      result = command(q)
-      # Keep the compiler happy.
-      unless result
-        "Redis: Missing result"
-      end
-      result as Array(RedisValue) | Future
+      string_array_command(q)
     end
 
     def sunion(*keys)
