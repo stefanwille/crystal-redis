@@ -60,6 +60,10 @@ class Redis
     command(request) as Array(RedisValue)
   end
 
+  def array_or_nil_command(request : Request)
+    command(request) as Array(RedisValue)?
+  end
+
   def command(request : Array(RedisValue))
     @strategy.command(request) as RedisValue | Future
   end

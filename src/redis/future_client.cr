@@ -20,6 +20,10 @@ class FutureClient
     command(request)
   end
 
+  def array_or_nil_command(request : Request)
+    command(request)
+  end
+
   def command(request : Request)
     @strategy.command(request) as Redis::Future
   end

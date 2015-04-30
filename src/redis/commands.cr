@@ -387,18 +387,18 @@ class Redis
       q = ["BLPOP"]
       keys.each { |key| q << key.to_s }
       q << timeout_in_seconds.to_s
-      command(q) as Array(RedisValue)? | Future
+      array_or_nil_command(q)
     end
 
     def brpop(keys, timeout_in_seconds)
       q = ["BRPOP"]
       keys.each { |key| q << key.to_s }
       q << timeout_in_seconds.to_s
-      command(q) as Array(RedisValue)? | Future
+      array_or_nil_command(q)
     end
 
     def rpoplpush(source, destination)
-      string_or_nil_command(["RPOPLPUSH", source.to_s, destination.to_s]) as RedisValue | Future
+      string_or_nil_command(["RPOPLPUSH", source.to_s, destination.to_s])
     end
 
     def brpoplpush(source, destination, timeout_in_seconds)
@@ -406,35 +406,35 @@ class Redis
     end
 
     def hset(key, field, value)
-      command(["HSET", key.to_s, field.to_s, value.to_s]) as RedisValue | Future
+      integer_command(["HSET", key.to_s, field.to_s, value.to_s])
     end
 
     def hget(key, field)
-      command(["HGET", key.to_s, field.to_s]) as String? | Future
+      string_or_nil_command(["HGET", key.to_s, field.to_s])
     end
 
     def hgetall(key)
-      result = command(["HGETALL", key.to_s]) as Array(RedisValue) | Future
+      string_array_command(["HGETALL", key.to_s])
     end
 
     def hdel(key, field)
-      command(["HDEL", key.to_s, field.to_s]) as Int64 | Future
+      integer_command(["HDEL", key.to_s, field.to_s])
     end
 
     def hexists(key, field)
-      command(["HEXISTS", key.to_s, field.to_s]) as Int64 | Future
+      integer_command(["HEXISTS", key.to_s, field.to_s])
     end
 
     def hincrby(key, field, delta)
-      command(["HINCRBY", key.to_s, field.to_s, delta.to_s]) as Int64 | Future
+      integer_command(["HINCRBY", key.to_s, field.to_s, delta.to_s])
     end
 
     def hincrbyfloat(key, field, delta)
-      command(["HINCRBYFLOAT", key.to_s, field.to_s, delta.to_s]) as String | Future
+      string_command(["HINCRBYFLOAT", key.to_s, field.to_s, delta.to_s])
     end
 
     def hkeys(key)
-      command(["HKEYS", key.to_s]) as Array(RedisValue) | Future
+      string_array_command(["HKEYS", key.to_s])
     end
 
     def hlen(key)
