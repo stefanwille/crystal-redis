@@ -92,10 +92,6 @@ class Redis
     @connection.close
   end
 
-  private def concat(destination : Array(RedisValue), source)
-    source.each { |value| destination << value.to_s }
-    destination
-  end
 end
 
 require "./**"

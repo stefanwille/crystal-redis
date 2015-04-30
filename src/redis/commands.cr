@@ -300,9 +300,7 @@ class Redis
     end
 
     def srem(key, *values)
-      q = ["SREM", key.to_s]
-      values.each { |value| q << value.to_s }
-      integer_command(q)
+      integer_command(concat(["SREM", key.to_s], values))
     end
 
     def scard(key)
@@ -310,27 +308,19 @@ class Redis
     end
 
     def sdiff(*keys)
-      q = ["SDIFF"]
-      keys.each { |key| q << key.to_s }
-      string_array_command(q)
+      string_array_command(concat(["SDIFF"], keys))
     end
 
     def sdiffstore(destination_key, *keys)
-      q = ["SDIFFSTORE", destination_key.to_s]
-      keys.each { |key| q << key.to_s }
-      integer_command(q)
+      integer_command(concat(["SDIFFSTORE", destination_key.to_s], keys))
     end
 
     def sinter(*keys)
-      q = ["SINTER"]
-      keys.each { |key| q << key.to_s }
-      string_array_command(q)
+      string_array_command(concat(["SINTER"], keys))
     end
 
     def sinterstore(destination_key, *keys)
-      q = ["SINTERSTORE", destination_key.to_s]
-      keys.each { |key| q << key.to_s }
-      integer_command(q)
+      integer_command(concat(["SINTERSTORE", destination_key.to_s], keys))
     end
 
     def smove(source, destination, member)
@@ -362,20 +352,15 @@ class Redis
     end
 
     def sunion(*keys)
-      q = ["SUNION"]
-      keys.each { |key| q << key.to_s }
-      string_array_command(q)
+      string_array_command(concat(["SUNION"], keys))
     end
 
     def sunionstore(destination_key, *keys)
-      q = ["SUNIONSTORE", destination_key.to_s]
-      keys.each { |key| q << key.to_s }
-      integer_command(q)
+      integer_command(concat(["SUNIONSTORE", destination_key.to_s], keys))
     end
 
     def blpop(keys, timeout_in_seconds)
-      q = ["BLPOP"]
-      keys.each { |key| q << key.to_s }
+      q = concat(["BLPOP"], keys)
       q << timeout_in_seconds.to_s
       array_or_nil_command(q)
     end
@@ -772,5 +757,10 @@ class Redis
     def publish(channel, message)
       integer_command(["PUBLISH", channel.to_s, message.to_s])
     end
+  end
+
+  private def concat(destination : Array(RedisValue), source)
+    source.each { |value| destination << value.to_s }
+    destination
   end
 end
