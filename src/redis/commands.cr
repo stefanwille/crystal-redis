@@ -366,8 +366,7 @@ class Redis
     end
 
     def brpop(keys, timeout_in_seconds)
-      q = ["BRPOP"]
-      keys.each { |key| q << key.to_s }
+      q = concat(["BRPOP"], keys)
       q << timeout_in_seconds.to_s
       array_or_nil_command(q)
     end
@@ -417,9 +416,7 @@ class Redis
     end
 
     def hmget(key, *fields)
-      q = ["HMGET", key.to_s] of RedisValue
-      fields.each { |field| q << field.to_s }
-      string_array_command(q)
+      string_array_command(concat(["HMGET", key.to_s], fields))
     end
 
     def hmset(key, hash)
@@ -448,19 +445,11 @@ class Redis
     end
 
     def zadd(key, *scores_and_members)
-      q = ["ZADD", key.to_s]
       if scores_and_members.length % 2 > 0
         raise Error.new("zadd expects an array of scores mapped to members")
       end
-      count = scores_and_members.length / 2
-      index = 0
-      count.times do
-        score = scores_and_members[index].to_s
-        member = scores_and_members[index + 1].to_s
-        q << score << member
-        index += 2
-      end
-      integer_command(q)
+
+      integer_command(concat(["ZADD", key.to_s], scores_and_members))
     end
 
     def zrange(key, start = nil, stop = nil, with_scores = false)
@@ -505,11 +494,10 @@ class Redis
 
     def zinterstore(destination, keys : Array, weights = nil, aggregate = nil)
       numkeys = keys.length
-      q = ["ZINTERSTORE", destination.to_s, numkeys.to_s]
-      keys.each { |keys| q << keys.to_s }
+      q = concat(["ZINTERSTORE", destination.to_s, numkeys.to_s], keys)
       if weights
         q << "WEIGHTS"
-        weights.each { |weight| q << weight.to_s }
+        concat(q, weights)
       end
       if aggregate
         q << "AGGREGATE" << aggregate.to_s
@@ -519,11 +507,10 @@ class Redis
 
     def zunionstore(destination, keys : Array, weights = nil, aggregate = nil)
       numkeys = keys.length
-      q = ["ZUNIONSTORE", destination.to_s, numkeys.to_s]
-      keys.each { |keys| q << keys.to_s }
+      q = concat(["ZUNIONSTORE", destination.to_s, numkeys.to_s], keys)
       if weights
         q << "WEIGHTS"
-        weights.each { |weight| q << weight.to_s }
+        concat(q, weights)
       end
       if aggregate
         q << "AGGREGATE" << aggregate.to_s
@@ -602,15 +589,11 @@ class Redis
     end
 
     def pfadd(key, *values)
-      q = ["PFADD", key.to_s]
-      values.each { |value| q << value.to_s }
-      integer_command(q)
+      integer_command(concat(["PFADD", key.to_s], values))
     end
 
     def pfmerge(*keys)
-      q = ["PFMERGE"]
-      keys.each { |key| q << key.to_s }
-      string_command(q)
+      string_command(concat(["PFMERGE"], keys))
     end
 
     def pfcount(key)
@@ -707,9 +690,7 @@ class Redis
         raise Redis::Error.new("Must call subscribe with a subscription block")
       end
 
-      q = ["SUBSCRIBE"] of RedisValue
-      channels.each { |channel| q << channel.to_s }
-      void_command(q)
+      void_command(concat(["SUBSCRIBE"], channels))
     end
 
     # Can be called only outside a subscription block
@@ -733,9 +714,7 @@ class Redis
         raise Redis::Error.new("Must call psubscribe with a subscription block")
       end
 
-      q = ["PSUBSCRIBE"] of RedisValue
-      channel_patterns.each { |channel_pattern| q << channel_pattern.to_s }
-      void_command(q)
+      void_command(concat(["PSUBSCRIBE"], channel_patterns))
     end
 
     private def already_in_subscription_loop?
@@ -743,15 +722,11 @@ class Redis
     end
 
     def unsubscribe(*channels)
-      q = ["UNSUBSCRIBE"] of RedisValue
-      channels.each { |channel| q << channel.to_s }
-      void_command(q)
+      void_command(concat(["UNSUBSCRIBE"], channels))
     end
 
     def punsubscribe(*channel_patterns)
-      q = ["PUNSUBSCRIBE"] of RedisValue
-      channel_patterns.each { |channel_pattern| q << channel_pattern.to_s }
-      void_command(q)
+      void_command(concat(["PUNSUBSCRIBE"], channel_patterns))
     end
 
     def publish(channel, message)
