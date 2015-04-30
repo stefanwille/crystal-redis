@@ -90,7 +90,7 @@ class Redis
         q << "STORE" << store.to_s
       end
 
-      command(q) as Array(RedisValue) | Int64 | Redis::Future
+      string_array_or_integer_command(q)
     end
 
     def mget(*keys)
@@ -343,7 +343,7 @@ class Redis
       if count
         q << count.to_s
       end
-      command(q) as String | Array(RedisValue) | Future
+      string_array_or_string_command(q)
     end
 
     def srandmember(key, count)
@@ -444,7 +444,7 @@ class Redis
     end
 
     def hscan(key, cursor, match = nil, count = nil)
-          q = ["HSCAN", key.to_s, cursor.to_s]
+      q = ["HSCAN", key.to_s, cursor.to_s]
       if match
         q << match
         if count
@@ -475,7 +475,7 @@ class Redis
         q << score << member
         index += 2
       end
-      command(q) as Int64 | Future
+      integer_command(q)
     end
 
     def zrange(key, start = nil, stop = nil, with_scores = false)
@@ -698,10 +698,15 @@ class Redis
     end
 
     def type(key)
-      command(["TYPE", key.to_s]) as String | Future
+      string_command(["TYPE", key.to_s])
     end
 
+    # Can be called only outside a subscription block
     def subscribe(*channels, &callback_setup_block : Subscription ->)
+      if already_in_subscription_loop?
+        raise Redis::Error.new("Must call subscribe outside a subscription block")
+      end
+
       subscription = Subscription.new
       # Allow the caller to populate the subscription with his callbacks.
       callback_setup_block.call(subscription)
@@ -711,17 +716,23 @@ class Redis
       subscribe(*channels)
     end
 
+    # Can be called only inside a subscription block
     def subscribe(*channels)
       unless already_in_subscription_loop?
-        raise Redis::Error.new("Must call subscribe with a block")
+        raise Redis::Error.new("Must call subscribe with a subscription block")
       end
 
       q = ["SUBSCRIBE"] of RedisValue
       channels.each { |channel| q << channel.to_s }
-      command(q)
+      void_command(q)
     end
 
+    # Can be called only outside a subscription block
     def psubscribe(*channel_patterns, &callback_setup_block : Subscription ->)
+      if already_in_subscription_loop?
+        raise Redis::Error.new("Must call psubscribe outside a subscription block")
+      end
+
       subscription = Subscription.new
       # Allow the caller to populate the subscription with his callbacks.
       callback_setup_block.call(subscription)
@@ -731,14 +742,15 @@ class Redis
       psubscribe(*channel_patterns)
     end
 
+    # Can be called only inside a subscription block
     def psubscribe(*channel_patterns)
       unless already_in_subscription_loop?
-        raise Redis::Error.new("Must call psubscribe with a block")
+        raise Redis::Error.new("Must call psubscribe with a subscription block")
       end
 
       q = ["PSUBSCRIBE"] of RedisValue
       channel_patterns.each { |channel_pattern| q << channel_pattern.to_s }
-      command(q)
+      void_command(q)
     end
 
     private def already_in_subscription_loop?
@@ -748,13 +760,13 @@ class Redis
     def unsubscribe(*channels)
       q = ["UNSUBSCRIBE"] of RedisValue
       channels.each { |channel| q << channel.to_s }
-      command(q)
+      void_command(q)
     end
 
     def punsubscribe(*channel_patterns)
       q = ["PUNSUBSCRIBE"] of RedisValue
       channel_patterns.each { |channel_pattern| q << channel_pattern.to_s }
-      command(q)
+      void_command(q)
     end
 
     def publish(channel, message)

@@ -28,7 +28,19 @@ class FutureClient
     command(request)
   end
 
+  def string_array_or_integer_command(request : Request)
+    command(request)
+  end
+
+  def string_array_or_string_command(request : Request)
+    command(request)
+  end
+
   def array_or_nil_command(request : Request)
+    command(request)
+  end
+
+  def void_command(request : Request)
     command(request)
   end
 
