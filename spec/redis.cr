@@ -1008,7 +1008,7 @@ describe Redis do
       redis.set("temp", "9")
       redis.pttl("temp").should eq(-1)
       redis.pexpire("temp", 3000)
-      (redis.pttl("temp") > 2998).should be_true
+      (redis.pttl("temp") > 2990).should be_true
     end
 
     it "#persist" do

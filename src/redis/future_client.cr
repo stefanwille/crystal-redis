@@ -8,6 +8,10 @@ class FutureClient
     command(request)
   end
 
+  def integer_or_nil_command(request : Request)
+    command(request)
+  end
+
   def string_command(request : Request)
     command(request)
   end

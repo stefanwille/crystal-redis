@@ -525,7 +525,7 @@ class Redis
     end
 
     def zrevrank(key, member)
-      command(["ZREVRANK", key.to_s, member.to_s]) as Int64? | Future
+      integer_or_nil_command(["ZREVRANK", key.to_s, member.to_s])
     end
 
     def zinterstore(destination, keys : Array, weights = nil, aggregate = nil)
@@ -539,7 +539,7 @@ class Redis
       if aggregate
         q << "AGGREGATE" << aggregate.to_s
       end
-      command(q) as Int64 | Future
+      integer_command(q)
     end
 
     def zunionstore(destination, keys : Array, weights = nil, aggregate = nil)
@@ -553,7 +553,7 @@ class Redis
       if aggregate
         q << "AGGREGATE" << aggregate.to_s
       end
-      command(q) as Int64 | Future
+      integer_command(q)
     end
 
     def zrangebylex(key, min, max, limit = nil)
@@ -561,7 +561,7 @@ class Redis
       if limit
         q << "LIMIT" << limit[0].to_s << limit[1].to_s
       end
-      command(q) as Array(RedisValue) | Future
+      string_array_command(q)
     end
 
     def zrangebyscore(key, min, max, limit = nil, with_scores = false)
@@ -572,7 +572,7 @@ class Redis
       if with_scores
         q << "WITHSCORES"
       end
-      command(q) as Array(RedisValue) | Future
+      string_array_command(q)
     end
 
     def zrevrange(key, start, stop, with_scores = false)
@@ -581,7 +581,7 @@ class Redis
         q << "WITHSCORES"
       end
 
-      command(q) as Array(RedisValue) | Future
+      string_array_command(q)
     end
 
     def zrevrangebylex(key, min, max, limit = nil)
@@ -589,7 +589,7 @@ class Redis
       if limit
         q << "LIMIT" << limit[0].to_s << limit[1].to_s
       end
-      command(q) as Array(RedisValue) | Future
+      string_array_command(q)
     end
 
     def zrevrangebyscore(key, min, max, limit = nil, with_scores = false)
@@ -600,19 +600,19 @@ class Redis
       if with_scores
         q << "WITHSCORES"
       end
-      command(q) as Array(RedisValue) | Future
+      string_array_command(q)
     end
 
     def zremrangebylex(key, min, max)
-      command(["ZREMRANGEBYLEX", key.to_s, min.to_s, max.to_s]) as Int64 | Future
+      integer_command(["ZREMRANGEBYLEX", key.to_s, min.to_s, max.to_s])
     end
 
     def zremrangebyrank(key, start, stop)
-      command(["ZREMRANGEBYRANK", key.to_s, start.to_s, stop.to_s]) as Int64 | Future
+      integer_command(["ZREMRANGEBYRANK", key.to_s, start.to_s, stop.to_s])
     end
 
     def zremrangebyscore(key, start, stop)
-      command(["ZREMRANGEBYSCORE", key.to_s, start.to_s, stop.to_s]) as Int64 | Future
+      integer_command(["ZREMRANGEBYSCORE", key.to_s, start.to_s, stop.to_s])
     end
 
     def zscan(key, cursor, match = nil, count = nil)
@@ -628,7 +628,7 @@ class Redis
       unless result
         "Redis: Missing result"
       end
-      result as Array(RedisValue) | Future
+      string_array_command(q)
     end
 
     def pfadd(key, *values)

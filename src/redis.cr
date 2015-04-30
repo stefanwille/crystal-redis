@@ -48,6 +48,10 @@ class Redis
     command(request) as Int64
   end
 
+  def integer_or_nil_command(request : Request)
+    command(request) as Int64?
+  end
+
   def string_command(request : Request)
     command(request) as String
   end
