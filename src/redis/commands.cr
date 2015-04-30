@@ -770,6 +770,5 @@ class Redis
     def publish(channel, message)
       integer_command(["PUBLISH", channel.to_s, message.to_s])
     end
-
   end
 end
