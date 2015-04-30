@@ -517,11 +517,11 @@ class Redis
     end
 
     def zrem(key, member)
-      command(["ZREM", key.to_s, member.to_s]) as Int64 | Future
+      integer_command(["ZREM", key.to_s, member.to_s])
     end
 
     def zrank(key, member)
-      command(["ZRANK", key.to_s, member.to_s]) as Int64? | Future
+      integer_or_nil_command(["ZRANK", key.to_s, member.to_s])
     end
 
     def zrevrank(key, member)
