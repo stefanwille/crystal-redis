@@ -11,11 +11,11 @@ redis = Redis.new
 # Then Redis executes the commands and returns the responses.
 
 puts "Running several commands pipelined"
-redis.pipelined do
-  redis.del("foo")
-  redis.set("foo1", "first")
-  redis.set("foo2", "second")
-  redis.set("foo3", "third")
+redis.pipelined do |pipeline|
+  pipeline.del("foo")
+  pipeline.set("foo1", "first")
+  pipeline.set("foo2", "second")
+  pipeline.set("foo3", "third")
 end
 
 # Let's do a second batch:
@@ -27,12 +27,12 @@ future_1 = Redis::Future.new
 future_2 = Redis::Future.new
 future_3 = Redis::Future.new
 future_4 = Redis::Future.new
-redis.pipelined do
-  redis.set("foo4", "fourth")
-  future_1 = redis.get("foo1") as Redis::Future
-  future_2 = redis.get("foo2") as Redis::Future
-  future_3 = redis.get("foo3") as Redis::Future
-  future_4 = redis.get("foo4") as Redis::Future
+redis.pipelined do |pipeline|
+  pipeline.set("foo4", "fourth")
+  future_1 = pipeline.get("foo1") as Redis::Future
+  future_2 = pipeline.get("foo2") as Redis::Future
+  future_3 = pipeline.get("foo3") as Redis::Future
+  future_4 = pipeline.get("foo4") as Redis::Future
 end
 
 # The future's values become available after the pipelined block.
