@@ -27,7 +27,7 @@ future_1 = Redis::Future.new
 future_2 = Redis::Future.new
 future_3 = Redis::Future.new
 future_4 = Redis::Future.new
-redis.pipelined do |pipeline|
+responses = redis.pipelined do |pipeline|
   pipeline.set("foo4", "fourth")
   future_1 = pipeline.get("foo1") as Redis::Future
   future_2 = pipeline.get("foo2") as Redis::Future
@@ -35,9 +35,11 @@ redis.pipelined do |pipeline|
   future_4 = pipeline.get("foo4") as Redis::Future
 end
 
+puts "Responses: #{ responses }"
+
 # The future's values become available after the pipelined block.
 
-puts "Accessing the future's values:"
+puts "Accessing the future values:"
 puts future_1.value
 puts future_2.value
 puts future_3.value
