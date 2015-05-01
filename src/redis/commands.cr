@@ -6,6 +6,10 @@ class Redis
       string_command(["ECHO", string.to_s])
     end
 
+    def ping
+      string_command(["PING"])
+    end
+
     def set(key, value, ex = nil, px = nil, nx = nil, xx = nil)
       q = ["SET", key.to_s, value.to_s]
       q << "EX" << ex.to_s if ex
@@ -17,18 +21,6 @@ class Redis
 
     def get(key)
       string_or_nil_command(["GET", key.to_s])
-    end
-
-    def watch(*keys)
-      string_command(concat(["WATCH"], keys))
-    end
-
-    def unwatch
-      string_command(["UNWATCH"])
-    end
-
-    def ping
-      string_command(["PING"])
     end
 
     def quit
@@ -718,6 +710,14 @@ class Redis
 
     def publish(channel, message)
       integer_command(["PUBLISH", channel.to_s, message.to_s])
+    end
+
+    def watch(*keys)
+      string_command(concat(["WATCH"], keys))
+    end
+
+    def unwatch
+      string_command(["UNWATCH"])
     end
   end
 
