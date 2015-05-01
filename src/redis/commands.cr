@@ -94,7 +94,7 @@ class Redis
     end
 
     def mget(*keys)
-      string_array_command(concat(["MGET"] of RedisValue, keys))
+      string_array_command(concat(["MGET"], keys))
     end
 
     def mset(hash)
@@ -166,9 +166,7 @@ class Redis
     end
 
     def bitop(operation, key, *keys)
-      q = ["BITOP", operation.to_s, key.to_s] of RedisValue
-      keys.each { |key| q << key.to_s }
-      integer_command(q)
+      integer_command(concat(["BITOP", operation.to_s, key.to_s], keys))
     end
 
     def getbit(key, index)
@@ -230,15 +228,11 @@ class Redis
     end
 
     def rpush(key, *values)
-      q = ["RPUSH", key.to_s]
-      values.each { |value| q << value.to_s }
-      integer_command(q)
+      integer_command(concat(["RPUSH", key.to_s], values))
     end
 
     def lpush(key, *values)
-      q = ["LPUSH", key.to_s]
-      values.each { |value| q << value.to_s }
-      integer_command(q)
+      integer_command(concat(["LPUSH", key.to_s], values))
     end
 
     def lpushx(key, value)
@@ -286,9 +280,7 @@ class Redis
     end
 
     def sadd(key, *values)
-      q = ["SADD", key.to_s]
-      values.each { |value| q << value.to_s }
-      integer_command(q)
+      integer_command(concat(["SADD", key.to_s], values))
     end
 
     def smembers(key)
@@ -601,20 +593,15 @@ class Redis
     end
 
     def eval(script : String, keys = [] of RedisValue, args = [] of RedisValue)
-      q = ["EVAL", script, keys.length.to_s] of RedisValue
-      q.concat(keys)
-      q.concat(args)
-      string_array_command(q)
+      string_array_command(concat(["EVAL", script, keys.length.to_s], keys, args))
     end
 
     def evalsha(sha1, keys = [] of RedisValue, args = [] of RedisValue)
       unless sha1.is_a?(String)
         raise "Redis: Call evalsha with a String, not a #{sha1.class}"
       end
-      q = ["EVALSHA", sha1, keys.length.to_s] of RedisValue
-      q.concat(keys)
-      q.concat(args)
-      string_array_command(q)
+
+      string_array_command(concat(["EVALSHA", sha1, keys.length.to_s], keys, args))
     end
 
     def script_load(script : String)
@@ -626,11 +613,7 @@ class Redis
     end
 
     def script_exists(sha1_array : Array(Reference))
-      q = ["SCRIPT", "EXISTS"] of RedisValue
-      sha1_array.each do |sha1|
-        q << (sha1 as String)
-      end
-      integer_array_command(q)
+      integer_array_command(concat(["SCRIPT", "EXISTS"], sha1_array))
     end
 
     def script_flush
@@ -669,8 +652,8 @@ class Redis
       string_command(["TYPE", key.to_s])
     end
 
-    # Can be called only outside a subscription block
     def subscribe(*channels, &callback_setup_block : Subscription ->)
+      # Can be called only outside a subscription block
       if already_in_subscription_loop?
         raise Redis::Error.new("Must call subscribe without a subscription block when already inside a subscription loop")
       end
@@ -684,8 +667,8 @@ class Redis
       subscribe(*channels)
     end
 
-    # Can be called only inside a subscription block
     def subscribe(*channels)
+      # Can be called only inside a subscription block
       unless already_in_subscription_loop?
         raise Redis::Error.new("Must call subscribe with a subscription block")
       end
@@ -693,8 +676,8 @@ class Redis
       void_command(concat(["SUBSCRIBE"], channels))
     end
 
-    # Can be called only outside a subscription block
     def psubscribe(*channel_patterns, &callback_setup_block : Subscription ->)
+      # Can be called only outside a subscription block
       if already_in_subscription_loop?
         raise Redis::Error.new("Must call psubscribe without a subscription block when inside a subscription loop")
       end
@@ -708,8 +691,8 @@ class Redis
       psubscribe(*channel_patterns)
     end
 
-    # Can be called only inside a subscription block
     def psubscribe(*channel_patterns)
+      # Can be called only inside a subscription block
       unless already_in_subscription_loop?
         raise Redis::Error.new("Must call psubscribe with a subscription block")
       end
@@ -734,8 +717,18 @@ class Redis
     end
   end
 
+  # Concatenates the source array to the destination array.
+  # Is there a better way?
   private def concat(destination : Array(RedisValue), source)
     source.each { |value| destination << value.to_s }
+    destination
+  end
+
+  # Concatenates the source arrays to the destination array.
+  # Is there a better way?
+  private def concat(destination : Array(RedisValue), source1, source2)
+    concat(destination, source1)
+    concat(destination, source2)
     destination
   end
 end
