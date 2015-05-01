@@ -42,6 +42,8 @@ $ crystal deps
 
 **Note: Needs a Crystal version > 0.6.1!**
 
+This means that, at the time of this writing, you need to compile Crystal from source.
+
 ## Usage
 
 ```crystal
