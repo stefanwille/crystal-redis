@@ -672,7 +672,7 @@ class Redis
     # Can be called only outside a subscription block
     def subscribe(*channels, &callback_setup_block : Subscription ->)
       if already_in_subscription_loop?
-        raise Redis::Error.new("Must call subscribe outside a subscription block")
+        raise Redis::Error.new("Must call subscribe without a subscription block when already inside a subscription loop")
       end
 
       subscription = Subscription.new
@@ -696,7 +696,7 @@ class Redis
     # Can be called only outside a subscription block
     def psubscribe(*channel_patterns, &callback_setup_block : Subscription ->)
       if already_in_subscription_loop?
-        raise Redis::Error.new("Must call psubscribe outside a subscription block")
+        raise Redis::Error.new("Must call psubscribe without a subscription block when inside a subscription loop")
       end
 
       subscription = Subscription.new
