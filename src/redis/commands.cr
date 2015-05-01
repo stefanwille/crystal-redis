@@ -719,20 +719,20 @@ class Redis
     def unwatch
       string_command(["UNWATCH"])
     end
-  end
 
-  # Concatenates the source array to the destination array.
-  # Is there a better way?
-  private def concat(destination : Array(RedisValue), source)
-    source.each { |value| destination << value.to_s }
-    destination
-  end
+    # Concatenates the source array to the destination array.
+    # Is there a better way?
+    private def concat(destination : Array(RedisValue), source)
+      source.each { |value| destination << value.to_s }
+      destination
+    end
 
-  # Concatenates the source arrays to the destination array.
-  # Is there a better way?
-  private def concat(destination : Array(RedisValue), source1, source2)
-    concat(destination, source1)
-    concat(destination, source2)
-    destination
+    # Concatenates the source arrays to the destination array.
+    # Is there a better way?
+    private def concat(destination : Array(RedisValue), source1, source2)
+      concat(destination, source1)
+      concat(destination, source2)
+      destination
+    end
   end
 end
