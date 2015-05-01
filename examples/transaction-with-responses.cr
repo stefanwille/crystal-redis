@@ -12,12 +12,14 @@ redis = Redis.new
 puts "Running several commands in transaction, saving their futures"
 future_1 = Redis::Future.new
 future_2 = Redis::Future.new
-redis.multi do |multi|
+responses = redis.multi do |multi|
   multi.set("foo1", "A")
   multi.set("foo2", "B")
   future_1 = multi.get("foo1")
   future_2 = multi.get("foo2")
 end
+
+puts "Responses: #{ responses }"
 
 # The future's values become available after the transaction block.
 
