@@ -39,8 +39,8 @@ class Redis
   def pipelined
     @strategy = Redis::Strategy::Pipelined.new
     pipeline = Redis::Pipeline.new(@connection)
-    future_client = FutureClient.new(pipeline)
-    yield(future_client)
+    future_based_api = FutureBasedAPI.new(pipeline)
+    yield(future_based_api)
     pipeline.commit as Array(RedisValue)
   ensure
     @strategy = Redis::Strategy::SingleStatement.new(@connection)
@@ -63,8 +63,8 @@ class Redis
     @strategy = Redis::Strategy::Transactioned.new
     transaction = Redis::Transaction.new(@connection)
     transaction.begin
-    future_client = FutureClient.new(transaction)
-    yield(future_client)
+    future_based_api = FutureBasedAPI.new(transaction)
+    yield(future_based_api)
     transaction.commit as Array(RedisValue)
   ensure
     @strategy = Redis::Strategy::SingleStatement.new(@connection)
