@@ -1,6 +1,6 @@
 require "./redis/commands"
 
-# The entry point for the Redis client.
+# The main entry point for the Redis client.
 #
 # See https://github.com/stefanwille/crystal-redis for documentation.
 class Redis
@@ -32,6 +32,9 @@ class Redis
   # an object that has the same API as this class, except
   # all the Redis commands return Futures.
   #
+  # Returns an array with all the responses
+  # - one element for each executed command.
+  #
   # See the examples directory for an example.
   def pipelined
     @strategy = Redis::Strategy::Pipelined.new
@@ -51,6 +54,9 @@ class Redis
   # all the Redis commands return Futures, the there is
   # an additional method #discard that will abort the
   # transaction.
+  #
+  # Returns an array with all the responses
+  # - one element for each executed command.
   #
   # See the examples directory for examples.
   def multi
