@@ -7,7 +7,7 @@ class Redis
   alias RedisValue = Nil | Int32 | Int64 | String | Array(RedisValue)
   alias Request = Array(RedisValue)
 
-  # Most client API methods are defined in this module:
+  # Most client API methods are defined in this Redis::module.
   include Redis::Commands
 
   # Opens a Redis connection
