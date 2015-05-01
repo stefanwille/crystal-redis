@@ -14,12 +14,12 @@ puts
 puts "Initializing foo"
 redis.set("foo", "the old value")
 
-results = redis.multi do
+results = redis.multi do |multi|
   puts "Updating foo in transaction"
-  redis.set("foo", "the new value")
+  multi.set("foo", "the new value")
 
   puts "DISCARDing the transaction"
-  redis.discard
+  multi.discard
 end
-puts "Current value of foo: " + redis.get("foo") as String
 
+puts "Current value of foo: #{ redis.get("foo") }"
