@@ -652,6 +652,7 @@ class Redis
       string_command(["TYPE", key.to_s])
     end
 
+    # Subscribes to channels and enters a subscription loop, waiting for events.
     def subscribe(*channels, &callback_setup_block : Subscription ->)
       # Can be called only outside a subscription block
       if already_in_subscription_loop?
@@ -667,6 +668,7 @@ class Redis
       subscribe(*channels)
     end
 
+    # Subscribes to more channels while already being in a subscription loop.
     def subscribe(*channels)
       # Can be called only inside a subscription block
       unless already_in_subscription_loop?
@@ -676,6 +678,7 @@ class Redis
       void_command(concat(["SUBSCRIBE"], channels))
     end
 
+    # Subscribes to channel patterns and enters a subscription loop, waiting for events.
     def psubscribe(*channel_patterns, &callback_setup_block : Subscription ->)
       # Can be called only outside a subscription block
       if already_in_subscription_loop?
@@ -691,6 +694,7 @@ class Redis
       psubscribe(*channel_patterns)
     end
 
+    # Subscribes to more channel patterns while already being in a subscription loop.
     def psubscribe(*channel_patterns)
       # Can be called only inside a subscription block
       unless already_in_subscription_loop?
