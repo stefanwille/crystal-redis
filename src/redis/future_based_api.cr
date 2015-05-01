@@ -2,7 +2,7 @@
 # don't return responses but Futures.
 #
 class FutureBasedAPI
-  # Most client API methods are defined in this Redis::module.
+  # Most Redis client API methods are defined in this module.
   include Redis::Commands
 
   def initialize(@strategy)
