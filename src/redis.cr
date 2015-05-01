@@ -50,10 +50,10 @@ class Redis
   # Sends Redis commands in transaction mode.
   #
   # Yields its block. The block receives as argument
-  # an object that has the same API as this class, except
-  # all the Redis commands return Futures, the there is
-  # an additional method #discard that will abort the
-  # transaction.
+  # an object that has the same API as this class, except:
+  #   * all the Redis commands return Futures
+  #   * there is an additional method #discard that will abort the
+  #     transaction.
   #
   # Returns an array with all the responses
   # - one element for each executed command.
