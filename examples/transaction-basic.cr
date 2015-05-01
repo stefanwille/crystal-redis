@@ -11,11 +11,11 @@ redis = Redis.new
 # Then Redis executes the commands and returns the responses.
 
 puts "Running several commands in a transaction"
-redis.multi do
-  redis.del("foo")
-  redis.set("foo1", "first")
-  redis.set("foo2", "second")
-  redis.set("foo3", "third")
+redis.multi do |multi|
+  multi.del("foo")
+  multi.set("foo1", "first")
+  multi.set("foo2", "second")
+  multi.set("foo3", "third")
 end
 
-puts "Current value of foo1: " + redis.get("foo1") as String
+puts "Current value of foo1: #{ redis.get("foo1") }"
