@@ -1,7 +1,7 @@
 # Models a subscription to one or more channels.
 #
 # The caller sets callbacks on this object that the Redis client will
-# trigger for the appropriate events.
+# trigger for the matching events.
 class Subscription
   property :subscribe_callback
   property :psubscribe_callback
