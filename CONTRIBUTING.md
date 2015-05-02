@@ -3,9 +3,10 @@
 1. Fork it ( https://github.com/stefanwille/crystal-redis/fork )
 2. Create your feature branch (git checkout -b my-new-feature)
 3. Run the spec
-4. Commit your changes (git commit -am 'Add some feature')
-5. Push to the branch (git push origin my-new-feature)
-6. Create a new Pull Request
+4. Run "rake" to make sure that the examples still work
+5. Commit your changes (git commit -am 'Add some feature')
+6. Push to the branch (git push origin my-new-feature)
+7. Create a new Pull Request
 
 
 
