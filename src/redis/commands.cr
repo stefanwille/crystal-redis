@@ -185,9 +185,6 @@ class Redis
     end
 
     def restore(key, ttl_in_milis : Int, serialized_value : String | Redis::Future)
-      if serialized_value.is_a?(Redis::Future)
-        raise "Can't use a Future for serialized_value"
-      end
       replace = nil
       q = ["RESTORE", key.to_s, ttl_in_milis.to_s, serialized_value] of RedisValue
       if replace
@@ -589,11 +586,7 @@ class Redis
     end
 
     def evalsha(sha1, keys = [] of RedisValue, args = [] of RedisValue)
-      unless sha1.is_a?(String)
-        raise "Redis: Call evalsha with a String, not a #{sha1.class}"
-      end
-
-      string_array_command(concat(["EVALSHA", sha1, keys.length.to_s], keys, args))
+      string_array_command(concat(["EVALSHA", sha1.to_s, keys.length.to_s], keys, args))
     end
 
     def script_load(script : String)
