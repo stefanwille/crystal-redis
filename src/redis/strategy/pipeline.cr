@@ -1,10 +1,9 @@
-# API for sending commands in pipelined mode.
+# Strategy for sending commands in pipelined mode.
 #
 # Used in Redis#pipelined.
 #
-class Redis::Pipeline
-  def initialize(connection)
-    @connection = connection
+class Redis::Strategy::Pipeline < Redis::Strategy::Base
+  def initialize(@connection)
     @futures = [] of Redis::Future
   end
 
@@ -27,11 +26,8 @@ class Redis::Pipeline
     results
   end
 
-  def discard
-    raise Redis::Error.new("We are in pipelined mode - nothing to discard")
-  end
-
   private def flush
     @connection.flush
   end
 end
+

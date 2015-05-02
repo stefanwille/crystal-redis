@@ -1,18 +1,8 @@
-# The Redis client API in such a form that all command methods
-# don't return responses but Futures.
+# Command execution methods that don't return responses but Futures.
 #
-class FutureBasedAPI
+module Redis::FutureOrientedCommandExecution
   # Most Redis client API methods are defined in this module.
   include Redis::Commands
-
-  def initialize(@strategy)
-  end
-
-  # Abort a current transaction.
-  # Only valid in the context of transaction.
-  def discard
-    @strategy.discard
-  end
 
   # Executes a Redis command and returns a Future.
   def integer_command(request : Request)
@@ -62,10 +52,5 @@ class FutureBasedAPI
   # Executes a Redis command and returns a Future.
   def void_command(request : Request)
     command(request)
-  end
-
-  # Executes a Redis command and returns a Future.
-  def command(request : Request)
-    @strategy.command(request) as Redis::Future
   end
 end

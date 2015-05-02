@@ -1,8 +1,8 @@
-# API for sending commands in a transaction.
+# Strategy for sending commands in a transaction.
 #
 # Used in Redis#multi.
 #
-class Redis::Transaction
+class Redis::Strategy::Transaction < Redis::Strategy::Base
   property :results
 
   def initialize(connection)

@@ -1,6 +1,7 @@
 require "socket"
 
 # A connection to a Redis instance.
+#
 class Redis::Connection
   def initialize(host, port, unixsocket)
     if unixsocket
@@ -55,6 +56,9 @@ class Redis::Connection
     "$-1\r\n"
   end
 
+  # Receives n responses with the content "QUEUED".
+  # This method exists to prevent many small read calls.
+  #
   def receive_queued_responses(n)
     bytes_per_queued_responses = "+QUEUED\r\n".size
     nbytes = n * bytes_per_queued_responses

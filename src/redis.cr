@@ -1,4 +1,5 @@
 require "./redis/commands"
+require "./redis/value_oriented_command_execution"
 
 # The main entry point for the Redis client.
 #
@@ -6,9 +7,6 @@ require "./redis/commands"
 class Redis
   alias RedisValue = Nil | Int32 | Int64 | String | Array(RedisValue)
   alias Request = Array(RedisValue)
-
-  # Most Redis client API methods are defined in this module.
-  include Redis::Commands
 
   # Opens a Redis connection
   def initialize(host = "localhost", port = 6379, unixsocket = nil)
@@ -26,6 +24,11 @@ class Redis
     end
   end
 
+  # Most Redis client API methods are defined in this module.
+  include Redis::Commands
+
+  include Redis::ValueOrientedCommandExecution
+
   # Sends Redis commands in pipeline mode.
   #
   # Yields its block. The block receives as argument
@@ -37,11 +40,11 @@ class Redis
   #
   # See the examples directory for an example.
   def pipelined
-    @strategy = Redis::Strategy::Pipelined.new
-    pipeline = Redis::Pipeline.new(@connection)
-    future_based_api = FutureBasedAPI.new(pipeline)
-    yield(future_based_api)
-    pipeline.commit as Array(RedisValue)
+    @strategy = Redis::Strategy::PauseDuringPipeline.new
+    pipeline_strategy = Redis::Strategy::Pipeline.new(@connection)
+    pipeline_api = Redis::PipelineApi.new(pipeline_strategy)
+    yield(pipeline_api)
+    pipeline_strategy.commit as Array(RedisValue)
   ensure
     @strategy = Redis::Strategy::SingleStatement.new(@connection)
   end
@@ -59,80 +62,21 @@ class Redis
   # - one element for each executed command.
   #
   # See the examples directory for examples.
-  def multi
-    @strategy = Redis::Strategy::Transactioned.new
-    transaction = Redis::Transaction.new(@connection)
-    transaction.begin
-    future_based_api = FutureBasedAPI.new(transaction)
-    yield(future_based_api)
-    transaction.commit as Array(RedisValue)
+  def multi(&block)
+    @strategy = Redis::Strategy::PauseDuringTransaction.new
+    transaction_strategy = Redis::Strategy::Transaction.new(@connection)
+    transaction_strategy.begin
+    transaction_api = Redis::TransactionApi.new(transaction_strategy)
+    yield(transaction_api)
+    transaction_strategy.commit as Array(RedisValue)
   ensure
     @strategy = Redis::Strategy::SingleStatement.new(@connection)
-  end
-
-  # Executes a Redis command and casts it to the correct type.
-  # This is an internal method.
-  def integer_command(request : Request)
-    command(request) as Int64
-  end
-
-  # Executes a Redis command and casts it to the correct type.
-  # This is an internal method.
-  def integer_or_nil_command(request : Request)
-    command(request) as Int64?
-  end
-
-  # Executes a Redis command and casts it to the correct type.
-  # This is an internal method.
-  def integer_array_command(request : Request)
-    command(request) as Array(RedisValue)
-  end
-
-  # Executes a Redis command and casts it to the correct type.
-  # This is an internal method.
-  def string_command(request : Request)
-    command(request) as String
-  end
-
-  # Executes a Redis command and casts the response to the correct type.
-  # This is an internal method.
-  def string_or_nil_command(request : Request)
-    command(request) as String?
-  end
-
-  # Executes a Redis command and casts the response to the correct type.
-  # This is an internal method.
-  def string_array_command(request : Request)
-    command(request) as Array(RedisValue)
-  end
-
-  # Executes a Redis command and casts the response to the correct type.
-  # This is an internal method.
-  def string_array_or_integer_command(request : Request)
-    command(request) as Array(RedisValue) | Int64
-  end
-
-  # Executes a Redis command and casts the response to the correct type.
-  # This is an internal method.
-  def string_array_or_string_command(request : Request)
-    command(request) as Array(RedisValue) | String
-  end
-
-  # Executes a Redis command and casts the response to the correct type.
-  # This is an internal method.
-  def array_or_nil_command(request : Request)
-    command(request) as Array(RedisValue)?
-  end
-
-  # Executes a Redis command that has no relevant response.
-  # This is an internal method.
-  def void_command(request : Request)
-    command(request)
   end
 
   # Executes a Redis command.
   # This is an internal method.
   def command(request : Array(RedisValue))
+    # TODO: Remove the Future
     @strategy.command(request) as RedisValue | Future
   end
 
