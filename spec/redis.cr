@@ -286,7 +286,7 @@ describe Redis do
 
     it "#scan" do
       redis.set("foo", "Hello world")
-      new_cursor, keys = redis.scan(0) as Array(Redis::RedisValue)
+      new_cursor, keys = redis.scan(0)
       new_cursor = new_cursor as String
       (new_cursor.to_i > 0).should be_true
       keys.is_a?(Array).should be_true
@@ -568,7 +568,7 @@ describe Redis do
     it "#sscan" do
       redis.del("myset")
       redis.sadd("myset", "a", "b")
-      new_cursor, keys = redis.sscan("myset", 0) as Array(Redis::RedisValue)
+      new_cursor, keys = redis.sscan("myset", 0)
       new_cursor.should eq("0")
       sort(keys).should eq(["a", "b"])
     end
@@ -647,7 +647,7 @@ describe Redis do
     it "#hscan" do
       redis.del("myhash")
       redis.hmset("myhash", { "field1" : "a", "field2" : "b"})
-      new_cursor, keys = redis.hscan("myhash", 0) as Array(Redis::RedisValue)
+      new_cursor, keys = redis.hscan("myhash", 0)
       new_cursor.should eq("0")
       keys.should eq(["field1", "a", "field2", "b"])
     end
@@ -756,7 +756,7 @@ describe Redis do
     it "zscan" do
       redis.del("myset")
       redis.zadd("myzset", 1, "one", 2, "two", 3, "three")
-      new_cursor, keys = redis.zscan("myzset", 0) as Array(Redis::RedisValue)
+      new_cursor, keys = redis.zscan("myzset", 0)
       new_cursor.should eq("0")
       keys.should eq(["one", "1", "two", "2", "three", "3"])
     end
@@ -832,7 +832,6 @@ describe Redis do
         futures << pipeline.get("foo")
       end
       results[1].should eq("new value")
-      #future.not_nil!
       futures[0].value.should eq("new value")
     end
 
