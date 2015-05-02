@@ -65,7 +65,7 @@ class Redis
   # - one element for each executed command.
   #
   # See the examples directory for examples.
-  def multi(&block)
+  def multi
     @strategy = Redis::Strategy::PauseDuringTransaction.new
     transaction_strategy = Redis::Strategy::Transaction.new(@connection)
     transaction_strategy.begin
