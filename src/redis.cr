@@ -27,6 +27,9 @@ class Redis
   # Most Redis client API methods are defined in this module.
   include Redis::Commands
 
+  # The methods used in Redis::Command are implemented in the following module.
+  # For Future based responses, there is an alternative module
+  # calls Redis::FutureOrientedCommandExecution.
   include Redis::ValueOrientedCommandExecution
 
   # Sends Redis commands in pipeline mode.
@@ -75,9 +78,10 @@ class Redis
 
   # Executes a Redis command.
   # This is an internal method.
+  #
+  # Returns a RedisValue, never a Future
   def command(request : Array(RedisValue))
-    # TODO: Remove the Future
-    @strategy.command(request) as RedisValue | Future
+    @strategy.command(request) as RedisValue
   end
 
   # Closes the Redis connection.
