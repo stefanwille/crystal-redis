@@ -5,15 +5,15 @@ require "./spec_helper"
 #
 # I don't know how to do this better within Crystal's type system.
 private def sort(a)
-  cast_to_string_array(a).sort
+  unless a.is_a? Array(Redis::RedisValue)
+    raise "Cannot sort this: #{a.class}"
+  end
+
+  convert_to_string_array(a).sort
 end
 
-# I don't know how to do this better within Crystal's type system.
-private def cast_to_string_array(a)
-  unless a.is_a? Array(Redis::RedisValue)
-    raise "Cannot cast this to a string array: #{a.class}"
-  end
-  a.map { |item| item as String }
+private def convert_to_string_array(a)
+  a.map { |item| item.to_s }
 end
 
 describe Redis do
