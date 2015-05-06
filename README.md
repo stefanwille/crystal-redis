@@ -39,10 +39,8 @@ $ crystal deps
 
 ## Required Crystal Version
 
+This library needs Crystal version >= 0.7.1.
 
-**Note: Needs a Crystal version > 0.6.1!**
-
-This means that, at the time of this writing, you need to compile Crystal from source.
 
 ## Usage
 
