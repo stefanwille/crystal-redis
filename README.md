@@ -6,7 +6,7 @@ A Redis client for the Crystal programming language.
 
 ## Features
 
-- Performance (> 200.000 commands per second using pipeline on a MacBook Air with a single client thread)
+- Performance (> 260.000 commands per second using pipeline on a MacBook Air with a single client thread)
 - Pipelining
 - Transactions
 - LUA Scripting
@@ -66,7 +66,6 @@ Then you can call Redis commands on the `redis` object:
   redis.get("foo")
 ```
 
-
 ## Documentation
 
 To get started, see https://github.com/stefanwille/crystal-redis/blob/master/examples/basic.cr.
@@ -78,3 +77,10 @@ More details about the available commands are in http://redis.io/commands and sp
 General information about Redis is at http://redis.io/documentation
 
 
+## Performance
+
+With this library I get > 260.000 commands per second using pipeline on a MacBook Air with a single client thread.
+
+The equivalent program written in C with Hiredis gets me 340.000 commands per second.
+
+Ruby with redis-rb (https://github.com/redis/redis-rb) handles 50.000 commands per second.
