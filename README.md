@@ -83,4 +83,4 @@ With this library I get > 260.000 commands per second using pipeline on a MacBoo
 
 The equivalent program written in C with Hiredis gets me 340.000 commands per second.
 
-Ruby with redis-rb (https://github.com/redis/redis-rb) handles 50.000 commands per second.
+Ruby 2.2.1 with redis-rb (https://github.com/redis/redis-rb) handles 50.000 commands per second.
