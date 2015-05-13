@@ -1,9 +1,6 @@
 # Command execution methods that don't return responses but Futures.
 #
 module Redis::FutureOrientedCommandExecution
-  # Most Redis client API methods are defined in this module.
-  include Redis::Commands
-
   # Executes a Redis command and returns a Future.
   def integer_command(request : Request)
     command(request)
