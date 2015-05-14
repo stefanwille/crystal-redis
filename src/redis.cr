@@ -1,8 +1,9 @@
 require "./redis/commands"
 require "./redis/value_oriented_command_execution"
 
-# The main entry point for the Redis client.
+# The class is the main entry point for the Redis client.
 #
+# **How to use**:
 #
 # Require the package:
 #
@@ -21,6 +22,7 @@ require "./redis/value_oriented_command_execution"
 # ```crystal
 #   redis.set("foo", "bar")
 #   redis.get("foo")
+#   redis.incr("visitors")
 # ```
 #
 # See the mixin module <a href="Redis/Commands.html" target="main">Commands</a> for most
