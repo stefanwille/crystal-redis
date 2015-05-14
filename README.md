@@ -65,9 +65,10 @@ Then you can call Redis commands on the `redis` object:
 
 ## Documentation
 
-To get started, see https://github.com/stefanwille/crystal-redis/blob/master/examples/basic.cr.
+To get started,
 
-More examples are in https://github.com/stefanwille/crystal-redis/blob/master/examples/
+* see this basic example: https://github.com/stefanwille/crystal-redis/blob/master/examples/basic.cr
+* look at more examples: in https://github.com/stefanwille/crystal-redis/blob/master/examples/
 
 More details about the available commands are in http://redis.io/commands and spec/redis.cr.
 
