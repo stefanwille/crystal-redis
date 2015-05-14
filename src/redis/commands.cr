@@ -1,6 +1,9 @@
 class Redis
   # Definition of all Redis commands except pipelining and transactions.
   #
+  # **Note**: The documentation here serves more as a quick reference. Please
+  # do check the more detailed original documentation at http://redis.io/commands/.
+  #
   module Commands
 
     # Returns the given message.
@@ -96,7 +99,7 @@ class Redis
     # * store - key of destination list to store the result in
     #
     # **Return value**: Array(String): list of sorted elements.
-    def sort(key, by = nil, limit = nil, get = nil : Array(RedisValue)?, order = "ASC", alpha = false : Boolean, store = nil)
+    def sort(key, by = nil, limit = nil, get = nil : Array(RedisValue)?, order = "ASC", alpha = false, store = nil)
       q = ["SORT", key.to_s]
 
       if by
@@ -956,9 +959,13 @@ class Redis
       string_array_command(q)
     end
 
+    # Returns the specified range of elements in the sorted set stored at key.
     #
+    # **Options**:
     #
-    # **Return value**:
+    # * with_scores - true to return the scores of the elements together with the elements.
+    #
+    # **Return value**: Array(String): List of elements in the specified range (optionally with their scores, in case the with_scores option is true).
     def zrevrange(key, start, stop, with_scores = false)
       q = ["ZREVRANGE", key.to_s, start.to_s, stop.to_s]
       if with_scores
@@ -968,7 +975,13 @@ class Redis
       string_array_command(q)
     end
 
+    # When all the elements in a sorted set are inserted with the same score,
+    # in order to force lexicographical ordering, this command returns all the
+    # elements in the sorted set at key with a value between min and max.
     #
+    # **Options**:
+    #
+    # * limit - an array of [offset, count]. Skip offset members, return a maximum of count members.
     #
     # **Return value**:
     def zrevrangebylex(key, min, max, limit = nil)
@@ -979,9 +992,15 @@ class Redis
       string_array_command(q)
     end
 
+    # Returns all the elements in the sorted set at key with a score between
+    # max and min (including elements with score equal to max or min).
     #
+    # **Options**:
     #
-    # **Return value**:
+    # * limit - an array of [offset, count]. Skip offset members, return a maximum of count members.
+    # * with_scores - true to return the scores of the elements together with the elements.
+    #
+    # **Return value**: List of elements in the specified score range (optionally with their scores).
     def zrevrangebyscore(key, min, max, limit = nil, with_scores = false)
       q = ["ZREVRANGEBYSCORE", key.to_s, min.to_s, max.to_s]
       if limit
@@ -993,30 +1012,39 @@ class Redis
       string_array_command(q)
     end
 
+    # When all the elements in a sorted set are inserted with the same score,
+    # in order to force lexicographical ordering, this command removes all
+    # elements in the sorted set stored at key between the lexicographical range
+    # specified by min and max.
     #
-    #
-    # **Return value**:
+    # **Return value**: Integer: The number of elements removed.
     def zremrangebylex(key, min, max)
       integer_command(["ZREMRANGEBYLEX", key.to_s, min.to_s, max.to_s])
     end
 
+    # Removes all elements in the sorted set stored at key with rank between start and stop.
     #
-    #
-    # **Return value**:
+    # **Return value**: Integer: the number of elements removed.
     def zremrangebyrank(key, start, stop)
       integer_command(["ZREMRANGEBYRANK", key.to_s, start.to_s, stop.to_s])
     end
 
+    # Removes all elements in the sorted set stored at key with a score
+    # between min and max (inclusive).
     #
-    #
-    # **Return value**:
+    # **Return value**: Integer: the number of elements removed.
     def zremrangebyscore(key, start, stop)
       integer_command(["ZREMRANGEBYSCORE", key.to_s, start.to_s, stop.to_s])
     end
 
+    # The SCAN command and the closely related commands SSCAN, HSCAN and ZSCAN are used in order to incrementally iterate over a collection of elements.
     #
+    # **Options**:
     #
-    # **Return value**:
+    # * match - It is possible to only iterate elements matching a given glob-style pattern, similarly to the behavior of the KEYS command that takes a pattern as only argument.
+    # * count - While SCAN does not provide guarantees about the number of elements returned at every iteration, it is possible to empirically adjust the behavior of SCAN using the COUNT option.
+    #
+    # **Return value**: Array(String): Array of elements contains two elements, a member and its associated score, for every returned element of the sorted set.
     def zscan(key, cursor, match = nil, count = nil)
           q = ["ZSCAN", key.to_s, cursor.to_s]
       if match
@@ -1028,95 +1056,120 @@ class Redis
       string_array_command(q)
     end
 
+    # Adds all the element arguments to the HyperLogLog data structure stored at
+    # the variable name specified as first argument.
     #
-    #
-    # **Return value**:
+    # **Return value**: Integer: 1 if at least 1 HyperLogLog internal register was altered. 0 otherwise.
     def pfadd(key, *values)
       integer_command(concat(["PFADD", key.to_s], values))
     end
 
+    # Merge multiple HyperLogLog values into an unique value that will
+    # approximate the cardinality of the union of the observed Sets of the
+    # source HyperLogLog structures.
     #
-    #
-    # **Return value**:
+    # **Return value**: The command just returns "OK".
     def pfmerge(*keys)
       string_command(concat(["PFMERGE"], keys))
     end
 
+    # When called with a single key, returns the approximated cardinality computed
+    # by the HyperLogLog data structure stored at the specified variable,
+    # which is 0 if the variable does not exist.
     #
-    #
-    # **Return value**:
-    def pfcount(key)
-      integer_command(["PFCOUNT", key.to_s])
+    # **Return value**: Integer: The approximated number of unique elements
+    # observed via PFADD.
+    def pfcount(*keys)
+      integer_command(concat(["PFCOUNT"], keys))
     end
 
+    # EVAL and EVALSHA are used to evaluate scripts using the Lua interpreter
+    # built into Redis starting from version 2.6.0.
     #
-    #
-    # **Return value**:
+    # **Return value**: Array(String): Depends on the executed script
     def eval(script : String, keys = [] of RedisValue, args = [] of RedisValue)
       string_array_command(concat(["EVAL", script, keys.length.to_s], keys, args))
     end
 
+    # EVAL and EVALSHA are used to evaluate scripts using the Lua interpreter
+    # built into Redis starting from version 2.6.0.
     #
-    #
-    # **Return value**:
+    # **Return value**: Array(String): Depends on the executed script
     def evalsha(sha1, keys = [] of RedisValue, args = [] of RedisValue)
       string_array_command(concat(["EVALSHA", sha1.to_s, keys.length.to_s], keys, args))
     end
 
+    # Load a script into the scripts cache, without executing it.
     #
-    #
-    # **Return value**:
+    # **Return value**: String: This command returns the SHA1 digest of the script
+    # added into the script cache.
     def script_load(script : String)
       string_command(["SCRIPT", "LOAD", script])
     end
 
+    # Kills the currently executing Lua script, assuming no write operation was
+    # yet performed by the script.
     #
-    #
-    # **Return value**:
+    # **Return value**: "OK"
     def script_kill
       string_command(["SCRIPT", "KILL"])
     end
 
+    # Returns information about the existence of the scripts in the script cache.
     #
-    #
-    # **Return value**:
+    # **Return value**: The command returns an array of integers that correspond
+    # to the specified SHA1 digest arguments.
+    # For every corresponding SHA1 digest of a script that actually exists
+    # in the script cache, an 1 is returned, otherwise 0 is returned.
     def script_exists(sha1_array : Array(Reference))
       integer_array_command(concat(["SCRIPT", "EXISTS"], sha1_array))
     end
 
+    # Flush the Lua scripts cache.
     #
-    #
-    # **Return value**:
+    # **Return value**: "OK"
     def script_flush
       string_command(["SCRIPT", "FLUSH"])
     end
 
+    # Set a timeout on key.
     #
-    #
-    # **Return value**:
+    # **Return value**: Integeger, specifically:
+    # * 1 if the timeout was set.
+    # * 0 if key does not exist or the timeout could not be set.
     def expire(key, seconds)
       integer_command(["EXPIRE", key.to_s, seconds.to_s])
     end
 
+    # This command works exactly like EXPIRE but the time to live of the key is
+    # specified in milliseconds instead of seconds.
     #
-    #
-    # **Return value**:
+    # **Return value**: Integeger, specifically:
+    # * 1 if the timeout was set.
+    # * 0 if key does not exist or the timeout could not be set.
     def pexpire(key, milis)
       integer_command(["PEXPIRE", key.to_s, milis.to_s])
     end
 
+    # EXPIREAT has the same effect and semantic as EXPIRE, but instead of
+    # specifying the number of seconds representing the TTL (time to live),
+    # it takes an absolute Unix timestamp (seconds since January 1, 1970).
     #
-    #
-    # **Return value**:
+    # **Return value**: Integeger, specifically:
+    # * 1 if the timeout was set.
+    # * 0 if key does not exist or the timeout could not be set.
     def expireat(key, unix_date)
       integer_command(["EXPIREAT", key.to_s, unix_date.to_s])
     end
 
+    # PEXPIREAT has the same effect and semantic as EXPIREAT, but the Unix time
+    # at which the key will expire is specified in milliseconds instead of seconds.
     #
-    #
-    # **Return value**:
-    def pexpireat(key, unix_date_in_milis)
-      integer_command(["PEXPIREAT", key.to_s, unix_date_in_milis.to_s])
+    # **Return value**: Integeger, specifically:
+    # * 1 if the timeout was set.
+    # * 0 if key does not exist or the timeout could not be set.
+    def pexpireat(key, unix_date_in_millis)
+      integer_command(["PEXPIREAT", key.to_s, unix_date_in_millis.to_s])
     end
 
     #
