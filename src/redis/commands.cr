@@ -1,15 +1,32 @@
-# Definition of all Redis commands.
-#
 class Redis
+  # Definition of all Redis commands.
+  #
   module Commands
-    def echo(string)
-      string_command(["ECHO", string.to_s])
+
+    # Returns message.
+    def echo(message)
+      string_command(["ECHO", message.to_s])
     end
 
+    # Returns PONG. This command is often used to test if a connection is still alive, or to measure latency.
+    #
     def ping
       string_command(["PING"])
     end
 
+    # Set key to hold the string value. If key already holds a value, it is overwritten, regardless of its type. Any previous time to live associated with the key is discarded on successful SET operation.
+    #
+    # **Options**:
+    #
+    # * Starting with Redis 2.6.12 SET supports a set of options that modify its behavior:
+    # * ex seconds -- Set the specified expire time, in seconds.
+    # * px milliseconds -- Set the specified expire time, in milliseconds.
+    # * nx -- Only set the key if it does not already exist.
+    # * xx -- Only set the key if it already exist.
+    #
+    # **Return value**:
+    # * OK if SET was executed correctly.
+    # * Null reply: nil is returned if the SET operation was not performed because the user specified the NX or XX option but the condition was not met.
     def set(key, value, ex = nil, px = nil, nx = nil, xx = nil)
       q = ["SET", key.to_s, value.to_s]
       q << "EX" << ex.to_s if ex
@@ -19,35 +36,67 @@ class Redis
       string_or_nil_command(q)
     end
 
+    # Get the value of key.
+    #
+    # **Return value**: a String or nil
     def get(key)
       string_or_nil_command(["GET", key.to_s])
     end
 
+    # Ask the server to close the connection. The connection is closed as soon as all pending replies have been written to the client.
+    #
+    # **Return value**: Always the String "OK"
     def quit
       string_command(["QUIT"])
     end
 
+    # Request for authentication in a password-protected Redis server.
+    #
+    # **Return value**: A String
     def auth(password)
       string_command(["AUTH", password])
     end
 
+    # Select the DB with having the specified zero-based numeric index.
+    #
+    # **Return value**: A String
     def select(database_number)
       string_command(["SELECT", database_number.to_s])
     end
 
+    # Renames key to newkey.
+    #
+    # **Return value**: A String
     def rename(old_key, new_key)
       string_command(["RENAME", old_key.to_s, new_key.to_s])
     end
 
+    # Renames key to newkey if newkey does not yet exist.
+    #
+    # **Return value**: A String
     def renamenx(old_key, new_key)
       integer_command(["RENAMENX", old_key.to_s, new_key.to_s])
     end
 
+    # Removes the specified keys.
+    #
+    # **Return value**: Integer: The number of keys that were removed.
     def del(*keys)
       integer_command(concat(["DEL"], keys))
     end
 
-    def sort(key, by = nil, limit = nil, get = nil : Array(RedisValue)?, order = "ASC", alpha = nil : Boolean?, store = nil)
+    # Returns or stores the elements contained in the list, set or sorted set at key.
+    #
+    # **Options**:
+    # * by - pattern for sorting by external keys
+    # * limit - Array of 2 strings [offset, count]
+    # * get - pattern for retrieving external keys
+    # * order - either 'ASC' or 'DESC'
+    # * alpha - true to sort lexicographically
+    # * store - key of destination list to store the result in
+    #
+    # **Return value**: Array(String): list of sorted elements.
+    def sort(key, by = nil, limit = nil, get = nil : Array(RedisValue)?, order = "ASC", alpha = false : Boolean, store = nil)
       q = ["SORT", key.to_s]
 
       if by
@@ -85,32 +134,59 @@ class Redis
       string_array_or_integer_command(q)
     end
 
+    # Returns the values of all specified keys.
+    #
+    # **Return value**: Array(String): List of values at the specified keys.
+    # For every key that does not hold a string value or does not exist, nil is returned.
     def mget(*keys)
       string_array_command(concat(["MGET"], keys))
     end
 
+    # Sets the given keys to their respective values as defined in the hash.
+    #
+    # **Return value**: Always "OK"
     def mset(hash)
       q = ["MSET"] of RedisValue
       hash.each { |key, value| q << key.to_s << value.to_s }
       string_command(q)
     end
 
+    # Atomically sets key to value and returns the old value stored at key.
+    #
+    # **Return value**: The old value stored at key, or nil when key did not exist.
     def getset(key, value)
       string_or_nil_command(["GETSET", key.to_s, value])
     end
 
+    # Set key to hold the string value and set key to timeout after a given number of seconds.
+    #
+    # **Return value**: Always "OK"
     def setex(key, value, expire_in_seconds)
       string_command(["SETEX", key.to_s, expire_in_seconds.to_s, value.to_s])
     end
 
+    # PSETEX works exactly like SETEX with the sole difference that the expire time is specified in milliseconds instead of seconds.
+    #
+    # **Return value**: Always "OK"
     def psetex(key, value, expire_in_milis)
       string_command(["PSETEX", key.to_s, expire_in_milis.to_s, value.to_s])
     end
 
+    # Set key to hold string value if key does not exist.
+    #
+    # **Return value**: Integer reply, specifically:
+    # * 1 if the key was set
+    # * 0 if the key was not set
     def setnx(key, value)
       integer_command(["SETNX", key.to_s, value.to_s])
     end
 
+    # Sets the given keys to their respective values as defined in the hash.
+    # MSETNX will not perform any operation at all even if just a single key already exists.
+    #
+    # **Return value**: Integer reply, specifically:
+    # * 1 if the all the keys were set.
+    # * 0 if no key was set (at least one key already existed).
     def msetnx(hash)
       q = ["MSETNX"] of RedisValue
       hash.each { |key, value| q << key.to_s << value }
