@@ -774,14 +774,25 @@ class Redis
       string_array_command(q)
     end
 
+    # Sets field in the hash stored at key to value, only if field does not yet exist.
+    #
+    # **Return value**: Integer, specifically:
+    # * 1 if field is a new field in the hash and value was set.
+    # * 0 if field already exists in the hash and no operation was performed.
     def hsetnx(key, field, value)
       integer_command(["HSETNX", key.to_s, field.to_s, value.to_s])
     end
 
+    # Returns all values in the hash stored at key.
+    #
+    # **Return value**: Array(String): List of values in the hash, or an empty list when key does not exist.
     def hvals(key)
       string_array_command(["HVALS", key.to_s])
     end
 
+    # Adds all the specified members with the specified scores to the sorted set stored at key.
+    #
+    # **Return value**: Integer: The number of elements added to the sorted sets, not including elements already existing for which the score was updated.
     def zadd(key, *scores_and_members)
       if scores_and_members.length % 2 > 0
         raise Error.new("zadd expects an array of scores mapped to members")
@@ -790,7 +801,14 @@ class Redis
       integer_command(concat(["ZADD", key.to_s], scores_and_members))
     end
 
-    def zrange(key, start = nil, stop = nil, with_scores = false)
+    # Returns the specified range of elements in the sorted set stored at key.
+    #
+    # **Options**:
+    #
+    # * with_scores - true to return the scores of the elements together with the elements.
+    #
+    # **Return value**: Array(String): List of elements in the specified range (optionally with their scores, in case the with_scores option is true).
+    def zrange(key, start, stop, with_scores = false)
       q = ["ZRANGE", key.to_s, start.to_s, stop.to_s]
       if with_scores
         q << "WITHSCORES"
@@ -798,38 +816,65 @@ class Redis
       string_array_command(q)
     end
 
+    # Returns the sorted set cardinality (number of elements) of the sorted set stored at key.
+    #
+    # **Return value**: Integer: the cardinality (number of elements) of the sorted set, or 0 if key does not exist.
     def zcard(key)
       integer_command(["ZCARD", key.to_s])
     end
 
+    # Returns the score of member in the sorted set at key.
+    #
+    # **Return value**: String: The score of member (a double precision floating point number).
     def zscore(key, member)
       string_or_nil_command(["ZSCORE", key.to_s, member.to_s])
     end
 
+    # Returns the number of elements in the sorted set at key with a score between min and max.
+    #
+    # **Return value**: The number of elements in the specified score range.
     def zcount(key, min, max)
       integer_command(["ZCOUNT", key.to_s, min.to_s, max.to_s])
     end
 
+    # When all the elements in a sorted set are inserted with the same score, in order to force lexicographical ordering, this command returns the number of elements in the sorted set at key with a value between min and max.
+    #
+    # **Return value**:
     def zlexcount(key, min, max)
       integer_command(["ZLEXCOUNT", key.to_s, min.to_s, max.to_s])
     end
 
+    #
+    #
+    # **Return value**:
     def zincrby(key, increment, member)
       string_command(["ZINCRBY", key.to_s, increment.to_s, member.to_s])
     end
 
+    #
+    #
+    # **Return value**:
     def zrem(key, member)
       integer_command(["ZREM", key.to_s, member.to_s])
     end
 
+    #
+    #
+    # **Return value**:
     def zrank(key, member)
       integer_or_nil_command(["ZRANK", key.to_s, member.to_s])
     end
 
+    #
+    #
+    # **Return value**:
     def zrevrank(key, member)
       integer_or_nil_command(["ZREVRANK", key.to_s, member.to_s])
     end
 
+    #
+    #
+    # **Return value**:
     def zinterstore(destination, keys : Array, weights = nil, aggregate = nil)
       numkeys = keys.length
       q = concat(["ZINTERSTORE", destination.to_s, numkeys.to_s], keys)
@@ -843,6 +888,9 @@ class Redis
       integer_command(q)
     end
 
+    #
+    #
+    # **Return value**:
     def zunionstore(destination, keys : Array, weights = nil, aggregate = nil)
       numkeys = keys.length
       q = concat(["ZUNIONSTORE", destination.to_s, numkeys.to_s], keys)
@@ -856,6 +904,9 @@ class Redis
       integer_command(q)
     end
 
+    #
+    #
+    # **Return value**:
     def zrangebylex(key, min, max, limit = nil)
       q = ["ZRANGEBYLEX", key.to_s, min.to_s, max.to_s]
       if limit
@@ -864,6 +915,9 @@ class Redis
       string_array_command(q)
     end
 
+    #
+    #
+    # **Return value**:
     def zrangebyscore(key, min, max, limit = nil, with_scores = false)
       q = ["ZRANGEBYSCORE", key.to_s, min.to_s, max.to_s]
       if limit
@@ -875,6 +929,9 @@ class Redis
       string_array_command(q)
     end
 
+    #
+    #
+    # **Return value**:
     def zrevrange(key, start, stop, with_scores = false)
       q = ["ZREVRANGE", key.to_s, start.to_s, stop.to_s]
       if with_scores
@@ -884,6 +941,9 @@ class Redis
       string_array_command(q)
     end
 
+    #
+    #
+    # **Return value**:
     def zrevrangebylex(key, min, max, limit = nil)
       q = ["ZREVRANGEBYLEX", key.to_s, min.to_s, max.to_s]
       if limit
@@ -892,6 +952,9 @@ class Redis
       string_array_command(q)
     end
 
+    #
+    #
+    # **Return value**:
     def zrevrangebyscore(key, min, max, limit = nil, with_scores = false)
       q = ["ZREVRANGEBYSCORE", key.to_s, min.to_s, max.to_s]
       if limit
@@ -903,18 +966,30 @@ class Redis
       string_array_command(q)
     end
 
+    #
+    #
+    # **Return value**:
     def zremrangebylex(key, min, max)
       integer_command(["ZREMRANGEBYLEX", key.to_s, min.to_s, max.to_s])
     end
 
+    #
+    #
+    # **Return value**:
     def zremrangebyrank(key, start, stop)
       integer_command(["ZREMRANGEBYRANK", key.to_s, start.to_s, stop.to_s])
     end
 
+    #
+    #
+    # **Return value**:
     def zremrangebyscore(key, start, stop)
       integer_command(["ZREMRANGEBYSCORE", key.to_s, start.to_s, stop.to_s])
     end
 
+    #
+    #
+    # **Return value**:
     def zscan(key, cursor, match = nil, count = nil)
           q = ["ZSCAN", key.to_s, cursor.to_s]
       if match
@@ -926,70 +1001,121 @@ class Redis
       string_array_command(q)
     end
 
+    #
+    #
+    # **Return value**:
     def pfadd(key, *values)
       integer_command(concat(["PFADD", key.to_s], values))
     end
 
+    #
+    #
+    # **Return value**:
     def pfmerge(*keys)
       string_command(concat(["PFMERGE"], keys))
     end
 
+    #
+    #
+    # **Return value**:
     def pfcount(key)
       integer_command(["PFCOUNT", key.to_s])
     end
 
+    #
+    #
+    # **Return value**:
     def eval(script : String, keys = [] of RedisValue, args = [] of RedisValue)
       string_array_command(concat(["EVAL", script, keys.length.to_s], keys, args))
     end
 
+    #
+    #
+    # **Return value**:
     def evalsha(sha1, keys = [] of RedisValue, args = [] of RedisValue)
       string_array_command(concat(["EVALSHA", sha1.to_s, keys.length.to_s], keys, args))
     end
 
+    #
+    #
+    # **Return value**:
     def script_load(script : String)
       string_command(["SCRIPT", "LOAD", script])
     end
 
+    #
+    #
+    # **Return value**:
     def script_kill
       string_command(["SCRIPT", "KILL"])
     end
 
+    #
+    #
+    # **Return value**:
     def script_exists(sha1_array : Array(Reference))
       integer_array_command(concat(["SCRIPT", "EXISTS"], sha1_array))
     end
 
+    #
+    #
+    # **Return value**:
     def script_flush
       string_command(["SCRIPT", "FLUSH"])
     end
 
+    #
+    #
+    # **Return value**:
     def expire(key, seconds)
       integer_command(["EXPIRE", key.to_s, seconds.to_s])
     end
 
+    #
+    #
+    # **Return value**:
     def pexpire(key, milis)
       integer_command(["PEXPIRE", key.to_s, milis.to_s])
     end
 
+    #
+    #
+    # **Return value**:
     def expireat(key, unix_date)
       integer_command(["EXPIREAT", key.to_s, unix_date.to_s])
     end
 
+    #
+    #
+    # **Return value**:
     def pexpireat(key, unix_date_in_milis)
       integer_command(["PEXPIREAT", key.to_s, unix_date_in_milis.to_s])
     end
 
+    #
+    #
+    # **Return value**:
     def persist(key)
       integer_command(["PERSIST", key.to_s])
     end
 
+    #
+    #
+    # **Return value**:
     def ttl(key)
       integer_command(["TTL", key.to_s])
     end
 
+    #
+    #
+    # **Return value**:
     def pttl(key)
       integer_command(["PTTL", key.to_s])
     end
 
+    #
+    #
+    # **Return value**:
     def type(key)
       string_command(["TYPE", key.to_s])
     end
@@ -1050,22 +1176,37 @@ class Redis
       @strategy.is_a? Redis::Strategy::SubscriptionLoop
     end
 
+    #
+    #
+    # **Return value**:
     def unsubscribe(*channels)
       void_command(concat(["UNSUBSCRIBE"], channels))
     end
 
+    #
+    #
+    # **Return value**:
     def punsubscribe(*channel_patterns)
       void_command(concat(["PUNSUBSCRIBE"], channel_patterns))
     end
 
+    #
+    #
+    # **Return value**:
     def publish(channel, message)
       integer_command(["PUBLISH", channel.to_s, message.to_s])
     end
 
+    #
+    #
+    # **Return value**:
     def watch(*keys)
       string_command(concat(["WATCH"], keys))
     end
 
+    #
+    #
+    # **Return value**:
     def unwatch
       string_command(["UNWATCH"])
     end
