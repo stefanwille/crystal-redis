@@ -1,6 +1,6 @@
-# Command execution methods that return real values, not futures.
-#
 class Redis
+  # Command execution methods that return real values, not futures.
+  #
   module ValueOrientedCommandExecution
     # Executes a Redis command and casts it to the correct type.
     # This is an internal method.
