@@ -30,12 +30,22 @@ class Redis
   alias Request = Array(RedisValue)
 
   # Opens a Redis connection
+  #
+  # **Options**:
+  # * host - the host to connect to
+  # * port - the port to connect to
+  # * unixsocket - instead of using TCP, you can connect to Redis via a Unix domain socket by passing its path here
   def initialize(host = "localhost", port = 6379, unixsocket = nil)
     @connection = Connection.new(host, port, unixsocket)
     @strategy = Redis::Strategy::SingleStatement.new(@connection)
   end
 
   # Opens a Redis connection, yields the block and closes the connection.
+  #
+  # **Options**:
+  # * host - the host to connect to
+  # * port - the port to connect to
+  # * unixsocket - instead of using TCP, you can connect to Redis via a Unix domain socket by passing its path here
   def self.open(host = "localhost", port = 6379, unixsocket = nil)
     redis = Redis.new(host, port, unixsocket)
     begin
