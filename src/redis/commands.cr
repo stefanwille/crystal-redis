@@ -599,42 +599,104 @@ class Redis
       integer_command(concat(["SUNIONSTORE", destination.to_s], keys))
     end
 
+    # BLPOP is a blocking list pop primitive.
+    # It is the blocking version of LPOP because it blocks the connection when there
+    # are no elements to pop from any of the given lists.
+    # An element is popped from the head of the first list that is non-empty,
+    # with the given keys being checked in the order that they are given.
+    #
+    # The timeout_in_seconds argument is interpreted as an integer value specifying the maximum number of seconds to block
+    #
+    # **Return value**: Array reply, specifically:
+    # * An array of nils when no element could be popped and the timeout expired.
+    # * An array of two-element arrays with the first element being the name of the key where an element was popped and the second element being the value of the popped element.
     def blpop(keys, timeout_in_seconds)
       q = concat(["BLPOP"], keys)
       q << timeout_in_seconds.to_s
       array_or_nil_command(q)
     end
 
+    # BRPOP is a blocking list pop primitive.
+    # It is the blocking version of RPOP because it blocks the connection when there
+    # are no elements to pop from any of the given lists.
+    # An element is popped from the tail of the first list that is non-empty,
+    # with the given keys being checked in the order that they are given.
+    #
+    # The timeout_in_seconds argument is interpreted as an integer value specifying the maximum
+    # number of seconds to block.
+    #
+    # **Return value**: Array reply, specifically:
+    # * An array of nils when no element could be popped and the timeout expired.
+    # * An array of two-element arrays with the first element being the name of the key where an element was popped and the second element being the value of the popped element.
     def brpop(keys, timeout_in_seconds)
       q = concat(["BRPOP"], keys)
       q << timeout_in_seconds.to_s
       array_or_nil_command(q)
     end
 
+    # Atomically returns and removes the last element (tail) of the list stored at source,
+    # and pushes the element at the first element (head) of the list stored at destination.
+    #
+    # **Return value**: String: The element being popped and pushed.
     def rpoplpush(source, destination)
       string_or_nil_command(["RPOPLPUSH", source.to_s, destination.to_s])
     end
 
-    def brpoplpush(source, destination, timeout_in_seconds)
-      string_or_nil_command(["BRPOPLPUSH", source.to_s, destination.to_s, timeout_in_seconds.to_s])
+    # BRPOPLPUSH is the blocking variant of RPOPLPUSH.
+    # When source contains elements, this command behaves exactly like RPOPLPUSH.
+    #
+    # **Options**:
+    # * timeout_in_seconds - interpreted as an integer value specifying the maximum number of seconds to block
+    #
+    # See RPOPLPUSH for more information.
+    #
+    # **Return value**: String: The element being popped from source and pushed to destination.
+    # If timeout is reached, nil is returned.
+    def brpoplpush(source, destination, timeout_in_seconds = nil)
+      q = ["BRPOPLPUSH", source.to_s, destination.to_s]
+      if timeout_in_seconds
+        q <<  timeout_in_seconds.to_s
+      end
+      string_or_nil_command(q)
     end
 
+    # Sets field in the hash stored at key to value.
+    #
+    # **Return value**: Integer, specifically:
+    # * 1 if field is a new field in the hash and value was set.
+    # * 0 if field already exists in the hash and the value was updated.
     def hset(key, field, value)
       integer_command(["HSET", key.to_s, field.to_s, value.to_s])
     end
 
+    # Returns the value associated with field in the hash stored at key.
+    #
+    # **Return value**: The value associated with field, or nil
     def hget(key, field)
       string_or_nil_command(["HGET", key.to_s, field.to_s])
     end
 
+    # Returns all fields and values of the hash stored at key.
+    #
+    # **Return value**: Array(String) of fields and their values stored in the hash,
+    # or an empty array when key does not exist.
     def hgetall(key)
       string_array_command(["HGETALL", key.to_s])
     end
 
+    # Removes the specified fields from the hash stored at key.
+    #
+    # **Return value**: Integer: the number of fields that were removed from the hash,
+    # not including specified but non existing fields.
     def hdel(key, field)
       integer_command(["HDEL", key.to_s, field.to_s])
     end
 
+    # Returns if field is an existing field in the hash stored at key.
+    #
+    # **Return value**: Integer, specifically:
+    # * 1 if the hash contains field.
+    # * 0 if the hash does not contain field, or key does not exist.
     def hexists(key, field)
       integer_command(["HEXISTS", key.to_s, field.to_s])
     end
