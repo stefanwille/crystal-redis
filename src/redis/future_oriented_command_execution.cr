@@ -43,6 +43,11 @@ class Redis
     end
 
     # Executes a Redis command and returns a Future.
+    def string_array_or_string_or_nil_command(request : Request)
+      command(request)
+    end
+
+    # Executes a Redis command and returns a Future.
     def array_or_nil_command(request : Request)
       command(request)
     end

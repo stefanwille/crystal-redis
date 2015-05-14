@@ -463,46 +463,83 @@ class Redis
       string_command(["LTRIM", key.to_s, start.to_s, stop.to_s])
     end
 
+    # Add the specified members to the set stored at key.
+    #
+    # **Return value**: Integer: the number of elements that were added to the set, not including all the elements already present into the set.
     def sadd(key, *values)
       integer_command(concat(["SADD", key.to_s], values))
     end
 
+    # Returns all the members of the set value stored at key.
+    #
+    # **Return value**: all elements of the set.
     def smembers(key)
       string_array_command(["SMEMBERS", key.to_s])
     end
 
+    # Returns if member is a member of the set stored at key.
+    #
+    # **Return value**: Integer, specifically:
+    # * 1 if the element is a member of the set.
+    # * 0 if the element is not a member of the set, or if key does not exist.
     def sismember(key, value)
       integer_command(["SISMEMBER", key.to_s, value.to_s])
     end
 
+    # Remove the specified members from the set stored at key.
+    #
+    # **Return value**: Integer: The number of members that were removed from the set, not including non existing members.
     def srem(key, *values)
       integer_command(concat(["SREM", key.to_s], values))
     end
 
+    # Returns the set cardinality (number of elements) of the set stored at key.
     def scard(key)
       integer_command(["SCARD", key.to_s])
     end
 
+    # Returns the members of the set resulting from the difference between the first set and all the successive sets.
+    #
+    # **Return value**: List with members of the resulting set.
     def sdiff(*keys)
       string_array_command(concat(["SDIFF"], keys))
     end
 
-    def sdiffstore(destination_key, *keys)
-      integer_command(concat(["SDIFFSTORE", destination_key.to_s], keys))
+    # This command is equal to SDIFF, but instead of returning the resulting set, it is stored in destination.
+    #
+    # **Return value**: Integer: The number of elements in the resulting set.
+    def sdiffstore(destination, *keys)
+      integer_command(concat(["SDIFFSTORE", destination.to_s], keys))
     end
 
+    # Returns the members of the set resulting from the intersection of all the given sets.
+    #
+    # **Return value**: Array with members of the resulting set.
     def sinter(*keys)
       string_array_command(concat(["SINTER"], keys))
     end
 
+    # This command is equal to SINTER, but instead of returning the resulting set, it is stored in destination.
+    #
+    # **Return value**: Integer: The number of elements in the resulting set.
     def sinterstore(destination_key, *keys)
       integer_command(concat(["SINTERSTORE", destination_key.to_s], keys))
     end
 
+    # Move member from the set at source to the set at destination.
+    #
+    # **Return value**: Integer, specifically:
+    # * 1 if the element is moved.
+    # * 0 if the element is not a member of source and no operation was performed.
     def smove(source, destination, member)
       integer_command(["SMOVE", source.to_s, destination.to_s, member.to_s])
     end
 
+    # Removes and returns one or more random elements from the set value store at key.
+    #
+    # The count argument will be available in a later Redis version and is not available in 2.6, 2.8, 3.0
+    #
+    # **Return value**: The removed element, or nil when key does not exist.
     def spop(key, count = nil)
       q = ["SPOP", key.to_s]
       # Redis 3.0 should have the "count" argument, but doesn't yet.
@@ -512,10 +549,31 @@ class Redis
       string_array_or_string_command(q)
     end
 
-    def srandmember(key, count)
-      string_array_command(["SRANDMEMBER", key.to_s, count.to_s])
+    # When called with just the key argument, return a random element from the set value stored at key.
+    #
+    # **Options**:
+    # * count - Starting from Redis version 2.6, when called with the additional count argument, return an array of count distinct elements if count is positive. If called with a negative count the behavior changes and the command is allowed to return the same element multiple times.
+    #
+    # **Return value**:
+    # * String reply: without the additional count argument the command returns a Bulk Reply with the randomly selected element, or nil when key does not exist.
+    # * Array reply: when the additional count argument is passed the command returns an array of elements, or an empty array when key does not exist.
+    def srandmember(key, count = nil)
+      q = ["SRANDMEMBER", key.to_s]
+      if count
+        q << count.to_s
+      end
+      string_array_or_string_or_nil_command(q)
     end
 
+
+    # The SCAN command and the closely related commands SSCAN, HSCAN and ZSCAN are used in order to incrementally iterate over a collection of elements.
+    #
+    # **Options**:
+    #
+    # * match - It is possible to only iterate elements matching a given glob-style pattern, similarly to the behavior of the KEYS command that takes a pattern as only argument.
+    # * count - While SCAN does not provide guarantees about the number of elements returned at every iteration, it is possible to empirically adjust the behavior of SCAN using the COUNT option.
+    #
+    # **Return value**: Array of String: A list of Set members.
     def sscan(key, cursor, match = nil, count = nil)
           q = ["SSCAN", key.to_s, cursor.to_s]
       if match
@@ -527,12 +585,18 @@ class Redis
       string_array_command(q)
     end
 
+    # Returns the members of the set resulting from the union of all the given sets.
+    #
+    # **Return value**: Array(String) with members of the resulting set.
     def sunion(*keys)
       string_array_command(concat(["SUNION"], keys))
     end
 
-    def sunionstore(destination_key, *keys)
-      integer_command(concat(["SUNIONSTORE", destination_key.to_s], keys))
+    # This command is equal to SUNION, but instead of returning the resulting set, it is stored in destination.
+    #
+    # **Return value**: Integer: The number of elements in the resulting set.
+    def sunionstore(destination, *keys)
+      integer_command(concat(["SUNIONSTORE", destination.to_s], keys))
     end
 
     def blpop(keys, timeout_in_seconds)
