@@ -9,7 +9,7 @@ redis = Redis.new
 puts
 
 # We want to rollback a transaction.
-# The way to do this is in Redis is to send a DISCARD command.
+# The way to do this in Redis is to send a DISCARD command.
 
 puts "Initializing foo"
 redis.set("foo", "the old value")
@@ -22,4 +22,5 @@ results = redis.multi do |multi|
   multi.discard
 end
 
+# We should see "the old value"
 puts "Current value of foo: #{ redis.get("foo") }"
