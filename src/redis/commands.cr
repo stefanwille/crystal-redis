@@ -3,13 +3,12 @@ class Redis
   #
   module Commands
 
-    # Returns message.
+    # Returns the given message.
     def echo(message)
       string_command(["ECHO", message.to_s])
     end
 
     # Returns PONG. This command is often used to test if a connection is still alive, or to measure latency.
-    #
     def ping
       string_command(["PING"])
     end
@@ -885,7 +884,7 @@ class Redis
     # * weights - nil or Array(String): Using the WEIGHTS option, it is possible to specify a multiplication factor for each input sorted set.
     # * aggregate - With the AGGREGATE option, it is possible to specify how the results of the union are aggregated.
     #
-    # **Return value**:
+    # **Return value**: Integer: The number of elements in the resulting sorted set at destination.
     def zinterstore(destination, keys : Array, weights = nil, aggregate = nil)
       numkeys = keys.length
       q = concat(["ZINTERSTORE", destination.to_s, numkeys.to_s], keys)
@@ -899,9 +898,14 @@ class Redis
       integer_command(q)
     end
 
+    # Computes the union of numkeys sorted sets given by the specified keys, and stores the result in destination.
     #
+    # **Options**:
     #
-    # **Return value**:
+    # * weights - nil or Array(String): Using the WEIGHTS option, it is possible to specify a multiplication factor for each input sorted set.
+    # * aggregate - With the AGGREGATE option, it is possible to specify how the results of the union are aggregated.
+    #
+    # **Return value**: Integer: The number of elements in the resulting sorted set at destination.
     def zunionstore(destination, keys : Array, weights = nil, aggregate = nil)
       numkeys = keys.length
       q = concat(["ZUNIONSTORE", destination.to_s, numkeys.to_s], keys)
@@ -915,7 +919,13 @@ class Redis
       integer_command(q)
     end
 
+    # When all the elements in a sorted set are inserted with the same score,
+    # in order to force lexicographical ordering, this command returns all the
+    # elements in the sorted set at key with a value between min and max.
     #
+    # **Options**:
+    #
+    # * limit - an array of [offset, count]. Skip offset members, return a maximum of count members.
     #
     # **Return value**:
     def zrangebylex(key, min, max, limit = nil)
@@ -926,9 +936,15 @@ class Redis
       string_array_command(q)
     end
 
+    # Returns all the elements in the sorted set at key with a score between
+    # max and min (including elements with score equal to max or min).
     #
+    # **Options**:
     #
-    # **Return value**:
+    # * limit - an array of [offset, count]. Skip offset members, return a maximum of count members.
+    # * with_scores - true to return the scores of the elements together with the elements.
+    #
+    # **Return value**: List of elements in the specified score range (optionally with their scores).
     def zrangebyscore(key, min, max, limit = nil, with_scores = false)
       q = ["ZRANGEBYSCORE", key.to_s, min.to_s, max.to_s]
       if limit
