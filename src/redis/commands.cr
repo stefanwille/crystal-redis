@@ -839,40 +839,51 @@ class Redis
 
     # When all the elements in a sorted set are inserted with the same score, in order to force lexicographical ordering, this command returns the number of elements in the sorted set at key with a value between min and max.
     #
-    # **Return value**:
+    # **Return value**: Integer: The number of elements in the specified score range.
     def zlexcount(key, min, max)
       integer_command(["ZLEXCOUNT", key.to_s, min.to_s, max.to_s])
     end
 
+    # Increments the score of member in the sorted set stored at key by increment.
     #
-    #
-    # **Return value**:
+    # **Return value**: String: The new score of member (a double precision floating point number represented as String).
     def zincrby(key, increment, member)
       string_command(["ZINCRBY", key.to_s, increment.to_s, member.to_s])
     end
 
+    # Removes the specified members from the sorted set stored at key.
     #
-    #
-    # **Return value**:
+    # **Return value**: Integer: The number of members removed from the sorted set, not including non existing members.
     def zrem(key, member)
       integer_command(["ZREM", key.to_s, member.to_s])
     end
 
-    #
+    # Returns the rank of member in the sorted set stored at key, with the scores ordered from low to high.
     #
     # **Return value**:
+    # * If member exists in the sorted set, Integer: the rank of member.
+    # * If member does not exist in the sorted set or key does not exist: nil.
     def zrank(key, member)
       integer_or_nil_command(["ZRANK", key.to_s, member.to_s])
     end
 
-    #
+    # Returns the rank of member in the sorted set stored at key,
+    # with the scores ordered from high to low.
     #
     # **Return value**:
+    # * If member exists in the sorted set, Integer: the rank of member.
+    # * If member does not exist in the sorted set or key does not exist: nil.
     def zrevrank(key, member)
       integer_or_nil_command(["ZREVRANK", key.to_s, member.to_s])
     end
 
+    # Computes the intersection of numkeys sorted sets given by the specified keys,
+    # and stores the result in destination.
     #
+    # **Options**:
+    #
+    # * weights - nil or Array(String): Using the WEIGHTS option, it is possible to specify a multiplication factor for each input sorted set.
+    # * aggregate - With the AGGREGATE option, it is possible to specify how the results of the union are aggregated.
     #
     # **Return value**:
     def zinterstore(destination, keys : Array, weights = nil, aggregate = nil)
