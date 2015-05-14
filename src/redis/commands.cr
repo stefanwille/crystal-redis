@@ -193,58 +193,114 @@ class Redis
       integer_command(q)
     end
 
+    # Increments the number stored at key by one.
+    #
+    # **Return value**: Integer: the value of key after the increment
     def incr(key)
       integer_command(["INCR", key.to_s])
     end
 
+    # Decrements the number stored at key by one.
+    #
+    # **Return value**: Integer: the value of key after the decrement
     def decr(key)
       integer_command(["DECR", key.to_s])
     end
 
-    def incrby(key, value)
-      integer_command(["INCRBY", key.to_s, value.to_s])
+    # Increments the number stored at key by increment.
+    #
+    # **Return value**: Integer: the value of key after the increment
+    def incrby(key, increment)
+      integer_command(["INCRBY", key.to_s, increment.to_s])
     end
 
-    def incrbyfloat(key, value)
-      string_command(["INCRBYFLOAT", key.to_s, value.to_s])
+    # Increment the string representing a floating point number stored at key by the specified increment.
+    #
+    # **Return value**: Integer: the value of key after the increment
+    def incrbyfloat(key, increment)
+      string_command(["INCRBYFLOAT", key.to_s, increment.to_s])
     end
 
-    def decrby(key, value)
-      integer_command(["DECRBY", key.to_s, value.to_s])
+    # Decrements the number stored at key by decrement.
+    #
+    # **Return value**: Integer: the value of key after the decrement
+    def decrby(key, decrement)
+      integer_command(["DECRBY", key.to_s, decrement.to_s])
     end
 
+    # If key already exists and is a string, this command appends the value at the end of the string.
+    # If key does not exist it is created and set as an empty string, so APPEND will be similar to SET in this special case.
+    #
+    # **Return value**: Integer: the length of the string after the append operation.
     def append(key, value)
       integer_command(["APPEND", key.to_s, value.to_s])
     end
 
+    # Returns the length of the string value stored at key.
+    #
+    # **Return value**: Integer: the length of the string at key, or 0 when key does not exist.
     def strlen(key)
       integer_command(["STRLEN", key.to_s])
     end
 
+    # Returns the substring of the string value stored at key, determined by the offsets start and end (both are inclusive).
+    #
     def getrange(key, start_index, end_index)
       string_command(["GETRANGE", key.to_s, start_index.to_s, end_index.to_s])
     end
 
-    def setrange(key, start_index, s)
-      integer_command(["SETRANGE", key.to_s, start_index.to_s, s.to_s])
+    # Overwrites part of the string stored at key, starting at the specified offset, for the entire length of value.
+    #
+    # **Return value**: Integer: the length of the string after it was modified by the command.
+    def setrange(key, start_index, value)
+      integer_command(["SETRANGE", key.to_s, start_index.to_s, value.to_s])
     end
 
-    def bitcount(key, from, to)
-      integer_command(["BITCOUNT", key.to_s, from.to_s, to.to_s])
+    # Count the number of set bits (population counting) in a string.
+    # By default all the bytes contained in the string are examined.
+    #
+    # **Options**: It is possible to specify the counting operation only in an interval passing the additional arguments start and end.
+    #
+    # **Return value** Integer: The number of bits set to 1.
+    def bitcount(key, from = nil, to = nil)
+      q = ["BITCOUNT", key.to_s]
+      if from
+        if to
+          q << from.to_s
+          q << to.to_s
+        else
+          raise Redis::Error.new("from specified, but not to")
+        end
+      end
+      integer_command(q)
     end
 
+    # Perform a bitwise operation between multiple keys (containing string values) and store the result in the destination key.
+    #
+    # **Return value**: Integer: The size of the string stored in the destination key, that is equal to the size of the longest input string.
     def bitop(operation, key, *keys)
       integer_command(concat(["BITOP", operation.to_s, key.to_s], keys))
     end
 
+    # Returns the bit value at offset in the string value stored at key.
+    #
+    # **Return value**: Integer: the bit value stored at offset.
     def getbit(key, index)
       integer_command(["GETBIT", key.to_s, index.to_s])
     end
 
+    # Sets or clears the bit at offset in the string value stored at key.
+    #
+    # **Return value**: Integer: the original bit value stored at offset.
     def setbit(key, index, value)
       integer_command(["SETBIT", key.to_s, index.to_s, value.to_s])
     end
 
+    # Return the position of the first bit set to 1 or 0 in a string.
+    #
+    # **Options**: By default, all the bytes contained in the string are examined. It is possible to look for bits only in a specified interval passing the additional arguments start and end (it is possible to just pass start, the operation will assume that the end is the last byte of the string.
+    #
+    # **Return value**: Integer: The command returns the position of the first bit set to 1 or 0 according to the request.
     def bitpos(key, bit, start = nil, to = nil)
       q = ["BITPOS", key.to_s, bit.to_s] of RedisValue
       if start
@@ -256,19 +312,32 @@ class Redis
       integer_command(q)
     end
 
+    # Serialize the value stored at key in a Redis-specific format and return it to the user.
+    #
+    # **Return value**: String:the serialized value.
     def dump(key)
       string_command(["DUMP", key.to_s])
     end
 
-    def restore(key, ttl_in_milis : Int, serialized_value : String | Redis::Future)
-      replace = nil
-      q = ["RESTORE", key.to_s, ttl_in_milis.to_s, serialized_value] of RedisValue
+    # Create a key associated with a value that is obtained by deserializing the provided serialized value (obtained via DUMP).
+    #
+    # **Return value**: String: The command returns OK on success.
+    def restore(key, ttl_in_milis : Int, serialized_value : String, replace = false)
+      q = ["RESTORE", key.to_s, ttl_in_milis.to_s, serialized_value]
       if replace
-        q << replace.to_s
+        q << "REPLACE"
       end
       string_command(q)
     end
 
+    # The SCAN command and the closely related commands SSCAN, HSCAN and ZSCAN are used in order to incrementally iterate over a collection of elements.
+    #
+    # **Options**:
+    #
+    # * match - It is possible to only iterate elements matching a given glob-style pattern, similarly to the behavior of the KEYS command that takes a pattern as only argument.
+    # * count - While SCAN does not provide guarantees about the number of elements returned at every iteration, it is possible to empirically adjust the behavior of SCAN using the COUNT option.
+    #
+    # **Return value**: Array of String: A list of keys.
     def scan(cursor, match = nil, count = nil)
       q = ["SCAN", cursor.to_s]
       if match
@@ -280,6 +349,7 @@ class Redis
       string_array_command(q)
     end
 
+    # Return a random key from the currently selected database.
     def randomkey
       string_command(["RANDOMKEY"])
     end
