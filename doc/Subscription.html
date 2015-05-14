@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <link href="css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+
+  <h1>class Subscription</h1>
+
+
+
+  <h2>Overview</h2>
+
+  <p>Models a subscription to one or more channels.</p>
+
+<p>The caller sets callbacks on this object that the Redis client will
+trigger for the matching events.</p>
+
+
+
+
+
+  <h2>Superclass hierarchy</h2>
+  <div style="padding-left: 0px">Object</div><div style="padding-left: 20px">Reference</div><div style="padding-left: 40px"><a href="Subscription.html">Subscription</a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>Defined in:</h2>
+  
+    
+      <a href="https://github.com/stefanwille/crystal-redis/blob/0bc224ac98dfb51854ff2f503373cf4f6d6d57f0/src/redis/subscription.cr">redis/subscription.cr</a>
+    
+    <br/>
+  
+
+
+
+
+
+  <h2>Class Method Summary</h2>
+  <ul>
+    
+      <li class="entry-summary">
+        <a href="#new-class-method" class="signature"><strong>.new</strong></a>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <h2>Instance Method Summary</h2>
+  <ul>
+    
+      <li class="entry-summary">
+        <a href="#message%28%26block%20%3A%20String%2C%20String%20-%3E%20%29-instance-method" class="signature"><strong>#message</strong>(&block : String, String -> )</a>
+        
+          <div class="summary"><p>Sets the 'message' callback.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#message_callback-instance-method" class="signature"><strong>#message_callback</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#message_callback%3D%28message_callback%29-instance-method" class="signature"><strong>#message_callback=</strong>(message_callback)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#pmessage%28%26block%20%3A%20String%2C%20String%2C%20String%20-%3E%20%29-instance-method" class="signature"><strong>#pmessage</strong>(&block : String, String, String -> )</a>
+        
+          <div class="summary"><p>Sets the 'pmessage' callback.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#pmessage_callback-instance-method" class="signature"><strong>#pmessage_callback</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#pmessage_callback%3D%28pmessage_callback%29-instance-method" class="signature"><strong>#pmessage_callback=</strong>(pmessage_callback)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#psubscribe%28%26block%20%3A%20String%2C%20Int64%20-%3E%20%29-instance-method" class="signature"><strong>#psubscribe</strong>(&block : String, Int64 -> )</a>
+        
+          <div class="summary"><p>Sets the 'psubscribe' callback.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#psubscribe_callback-instance-method" class="signature"><strong>#psubscribe_callback</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#psubscribe_callback%3D%28psubscribe_callback%29-instance-method" class="signature"><strong>#psubscribe_callback=</strong>(psubscribe_callback)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#punsubscribe%28%26block%20%3A%20String%2C%20Int64%20-%3E%20%29-instance-method" class="signature"><strong>#punsubscribe</strong>(&block : String, Int64 -> )</a>
+        
+          <div class="summary"><p>Sets the 'punsubscribe' callback.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#punsubscribe_callback-instance-method" class="signature"><strong>#punsubscribe_callback</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#punsubscribe_callback%3D%28punsubscribe_callback%29-instance-method" class="signature"><strong>#punsubscribe_callback=</strong>(punsubscribe_callback)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#subscribe%28%26block%20%3A%20String%2C%20Int64%20-%3E%20%29-instance-method" class="signature"><strong>#subscribe</strong>(&block : String, Int64 -> )</a>
+        
+          <div class="summary"><p>Sets the 'subscribe' callback.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#subscribe_callback-instance-method" class="signature"><strong>#subscribe_callback</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#subscribe_callback%3D%28subscribe_callback%29-instance-method" class="signature"><strong>#subscribe_callback=</strong>(subscribe_callback)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#unsubscribe%28%26block%20%3A%20String%2C%20Int64%20-%3E%20%29-instance-method" class="signature"><strong>#unsubscribe</strong>(&block : String, Int64 -> )</a>
+        
+          <div class="summary"><p>Sets the 'unsubscribe' callback.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#unsubscribe_callback-instance-method" class="signature"><strong>#unsubscribe_callback</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#unsubscribe_callback%3D%28unsubscribe_callback%29-instance-method" class="signature"><strong>#unsubscribe_callback=</strong>(unsubscribe_callback)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+
+  <h2>Class Method Detail</h2>
+  
+    <div class="entry-detail">
+      <div class="signature" id="new-class-method">
+        
+        def self.<strong>new</strong>
+      </div>
+      
+      
+        <br/>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/0bc224ac98dfb51854ff2f503373cf4f6d6d57f0/src/redis/subscription.cr#L13" target="_blank">View source</a>]</div>
+      
+    </div>
+    <hr/>
+  
+
+
+
+  <h2>Instance Method Detail</h2>
+  
+    <div class="entry-detail">
+      <div class="signature" id="message%28%26block%20%3A%20String%2C%20String%20-%3E%20%29-instance-method">
+        
+        def <strong>message</strong>(&block : String, String -> )
+      </div>
+      
+        <div class="doc"><p>Sets the 'message' callback.</p></div>
+      
+      
+        <br/>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/0bc224ac98dfb51854ff2f503373cf4f6d6d57f0/src/redis/subscription.cr#L34" target="_blank">View source</a>]</div>
+      
+    </div>
+    <hr/>
+  
+    <div class="entry-detail">
+      <div class="signature" id="message_callback-instance-method">
+        
+        def <strong>message_callback</strong>
+      </div>
+      
+      
+    </div>
+    <hr/>
+  
+    <div class="entry-detail">
+      <div class="signature" id="message_callback%3D%28message_callback%29-instance-method">
+        
+        def <strong>message_callback=</strong>(message_callback)
+      </div>
+      
+      
+    </div>
+    <hr/>
+  
+    <div class="entry-detail">
+      <div class="signature" id="pmessage%28%26block%20%3A%20String%2C%20String%2C%20String%20-%3E%20%29-instance-method">
+        
+        def <strong>pmessage</strong>(&block : String, String, String -> )
+      </div>
+      
+        <div class="doc"><p>Sets the 'pmessage' callback.</p></div>
+      
+      
+        <br/>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/0bc224ac98dfb51854ff2f503373cf4f6d6d57f0/src/redis/subscription.cr#L39" target="_blank">View source</a>]</div>
+      
+    </div>
+    <hr/>
+  
+    <div class="entry-detail">
+      <div class="signature" id="pmessage_callback-instance-method">
+        
+        def <strong>pmessage_callback</strong>
+      </div>
+      
+      
+    </div>
+    <hr/>
+  
+    <div class="entry-detail">
+      <div class="signature" id="pmessage_callback%3D%28pmessage_callback%29-instance-method">
+        
+        def <strong>pmessage_callback=</strong>(pmessage_callback)
+      </div>
+      
+      
+    </div>
+    <hr/>
+  
+    <div class="entry-detail">
+      <div class="signature" id="psubscribe%28%26block%20%3A%20String%2C%20Int64%20-%3E%20%29-instance-method">
+        
+        def <strong>psubscribe</strong>(&block : String, Int64 -> )
+      </div>
+      
+        <div class="doc"><p>Sets the 'psubscribe' callback.</p></div>
+      
+      
+        <br/>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/0bc224ac98dfb51854ff2f503373cf4f6d6d57f0/src/redis/subscription.cr#L29" target="_blank">View source</a>]</div>
+      
+    </div>
+    <hr/>
+  
+    <div class="entry-detail">
+      <div class="signature" id="psubscribe_callback-instance-method">
+        
+        def <strong>psubscribe_callback</strong>
+      </div>
+      
+      
+    </div>
+    <hr/>
+  
+    <div class="entry-detail">
+      <div class="signature" id="psubscribe_callback%3D%28psubscribe_callback%29-instance-method">
+        
+        def <strong>psubscribe_callback=</strong>(psubscribe_callback)
+      </div>
+      
+      
+    </div>
+    <hr/>
+  
+    <div class="entry-detail">
+      <div class="signature" id="punsubscribe%28%26block%20%3A%20String%2C%20Int64%20-%3E%20%29-instance-method">
+        
+        def <strong>punsubscribe</strong>(&block : String, Int64 -> )
+      </div>
+      
+        <div class="doc"><p>Sets the 'punsubscribe' callback.</p></div>
+      
+      
+        <br/>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/0bc224ac98dfb51854ff2f503373cf4f6d6d57f0/src/redis/subscription.cr#L49" target="_blank">View source</a>]</div>
+      
+    </div>
+    <hr/>
+  
+    <div class="entry-detail">
+      <div class="signature" id="punsubscribe_callback-instance-method">
+        
+        def <strong>punsubscribe_callback</strong>
+      </div>
+      
+      
+    </div>
+    <hr/>
+  
+    <div class="entry-detail">
+      <div class="signature" id="punsubscribe_callback%3D%28punsubscribe_callback%29-instance-method">
+        
+        def <strong>punsubscribe_callback=</strong>(punsubscribe_callback)
+      </div>
+      
+      
+    </div>
+    <hr/>
+  
+    <div class="entry-detail">
+      <div class="signature" id="subscribe%28%26block%20%3A%20String%2C%20Int64%20-%3E%20%29-instance-method">
+        
+        def <strong>subscribe</strong>(&block : String, Int64 -> )
+      </div>
+      
+        <div class="doc"><p>Sets the 'subscribe' callback.</p></div>
+      
+      
+        <br/>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/0bc224ac98dfb51854ff2f503373cf4f6d6d57f0/src/redis/subscription.cr#L24" target="_blank">View source</a>]</div>
+      
+    </div>
+    <hr/>
+  
+    <div class="entry-detail">
+      <div class="signature" id="subscribe_callback-instance-method">
+        
+        def <strong>subscribe_callback</strong>
+      </div>
+      
+      
+    </div>
+    <hr/>
+  
+    <div class="entry-detail">
+      <div class="signature" id="subscribe_callback%3D%28subscribe_callback%29-instance-method">
+        
+        def <strong>subscribe_callback=</strong>(subscribe_callback)
+      </div>
+      
+      
+    </div>
+    <hr/>
+  
+    <div class="entry-detail">
+      <div class="signature" id="unsubscribe%28%26block%20%3A%20String%2C%20Int64%20-%3E%20%29-instance-method">
+        
+        def <strong>unsubscribe</strong>(&block : String, Int64 -> )
+      </div>
+      
+        <div class="doc"><p>Sets the 'unsubscribe' callback.</p></div>
+      
+      
+        <br/>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/0bc224ac98dfb51854ff2f503373cf4f6d6d57f0/src/redis/subscription.cr#L44" target="_blank">View source</a>]</div>
+      
+    </div>
+    <hr/>
+  
+    <div class="entry-detail">
+      <div class="signature" id="unsubscribe_callback-instance-method">
+        
+        def <strong>unsubscribe_callback</strong>
+      </div>
+      
+      
+    </div>
+    <hr/>
+  
+    <div class="entry-detail">
+      <div class="signature" id="unsubscribe_callback%3D%28unsubscribe_callback%29-instance-method">
+        
+        def <strong>unsubscribe_callback=</strong>(unsubscribe_callback)
+      </div>
+      
+      
+    </div>
+    <hr/>
+  
+
+
+
+
+
+</body>
+</html>
