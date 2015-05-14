@@ -44,6 +44,8 @@ This library needs Crystal version >= 0.7.1.
 
 ## Usage
 
+Require the package:
+
 ```crystal
 require "redis"
 ```
@@ -52,11 +54,6 @@ then
 
 ```crystal
   redis = Redis.new
-```
-or
-
-```crystal
-  redis = Redis.new(host: "localhost", port: 6379)
 ```
 
 Then you can call Redis commands on the `redis` object:
