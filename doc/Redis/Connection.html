@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <link href="../css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+
+  <h1>class Redis::Connection</h1>
+
+
+
+  <h2>Overview</h2>
+
+  <p>A connection to a Redis instance.</p>
+
+
+
+
+
+  <h2>Superclass hierarchy</h2>
+  <div style="padding-left: 0px">Object</div><div style="padding-left: 20px">Reference</div><div style="padding-left: 40px"><a href="../Redis/Connection.html">Redis::Connection</a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>Defined in:</h2>
+  
+    
+      <a href="https://github.com/stefanwille/crystal-redis/blob/2effd90a3c9d20aa40bc73e4ac0b1209b425800f/src/redis/connection.cr">redis/connection.cr</a>
+    
+    <br/>
+  
+
+
+
+
+
+  <h2>Class Method Summary</h2>
+  <ul>
+    
+      <li class="entry-summary">
+        <a href="#new%28host%2C%20port%2C%20unixsocket%29-class-method" class="signature"><strong>.new</strong>(host, port, unixsocket)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <h2>Instance Method Summary</h2>
+  <ul>
+    
+      <li class="entry-summary">
+        <a href="#close-instance-method" class="signature"><strong>#close</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#finalize-instance-method" class="signature"><strong>#finalize</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#flush-instance-method" class="signature"><strong>#flush</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#marshal%28arg%20%3A%20String%29-instance-method" class="signature"><strong>#marshal</strong>(arg : String)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#marshal%28arg%20%3A%20Nil%29-instance-method" class="signature"><strong>#marshal</strong>(arg : Nil)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#marshal%28arg%20%3A%20Array%28RedisValue%29%29-instance-method" class="signature"><strong>#marshal</strong>(arg : Array(RedisValue))</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#marshal%28arg%20%3A%20Int%29-instance-method" class="signature"><strong>#marshal</strong>(arg : Int)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#queue%28request%20%3A%20Request%29-instance-method" class="signature"><strong>#queue</strong>(request : Request)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#receive-instance-method" class="signature"><strong>#receive</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#receive_line-instance-method" class="signature"><strong>#receive_line</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#receive_queued_responses%28n%29-instance-method" class="signature"><strong>#receive_queued_responses</strong>(n)</a>
+        
+          <div class="summary"><p>Receives n responses with the content "QUEUED".</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#send%28request%20%3A%20Request%29-instance-method" class="signature"><strong>#send</strong>(request : Request)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+
+  <h2>Class Method Detail</h2>
+  
+    <div class="entry-detail">
+      <div class="signature" id="new%28host%2C%20port%2C%20unixsocket%29-class-method">
+        
+        def self.<strong>new</strong>(host, port, unixsocket)
+      </div>
+      
+      
+        <br/>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/2effd90a3c9d20aa40bc73e4ac0b1209b425800f/src/redis/connection.cr#L6" target="_blank">View source</a>]</div>
+      
+    </div>
+    <hr/>
+  
+
+
+
+  <h2>Instance Method Detail</h2>
+  
+    <div class="entry-detail">
+      <div class="signature" id="close-instance-method">
+        
+        def <strong>close</strong>
+      </div>
+      
+      
+        <br/>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/2effd90a3c9d20aa40bc73e4ac0b1209b425800f/src/redis/connection.cr#L20" target="_blank">View source</a>]</div>
+      
+    </div>
+    <hr/>
+  
+    <div class="entry-detail">
+      <div class="signature" id="finalize-instance-method">
+        
+        def <strong>finalize</strong>
+      </div>
+      
+      
+        <br/>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/2effd90a3c9d20aa40bc73e4ac0b1209b425800f/src/redis/connection.cr#L16" target="_blank">View source</a>]</div>
+      
+    </div>
+    <hr/>
+  
+    <div class="entry-detail">
+      <div class="signature" id="flush-instance-method">
+        
+        def <strong>flush</strong>
+      </div>
+      
+      
+        <br/>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/2effd90a3c9d20aa40bc73e4ac0b1209b425800f/src/redis/connection.cr#L36" target="_blank">View source</a>]</div>
+      
+    </div>
+    <hr/>
+  
+    <div class="entry-detail">
+      <div class="signature" id="marshal%28arg%20%3A%20String%29-instance-method">
+        
+        def <strong>marshal</strong>(arg : String)
+      </div>
+      
+      
+        <br/>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/2effd90a3c9d20aa40bc73e4ac0b1209b425800f/src/redis/connection.cr#L44" target="_blank">View source</a>]</div>
+      
+    </div>
+    <hr/>
+  
+    <div class="entry-detail">
+      <div class="signature" id="marshal%28arg%20%3A%20Nil%29-instance-method">
+        
+        def <strong>marshal</strong>(arg : Nil)
+      </div>
+      
+      
+        <br/>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/2effd90a3c9d20aa40bc73e4ac0b1209b425800f/src/redis/connection.cr#L55" target="_blank">View source</a>]</div>
+      
+    </div>
+    <hr/>
+  
+    <div class="entry-detail">
+      <div class="signature" id="marshal%28arg%20%3A%20Array%28RedisValue%29%29-instance-method">
+        
+        def <strong>marshal</strong>(arg : Array(<a href="../Redis/RedisValue.html">RedisValue</a>))
+      </div>
+      
+      
+        <br/>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/2effd90a3c9d20aa40bc73e4ac0b1209b425800f/src/redis/connection.cr#L48" target="_blank">View source</a>]</div>
+      
+    </div>
+    <hr/>
+  
+    <div class="entry-detail">
+      <div class="signature" id="marshal%28arg%20%3A%20Int%29-instance-method">
+        
+        def <strong>marshal</strong>(arg : Int)
+      </div>
+      
+      
+        <br/>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/2effd90a3c9d20aa40bc73e4ac0b1209b425800f/src/redis/connection.cr#L40" target="_blank">View source</a>]</div>
+      
+    </div>
+    <hr/>
+  
+    <div class="entry-detail">
+      <div class="signature" id="queue%28request%20%3A%20Request%29-instance-method">
+        
+        def <strong>queue</strong>(request : <a href="../Redis/Request.html">Request</a>)
+      </div>
+      
+      
+        <br/>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/2effd90a3c9d20aa40bc73e4ac0b1209b425800f/src/redis/connection.cr#L32" target="_blank">View source</a>]</div>
+      
+    </div>
+    <hr/>
+  
+    <div class="entry-detail">
+      <div class="signature" id="receive-instance-method">
+        
+        def <strong>receive</strong>
+      </div>
+      
+      
+        <br/>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/2effd90a3c9d20aa40bc73e4ac0b1209b425800f/src/redis/connection.cr#L68" target="_blank">View source</a>]</div>
+      
+    </div>
+    <hr/>
+  
+    <div class="entry-detail">
+      <div class="signature" id="receive_line-instance-method">
+        
+        def <strong>receive_line</strong>
+      </div>
+      
+      
+        <br/>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/2effd90a3c9d20aa40bc73e4ac0b1209b425800f/src/redis/connection.cr#L109" target="_blank">View source</a>]</div>
+      
+    </div>
+    <hr/>
+  
+    <div class="entry-detail">
+      <div class="signature" id="receive_queued_responses%28n%29-instance-method">
+        
+        def <strong>receive_queued_responses</strong>(n)
+      </div>
+      
+        <div class="doc"><p>Receives n responses with the content "QUEUED".
+This method exists to prevent many small read calls.</p></div>
+      
+      
+        <br/>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/2effd90a3c9d20aa40bc73e4ac0b1209b425800f/src/redis/connection.cr#L62" target="_blank">View source</a>]</div>
+      
+    </div>
+    <hr/>
+  
+    <div class="entry-detail">
+      <div class="signature" id="send%28request%20%3A%20Request%29-instance-method">
+        
+        def <strong>send</strong>(request : <a href="../Redis/Request.html">Request</a>)
+      </div>
+      
+      
+        <br/>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/2effd90a3c9d20aa40bc73e4ac0b1209b425800f/src/redis/connection.cr#L27" target="_blank">View source</a>]</div>
+      
+    </div>
+    <hr/>
+  
+
+
+
+
+
+</body>
+</html>

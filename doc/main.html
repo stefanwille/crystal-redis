@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <link href="css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1>Redis Client for Crystal-Lang</h1>
+
+<p>A Redis client for the Crystal programming language.</p>
+
+<h2>Features</h2>
+
+<ul><li>Performance (> 260.000 commands per second using pipeline on a MacBook Air with a single client thread)</li><li>Pipelining</li><li>Transactions</li><li>LUA Scripting</li><li>All string commands</li><li>All hash commands</li><li>All list commands</li><li>All set commands</li><li>All hyperloglog commands</li><li>All commands for bit operations</li><li>All sorted set commands</li><li>Publish/subscribe</li></ul>
+
+<h2>Installation</h2>
+
+<p>Add it to <code>Projectfile</code></p>
+
+<pre><code>deps <span class="k">do</span>
+  github <span class="s">"stefanwille/crystal-redis"</span>
+<span class="k">end</span></code></pre>
+
+<p>and then download the library into your project:</p>
+
+<pre><code></code></pre>
+
+<h2>Required Crystal Version</h2>
+
+<p>This library needs Crystal version >= 0.7.1.</p>
+
+<h2>Usage</h2>
+
+<p>Require the package:</p>
+
+<pre><code>  <span class="k">require</span> <span class="s">"redis"</span></code></pre>
+
+<p>then</p>
+
+<pre><code>  redis <span class="o">=</span> <span class="t">Redis</span>.<span class="k">new</span></code></pre>
+
+<p>Then you can call Redis commands on the <code>redis</code> object:</p>
+
+<pre><code>  redis.set(<span class="s">"foo"</span>, <span class="s">"bar"</span>)
+  redis.get(<span class="s">"foo"</span>)</code></pre>
+
+<h2>Documentation</h2>
+
+<p>To get started, see https://github.com/stefanwille/crystal-redis/blob/master/examples/basic.cr.</p>
+
+<p>More examples are in https://github.com/stefanwille/crystal-redis/blob/master/examples/</p>
+
+<p>More details about the available commands are in http://redis.io/commands and spec/redis.cr.</p>
+
+<p>General information about Redis is at http://redis.io/documentation</p>
+
+<h2>Performance</h2>
+
+<p>With this library I get > 260.000 commands per second using pipeline on a MacBook Air with a single client thread.</p>
+
+<p>The equivalent program written in C with Hiredis gets me 340.000 commands per second.</p>
+
+<p>Ruby 2.2.1 with redis-rb (https://github.com/redis/redis-rb) handles 50.000 commands per second.</p>
+</body>
+</html>

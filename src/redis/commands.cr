@@ -21,8 +21,8 @@ class Redis
     # **Options**:
     #
     # * Starting with Redis 2.6.12 SET supports a set of options that modify its behavior:
-    # * ex seconds -- Set the specified expire time, in seconds.
-    # * px milliseconds -- Set the specified expire time, in milliseconds.
+    # * ex -- Set the specified expire time, in seconds.
+    # * px -- Set the specified expire time, in milliseconds.
     # * nx -- Only set the key if it does not already exist.
     # * xx -- Only set the key if it already exist.
     #
