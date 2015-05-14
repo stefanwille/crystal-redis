@@ -6,18 +6,18 @@ A Redis client for the Crystal programming language.
 
 ## Features
 
-- Performance (> 260.000 commands per second using pipeline on a MacBook Air with a single client thread)
-- Pipelining
-- Transactions
-- LUA Scripting
-- All string commands
-- All hash commands
-- All list commands
-- All set commands
-- All hyperloglog commands
-- All commands for bit operations
-- All sorted set commands
-- Publish/subscribe
+* Performance (> 260.000 commands per second using pipeline on a MacBook Air with a single client thread)
+* Pipelining
+* Transactions
+* LUA Scripting
+* All string commands
+* All hash commands
+* All list commands
+* All set commands
+* All hyperloglog commands
+* All commands for bit operations
+* All sorted set commands
+* Publish/subscribe
 
 
 ## Installation
@@ -47,7 +47,7 @@ This library needs Crystal version >= 0.7.1.
 Require the package:
 
 ```crystal
-require "redis"
+  require "redis"
 ```
 
 then
