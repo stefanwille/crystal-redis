@@ -64,14 +64,14 @@ class Redis
       string_command(["SELECT", database_number.to_s])
     end
 
-    # Renames key to newkey.
+    # Renames old_key to newkey.
     #
     # **Return value**: "OK"
     def rename(old_key, new_key)
       string_command(["RENAME", old_key.to_s, new_key.to_s])
     end
 
-    # Renames key to newkey if newkey does not yet exist.
+    # Renames old_key to newkey if newkey does not yet exist.
     #
     # **Return value**: "OK"
     def renamenx(old_key, new_key)
