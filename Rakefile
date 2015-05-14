@@ -9,3 +9,15 @@ task :default do
     puts
   end
 end
+
+desc 'Generates api doc. Ugly workaround for a Crystal bug.'
+task :docs do
+  puts 'Generating docs'
+  sh "rm -rf ../crystal-redis-docs"
+  sh "cp -R . ../crystal-redis-docs"
+  sh "rm -rf ../crystal-redis-docs/.git"
+  sh "cd ../crystal-redis-docs/ && git init"
+  sh "cd ../crystal-redis-docs/ && crystal docs"
+  sh "open ../crystal-redis-docs/doc/index.html"
+end
+
