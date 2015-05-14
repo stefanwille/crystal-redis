@@ -45,35 +45,35 @@ class Redis
 
     # Ask the server to close the connection. The connection is closed as soon as all pending replies have been written to the client.
     #
-    # **Return value**: Always the String "OK"
+    # **Return value**: "OK"
     def quit
       string_command(["QUIT"])
     end
 
     # Request for authentication in a password-protected Redis server.
     #
-    # **Return value**: A String
+    # **Return value**: "OK"
     def auth(password)
       string_command(["AUTH", password])
     end
 
     # Select the DB with having the specified zero-based numeric index.
     #
-    # **Return value**: A String
+    # **Return value**: "OK"
     def select(database_number)
       string_command(["SELECT", database_number.to_s])
     end
 
     # Renames key to newkey.
     #
-    # **Return value**: A String
+    # **Return value**: "OK"
     def rename(old_key, new_key)
       string_command(["RENAME", old_key.to_s, new_key.to_s])
     end
 
     # Renames key to newkey if newkey does not yet exist.
     #
-    # **Return value**: A String
+    # **Return value**: "OK"
     def renamenx(old_key, new_key)
       integer_command(["RENAMENX", old_key.to_s, new_key.to_s])
     end
@@ -321,7 +321,7 @@ class Redis
 
     # Create a key associated with a value that is obtained by deserializing the provided serialized value (obtained via DUMP).
     #
-    # **Return value**: String: The command returns OK on success.
+    # **Return value**: The command returns "OK" on success.
     def restore(key, ttl_in_milis : Int, serialized_value : String, replace = false)
       q = ["RESTORE", key.to_s, ttl_in_milis.to_s, serialized_value]
       if replace
