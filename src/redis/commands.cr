@@ -354,58 +354,104 @@ class Redis
       string_command(["RANDOMKEY"])
     end
 
+    # Returns if key exists.
+    #
+    # **Return value**:
+    # * 1 if the key exists.
+    # * 0 if the key does not exist.
     def exists(key)
       integer_command(["EXISTS", key.to_s])
     end
 
+    # Returns all keys matching pattern.
+    #
+    # **Return value**: Array of keys matching pattern.
     def keys(pattern)
       string_array_command(["KEYS", pattern.to_s])
     end
 
+    # Insert all the specified values at the tail of the list stored at key.
+    #
+    # **Return value**: Integer: the length of the list after the push operation.
     def rpush(key, *values)
       integer_command(concat(["RPUSH", key.to_s], values))
     end
 
+    # Insert all the specified values at the head of the list stored at key.
+    #
+    # **Return value**: Integer: the length of the list after the push operation.
     def lpush(key, *values)
       integer_command(concat(["LPUSH", key.to_s], values))
     end
 
+    # Inserts value at the head of the list stored at key, only if key already exists and holds a list.
+    #
+    # **Return value**: Integer: the length of the list after the push operation.
     def lpushx(key, value)
       integer_command(["LPUSHX", key.to_s, value.to_s])
     end
 
+    # Inserts value at the tail of the list stored at key, only if key already exists and holds a list.
+    #
+    # **Return value**: Integer: the length of the list after the push operation.
     def rpushx(key, value)
       integer_command(["RPUSHX", key.to_s, value.to_s])
     end
 
+    # Removes the first count occurrences of elements equal to value from the list stored at key.
+    #
+    # **Return value**: Integer: the number of removed elements.
     def lrem(key, count, value)
       integer_command(["LREM", key.to_s, count.to_s, value.to_s])
     end
 
+    # Returns the length of the list stored at key.
+    #
+    # **Return value**: Integer: the length of the list at key.
     def llen(key)
       integer_command(["LLEN", key.to_s])
     end
 
+    # Returns the element at index index in the list stored at key.
+    #
+    # **Return value**: String: the requested element, or nil when index is out of range.
     def lindex(key, index)
       string_or_nil_command(["LINDEX", key.to_s, index.to_s])
     end
 
+    # Sets the list element at index to value.
+    #
+    # **Return value**: "OK"
     def lset(key, index, value)
       string_command(["LSET", key.to_s, index.to_s, value.to_s])
     end
 
+    # Removes and returns the first element of the list stored at key.
+    #
+    # **Return value**: the value of the first element, or nil when key does not exist.
     def lpop(key)
       string_or_nil_command(["LPOP", key.to_s])
     end
 
+    # Removes and returns the last element of the list stored at key.
+    #
+    # **Return value**: "OK"
     def rpop(key)
       string_or_nil_command(["RPOP", key.to_s])
     end
 
+    # Inserts value in the list stored at key either before or after the reference value pivot.
+    #
+    # **Options**: where - either "BEFORE" or "AFTER"
+    #
+    # **Return value**: Integer: the length of the list after the insert operation, or -1 when the value pivot was not found.
     def linsert(key, where, pivot, value)
       integer_command(["LINSERT", key.to_s, where.to_s, pivot.to_s, value.to_s])
     end
 
+    # Returns the specified elements of the list stored at key.
+    #
+    # **Return value**: list of elements in the specified range.
     def lrange(key, from, to)
       string_array_command(["LRANGE", key.to_s, from.to_s, to.to_s])
     end
