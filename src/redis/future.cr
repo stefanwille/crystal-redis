@@ -1,6 +1,6 @@
 # Futures are handles for values that will become available at a later point in time.
 #
-# The API methods Redis#pipelined and Redis#multi return futures.
+# The API methods Redis#pipelined and Redis#multi make commands return futures instead of actual values.
 #
 # See https://github.com/stefanwille/crystal-redis/blob/master/examples/pipelining.cr
 # for an example.
