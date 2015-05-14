@@ -1,5 +1,5 @@
 class Redis
-  # Definition of all Redis commands.
+  # Definition of all Redis commands except pipelining and transactions.
   #
   module Commands
 
