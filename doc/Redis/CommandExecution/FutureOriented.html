@@ -2,14 +2,18 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <link href="../css/style.css" rel="stylesheet" type="text/css" />
+  <link href="../../css/style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 
 
-  <h1>module Redis::FutureOrientedCommandExecution</h1>
+  <h1>module Redis::CommandExecution::FutureOriented</h1>
 
 
+
+  <h2>Overview</h2>
+
+  <p>Command execution methods that don't return Redis values but Futures.</p>
 
 
 
@@ -25,9 +29,9 @@
 
   <h2>Direct including types</h2>
   
-    <a href="../Redis/PipelineApi.html">Redis::PipelineApi</a>,
+    <a href="../../Redis/PipelineApi.html">Redis::PipelineApi</a>,
   
-    <a href="../Redis/TransactionApi.html">Redis::TransactionApi</a>
+    <a href="../../Redis/TransactionApi.html">Redis::TransactionApi</a>
   
 
 
@@ -36,7 +40,7 @@
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/da2df7f4922f35a250040774900dccae513baf64/src/redis/future_oriented_command_execution.cr">redis/future_oriented_command_execution.cr</a>
+      <a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/command_execution/future_oriented.cr">redis/command_execution/future_oriented.cr</a>
     
     <br/>
   
@@ -141,14 +145,14 @@
     <div class="entry-detail">
       <div class="signature" id="array_or_nil_command%28request%20%3A%20Request%29-instance-method">
         
-        def <strong>array_or_nil_command</strong>(request : <a href="../Redis/Request.html">Request</a>)
+        def <strong>array_or_nil_command</strong>(request : <a href="../../Redis/Request.html">Request</a>)
       </div>
       
         <div class="doc"><p>Executes a Redis command and returns a Future.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/da2df7f4922f35a250040774900dccae513baf64/src/redis/future_oriented_command_execution.cr#L51" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/command_execution/future_oriented.cr#L53" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -156,14 +160,14 @@
     <div class="entry-detail">
       <div class="signature" id="integer_array_command%28request%20%3A%20Request%29-instance-method">
         
-        def <strong>integer_array_command</strong>(request : <a href="../Redis/Request.html">Request</a>)
+        def <strong>integer_array_command</strong>(request : <a href="../../Redis/Request.html">Request</a>)
       </div>
       
         <div class="doc"><p>Executes a Redis command and returns a Future.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/da2df7f4922f35a250040774900dccae513baf64/src/redis/future_oriented_command_execution.cr#L16" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/command_execution/future_oriented.cr#L18" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -171,14 +175,14 @@
     <div class="entry-detail">
       <div class="signature" id="integer_command%28request%20%3A%20Request%29-instance-method">
         
-        def <strong>integer_command</strong>(request : <a href="../Redis/Request.html">Request</a>)
+        def <strong>integer_command</strong>(request : <a href="../../Redis/Request.html">Request</a>)
       </div>
       
         <div class="doc"><p>Executes a Redis command and returns a Future.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/da2df7f4922f35a250040774900dccae513baf64/src/redis/future_oriented_command_execution.cr#L6" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/command_execution/future_oriented.cr#L8" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -186,14 +190,14 @@
     <div class="entry-detail">
       <div class="signature" id="integer_or_nil_command%28request%20%3A%20Request%29-instance-method">
         
-        def <strong>integer_or_nil_command</strong>(request : <a href="../Redis/Request.html">Request</a>)
+        def <strong>integer_or_nil_command</strong>(request : <a href="../../Redis/Request.html">Request</a>)
       </div>
       
         <div class="doc"><p>Executes a Redis command and returns a Future.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/da2df7f4922f35a250040774900dccae513baf64/src/redis/future_oriented_command_execution.cr#L11" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/command_execution/future_oriented.cr#L13" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -201,14 +205,14 @@
     <div class="entry-detail">
       <div class="signature" id="string_array_command%28request%20%3A%20Request%29-instance-method">
         
-        def <strong>string_array_command</strong>(request : <a href="../Redis/Request.html">Request</a>)
+        def <strong>string_array_command</strong>(request : <a href="../../Redis/Request.html">Request</a>)
       </div>
       
         <div class="doc"><p>Executes a Redis command and returns a Future.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/da2df7f4922f35a250040774900dccae513baf64/src/redis/future_oriented_command_execution.cr#L31" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/command_execution/future_oriented.cr#L33" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -216,14 +220,14 @@
     <div class="entry-detail">
       <div class="signature" id="string_array_or_integer_command%28request%20%3A%20Request%29-instance-method">
         
-        def <strong>string_array_or_integer_command</strong>(request : <a href="../Redis/Request.html">Request</a>)
+        def <strong>string_array_or_integer_command</strong>(request : <a href="../../Redis/Request.html">Request</a>)
       </div>
       
         <div class="doc"><p>Executes a Redis command and returns a Future.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/da2df7f4922f35a250040774900dccae513baf64/src/redis/future_oriented_command_execution.cr#L36" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/command_execution/future_oriented.cr#L38" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -231,14 +235,14 @@
     <div class="entry-detail">
       <div class="signature" id="string_array_or_string_command%28request%20%3A%20Request%29-instance-method">
         
-        def <strong>string_array_or_string_command</strong>(request : <a href="../Redis/Request.html">Request</a>)
+        def <strong>string_array_or_string_command</strong>(request : <a href="../../Redis/Request.html">Request</a>)
       </div>
       
         <div class="doc"><p>Executes a Redis command and returns a Future.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/da2df7f4922f35a250040774900dccae513baf64/src/redis/future_oriented_command_execution.cr#L41" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/command_execution/future_oriented.cr#L43" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -246,14 +250,14 @@
     <div class="entry-detail">
       <div class="signature" id="string_array_or_string_or_nil_command%28request%20%3A%20Request%29-instance-method">
         
-        def <strong>string_array_or_string_or_nil_command</strong>(request : <a href="../Redis/Request.html">Request</a>)
+        def <strong>string_array_or_string_or_nil_command</strong>(request : <a href="../../Redis/Request.html">Request</a>)
       </div>
       
         <div class="doc"><p>Executes a Redis command and returns a Future.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/da2df7f4922f35a250040774900dccae513baf64/src/redis/future_oriented_command_execution.cr#L46" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/command_execution/future_oriented.cr#L48" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -261,14 +265,14 @@
     <div class="entry-detail">
       <div class="signature" id="string_command%28request%20%3A%20Request%29-instance-method">
         
-        def <strong>string_command</strong>(request : <a href="../Redis/Request.html">Request</a>)
+        def <strong>string_command</strong>(request : <a href="../../Redis/Request.html">Request</a>)
       </div>
       
         <div class="doc"><p>Executes a Redis command and returns a Future.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/da2df7f4922f35a250040774900dccae513baf64/src/redis/future_oriented_command_execution.cr#L21" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/command_execution/future_oriented.cr#L23" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -276,14 +280,14 @@
     <div class="entry-detail">
       <div class="signature" id="string_or_nil_command%28request%20%3A%20Request%29-instance-method">
         
-        def <strong>string_or_nil_command</strong>(request : <a href="../Redis/Request.html">Request</a>)
+        def <strong>string_or_nil_command</strong>(request : <a href="../../Redis/Request.html">Request</a>)
       </div>
       
         <div class="doc"><p>Executes a Redis command and returns a Future.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/da2df7f4922f35a250040774900dccae513baf64/src/redis/future_oriented_command_execution.cr#L26" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/command_execution/future_oriented.cr#L28" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -291,14 +295,14 @@
     <div class="entry-detail">
       <div class="signature" id="void_command%28request%20%3A%20Request%29-instance-method">
         
-        def <strong>void_command</strong>(request : <a href="../Redis/Request.html">Request</a>)
+        def <strong>void_command</strong>(request : <a href="../../Redis/Request.html">Request</a>)
       </div>
       
         <div class="doc"><p>Executes a Redis command and returns a Future.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/da2df7f4922f35a250040774900dccae513baf64/src/redis/future_oriented_command_execution.cr#L56" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/command_execution/future_oriented.cr#L58" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
