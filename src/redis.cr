@@ -3,8 +3,28 @@ require "./redis/value_oriented_command_execution"
 
 # The main entry point for the Redis client.
 #
+#
+# Require the package:
+#
+# ```crystal
+#   require "redis"
+# ```
+#
+# Then instantiate this client class:
+#
+# ```crystal
+#   redis = Redis.new
+# ```
+#
+# Then you can call Redis commands on the `redis` object:
+#
+# ```crystal
+#   redis.set("foo", "bar")
+#   redis.get("foo")
+# ```
+#
 # See the mixin module <a href="Redis/Commands.html" target="main">Commands</a> for most
-# of the available Redis commands.
+# of the available Redis commands such as #incr, #rename, and so on.
 class Redis
   alias RedisValue = Nil | Int32 | Int64 | String | Array(RedisValue)
   alias Request = Array(RedisValue)
