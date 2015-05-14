@@ -88,6 +88,7 @@ class Redis
     # Returns or stores the elements contained in the list, set or sorted set at key.
     #
     # **Options**:
+    #
     # * by - pattern for sorting by external keys
     # * limit - Array of 2 strings [offset, count]
     # * get - pattern for retrieving external keys
@@ -259,7 +260,9 @@ class Redis
     # Count the number of set bits (population counting) in a string.
     # By default all the bytes contained in the string are examined.
     #
-    # **Options**: It is possible to specify the counting operation only in an interval passing the additional arguments start and end.
+    # **Options**:
+    #
+    # * from / to - It is possible to specify the counting operation only in an interval passing the additional arguments from and to.
     #
     # **Return value** Integer: The number of bits set to 1.
     def bitcount(key, from = nil, to = nil)
@@ -298,7 +301,9 @@ class Redis
 
     # Return the position of the first bit set to 1 or 0 in a string.
     #
-    # **Options**: By default, all the bytes contained in the string are examined. It is possible to look for bits only in a specified interval passing the additional arguments start and end (it is possible to just pass start, the operation will assume that the end is the last byte of the string.
+    # **Options**:
+    #
+    # * start / to - By default, all the bytes contained in the string are examined. It is possible to look for bits only in a specified interval passing the additional arguments start and to (it is possible to just pass start, the operation will assume that the to is the last byte of the string.
     #
     # **Return value**: Integer: The command returns the position of the first bit set to 1 or 0 according to the request.
     def bitpos(key, bit, start = nil, to = nil)
@@ -442,7 +447,9 @@ class Redis
 
     # Inserts value in the list stored at key either before or after the reference value pivot.
     #
-    # **Options**: where - either "BEFORE" or "AFTER"
+    # **Options**:
+    #
+    # * where - either "BEFORE" or "AFTER"
     #
     # **Return value**: Integer: the length of the list after the insert operation, or -1 when the value pivot was not found.
     def linsert(key, where, pivot, value)
@@ -552,6 +559,7 @@ class Redis
     # When called with just the key argument, return a random element from the set value stored at key.
     #
     # **Options**:
+    #
     # * count - Starting from Redis version 2.6, when called with the additional count argument, return an array of count distinct elements if count is positive. If called with a negative count the behavior changes and the command is allowed to return the same element multiple times.
     #
     # **Return value**:
@@ -646,6 +654,7 @@ class Redis
     # When source contains elements, this command behaves exactly like RPOPLPUSH.
     #
     # **Options**:
+    #
     # * timeout_in_seconds - interpreted as an integer value specifying the maximum number of seconds to block
     #
     # See RPOPLPUSH for more information.
@@ -701,32 +710,59 @@ class Redis
       integer_command(["HEXISTS", key.to_s, field.to_s])
     end
 
-    def hincrby(key, field, delta)
-      integer_command(["HINCRBY", key.to_s, field.to_s, delta.to_s])
+    # Increments the number stored at field in the hash stored at key by increment.
+    #
+    # **Return value**: Integer: The value at field after the increment operation.
+    def hincrby(key, field, increment)
+      integer_command(["HINCRBY", key.to_s, field.to_s, increment.to_s])
     end
 
-    def hincrbyfloat(key, field, delta)
-      string_command(["HINCRBYFLOAT", key.to_s, field.to_s, delta.to_s])
+    # Increment the specified field of an hash stored at key,
+    # and representing a floating point number, by the specified increment.
+    #
+    # **Return value**: String: The value at field after the increment operation.
+    def hincrbyfloat(key, field, increment)
+      string_command(["HINCRBYFLOAT", key.to_s, field.to_s, increment.to_s])
     end
 
+    # Returns all field names in the hash stored at key.
+    #
+    # **Return value**: Array(String): List of fields in the hash, or an empty list when key does not exist.
     def hkeys(key)
       string_array_command(["HKEYS", key.to_s])
     end
 
+    # Returns the number of fields contained in the hash stored at key.
+    #
+    # **Return value**: Integer: Number of fields in the hash, or 0 when key does not exist.
     def hlen(key)
       integer_command(["HLEN", key.to_s])
     end
 
+    # Returns the values associated with the specified fields in the hash stored at key.
+    #
+    # **Return value**: Array(String): list of values associated with the given fields, in the same order as they are requested.
     def hmget(key, *fields)
       string_array_command(concat(["HMGET", key.to_s], fields))
     end
 
+    # Sets the specified fields to their respective values in the hash stored at key.
+    #
+    # **Return value**: "OK"
     def hmset(key, hash)
       q = ["HMSET", key.to_s] of RedisValue
       hash.each { |field, value| q << field.to_s << value }
       string_command(q)
     end
 
+    # The SCAN command and the closely related commands SSCAN, HSCAN and ZSCAN are used in order to incrementally iterate over a collection of elements.
+    #
+    # **Options**:
+    #
+    # * match - It is possible to only iterate elements matching a given glob-style pattern, similarly to the behavior of the KEYS command that takes a pattern as only argument.
+    # * count - While SCAN does not provide guarantees about the number of elements returned at every iteration, it is possible to empirically adjust the behavior of SCAN using the COUNT option.
+    #
+    # **Return value**: Array(String): Two elements, a field and a value, for every returned element of the Hash.
     def hscan(key, cursor, match = nil, count = nil)
       q = ["HSCAN", key.to_s, cursor.to_s]
       if match
