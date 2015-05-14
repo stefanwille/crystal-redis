@@ -1172,35 +1172,47 @@ class Redis
       integer_command(["PEXPIREAT", key.to_s, unix_date_in_millis.to_s])
     end
 
+    # Remove the existing timeout on key, turning the key from volatile
+    # (a key with an expire set) to persistent (a key that will never expire
+    # as no timeout is associated).
     #
-    #
-    # **Return value**:
+    # **Return value**: Integer, specifically:
+    # * 1 if the timeout was removed.
+    # * 0 if key does not exist or does not have an associated timeout.
     def persist(key)
       integer_command(["PERSIST", key.to_s])
     end
 
+    # Returns the remaining time to live of a key that has a timeout.
     #
-    #
-    # **Return value**:
+    # **Return value**: Integer: TTL in seconds, or a negative value in order to
+    # signal an error (see the description above).
     def ttl(key)
       integer_command(["TTL", key.to_s])
     end
 
-    #
+    # Like TTL this command returns the remaining time to live of a key that has
+    # an expire set, with the sole difference that TTL returns the amount of
+    # remaining time in seconds while PTTL returns it in milliseconds.
     #
     # **Return value**:
     def pttl(key)
       integer_command(["PTTL", key.to_s])
     end
 
+    # Returns the string representation of the type of the value stored at key.
     #
-    #
-    # **Return value**:
+    # **Return value**: String: type of key, or none when key does not exist.
     def type(key)
       string_command(["TYPE", key.to_s])
     end
 
     # Subscribes to channels and enters a subscription loop, waiting for events.
+    #
+    # The method yields to the given block and passes a Subscription object, on
+    # which you can set your callbacks for the event subscription.
+    #
+    # The subscription loop will end once you unsubscribe.
     def subscribe(*channels, &callback_setup_block : Subscription ->)
       # Can be called only outside a subscription block
       if already_in_subscription_loop?
@@ -1227,6 +1239,11 @@ class Redis
     end
 
     # Subscribes to channel patterns and enters a subscription loop, waiting for events.
+    #
+    # The method yields to the given block and passes a Subscription object, on
+    # which you can set your callbacks for the event subscription.
+    #
+    # The subscription loop will end once you unsubscribe.
     def psubscribe(*channel_patterns, &callback_setup_block : Subscription ->)
       # Can be called only outside a subscription block
       if already_in_subscription_loop?
@@ -1256,37 +1273,33 @@ class Redis
       @strategy.is_a? Redis::Strategy::SubscriptionLoop
     end
 
-    #
-    #
-    # **Return value**:
+    # Unsubscribes the client from the given channels, or from all of them if none is given.
     def unsubscribe(*channels)
       void_command(concat(["UNSUBSCRIBE"], channels))
     end
 
-    #
-    #
-    # **Return value**:
+    # Unsubscribes the client from the given patterns, or from all of them if none is given.
     def punsubscribe(*channel_patterns)
       void_command(concat(["PUNSUBSCRIBE"], channel_patterns))
     end
 
+    # Posts a message to the given channel.
     #
-    #
-    # **Return value**:
+    # **Return value**: Integer: the number of clients that received the message.
     def publish(channel, message)
       integer_command(["PUBLISH", channel.to_s, message.to_s])
     end
 
+    # Marks the given keys to be watched for conditional execution of a transaction.
     #
-    #
-    # **Return value**:
+    # **Return value**: "OK"
     def watch(*keys)
       string_command(concat(["WATCH"], keys))
     end
 
+    # Flushes all the previously watched keys for a transaction.
     #
-    #
-    # **Return value**:
+    # **Return value**: "OK"
     def unwatch
       string_command(["UNWATCH"])
     end
