@@ -28,7 +28,9 @@ require "./redis/command_execution/value_oriented"
 # See the mixin module <a href="Redis/Commands.html" target="main">Commands</a> for most
 # of the available Redis commands such as #incr, #rename, and so on.
 class Redis
+   # A value from the Redis type system.
   alias RedisValue = Nil | Int32 | Int64 | String | Array(RedisValue)
+  # A Redis request.
   alias Request = Array(RedisValue)
 
   # Opens a Redis connection

@@ -1,4 +1,5 @@
 class Redis
+  # This module contains mixins for the execution of Redis commands.
   module CommandExecution
     # Command execution methods that don't return Redis values but Futures.
     #
