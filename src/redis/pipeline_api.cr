@@ -1,3 +1,5 @@
+require "./command_execution/future_oriented"
+
 # API for sending commands in pipelined mode.
 #
 # Used in Redis#pipelined.
@@ -7,7 +9,7 @@ class Redis::PipelineApi
   end
 
   include Redis::Commands
-  include Redis::FutureOrientedCommandExecution
+  include Redis::CommandExecution::FutureOriented
 
   def command(request : Request)
     @strategy.command(request) as Redis::Future

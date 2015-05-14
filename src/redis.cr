@@ -1,5 +1,5 @@
 require "./redis/commands"
-require "./redis/value_oriented_command_execution"
+require "./redis/command_execution/value_oriented"
 
 # The class is the main entry point for the Redis client.
 #
@@ -78,8 +78,8 @@ class Redis
 
   # The methods used in Redis::Command are implemented in the following module.
   # For Future based responses, there is an alternative module
-  # calls Redis::FutureOrientedCommandExecution.
-  include Redis::ValueOrientedCommandExecution
+  # calls Redis::CommandExecution::FutureOriented
+  include Redis::CommandExecution::ValueOriented
 
   # Sends Redis commands in pipeline mode.
   #

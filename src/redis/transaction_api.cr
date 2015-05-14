@@ -1,3 +1,5 @@
+require "./command_execution/future_oriented"
+
 # API for sending commands in a transaction.
 #
 # Used in Redis#multi.
@@ -8,7 +10,7 @@ class Redis::TransactionApi
   end
 
   include Redis::Commands
-  include Redis::FutureOrientedCommandExecution
+  include Redis::CommandExecution::FutureOriented
 
   # Aborts the current transaction.
   #
