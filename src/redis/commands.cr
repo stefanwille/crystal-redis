@@ -82,7 +82,7 @@ class Redis
 
     # Removes the specified keys.
     #
-    # **Return value**: Integer: The number of keys that were removed.
+    # **Return value**: Integer, the number of keys that were removed.
     def del(*keys)
       integer_command(concat(["DEL"], keys))
     end
@@ -98,7 +98,7 @@ class Redis
     # * alpha - true to sort lexicographically
     # * store - key of destination list to store the result in
     #
-    # **Return value**: Array(String): list of sorted elements.
+    # **Return value**: Array(String), the list of sorted elements.
     def sort(key, by = nil, limit = nil, get = nil : Array(RedisValue)?, order = "ASC", alpha = false, store = nil)
       q = ["SORT", key.to_s]
 
@@ -139,7 +139,7 @@ class Redis
 
     # Returns the values of all specified keys.
     #
-    # **Return value**: Array(String): List of values at the specified keys.
+    # **Return value**: Array(String), the list of values at the specified keys.
     # For every key that does not hold a string value or does not exist, nil is returned.
     def mget(*keys)
       string_array_command(concat(["MGET"], keys))
@@ -147,7 +147,7 @@ class Redis
 
     # Sets the given keys to their respective values as defined in the hash.
     #
-    # **Return value**: Always "OK"
+    # **Return value**: "OK"
     def mset(hash)
       q = ["MSET"] of RedisValue
       hash.each { |key, value| q << key.to_s << value.to_s }
@@ -156,28 +156,28 @@ class Redis
 
     # Atomically sets key to value and returns the old value stored at key.
     #
-    # **Return value**: The old value stored at key, or nil when key did not exist.
+    # **Return value**: String, the old value stored at key, or nil when key did not exist.
     def getset(key, value)
       string_or_nil_command(["GETSET", key.to_s, value])
     end
 
     # Set key to hold the string value and set key to timeout after a given number of seconds.
     #
-    # **Return value**: Always "OK"
+    # **Return value**: "OK"
     def setex(key, value, expire_in_seconds)
       string_command(["SETEX", key.to_s, expire_in_seconds.to_s, value.to_s])
     end
 
     # PSETEX works exactly like SETEX with the sole difference that the expire time is specified in milliseconds instead of seconds.
     #
-    # **Return value**: Always "OK"
+    # **Return value**: "OK"
     def psetex(key, value, expire_in_milis)
       string_command(["PSETEX", key.to_s, expire_in_milis.to_s, value.to_s])
     end
 
     # Set key to hold string value if key does not exist.
     #
-    # **Return value**: Integer reply, specifically:
+    # **Return value**: Integer, specifically:
     # * 1 if the key was set
     # * 0 if the key was not set
     def setnx(key, value)
@@ -187,7 +187,7 @@ class Redis
     # Sets the given keys to their respective values as defined in the hash.
     # MSETNX will not perform any operation at all even if just a single key already exists.
     #
-    # **Return value**: Integer reply, specifically:
+    # **Return value**: Integer, specifically:
     # * 1 if the all the keys were set.
     # * 0 if no key was set (at least one key already existed).
     def msetnx(hash)
@@ -205,28 +205,28 @@ class Redis
 
     # Decrements the number stored at key by one.
     #
-    # **Return value**: Integer: the value of key after the decrement
+    # **Return value**: Integer, the value of key after the decrement
     def decr(key)
       integer_command(["DECR", key.to_s])
     end
 
     # Increments the number stored at key by increment.
     #
-    # **Return value**: Integer: the value of key after the increment
+    # **Return value**: Integer, the value of key after the increment
     def incrby(key, increment)
       integer_command(["INCRBY", key.to_s, increment.to_s])
     end
 
     # Increment the string representing a floating point number stored at key by the specified increment.
     #
-    # **Return value**: Integer: the value of key after the increment
+    # **Return value**: Integer, the value of key after the increment
     def incrbyfloat(key, increment)
       string_command(["INCRBYFLOAT", key.to_s, increment.to_s])
     end
 
     # Decrements the number stored at key by decrement.
     #
-    # **Return value**: Integer: the value of key after the decrement
+    # **Return value**: Integer, the value of key after the decrement
     def decrby(key, decrement)
       integer_command(["DECRBY", key.to_s, decrement.to_s])
     end
@@ -234,14 +234,14 @@ class Redis
     # If key already exists and is a string, this command appends the value at the end of the string.
     # If key does not exist it is created and set as an empty string, so APPEND will be similar to SET in this special case.
     #
-    # **Return value**: Integer: the length of the string after the append operation.
+    # **Return value**: Integer, the length of the string after the append operation.
     def append(key, value)
       integer_command(["APPEND", key.to_s, value.to_s])
     end
 
     # Returns the length of the string value stored at key.
     #
-    # **Return value**: Integer: the length of the string at key, or 0 when key does not exist.
+    # **Return value**: Integer, the length of the string at key, or 0 when key does not exist.
     def strlen(key)
       integer_command(["STRLEN", key.to_s])
     end
@@ -254,7 +254,7 @@ class Redis
 
     # Overwrites part of the string stored at key, starting at the specified offset, for the entire length of value.
     #
-    # **Return value**: Integer: the length of the string after it was modified by the command.
+    # **Return value**: Integer, the length of the string after it was modified by the command.
     def setrange(key, start_index, value)
       integer_command(["SETRANGE", key.to_s, start_index.to_s, value.to_s])
     end
@@ -266,7 +266,7 @@ class Redis
     #
     # * from / to - It is possible to specify the counting operation only in an interval passing the additional arguments from and to.
     #
-    # **Return value** Integer: The number of bits set to 1.
+    # **Return value** Integer, the number of bits set to 1.
     def bitcount(key, from = nil, to = nil)
       q = ["BITCOUNT", key.to_s]
       if from
@@ -282,14 +282,14 @@ class Redis
 
     # Perform a bitwise operation between multiple keys (containing string values) and store the result in the destination key.
     #
-    # **Return value**: Integer: The size of the string stored in the destination key, that is equal to the size of the longest input string.
+    # **Return value**: Integer, the size of the string stored in the destination key, that is equal to the size of the longest input string.
     def bitop(operation, key, *keys)
       integer_command(concat(["BITOP", operation.to_s, key.to_s], keys))
     end
 
     # Returns the bit value at offset in the string value stored at key.
     #
-    # **Return value**: Integer: the bit value stored at offset.
+    # **Return value**: Integer, the bit value stored at offset.
     def getbit(key, index)
       integer_command(["GETBIT", key.to_s, index.to_s])
     end
@@ -307,7 +307,7 @@ class Redis
     #
     # * start / to - By default, all the bytes contained in the string are examined. It is possible to look for bits only in a specified interval passing the additional arguments start and to (it is possible to just pass start, the operation will assume that the to is the last byte of the string.
     #
-    # **Return value**: Integer: The command returns the position of the first bit set to 1 or 0 according to the request.
+    # **Return value**: Integer, the command returns the position of the first bit set to 1 or 0 according to the request.
     def bitpos(key, bit, start = nil, to = nil)
       q = ["BITPOS", key.to_s, bit.to_s] of RedisValue
       if start
@@ -321,7 +321,7 @@ class Redis
 
     # Serialize the value stored at key in a Redis-specific format and return it to the user.
     #
-    # **Return value**: String:the serialized value.
+    # **Return value**: String, the serialized value.
     def dump(key)
       string_command(["DUMP", key.to_s])
     end
@@ -344,7 +344,7 @@ class Redis
     # * match - It is possible to only iterate elements matching a given glob-style pattern, similarly to the behavior of the KEYS command that takes a pattern as only argument.
     # * count - While SCAN does not provide guarantees about the number of elements returned at every iteration, it is possible to empirically adjust the behavior of SCAN using the COUNT option.
     #
-    # **Return value**: Array of String: A list of keys.
+    # **Return value**: Array of String, a list of keys.
     def scan(cursor, match = nil, count = nil)
       q = ["SCAN", cursor.to_s]
       if match
@@ -372,56 +372,56 @@ class Redis
 
     # Returns all keys matching pattern.
     #
-    # **Return value**: Array of keys matching pattern.
+    # **Return value**: Array(String), array of keys matching pattern.
     def keys(pattern)
       string_array_command(["KEYS", pattern.to_s])
     end
 
     # Insert all the specified values at the tail of the list stored at key.
     #
-    # **Return value**: Integer: the length of the list after the push operation.
+    # **Return value**: Integer, the length of the list after the push operation.
     def rpush(key, *values)
       integer_command(concat(["RPUSH", key.to_s], values))
     end
 
     # Insert all the specified values at the head of the list stored at key.
     #
-    # **Return value**: Integer: the length of the list after the push operation.
+    # **Return value**: Integer, the length of the list after the push operation.
     def lpush(key, *values)
       integer_command(concat(["LPUSH", key.to_s], values))
     end
 
     # Inserts value at the head of the list stored at key, only if key already exists and holds a list.
     #
-    # **Return value**: Integer: the length of the list after the push operation.
+    # **Return value**: Integer, the length of the list after the push operation.
     def lpushx(key, value)
       integer_command(["LPUSHX", key.to_s, value.to_s])
     end
 
     # Inserts value at the tail of the list stored at key, only if key already exists and holds a list.
     #
-    # **Return value**: Integer: the length of the list after the push operation.
+    # **Return value**: Integer, the length of the list after the push operation.
     def rpushx(key, value)
       integer_command(["RPUSHX", key.to_s, value.to_s])
     end
 
     # Removes the first count occurrences of elements equal to value from the list stored at key.
     #
-    # **Return value**: Integer: the number of removed elements.
+    # **Return value**: Integer, the number of removed elements.
     def lrem(key, count, value)
       integer_command(["LREM", key.to_s, count.to_s, value.to_s])
     end
 
     # Returns the length of the list stored at key.
     #
-    # **Return value**: Integer: the length of the list at key.
+    # **Return value**: Integer, the length of the list at key.
     def llen(key)
       integer_command(["LLEN", key.to_s])
     end
 
     # Returns the element at index index in the list stored at key.
     #
-    # **Return value**: String: the requested element, or nil when index is out of range.
+    # **Return value**: String, the requested element, or nil when index is out of range.
     def lindex(key, index)
       string_or_nil_command(["LINDEX", key.to_s, index.to_s])
     end
@@ -435,7 +435,7 @@ class Redis
 
     # Removes and returns the first element of the list stored at key.
     #
-    # **Return value**: the value of the first element, or nil when key does not exist.
+    # **Return value**: String, the value of the first element, or nil when key does not exist.
     def lpop(key)
       string_or_nil_command(["LPOP", key.to_s])
     end
@@ -453,14 +453,14 @@ class Redis
     #
     # * where - either "BEFORE" or "AFTER"
     #
-    # **Return value**: Integer: the length of the list after the insert operation, or -1 when the value pivot was not found.
+    # **Return value**: Integer, the length of the list after the insert operation, or -1 when the value pivot was not found.
     def linsert(key, where, pivot, value)
       integer_command(["LINSERT", key.to_s, where.to_s, pivot.to_s, value.to_s])
     end
 
     # Returns the specified elements of the list stored at key.
     #
-    # **Return value**: list of elements in the specified range.
+    # **Return value**: Array(String), the list of elements in the specified range.
     def lrange(key, from, to)
       string_array_command(["LRANGE", key.to_s, from.to_s, to.to_s])
     end
@@ -474,14 +474,14 @@ class Redis
 
     # Add the specified members to the set stored at key.
     #
-    # **Return value**: Integer: the number of elements that were added to the set, not including all the elements already present into the set.
+    # **Return value**: Integer, the number of elements that were added to the set, not including all the elements already present into the set.
     def sadd(key, *values)
       integer_command(concat(["SADD", key.to_s], values))
     end
 
     # Returns all the members of the set value stored at key.
     #
-    # **Return value**: all elements of the set.
+    # **Return value**: Array(String), all elements of the set.
     def smembers(key)
       string_array_command(["SMEMBERS", key.to_s])
     end
@@ -497,7 +497,7 @@ class Redis
 
     # Remove the specified members from the set stored at key.
     #
-    # **Return value**: Integer: The number of members that were removed from the set, not including non existing members.
+    # **Return value**: Integer, The number of members that were removed from the set, not including non existing members.
     def srem(key, *values)
       integer_command(concat(["SREM", key.to_s], values))
     end
@@ -509,28 +509,28 @@ class Redis
 
     # Returns the members of the set resulting from the difference between the first set and all the successive sets.
     #
-    # **Return value**: List with members of the resulting set.
+    # **Return value**: Array(String), a list with members of the resulting set.
     def sdiff(*keys)
       string_array_command(concat(["SDIFF"], keys))
     end
 
     # This command is equal to SDIFF, but instead of returning the resulting set, it is stored in destination.
     #
-    # **Return value**: Integer: The number of elements in the resulting set.
+    # **Return value**: Integer, the number of elements in the resulting set.
     def sdiffstore(destination, *keys)
       integer_command(concat(["SDIFFSTORE", destination.to_s], keys))
     end
 
     # Returns the members of the set resulting from the intersection of all the given sets.
     #
-    # **Return value**: Array with members of the resulting set.
+    # **Return value**: Array(String), an array with members of the resulting set.
     def sinter(*keys)
       string_array_command(concat(["SINTER"], keys))
     end
 
     # This command is equal to SINTER, but instead of returning the resulting set, it is stored in destination.
     #
-    # **Return value**: Integer: The number of elements in the resulting set.
+    # **Return value**: Integer, the number of elements in the resulting set.
     def sinterstore(destination_key, *keys)
       integer_command(concat(["SINTERSTORE", destination_key.to_s], keys))
     end
@@ -565,8 +565,8 @@ class Redis
     # * count - Starting from Redis version 2.6, when called with the additional count argument, return an array of count distinct elements if count is positive. If called with a negative count the behavior changes and the command is allowed to return the same element multiple times.
     #
     # **Return value**:
-    # * String reply: without the additional count argument the command returns a Bulk Reply with the randomly selected element, or nil when key does not exist.
-    # * Array reply: when the additional count argument is passed the command returns an array of elements, or an empty array when key does not exist.
+    # * String: without the additional count argument the command returns a Bulk Reply with the randomly selected element, or nil when key does not exist.
+    # * Array: when the additional count argument is passed the command returns an array of elements, or an empty array when key does not exist.
     def srandmember(key, count = nil)
       q = ["SRANDMEMBER", key.to_s]
       if count
@@ -583,7 +583,7 @@ class Redis
     # * match - It is possible to only iterate elements matching a given glob-style pattern, similarly to the behavior of the KEYS command that takes a pattern as only argument.
     # * count - While SCAN does not provide guarantees about the number of elements returned at every iteration, it is possible to empirically adjust the behavior of SCAN using the COUNT option.
     #
-    # **Return value**: Array of String: A list of Set members.
+    # **Return value**: Array(String), a list of Set members.
     def sscan(key, cursor, match = nil, count = nil)
           q = ["SSCAN", key.to_s, cursor.to_s]
       if match
@@ -597,14 +597,14 @@ class Redis
 
     # Returns the members of the set resulting from the union of all the given sets.
     #
-    # **Return value**: Array(String) with members of the resulting set.
+    # **Return value**: Array(String), with members of the resulting set.
     def sunion(*keys)
       string_array_command(concat(["SUNION"], keys))
     end
 
     # This command is equal to SUNION, but instead of returning the resulting set, it is stored in destination.
     #
-    # **Return value**: Integer: The number of elements in the resulting set.
+    # **Return value**: Integer, the number of elements in the resulting set.
     def sunionstore(destination, *keys)
       integer_command(concat(["SUNIONSTORE", destination.to_s], keys))
     end
@@ -617,7 +617,7 @@ class Redis
     #
     # The timeout_in_seconds argument is interpreted as an integer value specifying the maximum number of seconds to block
     #
-    # **Return value**: Array reply, specifically:
+    # **Return value**: Array, specifically:
     # * An array of nils when no element could be popped and the timeout expired.
     # * An array of two-element arrays with the first element being the name of the key where an element was popped and the second element being the value of the popped element.
     def blpop(keys, timeout_in_seconds)
@@ -635,7 +635,7 @@ class Redis
     # The timeout_in_seconds argument is interpreted as an integer value specifying the maximum
     # number of seconds to block.
     #
-    # **Return value**: Array reply, specifically:
+    # **Return value**: Array, specifically:
     # * An array of nils when no element could be popped and the timeout expired.
     # * An array of two-element arrays with the first element being the name of the key where an element was popped and the second element being the value of the popped element.
     def brpop(keys, timeout_in_seconds)
@@ -647,7 +647,7 @@ class Redis
     # Atomically returns and removes the last element (tail) of the list stored at source,
     # and pushes the element at the first element (head) of the list stored at destination.
     #
-    # **Return value**: String: The element being popped and pushed.
+    # **Return value**: String, the element being popped and pushed.
     def rpoplpush(source, destination)
       string_or_nil_command(["RPOPLPUSH", source.to_s, destination.to_s])
     end
@@ -661,7 +661,7 @@ class Redis
     #
     # See RPOPLPUSH for more information.
     #
-    # **Return value**: String: The element being popped from source and pushed to destination.
+    # **Return value**: String, the element being popped from source and pushed to destination.
     # If timeout is reached, nil is returned.
     def brpoplpush(source, destination, timeout_in_seconds = nil)
       q = ["BRPOPLPUSH", source.to_s, destination.to_s]
@@ -682,7 +682,7 @@ class Redis
 
     # Returns the value associated with field in the hash stored at key.
     #
-    # **Return value**: The value associated with field, or nil
+    # **Return value**: String, the value associated with field, or nil
     def hget(key, field)
       string_or_nil_command(["HGET", key.to_s, field.to_s])
     end
@@ -697,7 +697,7 @@ class Redis
 
     # Removes the specified fields from the hash stored at key.
     #
-    # **Return value**: Integer: the number of fields that were removed from the hash,
+    # **Return value**: Integer, the number of fields that were removed from the hash,
     # not including specified but non existing fields.
     def hdel(key, field)
       integer_command(["HDEL", key.to_s, field.to_s])
@@ -714,7 +714,7 @@ class Redis
 
     # Increments the number stored at field in the hash stored at key by increment.
     #
-    # **Return value**: Integer: The value at field after the increment operation.
+    # **Return value**: Integer, the value at field after the increment operation.
     def hincrby(key, field, increment)
       integer_command(["HINCRBY", key.to_s, field.to_s, increment.to_s])
     end
@@ -722,28 +722,28 @@ class Redis
     # Increment the specified field of an hash stored at key,
     # and representing a floating point number, by the specified increment.
     #
-    # **Return value**: String: The value at field after the increment operation.
+    # **Return value**: String, the value at field after the increment operation.
     def hincrbyfloat(key, field, increment)
       string_command(["HINCRBYFLOAT", key.to_s, field.to_s, increment.to_s])
     end
 
     # Returns all field names in the hash stored at key.
     #
-    # **Return value**: Array(String): List of fields in the hash, or an empty list when key does not exist.
+    # **Return value**: Array(String) - list of fields in the hash, or an empty list when key does not exist.
     def hkeys(key)
       string_array_command(["HKEYS", key.to_s])
     end
 
     # Returns the number of fields contained in the hash stored at key.
     #
-    # **Return value**: Integer: Number of fields in the hash, or 0 when key does not exist.
+    # **Return value**: Integer, the number of fields in the hash, or 0 when key does not exist.
     def hlen(key)
       integer_command(["HLEN", key.to_s])
     end
 
     # Returns the values associated with the specified fields in the hash stored at key.
     #
-    # **Return value**: Array(String): list of values associated with the given fields, in the same order as they are requested.
+    # **Return value**: Array(String), the list of values associated with the given fields, in the same order as they are requested.
     def hmget(key, *fields)
       string_array_command(concat(["HMGET", key.to_s], fields))
     end
@@ -764,7 +764,7 @@ class Redis
     # * match - It is possible to only iterate elements matching a given glob-style pattern, similarly to the behavior of the KEYS command that takes a pattern as only argument.
     # * count - While SCAN does not provide guarantees about the number of elements returned at every iteration, it is possible to empirically adjust the behavior of SCAN using the COUNT option.
     #
-    # **Return value**: Array(String): Two elements, a field and a value, for every returned element of the Hash.
+    # **Return value**: Array(String), two elements, a field and a value, for every returned element of the Hash.
     def hscan(key, cursor, match = nil, count = nil)
       q = ["HSCAN", key.to_s, cursor.to_s]
       if match
@@ -787,14 +787,14 @@ class Redis
 
     # Returns all values in the hash stored at key.
     #
-    # **Return value**: Array(String): List of values in the hash, or an empty list when key does not exist.
+    # **Return value**: Array(String), the list of values in the hash, or an empty list when key does not exist.
     def hvals(key)
       string_array_command(["HVALS", key.to_s])
     end
 
     # Adds all the specified members with the specified scores to the sorted set stored at key.
     #
-    # **Return value**: Integer: The number of elements added to the sorted sets, not including elements already existing for which the score was updated.
+    # **Return value**: Integer, the number of elements added to the sorted sets, not including elements already existing for which the score was updated.
     def zadd(key, *scores_and_members)
       if scores_and_members.length % 2 > 0
         raise Error.new("zadd expects an array of scores mapped to members")
@@ -809,7 +809,7 @@ class Redis
     #
     # * with_scores - true to return the scores of the elements together with the elements.
     #
-    # **Return value**: Array(String): List of elements in the specified range (optionally with their scores, in case the with_scores option is true).
+    # **Return value**: Array(String), list of elements in the specified range (optionally with their scores, in case the with_scores option is true).
     def zrange(key, start, stop, with_scores = false)
       q = ["ZRANGE", key.to_s, start.to_s, stop.to_s]
       if with_scores
@@ -820,42 +820,42 @@ class Redis
 
     # Returns the sorted set cardinality (number of elements) of the sorted set stored at key.
     #
-    # **Return value**: Integer: the cardinality (number of elements) of the sorted set, or 0 if key does not exist.
+    # **Return value**: Integer, the cardinality (number of elements) of the sorted set, or 0 if key does not exist.
     def zcard(key)
       integer_command(["ZCARD", key.to_s])
     end
 
     # Returns the score of member in the sorted set at key.
     #
-    # **Return value**: String: The score of member (a double precision floating point number).
+    # **Return value**: String, the score of member (a double precision floating point number).
     def zscore(key, member)
       string_or_nil_command(["ZSCORE", key.to_s, member.to_s])
     end
 
     # Returns the number of elements in the sorted set at key with a score between min and max.
     #
-    # **Return value**: The number of elements in the specified score range.
+    # **Return value**: Integer, the number of elements in the specified score range.
     def zcount(key, min, max)
       integer_command(["ZCOUNT", key.to_s, min.to_s, max.to_s])
     end
 
     # When all the elements in a sorted set are inserted with the same score, in order to force lexicographical ordering, this command returns the number of elements in the sorted set at key with a value between min and max.
     #
-    # **Return value**: Integer: The number of elements in the specified score range.
+    # **Return value**: Integer, the number of elements in the specified score range.
     def zlexcount(key, min, max)
       integer_command(["ZLEXCOUNT", key.to_s, min.to_s, max.to_s])
     end
 
     # Increments the score of member in the sorted set stored at key by increment.
     #
-    # **Return value**: String: The new score of member (a double precision floating point number represented as String).
+    # **Return value**: String, the new score of member (a double precision floating point number represented as String).
     def zincrby(key, increment, member)
       string_command(["ZINCRBY", key.to_s, increment.to_s, member.to_s])
     end
 
     # Removes the specified members from the sorted set stored at key.
     #
-    # **Return value**: Integer: The number of members removed from the sorted set, not including non existing members.
+    # **Return value**: Integer, the number of members removed from the sorted set, not including non existing members.
     def zrem(key, member)
       integer_command(["ZREM", key.to_s, member.to_s])
     end
@@ -887,7 +887,7 @@ class Redis
     # * weights - nil or Array(String): Using the WEIGHTS option, it is possible to specify a multiplication factor for each input sorted set.
     # * aggregate - With the AGGREGATE option, it is possible to specify how the results of the union are aggregated.
     #
-    # **Return value**: Integer: The number of elements in the resulting sorted set at destination.
+    # **Return value**: Integer, the number of elements in the resulting sorted set at destination.
     def zinterstore(destination, keys : Array, weights = nil, aggregate = nil)
       numkeys = keys.length
       q = concat(["ZINTERSTORE", destination.to_s, numkeys.to_s], keys)
@@ -908,7 +908,7 @@ class Redis
     # * weights - nil or Array(String): Using the WEIGHTS option, it is possible to specify a multiplication factor for each input sorted set.
     # * aggregate - With the AGGREGATE option, it is possible to specify how the results of the union are aggregated.
     #
-    # **Return value**: Integer: The number of elements in the resulting sorted set at destination.
+    # **Return value**: Integer, the number of elements in the resulting sorted set at destination.
     def zunionstore(destination, keys : Array, weights = nil, aggregate = nil)
       numkeys = keys.length
       q = concat(["ZUNIONSTORE", destination.to_s, numkeys.to_s], keys)
@@ -947,7 +947,7 @@ class Redis
     # * limit - an array of [offset, count]. Skip offset members, return a maximum of count members.
     # * with_scores - true to return the scores of the elements together with the elements.
     #
-    # **Return value**: List of elements in the specified score range (optionally with their scores).
+    # **Return value**: Array(String), the list of elements in the specified score range (optionally with their scores).
     def zrangebyscore(key, min, max, limit = nil, with_scores = false)
       q = ["ZRANGEBYSCORE", key.to_s, min.to_s, max.to_s]
       if limit
@@ -965,7 +965,7 @@ class Redis
     #
     # * with_scores - true to return the scores of the elements together with the elements.
     #
-    # **Return value**: Array(String): List of elements in the specified range (optionally with their scores, in case the with_scores option is true).
+    # **Return value**: Array(String), the list of elements in the specified range (optionally with their scores, in case the with_scores option is true).
     def zrevrange(key, start, stop, with_scores = false)
       q = ["ZREVRANGE", key.to_s, start.to_s, stop.to_s]
       if with_scores
@@ -1000,7 +1000,7 @@ class Redis
     # * limit - an array of [offset, count]. Skip offset members, return a maximum of count members.
     # * with_scores - true to return the scores of the elements together with the elements.
     #
-    # **Return value**: List of elements in the specified score range (optionally with their scores).
+    # **Return value**: Array(String), the list of elements in the specified score range (optionally with their scores).
     def zrevrangebyscore(key, min, max, limit = nil, with_scores = false)
       q = ["ZREVRANGEBYSCORE", key.to_s, min.to_s, max.to_s]
       if limit
@@ -1017,14 +1017,14 @@ class Redis
     # elements in the sorted set stored at key between the lexicographical range
     # specified by min and max.
     #
-    # **Return value**: Integer: The number of elements removed.
+    # **Return value**: Integer, the number of elements removed.
     def zremrangebylex(key, min, max)
       integer_command(["ZREMRANGEBYLEX", key.to_s, min.to_s, max.to_s])
     end
 
     # Removes all elements in the sorted set stored at key with rank between start and stop.
     #
-    # **Return value**: Integer: the number of elements removed.
+    # **Return value**: Integer, the number of elements removed.
     def zremrangebyrank(key, start, stop)
       integer_command(["ZREMRANGEBYRANK", key.to_s, start.to_s, stop.to_s])
     end
@@ -1032,7 +1032,7 @@ class Redis
     # Removes all elements in the sorted set stored at key with a score
     # between min and max (inclusive).
     #
-    # **Return value**: Integer: the number of elements removed.
+    # **Return value**: Integer, the number of elements removed.
     def zremrangebyscore(key, start, stop)
       integer_command(["ZREMRANGEBYSCORE", key.to_s, start.to_s, stop.to_s])
     end
@@ -1044,7 +1044,7 @@ class Redis
     # * match - It is possible to only iterate elements matching a given glob-style pattern, similarly to the behavior of the KEYS command that takes a pattern as only argument.
     # * count - While SCAN does not provide guarantees about the number of elements returned at every iteration, it is possible to empirically adjust the behavior of SCAN using the COUNT option.
     #
-    # **Return value**: Array(String): Array of elements contains two elements, a member and its associated score, for every returned element of the sorted set.
+    # **Return value**: Array(String), contains two elements, a member and its associated score, for every returned element of the sorted set.
     def zscan(key, cursor, match = nil, count = nil)
           q = ["ZSCAN", key.to_s, cursor.to_s]
       if match
@@ -1068,7 +1068,7 @@ class Redis
     # approximate the cardinality of the union of the observed Sets of the
     # source HyperLogLog structures.
     #
-    # **Return value**: The command just returns "OK".
+    # **Return value**: "OK".
     def pfmerge(*keys)
       string_command(concat(["PFMERGE"], keys))
     end
@@ -1077,7 +1077,7 @@ class Redis
     # by the HyperLogLog data structure stored at the specified variable,
     # which is 0 if the variable does not exist.
     #
-    # **Return value**: Integer: The approximated number of unique elements
+    # **Return value**: Integer, the approximated number of unique elements
     # observed via PFADD.
     def pfcount(*keys)
       integer_command(concat(["PFCOUNT"], keys))
@@ -1086,7 +1086,7 @@ class Redis
     # EVAL and EVALSHA are used to evaluate scripts using the Lua interpreter
     # built into Redis starting from version 2.6.0.
     #
-    # **Return value**: Array(String): Depends on the executed script
+    # **Return value**: Array(String), depends on the executed script
     def eval(script : String, keys = [] of RedisValue, args = [] of RedisValue)
       string_array_command(concat(["EVAL", script, keys.length.to_s], keys, args))
     end
@@ -1094,14 +1094,14 @@ class Redis
     # EVAL and EVALSHA are used to evaluate scripts using the Lua interpreter
     # built into Redis starting from version 2.6.0.
     #
-    # **Return value**: Array(String): Depends on the executed script
+    # **Return value**: Array(String), depends on the executed script
     def evalsha(sha1, keys = [] of RedisValue, args = [] of RedisValue)
       string_array_command(concat(["EVALSHA", sha1.to_s, keys.length.to_s], keys, args))
     end
 
     # Load a script into the scripts cache, without executing it.
     #
-    # **Return value**: String: This command returns the SHA1 digest of the script
+    # **Return value**: String, the SHA1 digest of the script
     # added into the script cache.
     def script_load(script : String)
       string_command(["SCRIPT", "LOAD", script])
@@ -1195,14 +1195,14 @@ class Redis
     # an expire set, with the sole difference that TTL returns the amount of
     # remaining time in seconds while PTTL returns it in milliseconds.
     #
-    # **Return value**:
+    # **Return value**: Integer, the TTL in milliseconds, or a negative value in order to signal an error.
     def pttl(key)
       integer_command(["PTTL", key.to_s])
     end
 
     # Returns the string representation of the type of the value stored at key.
     #
-    # **Return value**: String: type of key, or none when key does not exist.
+    # **Return value**: String, the type of key, or none when key does not exist.
     def type(key)
       string_command(["TYPE", key.to_s])
     end
@@ -1285,7 +1285,7 @@ class Redis
 
     # Posts a message to the given channel.
     #
-    # **Return value**: Integer: the number of clients that received the message.
+    # **Return value**: Integer, the number of clients that received the message.
     def publish(channel, message)
       integer_command(["PUBLISH", channel.to_s, message.to_s])
     end
