@@ -456,6 +456,9 @@ class Redis
       string_array_command(["LRANGE", key.to_s, from.to_s, to.to_s])
     end
 
+    # Trim an existing list so that it will contain only the specified range of elements specified.
+    #
+    # **Return value**: "OK"
     def ltrim(key, start, stop)
       string_command(["LTRIM", key.to_s, start.to_s, stop.to_s])
     end
