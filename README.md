@@ -70,9 +70,13 @@ To get started,
 * see this basic example: https://github.com/stefanwille/crystal-redis/blob/master/examples/basic.cr
 * look at more examples: in https://github.com/stefanwille/crystal-redis/blob/master/examples/
 
-More details about the available commands are in http://redis.io/commands and spec/redis.cr.
+API documentation is at http://stefanwille.github.io/crystal-redis/doc/
 
-General information about Redis is at http://redis.io/documentation
+More details are available at:
+
+* http://redis.io/commands - necessary, the API documentation is just a quick reference
+* spec/redis.cr - offers more usage examples
+* http://redis.io/documentation - general information about Redis and its concepts
 
 
 ## Performance
