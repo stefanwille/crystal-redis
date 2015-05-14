@@ -3,3 +3,4 @@
 .deps.lock
 libs/
 ./redis
+doc
