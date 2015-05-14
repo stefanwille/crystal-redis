@@ -1,4 +1,4 @@
-# Models a subscription to one or more channels.
+# Models a subscription to one or more publish/subscribe channels.
 #
 # The caller sets callbacks on this object that the Redis client will
 # trigger for the matching events.
