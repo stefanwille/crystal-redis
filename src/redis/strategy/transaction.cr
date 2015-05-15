@@ -3,7 +3,7 @@
 # Used in Redis#multi.
 #
 class Redis::Strategy::Transaction < Redis::Strategy::Base
-  property :results
+  getter :futures
 
   def initialize(connection)
     @connection = connection

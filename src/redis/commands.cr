@@ -1,9 +1,6 @@
 class Redis
   # Definition of all Redis commands except pipelining and transactions.
   #
-  # **Note**: The documentation here serves more as a quick reference. Please
-  # do check the more detailed original documentation at http://redis.io/commands/.
-  #
   module Commands
 
     # Returns the given message.
@@ -1359,7 +1356,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.eval("return {KEYS[1],KEYS[2],ARGV[1],ARGV[2]}", keys, args)
+    #   redis.eval("return {KEYS[1],KEYS[2],ARGV[1],ARGV[2]}", ["key1", "key2"], ["first art", "second arg"])
     # ```
     def eval(script : String, keys = [] of RedisValue, args = [] of RedisValue)
       string_array_command(concat(["EVAL", script, keys.length.to_s], keys, args))
