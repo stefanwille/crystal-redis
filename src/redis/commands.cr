@@ -7,11 +7,23 @@ class Redis
   module Commands
 
     # Returns the given message.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.echo("Hello Redis")         # => "Hello Redis"
+    # ```
     def echo(message)
       string_command(["ECHO", message.to_s])
     end
 
     # Returns PONG. This command is often used to test if a connection is still alive, or to measure latency.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.ping()         # => "PONG"
+    # ```
     def ping
       string_command(["PING"])
     end
@@ -29,6 +41,13 @@ class Redis
     # **Return value**:
     # * OK if SET was executed correctly.
     # * Null reply: nil is returned if the SET operation was not performed because the user specified the NX or XX option but the condition was not met.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.set("foo", "test")
+    #   redis.set("bar", "test", ex: 7)
+    # ```
     def set(key, value, ex = nil, px = nil, nx = nil, xx = nil)
       q = ["SET", key.to_s, value.to_s]
       q << "EX" << ex.to_s if ex
@@ -41,6 +60,13 @@ class Redis
     # Get the value of key.
     #
     # **Return value**: a String or nil
+    #
+    # Example:
+    #
+    # ```
+    #   redis.set("foo", "test")
+    #   redis.get("foo")                # => "test"
+    # ```
     def get(key)
       string_or_nil_command(["GET", key.to_s])
     end
@@ -69,6 +95,12 @@ class Redis
     # Renames old_key to newkey.
     #
     # **Return value**: "OK"
+    #
+    # Example:
+    #
+    # ```
+    #   redis.rename("old_name", "new_name")
+    # ```
     def rename(old_key, new_key)
       string_command(["RENAME", old_key.to_s, new_key.to_s])
     end
@@ -76,6 +108,12 @@ class Redis
     # Renames old_key to newkey if newkey does not yet exist.
     #
     # **Return value**: "OK"
+    #
+    # Example:
+    #
+    # ```
+    #   redis.renamenx("old_name", "new_name")
+    # ```
     def renamenx(old_key, new_key)
       integer_command(["RENAMENX", old_key.to_s, new_key.to_s])
     end
@@ -83,6 +121,12 @@ class Redis
     # Removes the specified keys.
     #
     # **Return value**: Integer, the number of keys that were removed.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.del("some", "keys", "to", "delete")
+    # ```
     def del(*keys)
       integer_command(concat(["DEL"], keys))
     end
@@ -99,6 +143,13 @@ class Redis
     # * store - key of destination list to store the result in
     #
     # **Return value**: Array(String), the list of sorted elements.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.sort("mylist")                  # => [...]
+    #   redis.sort("mylist", order: "DESC")   # => [...]
+    # ```
     def sort(key, by = nil, limit = nil, get = nil : Array(RedisValue)?, order = "ASC", alpha = false, store = nil)
       q = ["SORT", key.to_s]
 
@@ -141,6 +192,14 @@ class Redis
     #
     # **Return value**: Array(String), the list of values at the specified keys.
     # For every key that does not hold a string value or does not exist, nil is returned.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.set("foo1", "test1")
+    #   redis.set("foo2", "test2")
+    #   redis.mget("foo1", "foo2")      # => ["test1", "test2"]
+    # ```
     def mget(*keys)
       string_array_command(concat(["MGET"], keys))
     end
@@ -148,6 +207,12 @@ class Redis
     # Sets the given keys to their respective values as defined in the hash.
     #
     # **Return value**: "OK"
+    #
+    # Example:
+    #
+    # ```
+    #   redis.mset({"foo1": "bar1", "foo2": "bar2"})
+    # ```
     def mset(hash)
       q = ["MSET"] of RedisValue
       hash.each { |key, value| q << key.to_s << value.to_s }
@@ -157,6 +222,12 @@ class Redis
     # Atomically sets key to value and returns the old value stored at key.
     #
     # **Return value**: String, the old value stored at key, or nil when key did not exist.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.getset("foo", "new")      # => (the old value)
+    # ```
     def getset(key, value)
       string_or_nil_command(["GETSET", key.to_s, value])
     end
@@ -164,6 +235,12 @@ class Redis
     # Set key to hold the string value and set key to timeout after a given number of seconds.
     #
     # **Return value**: "OK"
+    #
+    # Example:
+    #
+    # ```
+    #   redis.setex("foo", "bar", 3)
+    # ```
     def setex(key, value, expire_in_seconds)
       string_command(["SETEX", key.to_s, expire_in_seconds.to_s, value.to_s])
     end
@@ -190,6 +267,12 @@ class Redis
     # **Return value**: Integer, specifically:
     # * 1 if the all the keys were set.
     # * 0 if no key was set (at least one key already existed).
+    #
+    # Example:
+    #
+    # ```
+    #   redis.msetnx({"key1": "hello", "key2": "there"})
+    # ```
     def msetnx(hash)
       q = ["MSETNX"] of RedisValue
       hash.each { |key, value| q << key.to_s << value }
@@ -199,6 +282,13 @@ class Redis
     # Increments the number stored at key by one.
     #
     # **Return value**: Integer: the value of key after the increment
+    #
+    # Example:
+    #
+    # ```
+    #   redis.set("foo", "3")
+    #   redis.incr("foo")             # => 4
+    # ```
     def incr(key)
       integer_command(["INCR", key.to_s])
     end
@@ -213,6 +303,12 @@ class Redis
     # Increments the number stored at key by increment.
     #
     # **Return value**: Integer, the value of key after the increment
+    #
+    # Example:
+    #
+    # ```
+    #   redis.incrby("foo", 4)
+    # ```
     def incrby(key, increment)
       integer_command(["INCRBY", key.to_s, increment.to_s])
     end
@@ -220,6 +316,12 @@ class Redis
     # Increment the string representing a floating point number stored at key by the specified increment.
     #
     # **Return value**: Integer, the value of key after the increment
+    #
+    # Example:
+    #
+    # ```
+    #   redis.incrbyfloat("foo", 2.5)
+    # ```
     def incrbyfloat(key, increment)
       string_command(["INCRBYFLOAT", key.to_s, increment.to_s])
     end
@@ -235,6 +337,12 @@ class Redis
     # If key does not exist it is created and set as an empty string, so APPEND will be similar to SET in this special case.
     #
     # **Return value**: Integer, the length of the string after the append operation.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.append("foo", " world")
+    # ```
     def append(key, value)
       integer_command(["APPEND", key.to_s, value.to_s])
     end
@@ -248,6 +356,14 @@ class Redis
 
     # Returns the substring of the string value stored at key, determined by the offsets start and end (both are inclusive).
     #
+    #
+    # Example:
+    #
+    # ```
+    #   redis.set("foo", "This is a string")
+    #   redis.getrange("foo", 0, 3)             # => "This"
+    #   redis.getrange("foo", -3, -1)           # => "ing"
+    # ```
     def getrange(key, start_index, end_index)
       string_command(["GETRANGE", key.to_s, start_index.to_s, end_index.to_s])
     end
@@ -255,6 +371,12 @@ class Redis
     # Overwrites part of the string stored at key, starting at the specified offset, for the entire length of value.
     #
     # **Return value**: Integer, the length of the string after it was modified by the command.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.setrange("foo", 6, "Redis")
+    # ```
     def setrange(key, start_index, value)
       integer_command(["SETRANGE", key.to_s, start_index.to_s, value.to_s])
     end
@@ -267,6 +389,12 @@ class Redis
     # * from / to - It is possible to specify the counting operation only in an interval passing the additional arguments from and to.
     #
     # **Return value** Integer, the number of bits set to 1.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.bitcount("foo", 0, 0)
+    # ```
     def bitcount(key, from = nil, to = nil)
       q = ["BITCOUNT", key.to_s]
       if from
@@ -283,6 +411,12 @@ class Redis
     # Perform a bitwise operation between multiple keys (containing string values) and store the result in the destination key.
     #
     # **Return value**: Integer, the size of the string stored in the destination key, that is equal to the size of the longest input string.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.bitop("and", "dest", "key1", "key2")
+    # ```
     def bitop(operation, key, *keys)
       integer_command(concat(["BITOP", operation.to_s, key.to_s], keys))
     end
@@ -297,6 +431,12 @@ class Redis
     # Sets or clears the bit at offset in the string value stored at key.
     #
     # **Return value**: Integer: the original bit value stored at offset.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.setbit("mykey", 7, 1)
+    # ```
     def setbit(key, index, value)
       integer_command(["SETBIT", key.to_s, index.to_s, value.to_s])
     end
@@ -308,6 +448,13 @@ class Redis
     # * start / to - By default, all the bytes contained in the string are examined. It is possible to look for bits only in a specified interval passing the additional arguments start and to (it is possible to just pass start, the operation will assume that the to is the last byte of the string.
     #
     # **Return value**: Integer, the command returns the position of the first bit set to 1 or 0 according to the request.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.set("mykey", "0")
+    #   redis.bitpos("mykey", 1)        # => 2
+    # ```
     def bitpos(key, bit, start = nil, to = nil)
       q = ["BITPOS", key.to_s, bit.to_s] of RedisValue
       if start
@@ -345,6 +492,12 @@ class Redis
     # * count - While SCAN does not provide guarantees about the number of elements returned at every iteration, it is possible to empirically adjust the behavior of SCAN using the COUNT option.
     #
     # **Return value**: Array of String, a list of keys.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.scan(0)
+    # ```
     def scan(cursor, match = nil, count = nil)
       q = ["SCAN", cursor.to_s]
       if match
@@ -373,6 +526,12 @@ class Redis
     # Returns all keys matching pattern.
     #
     # **Return value**: Array(String), array of keys matching pattern.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.keys("callmemaybe")
+    # ```
     def keys(pattern)
       string_array_command(["KEYS", pattern.to_s])
     end
@@ -380,6 +539,12 @@ class Redis
     # Insert all the specified values at the tail of the list stored at key.
     #
     # **Return value**: Integer, the length of the list after the push operation.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.rpush("mylist", "1", "2", "3")
+    # ```
     def rpush(key, *values)
       integer_command(concat(["RPUSH", key.to_s], values))
     end
@@ -408,6 +573,12 @@ class Redis
     # Removes the first count occurrences of elements equal to value from the list stored at key.
     #
     # **Return value**: Integer, the number of removed elements.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.lrem("mylist", 1, "my")
+    # ```
     def lrem(key, count, value)
       integer_command(["LREM", key.to_s, count.to_s, value.to_s])
     end
@@ -436,6 +607,12 @@ class Redis
     # Removes and returns the first element of the list stored at key.
     #
     # **Return value**: String, the value of the first element, or nil when key does not exist.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.lpop("mylist")
+    # ```
     def lpop(key)
       string_or_nil_command(["LPOP", key.to_s])
     end
@@ -461,6 +638,12 @@ class Redis
     # Returns the specified elements of the list stored at key.
     #
     # **Return value**: Array(String), the list of elements in the specified range.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.lrange("mylist", 0, 2)
+    # ```
     def lrange(key, from, to)
       string_array_command(["LRANGE", key.to_s, from.to_s, to.to_s])
     end
@@ -498,6 +681,12 @@ class Redis
     # Remove the specified members from the set stored at key.
     #
     # **Return value**: Integer, The number of members that were removed from the set, not including non existing members.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.srem("myset", "Hello")
+    # ```
     def srem(key, *values)
       integer_command(concat(["SREM", key.to_s], values))
     end
@@ -531,6 +720,12 @@ class Redis
     # This command is equal to SINTER, but instead of returning the resulting set, it is stored in destination.
     #
     # **Return value**: Integer, the number of elements in the resulting set.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.sinterstore("destination", "key1", "key2")
+    # ```
     def sinterstore(destination_key, *keys)
       integer_command(concat(["SINTERSTORE", destination_key.to_s], keys))
     end
@@ -584,6 +779,12 @@ class Redis
     # * count - While SCAN does not provide guarantees about the number of elements returned at every iteration, it is possible to empirically adjust the behavior of SCAN using the COUNT option.
     #
     # **Return value**: Array(String), a list of Set members.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.sscan("myset", 0)
+    # ```
     def sscan(key, cursor, match = nil, count = nil)
           q = ["SSCAN", key.to_s, cursor.to_s]
       if match
@@ -620,6 +821,12 @@ class Redis
     # **Return value**: Array, specifically:
     # * An array of nils when no element could be popped and the timeout expired.
     # * An array of two-element arrays with the first element being the name of the key where an element was popped and the second element being the value of the popped element.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.blpop(["myotherlist", "mylist"], 1)       # => ["mylist", "hello"]
+    # ```
     def blpop(keys, timeout_in_seconds)
       q = concat(["BLPOP"], keys)
       q << timeout_in_seconds.to_s
@@ -638,6 +845,12 @@ class Redis
     # **Return value**: Array, specifically:
     # * An array of nils when no element could be popped and the timeout expired.
     # * An array of two-element arrays with the first element being the name of the key where an element was popped and the second element being the value of the popped element.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.brpop(["myotherlist", "mylist"], 1)         # => ["mylist", "world"]
+    # ```
     def brpop(keys, timeout_in_seconds)
       q = concat(["BRPOP"], keys)
       q << timeout_in_seconds.to_s
@@ -663,6 +876,12 @@ class Redis
     #
     # **Return value**: String, the element being popped from source and pushed to destination.
     # If timeout is reached, nil is returned.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.brpoplpush("source", "destination", 0)
+    # ```
     def brpoplpush(source, destination, timeout_in_seconds = nil)
       q = ["BRPOPLPUSH", source.to_s, destination.to_s]
       if timeout_in_seconds
@@ -676,6 +895,12 @@ class Redis
     # **Return value**: Integer, specifically:
     # * 1 if field is a new field in the hash and value was set.
     # * 0 if field already exists in the hash and the value was updated.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.hset("myhash", "a", "434")
+    # ```
     def hset(key, field, value)
       integer_command(["HSET", key.to_s, field.to_s, value.to_s])
     end
@@ -683,6 +908,12 @@ class Redis
     # Returns the value associated with field in the hash stored at key.
     #
     # **Return value**: String, the value associated with field, or nil
+    #
+    # Example:
+    #
+    # ```
+    #   redis.hget("myhash", "a")       # => "434"
+    # ```
     def hget(key, field)
       string_or_nil_command(["HGET", key.to_s, field.to_s])
     end
@@ -715,6 +946,12 @@ class Redis
     # Increments the number stored at field in the hash stored at key by increment.
     #
     # **Return value**: Integer, the value at field after the increment operation.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.hincrby("myhash", "field1", "3")        # => 4
+    # ```
     def hincrby(key, field, increment)
       integer_command(["HINCRBY", key.to_s, field.to_s, increment.to_s])
     end
@@ -795,6 +1032,13 @@ class Redis
     # Adds all the specified members with the specified scores to the sorted set stored at key.
     #
     # **Return value**: Integer, the number of elements added to the sorted sets, not including elements already existing for which the score was updated.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.zadd("myzset", 1, "one")
+    #   redis.zadd("myzset", 2, "two", 3, "three")
+    # ```
     def zadd(key, *scores_and_members)
       if scores_and_members.length % 2 > 0
         raise Error.new("zadd expects an array of scores mapped to members")
@@ -810,6 +1054,12 @@ class Redis
     # * with_scores - true to return the scores of the elements together with the elements.
     #
     # **Return value**: Array(String), list of elements in the specified range (optionally with their scores, in case the with_scores option is true).
+    #
+    # Example:
+    #
+    # ```
+    #   redis.zrange("myzset", 0, -1, with_scores: true)      # => ["one", "1", "uno", "1", "two", "2", "three", "3"]
+    # ```
     def zrange(key, start, stop, with_scores = false)
       q = ["ZRANGE", key.to_s, start.to_s, stop.to_s]
       if with_scores
@@ -888,6 +1138,12 @@ class Redis
     # * aggregate - With the AGGREGATE option, it is possible to specify how the results of the union are aggregated.
     #
     # **Return value**: Integer, the number of elements in the resulting sorted set at destination.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.zinterstore("zset3", ["zset1", "zset2"], weights: [2, 3])
+    # ```
     def zinterstore(destination, keys : Array, weights = nil, aggregate = nil)
       numkeys = keys.length
       q = concat(["ZINTERSTORE", destination.to_s, numkeys.to_s], keys)
@@ -1045,6 +1301,12 @@ class Redis
     # * count - While SCAN does not provide guarantees about the number of elements returned at every iteration, it is possible to empirically adjust the behavior of SCAN using the COUNT option.
     #
     # **Return value**: Array(String), contains two elements, a member and its associated score, for every returned element of the sorted set.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.zscan("myzset", 0)
+    # ```
     def zscan(key, cursor, match = nil, count = nil)
           q = ["ZSCAN", key.to_s, cursor.to_s]
       if match
@@ -1060,6 +1322,12 @@ class Redis
     # the variable name specified as first argument.
     #
     # **Return value**: Integer: 1 if at least 1 HyperLogLog internal register was altered. 0 otherwise.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.pfadd("hll", "a", "b", "c", "d", "e", "f", "g")         # => 1
+    # ```
     def pfadd(key, *values)
       integer_command(concat(["PFADD", key.to_s], values))
     end
@@ -1087,6 +1355,12 @@ class Redis
     # built into Redis starting from version 2.6.0.
     #
     # **Return value**: Array(String), depends on the executed script
+    #
+    # Example:
+    #
+    # ```
+    #   redis.eval("return {KEYS[1],KEYS[2],ARGV[1],ARGV[2]}", keys, args)
+    # ```
     def eval(script : String, keys = [] of RedisValue, args = [] of RedisValue)
       string_array_command(concat(["EVAL", script, keys.length.to_s], keys, args))
     end
@@ -1103,6 +1377,12 @@ class Redis
     #
     # **Return value**: String, the SHA1 digest of the script
     # added into the script cache.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.script_load("return {KEYS[1],ARGV[1]}")       # => "a191862bfe0bd3bec995befcd060582bf4bdbd77"
+    # ```
     def script_load(script : String)
       string_command(["SCRIPT", "LOAD", script])
     end
@@ -1137,6 +1417,12 @@ class Redis
     # **Return value**: Integeger, specifically:
     # * 1 if the timeout was set.
     # * 0 if key does not exist or the timeout could not be set.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.expire("temp", 2)
+    # ```
     def expire(key, seconds)
       integer_command(["EXPIRE", key.to_s, seconds.to_s])
     end
@@ -1203,6 +1489,13 @@ class Redis
     # Returns the string representation of the type of the value stored at key.
     #
     # **Return value**: String, the type of key, or none when key does not exist.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.set("foo", 3)
+    #   redis.type("foo")             # => "string"
+    # ```
     def type(key)
       string_command(["TYPE", key.to_s])
     end
@@ -1213,6 +1506,22 @@ class Redis
     # which you can set your callbacks for the event subscription.
     #
     # The subscription loop will end once you unsubscribe.
+    #
+    # See also: `Subscription` class
+    # See also: Example `subscribe.cr`
+    #
+    # Example:
+    #
+    # ```
+    #   redis.subscribe("mychannel") do |on|
+    #     on.message do |channel, message|
+    #       puts "Received message: #{message}"
+    #       if message == "goodbye pal"
+    #         redis.unsubscribe
+    #       end
+    #     end
+    #   end
+    # ```
     def subscribe(*channels, &callback_setup_block : Subscription ->)
       # Can be called only outside a subscription block
       if already_in_subscription_loop?
@@ -1286,6 +1595,12 @@ class Redis
     # Posts a message to the given channel.
     #
     # **Return value**: Integer, the number of clients that received the message.
+    #
+    # Example:
+    #
+    # ```
+    #   redis.publish("mychannel", "some message")
+    # ```
     def publish(channel, message)
       integer_command(["PUBLISH", channel.to_s, message.to_s])
     end

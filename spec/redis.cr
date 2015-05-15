@@ -249,6 +249,11 @@ describe Redis do
       redis.decr("foo").should eq(2)
     end
 
+    it "#incrby" do
+      redis.set("foo", "10")
+      redis.incrby("foo", 4).should eq(14)
+    end
+
     it "#decrby" do
       redis.set("foo", "10")
       redis.decrby("foo", 4).should eq(6)

@@ -35,6 +35,11 @@ class Redis
 
   # Opens a Redis connection
   #
+  # **Options**:
+  # * host - the host to connect to
+  # * port - the port to connect to
+  # * unixsocket - instead of using TCP, you can connect to Redis via a Unix domain socket by passing its path here (e.g. "/tmp/redis.sock")
+  #
   # Example:
   #
   # ```
@@ -43,16 +48,30 @@ class Redis
   # redis.close
   # ```
   #
-  # **Options**:
-  # * host - the host to connect to
-  # * port - the port to connect to
-  # * unixsocket - instead of using TCP, you can connect to Redis via a Unix domain socket by passing its path here (e.g. "/tmp/redis.sock")
+  # Example:
+  #
+  # ```
+  # redis = Redis.new(host: "localhost", port: 6379)
+  # ...
+  # ```
+  #
+  # Example:
+  #
+  # ```
+  # redis = Redis.new(unixsocket: "/tmp/redis.sock")
+  # ...
+  # ```
   def initialize(host = "localhost", port = 6379, unixsocket = nil)
     @connection = Connection.new(host, port, unixsocket)
     @strategy = Redis::Strategy::SingleStatement.new(@connection)
   end
 
   # Opens a Redis connection, yields the given block with a Redis object and closes the connection.
+  #
+  # **Options**:
+  # * host - the host to connect to
+  # * port - the port to connect to
+  # * unixsocket - instead of using TCP, you can connect to Redis via a Unix domain socket by passing its path here (e.g. "/tmp/redis.sock")
   #
   # Example:
   #
@@ -61,11 +80,6 @@ class Redis
   #    redis.incr("counter")
   # end
   # ```
-  #
-  # **Options**:
-  # * host - the host to connect to
-  # * port - the port to connect to
-  # * unixsocket - instead of using TCP, you can connect to Redis via a Unix domain socket by passing its path here (e.g. "/tmp/redis.sock")
   def self.open(host = "localhost", port = 6379, unixsocket = nil)
     redis = Redis.new(host, port, unixsocket)
     begin
@@ -89,7 +103,11 @@ class Redis
   # an object that has the same API as this class, except
   # it participates in pipelining and all Redis commands return Futures.
   #
+  # **Return value**: an array with all the responses
+  # - one element for each executed command.
+  #
   # Example:
+  #
   # ```
   # redis.pipelined do |pipeline|
   #     pipeline.set("foo1", "first")
@@ -98,9 +116,6 @@ class Redis
   # ```
   #
   # See the examples directory for more examples.
-  #
-  # **Return value**: an array with all the responses
-  # - one element for each executed command.
   def pipelined
     @strategy = Redis::Strategy::PauseDuringPipeline.new
     pipeline_strategy = Redis::Strategy::Pipeline.new(@connection)
@@ -120,7 +135,11 @@ class Redis
   #   * all the Redis commands return Futures
   #   * there is an additional method #discard that will abort the transaction.
   #
+  # **Return value**: an array with all the responses
+  # - one element for each executed command.
+  #
   # Example:
+  #
   # ```
   # redis.multi do |multi|
   #     multi.set("foo1", "first")
@@ -129,9 +148,6 @@ class Redis
   # ```
   #
   # See the examples directory for more examples.
-  #
-  # **Return value**: an array with all the responses
-  # - one element for each executed command.
   def multi
     @strategy = Redis::Strategy::PauseDuringTransaction.new
     transaction_strategy = Redis::Strategy::Transaction.new(@connection)
