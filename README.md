@@ -67,8 +67,9 @@ Then you can call Redis commands on the `redis` object:
 
 To get started,
 
-* see this [basic example](https://github.com/stefanwille/crystal-redis/blob/master/examples/basic.cr)
-* look at more examples in the [examples directory](https://github.com/stefanwille/crystal-redis/blob/master/examples/)
+* There is a separate git repository [crystal-redis-examples](https://github.com/stefanwille/crystal-redis-examples/tree/master/src) with examples.
+* start with this [basic example](https://github.com/stefanwille/crystal-redis-examples/blob/master/src/basic.cr)
+* look at [more examples](https://github.com/stefanwille/crystal-redis-examples/blob/master/src/)
 * see the [API documentation](http://stefanwille.github.io/crystal-redis/doc/) -
 start reading it at the class `Redis`.
 
@@ -90,7 +91,7 @@ More details are available at:
 
 ## Status
 
-I have exercised every API method in the spec and built some example programs. There is no critical production use yet.
+I have exercised every API method in the spec and built some example programs. There is no production use yet.
 
 I took great care to make this library very usable with respect to to API, reliability and documentation.
 
