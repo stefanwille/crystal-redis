@@ -63,20 +63,21 @@ Then you can call Redis commands on the `redis` object:
   redis.get("foo")
 ```
 
+## Examples
+
+To get started, see the examples:
+
+* There is a separate git repository [crystal-redis-examples](https://github.com/stefanwille/crystal-redis-examples) with examples.
+* start with this [basic example](https://github.com/stefanwille/crystal-redis-examples/blob/master/src/basic.cr)
+* look at [the other examples](https://github.com/stefanwille/crystal-redis-examples/blob/master/src/)
+* the [spec](https://github.com/stefanwille/crystal-redis/blob/master/spec/redis.cr) contains even more usage examples
+
+
 ## Documentation
 
-To get started,
-
-* There is a separate git repository [crystal-redis-examples](https://github.com/stefanwille/crystal-redis-examples/tree/master/src) with examples.
-* start with this [basic example](https://github.com/stefanwille/crystal-redis-examples/blob/master/src/basic.cr)
-* look at [more examples](https://github.com/stefanwille/crystal-redis-examples/blob/master/src/)
-* see the [API documentation](http://stefanwille.github.io/crystal-redis/doc/) -
+* [API documentation](http://stefanwille.github.io/crystal-redis/doc/) -
 start reading it at the class `Redis`.
-
-More details are available here:
-
 * [Redis commands documentation](http://redis.io/commands) - the original Redis documentation is necessary, as the API documentation above is just a quick reference
-* [spec/redis.cr](https://github.com/stefanwille/crystal-redis/blob/master/spec/redis.cr) - offers more usage examples
 * [Redis documentation page](http://redis.io/documentation) - general information about Redis and its concepts
 
 
