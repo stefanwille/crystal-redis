@@ -23,7 +23,7 @@
 
 <p>and then download the library into your project:</p>
 
-<pre><code></code></pre>
+<pre><code>$ crystal deps</code></pre>
 
 <h2>Required Crystal Version</h2>
 
@@ -48,20 +48,26 @@
 
 <p>To get started,</p>
 
-<ul><li>see this basic example: https://github.com/stefanwille/crystal-redis/blob/master/examples/basic.cr</li><li>look at more examples: in https://github.com/stefanwille/crystal-redis/blob/master/examples/</li></ul>
+<ul><li>There is a separate git repository <a href="https://github.com/stefanwille/crystal-redis-examples/tree/master/src" target="_blank">crystal-redis-examples</a> with examples.</li><li>start with this <a href="https://github.com/stefanwille/crystal-redis-examples/blob/master/src/basic.cr" target="_blank">basic example</a></li><li>look at <a href="https://github.com/stefanwille/crystal-redis-examples/blob/master/src/" target="_blank">more examples</a></li><li>see the <a href="http://stefanwille.github.io/crystal-redis/doc/" target="_blank">API documentation</a> -</li></ul>
 
-<p>API documentation is at http://stefanwille.github.io/crystal-redis/doc/</p>
+<p>start reading it at the class <code><a href="Redis.html">Redis</a></code>.</p>
 
 <p>More details are available at:</p>
 
-<ul><li>http://redis.io/commands - necessary, the API documentation is just a quick reference</li><li>spec/redis.cr - offers more usage examples</li><li>http://redis.io/documentation - general information about Redis and its concepts</li></ul>
+<ul><li><a href="http://redis.io/commands" target="_blank">Redis commands documentation</a> - the original Redis documentation is necessary, as the API documentation above is just a quick reference</li><li><a href="https://github.com/stefanwille/crystal-redis/blob/master/spec/redis.cr" target="_blank">spec/redis.cr</a> - offers more usage examples</li><li><a href="http://redis.io/documentation" target="_blank">Redis documentation page</a> - general information about Redis and its concepts</li></ul>
 
 <h2>Performance</h2>
 
-<p>With this library I get > 260.000 commands per second using pipeline on a MacBook Air with a single client thread.</p>
+<ul><li>Crystal: With this library I get > 260.000 commands per second using pipeline on a MacBook Air with a single client thread.</li><li>C: The equivalent program written in C with Hiredis gets me 340.000 commands per second.</li><li>Ruby: Ruby 2.2.1 with the <a href="https://github.com/redis/redis-rb" target="_blank">redis-rb</a> handles 50.000 commands per second.</li></ul>
 
-<p>The equivalent program written in C with Hiredis gets me 340.000 commands per second.</p>
+<h2>Status</h2>
 
-<p>Ruby 2.2.1 with redis-rb (https://github.com/redis/redis-rb) handles 50.000 commands per second.</p>
+<p>I have exercised every API method in the spec and built some example programs. There is no production use yet.</p>
+
+<p>I took great care to make this library very usable with respect to to API, reliability and documentation.</p>
+
+<h2>Questions, Bugs & Support</h2>
+
+<p>If you have questions or need help, please open a ticket in the <a href="https://github.com/stefanwille/crystal-redis/issues" target="_blank">GitHub issue tracker</a>. This way others can benefit from the discussion.</p>
 </body>
 </html>

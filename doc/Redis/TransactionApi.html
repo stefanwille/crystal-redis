@@ -17,6 +17,16 @@
 
 <p>Used in Redis#multi.</p>
 
+<p>Example:</p>
+
+<pre><code>redis.multi <span class="k">do</span> <span class="o">|</span>multi<span class="o">|</span>
+    multi.set(<span class="s">"foo1"</span>, <span class="s">"first"</span>)
+    multi.set(<span class="s">"foo2"</span>, <span class="s">"second"</span>)
+<span class="k">end</span></code></pre>
+
+<p>In this example, the <code>multi</code> object passed to the block is a TransactionApi
+object.</p>
+
 
 
 
@@ -45,7 +55,7 @@
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/transaction_api.cr">redis/transaction_api.cr</a>
+      <a href="https://github.com/stefanwille/crystal-redis/blob/2399eab385720823e5163bece84978f1a097925c/src/redis/transaction_api.cr">redis/transaction_api.cr</a>
     
     <br/>
   
@@ -98,7 +108,7 @@
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/transaction_api.cr#L9" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/2399eab385720823e5163bece84978f1a097925c/src/redis/transaction_api.cr#L21" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -116,7 +126,7 @@
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/transaction_api.cr#L21" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/2399eab385720823e5163bece84978f1a097925c/src/redis/transaction_api.cr#L33" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -131,7 +141,7 @@
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/transaction_api.cr#L17" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/2399eab385720823e5163bece84978f1a097925c/src/redis/transaction_api.cr#L29" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
