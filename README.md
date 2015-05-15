@@ -73,7 +73,7 @@ To get started,
 * see the [API documentation](http://stefanwille.github.io/crystal-redis/doc/) -
 start reading it at the class `Redis`.
 
-More details are available at:
+More details are available here:
 
 * [Redis commands documentation](http://redis.io/commands) - the original Redis documentation is necessary, as the API documentation above is just a quick reference
 * [spec/redis.cr](https://github.com/stefanwille/crystal-redis/blob/master/spec/redis.cr) - offers more usage examples
