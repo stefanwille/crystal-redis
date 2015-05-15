@@ -45,7 +45,7 @@ do check the more detailed original documentation at http://redis.io/commands/.<
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr">redis/commands.cr</a>
+      <a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr">redis/commands.cr</a>
     
     <br/>
   
@@ -996,11 +996,15 @@ do check the more detailed original documentation at http://redis.io/commands/.<
         <div class="doc"><p>If key already exists and is a string, this command appends the value at the end of the string.
 If key does not exist it is created and set as an empty string, so APPEND will be similar to SET in this special case.</p>
 
-<p><strong>Return value</strong>: Integer, the length of the string after the append operation.</p></div>
+<p><strong>Return value</strong>: Integer, the length of the string after the append operation.</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.append(<span class="s">"foo"</span>, <span class="s">" world"</span>)</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L238" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L346" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1017,7 +1021,7 @@ If key does not exist it is created and set as an empty string, so APPEND will b
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L58" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L84" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1035,11 +1039,15 @@ By default all the bytes contained in the string are examined.</p>
 
 <ul><li>from / to - It is possible to specify the counting operation only in an interval passing the additional arguments from and to.</li></ul>
 
-<p><strong>Return value</strong> Integer, the number of bits set to 1.</p></div>
+<p><strong>Return value</strong> Integer, the number of bits set to 1.</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.bitcount(<span class="s">"foo"</span>, <span class="n">0</span>, <span class="n">0</span>)</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L270" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L398" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1052,11 +1060,15 @@ By default all the bytes contained in the string are examined.</p>
       
         <div class="doc"><p>Perform a bitwise operation between multiple keys (containing string values) and store the result in the destination key.</p>
 
-<p><strong>Return value</strong>: Integer, the size of the string stored in the destination key, that is equal to the size of the longest input string.</p></div>
+<p><strong>Return value</strong>: Integer, the size of the string stored in the destination key, that is equal to the size of the longest input string.</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.bitop(<span class="s">"and"</span>, <span class="s">"dest"</span>, <span class="s">"key1"</span>, <span class="s">"key2"</span>)</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L286" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L420" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1073,11 +1085,16 @@ By default all the bytes contained in the string are examined.</p>
 
 <ul><li>start / to - By default, all the bytes contained in the string are examined. It is possible to look for bits only in a specified interval passing the additional arguments start and to (it is possible to just pass start, the operation will assume that the to is the last byte of the string.</li></ul>
 
-<p><strong>Return value</strong>: Integer, the command returns the position of the first bit set to 1 or 0 according to the request.</p></div>
+<p><strong>Return value</strong>: Integer, the command returns the position of the first bit set to 1 or 0 according to the request.</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.set(<span class="s">"mykey"</span>, <span class="s">"0"</span>)
+  redis.bitpos(<span class="s">"mykey"</span>, <span class="n">1</span>)        <span class="c"># => 2</span></code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L311" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L458" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1098,11 +1115,15 @@ with the given keys being checked in the order that they are given.</p>
 
 <p><strong>Return value</strong>: Array, specifically:</p>
 
-<ul><li>An array of nils when no element could be popped and the timeout expired.</li><li>An array of two-element arrays with the first element being the name of the key where an element was popped and the second element being the value of the popped element.</li></ul></div>
+<ul><li>An array of nils when no element could be popped and the timeout expired.</li><li>An array of two-element arrays with the first element being the name of the key where an element was popped and the second element being the value of the popped element.</li></ul>
+
+<p>Example:</p>
+
+<pre><code>  redis.blpop([<span class="s">"myotherlist"</span>, <span class="s">"mylist"</span>], <span class="n">1</span>)       <span class="c"># => ["mylist", "hello"]</span></code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L623" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L830" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1124,11 +1145,15 @@ number of seconds to block.</p>
 
 <p><strong>Return value</strong>: Array, specifically:</p>
 
-<ul><li>An array of nils when no element could be popped and the timeout expired.</li><li>An array of two-element arrays with the first element being the name of the key where an element was popped and the second element being the value of the popped element.</li></ul></div>
+<ul><li>An array of nils when no element could be popped and the timeout expired.</li><li>An array of two-element arrays with the first element being the name of the key where an element was popped and the second element being the value of the popped element.</li></ul>
+
+<p>Example:</p>
+
+<pre><code>  redis.brpop([<span class="s">"myotherlist"</span>, <span class="s">"mylist"</span>], <span class="n">1</span>)         <span class="c"># => ["mylist", "world"]</span></code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L641" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L854" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1149,11 +1174,15 @@ When source contains elements, this command behaves exactly like RPOPLPUSH.</p>
 <p>See RPOPLPUSH for more information.</p>
 
 <p><strong>Return value</strong>: String, the element being popped from source and pushed to destination.
-If timeout is reached, nil is returned.</p></div>
+If timeout is reached, nil is returned.</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.brpoplpush(<span class="s">"source"</span>, <span class="s">"destination"</span>, <span class="n">0</span>)</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L666" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L885" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1170,7 +1199,7 @@ If timeout is reached, nil is returned.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L209" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L299" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1187,7 +1216,7 @@ If timeout is reached, nil is returned.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L230" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L332" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1200,11 +1229,15 @@ If timeout is reached, nil is returned.</p></div>
       
         <div class="doc"><p>Removes the specified keys.</p>
 
-<p><strong>Return value</strong>: Integer, the number of keys that were removed.</p></div>
+<p><strong>Return value</strong>: Integer, the number of keys that were removed.</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.del(<span class="s">"some"</span>, <span class="s">"keys"</span>, <span class="s">"to"</span>, <span class="s">"delete"</span>)</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L86" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L130" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1221,7 +1254,7 @@ If timeout is reached, nil is returned.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L325" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L472" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1232,11 +1265,15 @@ If timeout is reached, nil is returned.</p></div>
         def <strong>echo</strong>(message)
       </div>
       
-        <div class="doc"><p>Returns the given message.</p></div>
+        <div class="doc"><p>Returns the given message.</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.echo(<span class="s">"Hello Redis"</span>)         <span class="c"># => "Hello Redis"</span></code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L10" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L16" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1250,11 +1287,15 @@ If timeout is reached, nil is returned.</p></div>
         <div class="doc"><p>EVAL and EVALSHA are used to evaluate scripts using the Lua interpreter
 built into Redis starting from version 2.6.0.</p>
 
-<p><strong>Return value</strong>: Array(String), depends on the executed script</p></div>
+<p><strong>Return value</strong>: Array(String), depends on the executed script</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.eval(<span class="s">"return {KEYS[1],KEYS[2],ARGV[1],ARGV[2]}"</span>, keys, args)</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1090" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1364" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1272,7 +1313,7 @@ built into Redis starting from version 2.6.0.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1098" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1372" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1291,7 +1332,7 @@ built into Redis starting from version 2.6.0.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L369" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L522" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1306,11 +1347,15 @@ built into Redis starting from version 2.6.0.</p>
 
 <p><strong>Return value</strong>: Integeger, specifically:</p>
 
-<ul><li>1 if the timeout was set.</li><li>0 if key does not exist or the timeout could not be set.</li></ul></div>
+<ul><li>1 if the timeout was set.</li><li>0 if key does not exist or the timeout could not be set.</li></ul>
+
+<p>Example:</p>
+
+<pre><code>  redis.expire(<span class="s">"temp"</span>, <span class="n">2</span>)</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1140" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1426" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1331,7 +1376,7 @@ it takes an absolute Unix timestamp (seconds since January 1, 1970).</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1161" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1447" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1344,11 +1389,16 @@ it takes an absolute Unix timestamp (seconds since January 1, 1970).</p>
       
         <div class="doc"><p>Get the value of key.</p>
 
-<p><strong>Return value</strong>: a String or nil</p></div>
+<p><strong>Return value</strong>: a String or nil</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.set(<span class="s">"foo"</span>, <span class="s">"test"</span>)
+  redis.get(<span class="s">"foo"</span>)                <span class="c"># => "test"</span></code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L44" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L70" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1365,7 +1415,7 @@ it takes an absolute Unix timestamp (seconds since January 1, 1970).</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L293" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L427" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1376,11 +1426,17 @@ it takes an absolute Unix timestamp (seconds since January 1, 1970).</p>
         def <strong>getrange</strong>(key, start_index, end_index)
       </div>
       
-        <div class="doc"><p>Returns the substring of the string value stored at key, determined by the offsets start and end (both are inclusive).</p></div>
+        <div class="doc"><p>Returns the substring of the string value stored at key, determined by the offsets start and end (both are inclusive).</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.set(<span class="s">"foo"</span>, <span class="s">"This is a string"</span>)
+  redis.getrange(<span class="s">"foo"</span>, <span class="n">0</span>, <span class="n">3</span>)             <span class="c"># => "This"</span>
+  redis.getrange(<span class="s">"foo"</span>, <span class="n">-3</span>, <span class="n">-1</span>)           <span class="c"># => "ing"</span></code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L251" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L367" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1393,11 +1449,15 @@ it takes an absolute Unix timestamp (seconds since January 1, 1970).</p>
       
         <div class="doc"><p>Atomically sets key to value and returns the old value stored at key.</p>
 
-<p><strong>Return value</strong>: String, the old value stored at key, or nil when key did not exist.</p></div>
+<p><strong>Return value</strong>: String, the old value stored at key, or nil when key did not exist.</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.getset(<span class="s">"foo"</span>, <span class="s">"new"</span>)      <span class="c"># => (the old value)</span></code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L160" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L231" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1415,7 +1475,7 @@ not including specified but non existing fields.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L702" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L933" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1434,7 +1494,7 @@ not including specified but non existing fields.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L711" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L942" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1447,11 +1507,15 @@ not including specified but non existing fields.</p></div>
       
         <div class="doc"><p>Returns the value associated with field in the hash stored at key.</p>
 
-<p><strong>Return value</strong>: String, the value associated with field, or nil</p></div>
+<p><strong>Return value</strong>: String, the value associated with field, or nil</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.hget(<span class="s">"myhash"</span>, <span class="s">"a"</span>)       <span class="c"># => "434"</span></code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L686" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L917" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1469,7 +1533,7 @@ or an empty array when key does not exist.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L694" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L925" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1482,11 +1546,15 @@ or an empty array when key does not exist.</p></div>
       
         <div class="doc"><p>Increments the number stored at field in the hash stored at key by increment.</p>
 
-<p><strong>Return value</strong>: Integer, the value at field after the increment operation.</p></div>
+<p><strong>Return value</strong>: Integer, the value at field after the increment operation.</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.hincrby(<span class="s">"myhash"</span>, <span class="s">"field1"</span>, <span class="s">"3"</span>)        <span class="c"># => 4</span></code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L718" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L955" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1504,7 +1572,7 @@ and representing a floating point number, by the specified increment.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L726" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L963" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1521,7 +1589,7 @@ and representing a floating point number, by the specified increment.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L733" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L970" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1538,7 +1606,7 @@ and representing a floating point number, by the specified increment.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L740" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L977" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1555,7 +1623,7 @@ and representing a floating point number, by the specified increment.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L747" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L984" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1572,7 +1640,7 @@ and representing a floating point number, by the specified increment.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L754" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L991" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1593,7 +1661,7 @@ and representing a floating point number, by the specified increment.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L768" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1005" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1608,11 +1676,15 @@ and representing a floating point number, by the specified increment.</p>
 
 <p><strong>Return value</strong>: Integer, specifically:</p>
 
-<ul><li>1 if field is a new field in the hash and value was set.</li><li>0 if field already exists in the hash and the value was updated.</li></ul></div>
+<ul><li>1 if field is a new field in the hash and value was set.</li><li>0 if field already exists in the hash and the value was updated.</li></ul>
+
+<p>Example:</p>
+
+<pre><code>  redis.hset(<span class="s">"myhash"</span>, <span class="s">"a"</span>, <span class="s">"434"</span>)</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L679" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L904" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1631,7 +1703,7 @@ and representing a floating point number, by the specified increment.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L784" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1021" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1648,7 +1720,7 @@ and representing a floating point number, by the specified increment.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L791" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1028" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1661,11 +1733,16 @@ and representing a floating point number, by the specified increment.</p>
       
         <div class="doc"><p>Increments the number stored at key by one.</p>
 
-<p><strong>Return value</strong>: Integer: the value of key after the increment</p></div>
+<p><strong>Return value</strong>: Integer: the value of key after the increment</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.set(<span class="s">"foo"</span>, <span class="s">"3"</span>)
+  redis.incr(<span class="s">"foo"</span>)             <span class="c"># => 4</span></code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L202" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L292" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1678,11 +1755,15 @@ and representing a floating point number, by the specified increment.</p>
       
         <div class="doc"><p>Increments the number stored at key by increment.</p>
 
-<p><strong>Return value</strong>: Integer, the value of key after the increment</p></div>
+<p><strong>Return value</strong>: Integer, the value of key after the increment</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.incrby(<span class="s">"foo"</span>, <span class="n">4</span>)</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L216" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L312" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1695,11 +1776,15 @@ and representing a floating point number, by the specified increment.</p>
       
         <div class="doc"><p>Increment the string representing a floating point number stored at key by the specified increment.</p>
 
-<p><strong>Return value</strong>: Integer, the value of key after the increment</p></div>
+<p><strong>Return value</strong>: Integer, the value of key after the increment</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.incrbyfloat(<span class="s">"foo"</span>, <span class="n">2.5</span>)</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L223" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L325" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1712,11 +1797,15 @@ and representing a floating point number, by the specified increment.</p>
       
         <div class="doc"><p>Returns all keys matching pattern.</p>
 
-<p><strong>Return value</strong>: Array(String), array of keys matching pattern.</p></div>
+<p><strong>Return value</strong>: Array(String), array of keys matching pattern.</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.keys(<span class="s">"callmemaybe"</span>)</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L376" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L535" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1733,7 +1822,7 @@ and representing a floating point number, by the specified increment.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L425" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L596" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1754,7 +1843,7 @@ and representing a floating point number, by the specified increment.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L457" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L634" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1771,7 +1860,7 @@ and representing a floating point number, by the specified increment.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L418" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L589" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1784,11 +1873,15 @@ and representing a floating point number, by the specified increment.</p>
       
         <div class="doc"><p>Removes and returns the first element of the list stored at key.</p>
 
-<p><strong>Return value</strong>: String, the value of the first element, or nil when key does not exist.</p></div>
+<p><strong>Return value</strong>: String, the value of the first element, or nil when key does not exist.</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.lpop(<span class="s">"mylist"</span>)</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L439" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L616" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1805,7 +1898,7 @@ and representing a floating point number, by the specified increment.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L390" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L555" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1822,7 +1915,7 @@ and representing a floating point number, by the specified increment.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L397" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L562" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1835,11 +1928,15 @@ and representing a floating point number, by the specified increment.</p>
       
         <div class="doc"><p>Returns the specified elements of the list stored at key.</p>
 
-<p><strong>Return value</strong>: Array(String), the list of elements in the specified range.</p></div>
+<p><strong>Return value</strong>: Array(String), the list of elements in the specified range.</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.lrange(<span class="s">"mylist"</span>, <span class="n">0</span>, <span class="n">2</span>)</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L464" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L647" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1852,11 +1949,15 @@ and representing a floating point number, by the specified increment.</p>
       
         <div class="doc"><p>Removes the first count occurrences of elements equal to value from the list stored at key.</p>
 
-<p><strong>Return value</strong>: Integer, the number of removed elements.</p></div>
+<p><strong>Return value</strong>: Integer, the number of removed elements.</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.lrem(<span class="s">"mylist"</span>, <span class="n">1</span>, <span class="s">"my"</span>)</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L411" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L582" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1873,7 +1974,7 @@ and representing a floating point number, by the specified increment.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L432" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L603" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1890,7 +1991,7 @@ and representing a floating point number, by the specified increment.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L471" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L654" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1904,11 +2005,17 @@ and representing a floating point number, by the specified increment.</p>
         <div class="doc"><p>Returns the values of all specified keys.</p>
 
 <p><strong>Return value</strong>: Array(String), the list of values at the specified keys.
-For every key that does not hold a string value or does not exist, nil is returned.</p></div>
+For every key that does not hold a string value or does not exist, nil is returned.</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.set(<span class="s">"foo1"</span>, <span class="s">"test1"</span>)
+  redis.set(<span class="s">"foo2"</span>, <span class="s">"test2"</span>)
+  redis.mget(<span class="s">"foo1"</span>, <span class="s">"foo2"</span>)      <span class="c"># => ["test1", "test2"]</span></code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L144" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L203" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1921,11 +2028,15 @@ For every key that does not hold a string value or does not exist, nil is return
       
         <div class="doc"><p>Sets the given keys to their respective values as defined in the hash.</p>
 
-<p><strong>Return value</strong>: "OK"</p></div>
+<p><strong>Return value</strong>: "OK"</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.mset({<span class="s">"foo1"</span>: <span class="s">"bar1"</span>, <span class="s">"foo2"</span>: <span class="s">"bar2"</span>})</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L151" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L216" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1941,11 +2052,15 @@ MSETNX will not perform any operation at all even if just a single key already e
 
 <p><strong>Return value</strong>: Integer, specifically:</p>
 
-<ul><li>1 if the all the keys were set.</li><li>0 if no key was set (at least one key already existed).</li></ul></div>
+<ul><li>1 if the all the keys were set.</li><li>0 if no key was set (at least one key already existed).</li></ul>
+
+<p>Example:</p>
+
+<pre><code>  redis.msetnx({<span class="s">"key1"</span>: <span class="s">"hello"</span>, <span class="s">"key2"</span>: <span class="s">"there"</span>})</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L193" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L276" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1966,7 +2081,7 @@ as no timeout is associated).</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1182" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1468" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -1986,7 +2101,7 @@ specified in milliseconds instead of seconds.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1150" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1436" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2006,7 +2121,7 @@ at which the key will expire is specified in milliseconds instead of seconds.</p
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1171" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1457" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2020,11 +2135,15 @@ at which the key will expire is specified in milliseconds instead of seconds.</p
         <div class="doc"><p>Adds all the element arguments to the HyperLogLog data structure stored at
 the variable name specified as first argument.</p>
 
-<p><strong>Return value</strong>: Integer: 1 if at least 1 HyperLogLog internal register was altered. 0 otherwise.</p></div>
+<p><strong>Return value</strong>: Integer: 1 if at least 1 HyperLogLog internal register was altered. 0 otherwise.</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.pfadd(<span class="s">"hll"</span>, <span class="s">"a"</span>, <span class="s">"b"</span>, <span class="s">"c"</span>, <span class="s">"d"</span>, <span class="s">"e"</span>, <span class="s">"f"</span>, <span class="s">"g"</span>)         <span class="c"># => 1</span></code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1063" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1331" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2044,7 +2163,7 @@ observed via PFADD.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1082" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1350" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2063,7 +2182,7 @@ source HyperLogLog structures.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1072" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1340" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2074,11 +2193,15 @@ source HyperLogLog structures.</p>
         def <strong>ping</strong>
       </div>
       
-        <div class="doc"><p>Returns PONG. This command is often used to test if a connection is still alive, or to measure latency.</p></div>
+        <div class="doc"><p>Returns PONG. This command is often used to test if a connection is still alive, or to measure latency.</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.ping()         <span class="c"># => "PONG"</span></code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L15" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L27" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2095,7 +2218,7 @@ source HyperLogLog structures.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L174" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L251" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2110,7 +2233,7 @@ source HyperLogLog structures.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1263" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1572" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2130,7 +2253,7 @@ which you can set your callbacks for the event subscription.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1247" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1556" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2149,7 +2272,7 @@ remaining time in seconds while PTTL returns it in milliseconds.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1199" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1485" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2162,11 +2285,15 @@ remaining time in seconds while PTTL returns it in milliseconds.</p>
       
         <div class="doc"><p>Posts a message to the given channel.</p>
 
-<p><strong>Return value</strong>: Integer, the number of clients that received the message.</p></div>
+<p><strong>Return value</strong>: Integer, the number of clients that received the message.</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.publish(<span class="s">"mychannel"</span>, <span class="s">"some message"</span>)</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1289" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1604" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2181,7 +2308,7 @@ remaining time in seconds while PTTL returns it in milliseconds.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1282" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1591" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2198,7 +2325,7 @@ remaining time in seconds while PTTL returns it in milliseconds.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L51" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L77" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2213,7 +2340,7 @@ remaining time in seconds while PTTL returns it in milliseconds.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L360" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L513" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2226,11 +2353,15 @@ remaining time in seconds while PTTL returns it in milliseconds.</p>
       
         <div class="doc"><p>Renames old_key to newkey.</p>
 
-<p><strong>Return value</strong>: "OK"</p></div>
+<p><strong>Return value</strong>: "OK"</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.rename(<span class="s">"old_name"</span>, <span class="s">"new_name"</span>)</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L72" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L104" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2243,11 +2374,15 @@ remaining time in seconds while PTTL returns it in milliseconds.</p>
       
         <div class="doc"><p>Renames old_key to newkey if newkey does not yet exist.</p>
 
-<p><strong>Return value</strong>: "OK"</p></div>
+<p><strong>Return value</strong>: "OK"</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.renamenx(<span class="s">"old_name"</span>, <span class="s">"new_name"</span>)</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L79" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L117" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2264,7 +2399,7 @@ remaining time in seconds while PTTL returns it in milliseconds.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L332" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L479" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2281,7 +2416,7 @@ remaining time in seconds while PTTL returns it in milliseconds.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L446" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L623" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2299,7 +2434,7 @@ and pushes the element at the first element (head) of the list stored at destina
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L651" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L864" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2312,11 +2447,15 @@ and pushes the element at the first element (head) of the list stored at destina
       
         <div class="doc"><p>Insert all the specified values at the tail of the list stored at key.</p>
 
-<p><strong>Return value</strong>: Integer, the length of the list after the push operation.</p></div>
+<p><strong>Return value</strong>: Integer, the length of the list after the push operation.</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.rpush(<span class="s">"mylist"</span>, <span class="s">"1"</span>, <span class="s">"2"</span>, <span class="s">"3"</span>)</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L383" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L548" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2333,7 +2472,7 @@ and pushes the element at the first element (head) of the list stored at destina
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L404" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L569" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2350,7 +2489,7 @@ and pushes the element at the first element (head) of the list stored at destina
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L478" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L661" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2367,11 +2506,15 @@ and pushes the element at the first element (head) of the list stored at destina
 
 <ul><li>match - It is possible to only iterate elements matching a given glob-style pattern, similarly to the behavior of the KEYS command that takes a pattern as only argument.</li><li>count - While SCAN does not provide guarantees about the number of elements returned at every iteration, it is possible to empirically adjust the behavior of SCAN using the COUNT option.</li></ul>
 
-<p><strong>Return value</strong>: Array of String, a list of keys.</p></div>
+<p><strong>Return value</strong>: Array of String, a list of keys.</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.scan(<span class="n">0</span>)</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L348" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L501" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2386,7 +2529,7 @@ and pushes the element at the first element (head) of the list stored at destina
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L506" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L695" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2406,7 +2549,7 @@ in the script cache, an 1 is returned, otherwise 0 is returned.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1124" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1404" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2423,7 +2566,7 @@ in the script cache, an 1 is returned, otherwise 0 is returned.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1131" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1411" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2441,7 +2584,7 @@ yet performed by the script.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1114" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1394" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2455,11 +2598,15 @@ yet performed by the script.</p>
         <div class="doc"><p>Load a script into the scripts cache, without executing it.</p>
 
 <p><strong>Return value</strong>: String, the SHA1 digest of the script
-added into the script cache.</p></div>
+added into the script cache.</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.script_load(<span class="s">"return {KEYS[1],ARGV[1]}"</span>)       <span class="c"># => "a191862bfe0bd3bec995befcd060582bf4bdbd77"</span></code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1106" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1386" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2476,7 +2623,7 @@ added into the script cache.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L513" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L702" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2493,7 +2640,7 @@ added into the script cache.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L520" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L709" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2510,7 +2657,7 @@ added into the script cache.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L65" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L91" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2529,11 +2676,16 @@ added into the script cache.</p></div>
 
 <p><strong>Return value</strong>:</p>
 
-<ul><li>OK if SET was executed correctly.</li><li>Null reply: nil is returned if the SET operation was not performed because the user specified the NX or XX option but the condition was not met.</li></ul></div>
+<ul><li>OK if SET was executed correctly.</li><li>Null reply: nil is returned if the SET operation was not performed because the user specified the NX or XX option but the condition was not met.</li></ul>
+
+<p>Example:</p>
+
+<pre><code>  redis.set(<span class="s">"foo"</span>, <span class="s">"test"</span>)
+  redis.set(<span class="s">"bar"</span>, <span class="s">"test"</span>, ex: <span class="n">7</span>)</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L32" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L51" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2546,11 +2698,15 @@ added into the script cache.</p></div>
       
         <div class="doc"><p>Sets or clears the bit at offset in the string value stored at key.</p>
 
-<p><strong>Return value</strong>: Integer: the original bit value stored at offset.</p></div>
+<p><strong>Return value</strong>: Integer: the original bit value stored at offset.</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.setbit(<span class="s">"mykey"</span>, <span class="n">7</span>, <span class="n">1</span>)</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L300" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L440" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2563,11 +2719,15 @@ added into the script cache.</p></div>
       
         <div class="doc"><p>Set key to hold the string value and set key to timeout after a given number of seconds.</p>
 
-<p><strong>Return value</strong>: "OK"</p></div>
+<p><strong>Return value</strong>: "OK"</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.setex(<span class="s">"foo"</span>, <span class="s">"bar"</span>, <span class="n">3</span>)</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L167" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L244" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2586,7 +2746,7 @@ added into the script cache.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L183" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L260" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2599,11 +2759,15 @@ added into the script cache.</p></div>
       
         <div class="doc"><p>Overwrites part of the string stored at key, starting at the specified offset, for the entire length of value.</p>
 
-<p><strong>Return value</strong>: Integer, the length of the string after it was modified by the command.</p></div>
+<p><strong>Return value</strong>: Integer, the length of the string after it was modified by the command.</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.setrange(<span class="s">"foo"</span>, <span class="n">6</span>, <span class="s">"Redis"</span>)</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L258" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L380" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2620,7 +2784,7 @@ added into the script cache.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L527" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L716" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2633,11 +2797,15 @@ added into the script cache.</p></div>
       
         <div class="doc"><p>This command is equal to SINTER, but instead of returning the resulting set, it is stored in destination.</p>
 
-<p><strong>Return value</strong>: Integer, the number of elements in the resulting set.</p></div>
+<p><strong>Return value</strong>: Integer, the number of elements in the resulting set.</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.sinterstore(<span class="s">"destination"</span>, <span class="s">"key1"</span>, <span class="s">"key2"</span>)</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L534" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L729" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2656,7 +2824,7 @@ added into the script cache.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L494" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L677" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2673,7 +2841,7 @@ added into the script cache.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L485" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L668" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2692,7 +2860,7 @@ added into the script cache.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L543" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L738" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2709,11 +2877,16 @@ added into the script cache.</p></div>
 
 <ul><li>by - pattern for sorting by external keys</li><li>limit - Array of 2 strings [offset, count]</li><li>get - pattern for retrieving external keys</li><li>order - either 'ASC' or 'DESC'</li><li>alpha - true to sort lexicographically</li><li>store - key of destination list to store the result in</li></ul>
 
-<p><strong>Return value</strong>: Array(String), the list of sorted elements.</p></div>
+<p><strong>Return value</strong>: Array(String), the list of sorted elements.</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.sort(<span class="s">"mylist"</span>)                  <span class="c"># => [...]</span>
+  redis.sort(<span class="s">"mylist"</span>, order: <span class="s">"DESC"</span>)   <span class="c"># => [...]</span></code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L102" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L153" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2732,7 +2905,7 @@ added into the script cache.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L552" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L747" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2755,7 +2928,7 @@ added into the script cache.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L570" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L765" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2768,11 +2941,15 @@ added into the script cache.</p></div>
       
         <div class="doc"><p>Remove the specified members from the set stored at key.</p>
 
-<p><strong>Return value</strong>: Integer, The number of members that were removed from the set, not including non existing members.</p></div>
+<p><strong>Return value</strong>: Integer, The number of members that were removed from the set, not including non existing members.</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.srem(<span class="s">"myset"</span>, <span class="s">"Hello"</span>)</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L501" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L690" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2789,11 +2966,15 @@ added into the script cache.</p></div>
 
 <ul><li>match - It is possible to only iterate elements matching a given glob-style pattern, similarly to the behavior of the KEYS command that takes a pattern as only argument.</li><li>count - While SCAN does not provide guarantees about the number of elements returned at every iteration, it is possible to empirically adjust the behavior of SCAN using the COUNT option.</li></ul>
 
-<p><strong>Return value</strong>: Array(String), a list of Set members.</p></div>
+<p><strong>Return value</strong>: Array(String), a list of Set members.</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.sscan(<span class="s">"myset"</span>, <span class="n">0</span>)</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L587" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L788" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2810,7 +2991,7 @@ added into the script cache.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L245" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L353" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2826,11 +3007,25 @@ added into the script cache.</p></div>
 <p>The method yields to the given block and passes a Subscription object, on
 which you can set your callbacks for the event subscription.</p>
 
-<p>The subscription loop will end once you unsubscribe.</p></div>
+<p>The subscription loop will end once you unsubscribe.</p>
+
+<p>See also: <code><a href="../Subscription.html">Subscription</a></code> class
+See also: Example <code>subscribe.cr</code></p>
+
+<p>Example:</p>
+
+<pre><code>  redis.subscribe(<span class="s">"mychannel"</span>) <span class="k">do</span> <span class="o">|</span>on<span class="o">|</span>
+    on.message <span class="k">do</span> <span class="o">|</span>channel, message<span class="o">|</span>
+      puts <span class="s">"Received message: </span><span class="i">#{</span></span>message<span class="s"><span class="i">}</span>"</span>
+      <span class="k">if</span> message <span class="o">==</span> <span class="s">"goodbye pal"</span>
+        redis.unsubscribe
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span></code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1216" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1525" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2845,7 +3040,7 @@ which you can set your callbacks for the event subscription.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1232" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1541" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2862,7 +3057,7 @@ which you can set your callbacks for the event subscription.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L601" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L802" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2879,7 +3074,7 @@ which you can set your callbacks for the event subscription.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L608" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L809" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2897,7 +3092,7 @@ signal an error (see the description above).</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1190" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1476" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2910,11 +3105,16 @@ signal an error (see the description above).</p></div>
       
         <div class="doc"><p>Returns the string representation of the type of the value stored at key.</p>
 
-<p><strong>Return value</strong>: String, the type of key, or none when key does not exist.</p></div>
+<p><strong>Return value</strong>: String, the type of key, or none when key does not exist.</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.set(<span class="s">"foo"</span>, <span class="n">3</span>)
+  redis.<span class="k">type</span>(<span class="s">"foo"</span>)             <span class="c"># => "string"</span></code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1206" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1499" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2929,7 +3129,7 @@ signal an error (see the description above).</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1277" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1586" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2946,7 +3146,7 @@ signal an error (see the description above).</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1303" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1618" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2963,7 +3163,7 @@ signal an error (see the description above).</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1296" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1611" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2976,11 +3176,16 @@ signal an error (see the description above).</p></div>
       
         <div class="doc"><p>Adds all the specified members with the specified scores to the sorted set stored at key.</p>
 
-<p><strong>Return value</strong>: Integer, the number of elements added to the sorted sets, not including elements already existing for which the score was updated.</p></div>
+<p><strong>Return value</strong>: Integer, the number of elements added to the sorted sets, not including elements already existing for which the score was updated.</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.zadd(<span class="s">"myzset"</span>, <span class="n">1</span>, <span class="s">"one"</span>)
+  redis.zadd(<span class="s">"myzset"</span>, <span class="n">2</span>, <span class="s">"two"</span>, <span class="n">3</span>, <span class="s">"three"</span>)</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L798" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1042" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -2997,7 +3202,7 @@ signal an error (see the description above).</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L824" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1074" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -3014,7 +3219,7 @@ signal an error (see the description above).</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L838" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1088" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -3031,7 +3236,7 @@ signal an error (see the description above).</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L852" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1102" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -3049,11 +3254,15 @@ and stores the result in destination.</p>
 
 <ul><li>weights - nil or Array(String): Using the WEIGHTS option, it is possible to specify a multiplication factor for each input sorted set.</li><li>aggregate - With the AGGREGATE option, it is possible to specify how the results of the union are aggregated.</li></ul>
 
-<p><strong>Return value</strong>: Integer, the number of elements in the resulting sorted set at destination.</p></div>
+<p><strong>Return value</strong>: Integer, the number of elements in the resulting sorted set at destination.</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.zinterstore(<span class="s">"zset3"</span>, [<span class="s">"zset1"</span>, <span class="s">"zset2"</span>], weights: [<span class="n">2</span>, <span class="n">3</span>])</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L891" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1147" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -3070,7 +3279,7 @@ and stores the result in destination.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L845" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1095" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -3087,11 +3296,15 @@ and stores the result in destination.</p>
 
 <ul><li>with_scores - true to return the scores of the elements together with the elements.</li></ul>
 
-<p><strong>Return value</strong>: Array(String), list of elements in the specified range (optionally with their scores, in case the with_scores option is true).</p></div>
+<p><strong>Return value</strong>: Array(String), list of elements in the specified range (optionally with their scores, in case the with_scores option is true).</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.zrange(<span class="s">"myzset"</span>, <span class="n">0</span>, <span class="n">-1</span>, with_scores: <span class="n">true</span>)      <span class="c"># => ["one", "1", "uno", "1", "two", "2", "three", "3"]</span></code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L813" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1063" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -3114,7 +3327,7 @@ elements in the sorted set at key with a value between min and max.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L934" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1190" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -3136,7 +3349,7 @@ max and min (including elements with score equal to max or min).</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L951" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1207" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -3155,7 +3368,7 @@ max and min (including elements with score equal to max or min).</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L868" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1118" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -3172,7 +3385,7 @@ max and min (including elements with score equal to max or min).</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L859" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1109" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -3192,7 +3405,7 @@ specified by min and max.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1021" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1277" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -3209,7 +3422,7 @@ specified by min and max.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1028" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1284" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -3227,7 +3440,7 @@ between min and max (inclusive).</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1036" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1292" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -3248,7 +3461,7 @@ between min and max (inclusive).</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L969" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1225" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -3271,7 +3484,7 @@ elements in the sorted set at key with a value between min and max.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L987" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1243" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -3293,7 +3506,7 @@ max and min (including elements with score equal to max or min).</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1004" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1260" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -3313,7 +3526,7 @@ with the scores ordered from high to low.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L878" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1128" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -3330,11 +3543,15 @@ with the scores ordered from high to low.</p>
 
 <ul><li>match - It is possible to only iterate elements matching a given glob-style pattern, similarly to the behavior of the KEYS command that takes a pattern as only argument.</li><li>count - While SCAN does not provide guarantees about the number of elements returned at every iteration, it is possible to empirically adjust the behavior of SCAN using the COUNT option.</li></ul>
 
-<p><strong>Return value</strong>: Array(String), contains two elements, a member and its associated score, for every returned element of the sorted set.</p></div>
+<p><strong>Return value</strong>: Array(String), contains two elements, a member and its associated score, for every returned element of the sorted set.</p>
+
+<p>Example:</p>
+
+<pre><code>  redis.zscan(<span class="s">"myzset"</span>, <span class="n">0</span>)</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L1048" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1310" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -3351,7 +3568,7 @@ with the scores ordered from high to low.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L831" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1081" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -3372,7 +3589,7 @@ with the scores ordered from high to low.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr#L912" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr#L1168" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>

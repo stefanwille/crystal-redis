@@ -62,22 +62,22 @@ of the available Redis commands such as #incr, #rename, and so on.</p>
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/commands.cr">redis/commands.cr</a>
+      <a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/commands.cr">redis/commands.cr</a>
     
     <br/>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/command_execution/value_oriented.cr">redis/command_execution/value_oriented.cr</a>
+      <a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/command_execution/value_oriented.cr">redis/command_execution/value_oriented.cr</a>
     
     <br/>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis.cr">redis.cr</a>
+      <a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis.cr">redis.cr</a>
     
     <br/>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis/command_execution/future_oriented.cr">redis/command_execution/future_oriented.cr</a>
+      <a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis/command_execution/future_oriented.cr">redis/command_execution/future_oriented.cr</a>
     
     <br/>
   
@@ -155,19 +155,19 @@ of the available Redis commands such as #incr, #rename, and so on.</p>
       
         <div class="doc"><p>Opens a Redis connection, yields the given block with a Redis object and closes the connection.</p>
 
+<p><strong>Options</strong>:</p>
+
+<ul><li>host - the host to connect to</li><li>port - the port to connect to</li><li>unixsocket - instead of using TCP, you can connect to Redis via a Unix domain socket by passing its path here (e.g. "/tmp/redis.sock")</li></ul>
+
 <p>Example:</p>
 
 <pre><code><span class="t">Redis</span>.open <span class="k">do</span> <span class="o">|</span>redis<span class="o">|</span>
    redis.incr(<span class="s">"counter"</span>)
-<span class="k">end</span></code></pre>
-
-<p><strong>Options</strong>:</p>
-
-<ul><li>host - the host to connect to</li><li>port - the port to connect to</li><li>unixsocket - instead of using TCP, you can connect to Redis via a Unix domain socket by passing its path here (e.g. "/tmp/redis.sock")</li></ul></div>
+<span class="k">end</span></code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis.cr#L69" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis.cr#L83" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -180,19 +180,29 @@ of the available Redis commands such as #incr, #rename, and so on.</p>
       
         <div class="doc"><p>Opens a Redis connection</p>
 
+<p><strong>Options</strong>:</p>
+
+<ul><li>host - the host to connect to</li><li>port - the port to connect to</li><li>unixsocket - instead of using TCP, you can connect to Redis via a Unix domain socket by passing its path here (e.g. "/tmp/redis.sock")</li></ul>
+
 <p>Example:</p>
 
 <pre><code>redis <span class="o">=</span> <span class="t">Redis</span>.<span class="k">new</span>
 redis.incr(<span class="s">"counter"</span>)
 redis.close</code></pre>
 
-<p><strong>Options</strong>:</p>
+<p>Example:</p>
 
-<ul><li>host - the host to connect to</li><li>port - the port to connect to</li><li>unixsocket - instead of using TCP, you can connect to Redis via a Unix domain socket by passing its path here (e.g. "/tmp/redis.sock")</li></ul></div>
+<pre><code>redis <span class="o">=</span> <span class="t">Redis</span>.<span class="k">new</span>(host: <span class="s">"localhost"</span>, port: <span class="n">6379</span>)
+...</code></pre>
+
+<p>Example:</p>
+
+<pre><code>redis <span class="o">=</span> <span class="t">Redis</span>.<span class="k">new</span>(unixsocket: <span class="s">"/tmp/redis.sock"</span>)
+...</code></pre></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis.cr#L50" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis.cr#L64" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -212,7 +222,7 @@ redis.close</code></pre>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis.cr#L156" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis.cr#L172" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -231,7 +241,7 @@ redis.close</code></pre>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis.cr#L151" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis.cr#L167" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -249,6 +259,9 @@ an object that has the same API as this class, except:</p>
 
 <ul><li>it participates in the transaction</li><li>all the Redis commands return Futures</li><li>there is an additional method #discard that will abort the transaction.</li></ul>
 
+<p><strong>Return value</strong>: an array with all the responses
+- one element for each executed command.</p>
+
 <p>Example:</p>
 
 <pre><code>redis.multi <span class="k">do</span> <span class="o">|</span>multi<span class="o">|</span>
@@ -256,14 +269,11 @@ an object that has the same API as this class, except:</p>
     multi.set(<span class="s">"foo2"</span>, <span class="s">"second"</span>)
 <span class="k">end</span></code></pre>
 
-<p>See the examples directory for more examples.</p>
-
-<p><strong>Return value</strong>: an array with all the responses
-- one element for each executed command.</p></div>
+<p>See the examples directory for more examples.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis.cr#L135" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis.cr#L151" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -280,6 +290,9 @@ an object that has the same API as this class, except:</p>
 an object that has the same API as this class, except
 it participates in pipelining and all Redis commands return Futures.</p>
 
+<p><strong>Return value</strong>: an array with all the responses
+- one element for each executed command.</p>
+
 <p>Example:</p>
 
 <pre><code>redis.pipelined <span class="k">do</span> <span class="o">|</span>pipeline<span class="o">|</span>
@@ -287,14 +300,11 @@ it participates in pipelining and all Redis commands return Futures.</p>
     pipeline.set(<span class="s">"foo2"</span>, <span class="s">"second"</span>)
 <span class="k">end</span></code></pre>
 
-<p>See the examples directory for more examples.</p>
-
-<p><strong>Return value</strong>: an array with all the responses
-- one element for each executed command.</p></div>
+<p>See the examples directory for more examples.</p></div>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7648986d73f1b41e66928c6e122b981db5c57d31/src/redis.cr#L104" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/7bd65af0d4ae2f4daae40fc31fe1ee1d9528ea03/src/redis.cr#L119" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
