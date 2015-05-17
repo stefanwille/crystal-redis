@@ -1,5 +1,5 @@
-Redis Client for Crystal-Lang
-================================
+Redis Client for Crystal
+========================
 
 A Redis client for the Crystal programming language.
 
