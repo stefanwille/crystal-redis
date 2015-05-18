@@ -1,8 +1,12 @@
 class Redis
   # This module contains mixins for the execution of Redis commands.
+
+  #:nodoc:
   module CommandExecution
     # Command execution methods that don't return Redis values but Futures.
     #
+
+    #:nodoc:
     module FutureOriented
       # Executes a Redis command and returns a Future.
       def integer_command(request : Request)

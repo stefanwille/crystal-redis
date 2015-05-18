@@ -1,7 +1,10 @@
 class Redis
+  #:nodoc:
   module CommandExecution
     # Command execution methods that return real values, not futures.
     #
+
+    #:nodoc:
     module ValueOriented
       # Executes a Redis command and casts it to the correct type.
       # This is an internal method.

@@ -2,6 +2,8 @@
 #
 # Used in Redis#pipelined.
 #
+
+#:nodoc:
 class Redis::Strategy::Pipeline < Redis::Strategy::Base
   def initialize(@connection)
     @futures = [] of Redis::Future

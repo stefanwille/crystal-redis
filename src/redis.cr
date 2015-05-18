@@ -28,9 +28,14 @@ require "./redis/command_execution/value_oriented"
 # See the mixin module <a href="Redis/Commands.html" target="main">Commands</a> for most
 # of the available Redis commands such as #incr, #rename, and so on.
 class Redis
-   # A value from the Redis type system.
+  # A value from the Redis type system.
+
+  #:nodoc:
   alias RedisValue = Nil | Int32 | Int64 | String | Array(RedisValue)
+
   # A Redis request.
+
+  #:nodoc:
   alias Request = Array(RedisValue)
 
   # Opens a Redis connection
@@ -164,6 +169,8 @@ class Redis
   # Executes a Redis command.
   #
   # **Return value**: a RedisValue (never a Future)
+
+  #:nodoc:
   def command(request : Array(RedisValue))
     @strategy.command(request) as RedisValue
   end

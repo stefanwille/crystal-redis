@@ -2,6 +2,8 @@
 #
 # Used in Redis#multi.
 #
+
+#:nodoc:
 class Redis::Strategy::Transaction < Redis::Strategy::Base
   getter :futures
 
