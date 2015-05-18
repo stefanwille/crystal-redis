@@ -45,7 +45,7 @@ of the available Redis commands such as #incr, #rename, and so on.</p>
 
   <h2>Included Modules</h2>
   
-    <a href="Redis/CommandExecution/ValueOriented.html">Redis::CommandExecution::ValueOriented</a>,
+    Redis::CommandExecution::ValueOriented,
   
     <a href="Redis/Commands.html">Redis::Commands</a>
   
@@ -62,22 +62,27 @@ of the available Redis commands such as #incr, #rename, and so on.</p>
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/2399eab385720823e5163bece84978f1a097925c/src/redis/commands.cr">redis/commands.cr</a>
+      <a href="https://github.com/stefanwille/crystal-redis/blob/48f6b5983bcaeb8c037627e94cb2dc51f787f383/src/redis/commands.cr">redis/commands.cr</a>
     
     <br/>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/2399eab385720823e5163bece84978f1a097925c/src/redis/command_execution/value_oriented.cr">redis/command_execution/value_oriented.cr</a>
+      <a href="https://github.com/stefanwille/crystal-redis/blob/48f6b5983bcaeb8c037627e94cb2dc51f787f383/src/redis/command_execution/value_oriented.cr">redis/command_execution/value_oriented.cr</a>
     
     <br/>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/2399eab385720823e5163bece84978f1a097925c/src/redis.cr">redis.cr</a>
+      <a href="https://github.com/stefanwille/crystal-redis/blob/48f6b5983bcaeb8c037627e94cb2dc51f787f383/src/redis.cr">redis.cr</a>
     
     <br/>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/2399eab385720823e5163bece84978f1a097925c/src/redis/command_execution/future_oriented.cr">redis/command_execution/future_oriented.cr</a>
+      <a href="https://github.com/stefanwille/crystal-redis/blob/48f6b5983bcaeb8c037627e94cb2dc51f787f383/src/redis/command_execution/future_oriented.cr">redis/command_execution/future_oriented.cr</a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/stefanwille/crystal-redis/blob/48f6b5983bcaeb8c037627e94cb2dc51f787f383/src/redis/strategy/base.cr">redis/strategy/base.cr</a>
     
     <br/>
   
@@ -114,13 +119,6 @@ of the available Redis commands such as #incr, #rename, and so on.</p>
         <a href="#close-instance-method" class="signature"><strong>#close</strong></a>
         
           <div class="summary"><p>Closes the Redis connection.</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#command%28request%20%3A%20Array%28RedisValue%29%29-instance-method" class="signature"><strong>#command</strong>(request : Array(RedisValue))</a>
-        
-          <div class="summary"><p>This is an internal method.</p></div>
         
       </li>
     
@@ -167,7 +165,7 @@ of the available Redis commands such as #incr, #rename, and so on.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/2399eab385720823e5163bece84978f1a097925c/src/redis.cr#L83" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/48f6b5983bcaeb8c037627e94cb2dc51f787f383/src/redis.cr#L88" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -202,7 +200,7 @@ redis.close</code></pre>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/2399eab385720823e5163bece84978f1a097925c/src/redis.cr#L64" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/48f6b5983bcaeb8c037627e94cb2dc51f787f383/src/redis.cr#L69" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -222,26 +220,7 @@ redis.close</code></pre>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/2399eab385720823e5163bece84978f1a097925c/src/redis.cr#L172" target="_blank">View source</a>]</div>
-      
-    </div>
-    <hr/>
-  
-    <div class="entry-detail">
-      <div class="signature" id="command%28request%20%3A%20Array%28RedisValue%29%29-instance-method">
-        
-        def <strong>command</strong>(request : Array(<a href="Redis/RedisValue.html">RedisValue</a>))
-      </div>
-      
-        <div class="doc"><p>This is an internal method.</p>
-
-<p>Executes a Redis command.</p>
-
-<p><strong>Return value</strong>: a RedisValue (never a Future)</p></div>
-      
-      
-        <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/2399eab385720823e5163bece84978f1a097925c/src/redis.cr#L167" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/48f6b5983bcaeb8c037627e94cb2dc51f787f383/src/redis.cr#L179" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -273,7 +252,7 @@ an object that has the same API as this class, except:</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/2399eab385720823e5163bece84978f1a097925c/src/redis.cr#L151" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/48f6b5983bcaeb8c037627e94cb2dc51f787f383/src/redis.cr#L156" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
@@ -304,7 +283,7 @@ it participates in pipelining and all Redis commands return Futures.</p>
       
       
         <br/>
-        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/2399eab385720823e5163bece84978f1a097925c/src/redis.cr#L119" target="_blank">View source</a>]</div>
+        <div>[<a href="https://github.com/stefanwille/crystal-redis/blob/48f6b5983bcaeb8c037627e94cb2dc51f787f383/src/redis.cr#L124" target="_blank">View source</a>]</div>
       
     </div>
     <hr/>
