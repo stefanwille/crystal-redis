@@ -32,30 +32,30 @@ class Redis::Connection
   end
 
   def queue(request : Request)
-    @io << marshal(request)
+    marshal(request, @io)
   end
 
   def flush
     @io.flush
   end
 
-  def marshal(arg : Int)
-    ":#{arg}\r\n"
+  def marshal(arg : Int, io)
+    io << ":" << arg << "\r\n"
   end
 
-  def marshal(arg : String)
-    "$#{arg.size}\r\n#{arg}\r\n"
+  def marshal(arg : String, io)
+    io << "$" << arg.size << "\r\n" << arg << "\r\n"
   end
 
-  def marshal(arg : Array(RedisValue))
-    result = StringIO.new
-    result << "*#{arg.length}\r\n"
-    arg.each { |element| result << marshal(element) }
-    result.to_s
+  def marshal(arg : Array(RedisValue), io)
+    io << "*" << arg.length << "\r\n"
+    arg.each do |element|
+      marshal(element, io)
+    end
   end
 
-  def marshal(arg : Nil)
-    "$-1\r\n"
+  def marshal(arg : Nil, io)
+    io << "$-1\r\n"
   end
 
   # Receives n responses with the expected content "QUEUED".
