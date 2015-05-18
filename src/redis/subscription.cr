@@ -2,7 +2,7 @@
 #
 # The caller sets callbacks on this object that the Redis client will
 # trigger for the matching events.
-class Subscription
+class Redis::Subscription
   property :subscribe_callback
   property :psubscribe_callback
   property :message_callback
