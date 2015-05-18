@@ -25,7 +25,7 @@ require "./redis/command_execution/value_oriented"
 #   redis.incr("visitors")
 # ```
 #
-# See the mixin module <a href="Redis/Commands.html" target="main">Commands</a> for most
+# See the mixin module [Commands](Redis/Commands.html) for most
 # of the available Redis commands such as #incr, #rename, and so on.
 class Redis
   # A value from the Redis type system.
