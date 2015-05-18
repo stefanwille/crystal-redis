@@ -3,12 +3,12 @@
 # The caller sets callbacks on this object that the Redis client will
 # trigger for the matching events.
 class Redis::Subscription
-  property :subscribe_callback
-  property :psubscribe_callback
-  property :message_callback
-  property :pmessage_callback
-  property :unsubscribe_callback
-  property :punsubscribe_callback
+  getter :subscribe_callback
+  getter :psubscribe_callback
+  getter :message_callback
+  getter :pmessage_callback
+  getter :unsubscribe_callback
+  getter :punsubscribe_callback
 
   def initialize
     # By default, the callbacks do nothing.
