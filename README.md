@@ -83,7 +83,7 @@ start reading it at the class `Redis`.
 
 ## Performance
 
-* Crystal: With this library I get > 260.000 commands per second using pipeline on a MacBook Air with a single client thread.
+* Crystal: With this library I get > 380.000 commands per second using pipeline on a MacBook Air with a single client thread.
 
 * C: The equivalent program written in C with Hiredis gets me 340.000 commands per second.
 
