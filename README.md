@@ -89,6 +89,8 @@ start reading it at the class `Redis`.
 
 * Ruby: Ruby 2.2.1 with the [redis-rb](https://github.com/redis/redis-rb) handles 50.000 commands per second.
 
+* Go: Go's Radix achieves 90.000 commands per second, Redigo performs 640.000 commands per second.
+
 
 ## Status
 
