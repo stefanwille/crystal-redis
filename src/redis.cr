@@ -120,7 +120,7 @@ class Redis
   # end
   # ```
   #
-  # See the examples directory for more examples.
+  # See the [examples repository](https://github.com/stefanwille/crystal-redis-examples) for more examples.
   def pipelined
     @strategy = Redis::Strategy::PauseDuringPipeline.new
     pipeline_strategy = Redis::Strategy::Pipeline.new(@connection)
@@ -152,7 +152,7 @@ class Redis
   # end
   # ```
   #
-  # See the examples directory for more examples.
+  # See the [examples repository](https://github.com/stefanwille/crystal-redis-examples) for more examples.
   def multi
     @strategy = Redis::Strategy::PauseDuringTransaction.new
     transaction_strategy = Redis::Strategy::Transaction.new(@connection)
