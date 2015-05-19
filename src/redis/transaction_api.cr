@@ -26,10 +26,19 @@ class Redis::TransactionApi
 
   # Aborts the current transaction.
   #
+  # **Example**:
+  #
+  # ```
+  #   redis.multi do |multi|
+  #     multi.set("foo", "the new value")
+  #     multi.discard
+  #    end
+  # ```
   def discard
     @strategy.discard
   end
 
+  #:nodoc:
   def command(request : Request)
     @strategy.command(request) as Redis::Future
   end

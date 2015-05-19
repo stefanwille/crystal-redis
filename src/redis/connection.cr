@@ -1,8 +1,8 @@
 require "socket"
 
-#:nodoc:
-#
 # A connection to a Redis instance.
+
+#:nodoc:
 class Redis::Connection
   def initialize(host, port, unixsocket)
     if unixsocket
