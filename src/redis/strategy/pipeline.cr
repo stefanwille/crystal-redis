@@ -1,9 +1,8 @@
+#:nodoc:
+#
 # Strategy for sending commands in pipelined mode.
 #
 # Used in Redis#pipelined.
-#
-
-#:nodoc:
 class Redis::Strategy::Pipeline < Redis::Strategy::Base
   def initialize(@connection)
     @futures = [] of Redis::Future
