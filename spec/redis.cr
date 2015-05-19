@@ -1,6 +1,5 @@
 require "./spec_helper"
 
-
 # A poor man's sort for an array of redis values.
 #
 # I don't know how to do this better within Crystal's type system.
@@ -182,6 +181,7 @@ describe Redis do
 
   describe "strings" do
     redis = Redis.new
+
     it "#set / #get" do
       redis.set("foo", "test")
       redis.get("foo").should eq("test")
@@ -511,7 +511,7 @@ describe Redis do
       redis.sadd("myset", "one")
       redis.spop("myset").should eq("one")
       redis.smembers("myset").should eq([] of Redis::RedisValue)
-      # Redis 3.0 should have the "count" argument, but doesn't yet.
+      # Redis 3.0 should have received the "count" argument, but hasn't.
       #
       # redis.sadd("myset", "one", "two")
       # sort(redis.spop("myset", count: 2)).should eq(["one", "two"])
@@ -953,7 +953,6 @@ describe Redis do
       it "checks if the given LUA scripts exist" do
         sha1 = redis.script_load("return 10")
         result = redis.script_exists([sha1, "fffffffffffffff"])
-        # TODO: Return an array of booleans instead
         result.should eq([1, 0])
       end
     end
@@ -1068,7 +1067,6 @@ describe Redis do
 
   describe "punsubscribe" do
     redis = Redis.new
-    other_redis = Redis.new
 
     it "#psubscribe / #punsubscribe" do
       callbacks_received = [] of String
@@ -1081,7 +1079,9 @@ describe Redis do
 
           # Send a message to ourselves so that we can test the other callbacks.
           # We need a second connection to do so.
-          other_redis.publish("otherchannel", "hello subscriber")
+          Redis.open do |other_redis|
+            other_redis.publish("otherchannel", "hello subscriber")
+          end
         end
 
         on.pmessage do |channel_pattern, channel, message|
