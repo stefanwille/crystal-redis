@@ -9,57 +9,57 @@ class Redis
     #:nodoc:
     module FutureOriented
       # Executes a Redis command and returns a Future.
-      def integer_command(request : Request)
+      def integer_command(request : Request) : Redis::Future
         command(request)
       end
 
       # Executes a Redis command and returns a Future.
-      def integer_or_nil_command(request : Request)
+      def integer_or_nil_command(request : Request) : Redis::Future
         command(request)
       end
 
       # Executes a Redis command and returns a Future.
-      def integer_array_command(request : Request)
+      def integer_array_command(request : Request) : Redis::Future
         command(request)
       end
 
       # Executes a Redis command and returns a Future.
-      def string_command(request : Request)
+      def string_command(request : Request) : Redis::Future
         command(request)
       end
 
       # Executes a Redis command and returns a Future.
-      def string_or_nil_command(request : Request)
+      def string_or_nil_command(request : Request) : Redis::Future
         command(request)
       end
 
       # Executes a Redis command and returns a Future.
-      def string_array_command(request : Request)
+      def string_array_command(request : Request) : Redis::Future
         command(request)
       end
 
       # Executes a Redis command and returns a Future.
-      def string_array_or_integer_command(request : Request)
+      def string_array_or_integer_command(request : Request) : Redis::Future
         command(request)
       end
 
       # Executes a Redis command and returns a Future.
-      def string_array_or_string_command(request : Request)
+      def string_array_or_string_command(request : Request) : Redis::Future
         command(request)
       end
 
       # Executes a Redis command and returns a Future.
-      def string_array_or_string_or_nil_command(request : Request)
+      def string_array_or_string_or_nil_command(request : Request) : Redis::Future
         command(request)
       end
 
       # Executes a Redis command and returns a Future.
-      def array_or_nil_command(request : Request)
+      def array_or_nil_command(request : Request) : Redis::Future
         command(request)
       end
 
       # Executes a Redis command and returns a Future.
-      def void_command(request : Request)
+      def void_command(request : Request) : Redis::Future
         command(request)
       end
     end
