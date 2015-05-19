@@ -1,6 +1,6 @@
 #:nodoc:
 #
-# Strategy for sending commands as individual requests and responses,
+# Strategy for sending commands as individual request/response pairs,
 # which is the default case.
 class Redis::Strategy::SingleStatement < Redis::Strategy::Base
   def initialize(connection)

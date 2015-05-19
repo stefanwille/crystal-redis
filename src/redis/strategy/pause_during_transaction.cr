@@ -1,7 +1,7 @@
 #:nodoc:
 #
 # Strategy for the original Redis object that prevents commands from being sent
-# while in pipelined mode.
+# while in transaction mode.
 #
 # Used in Redis#multi.
 class Redis::Strategy::PauseDuringTransaction < Redis::Strategy::Base

@@ -24,7 +24,7 @@ class Redis::PipelineApi
   include Redis::CommandExecution::FutureOriented
 
   #:nodoc:
-  def command(request : Request)
-    @strategy.command(request) as Redis::Future
+  def command(request : Request) : Redis::Future
+    @strategy.command(request)
   end
 end

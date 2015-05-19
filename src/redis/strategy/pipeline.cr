@@ -8,7 +8,7 @@ class Redis::Strategy::Pipeline < Redis::Strategy::Base
     @futures = [] of Redis::Future
   end
 
-  def command(request : Request)
+  def command(request : Request) : Redis::Future
     @connection.queue(request)
     future = Future.new
     @futures << future

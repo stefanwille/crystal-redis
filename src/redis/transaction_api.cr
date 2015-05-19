@@ -39,7 +39,7 @@ class Redis::TransactionApi
   end
 
   #:nodoc:
-  def command(request : Request)
-    @strategy.command(request) as Redis::Future
+  def command(request : Request) : Redis::Future
+    @strategy.command(request)
   end
 end
