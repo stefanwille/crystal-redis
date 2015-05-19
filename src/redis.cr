@@ -171,7 +171,7 @@ class Redis
   # **Return value**: a RedisValue (never a Future)
 
   #:nodoc:
-  def command(request : Array(RedisValue))
+  def command(request : Request)
     @strategy.command(request) as RedisValue
   end
 
