@@ -91,6 +91,8 @@ start reading it at the class `Redis`.
 
 * Go: Go's Radix achieves 90.000 commands per second, Redigo performs 640.000 commands per second.
 
+* Java: Java 8 with Jedis gets me 520.000 commands per second.
+
 
 ## Status
 
