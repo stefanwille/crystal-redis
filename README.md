@@ -83,15 +83,15 @@ start reading it at the class `Redis`.
 
 ## Performance
 
-* Crystal: With this library I get > 380.000 commands per second using pipeline on a MacBook Air with a single client thread.
+* Crystal: With this library I get > 410.000 commands per second using pipeline on a MacBook Air with a single client thread.
 
 * C: The equivalent program written in C with Hiredis gets me 340.000 commands per second.
 
-* Ruby: Ruby 2.2.1 with the [redis-rb](https://github.com/redis/redis-rb) handles 50.000 commands per second.
+* Ruby: Ruby 2.2.1 with the [redis-rb](https://github.com/redis/redis-rb) handles 40.000 commands per second.
 
-* Go: Go's Radix achieves 90.000 commands per second, Redigo performs 640.000 commands per second.
+* Go: Go's Radix achieves 90.000 commands per second, Redigo performs 497.000 commands per second.
 
-* Java: Java 8 with Jedis gets me 520.000 commands per second.
+* Java: Java 8 with Jedis gets me 390.000 commands per second.
 
 
 ## Status
