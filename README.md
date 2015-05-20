@@ -6,7 +6,7 @@ A Redis client for the Crystal programming language.
 
 ## Features
 
-* Performance (> 260.000 commands per second using pipeline on a MacBook Air with a single client thread)
+* Performance (> 380.000 commands per second using pipeline on a MacBook Air with a single client thread)
 * Pipelining
 * Transactions
 * LUA Scripting
