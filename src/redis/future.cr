@@ -3,7 +3,6 @@
 # The API methods Redis#pipelined and Redis#multi make commands return futures instead of actual values.
 #
 # See this [example](https://github.com/stefanwille/crystal-redis-examples/blob/master/src/pipelining.cr).
-#
 class Redis::Future
   def initialize
     @value
