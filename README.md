@@ -6,7 +6,7 @@ A Redis client for the Crystal programming language.
 
 ## Features
 
-* Performance (> 380.000 commands per second using pipeline on a MacBook Air with a single client thread)
+* Performance (> 410.000 commands per second using pipeline on a MacBook Air with a single client thread)
 * Pipelining
 * Transactions
 * LUA Scripting
@@ -92,6 +92,8 @@ start reading it at the class `Redis`.
 * Go: Go's Radix achieves 90.000 commands per second, Redigo performs 497.000 commands per second.
 
 * Java: Java 8 with Jedis gets me 390.000 commands per second.
+
+* Node.js: io.js with ioredis performs 93,000 commands per second.
 
 
 ## Status
