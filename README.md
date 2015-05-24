@@ -100,7 +100,7 @@ start reading it at the class `Redis`.
 
 I have exercised every API method in the spec and built some example programs. There is no production use yet.
 
-I took great care to make this library very usable with respect to to API, reliability and documentation.
+I took great care to make this library very usable with respect to API, reliability and documentation.
 
 
 ## Questions, Bugs & Support
