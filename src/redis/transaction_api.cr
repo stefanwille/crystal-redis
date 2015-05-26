@@ -22,6 +22,7 @@ class Redis::TransactionApi
   end
 
   include Redis::Commands
+  #:nodoc:
   include Redis::CommandExecution::FutureOriented
 
   # Aborts the current transaction.
