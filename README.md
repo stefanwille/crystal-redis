@@ -93,7 +93,7 @@ Here are some results:
 
 * Ruby: Ruby 2.2.1 with the [redis-rb](https://github.com/redis/redis-rb) and Hiredis driver handles 150,000 commands per second.
 
-[Read more results](http://www.stefanwille.com/2015/05/redis-clients-crystal-vs-ruby-vs-c-vs-go/).
+[Read more results](http://www.stefanwille.com/2015/05/redis-clients-crystal-vs-ruby-vs-c-vs-go/) for Go, Java, Node.js.
 
 
 ## Status
