@@ -6,7 +6,7 @@ A Redis client for the Crystal programming language.
 
 ## Features
 
-* Performance (> 410.000 commands per second using pipeline on a MacBook Air with a single client thread)
+* Performance (> 680,000 commands per second using pipeline on a MacBook Air with a single client thread)
 * Pipelining
 * Transactions
 * LUA Scripting
@@ -83,17 +83,17 @@ start reading it at the class `Redis`.
 
 ## Performance
 
-* Crystal: With this library I get > 410.000 commands per second using pipeline on a MacBook Air with a single client thread.
+I have benchmarked Crystal-Redis against several other client libraries in various programming languages in this [blog article](http://www.stefanwille.com/2015/05/redis-clients-crystal-vs-ruby-vs-c-vs-go/).
 
-* C: The equivalent program written in C with Hiredis gets me 340.000 commands per second.
+Here are some results:
 
-* Ruby: Ruby 2.2.1 with the [redis-rb](https://github.com/redis/redis-rb) handles 40.000 commands per second.
+* Crystal: With this library I get > 680,000 commands per second using pipeline on a MacBook Air with a single client thread.
 
-* Go: Go's Radix achieves 90.000 commands per second, Redigo performs 497.000 commands per second.
+* C: The equivalent program written in C with Hiredis gets me 340,000 commands per second.
 
-* Java: Java 8 with Jedis gets me 390.000 commands per second.
+* Ruby: Ruby 2.2.1 with the [redis-rb](https://github.com/redis/redis-rb) and Hiredis driver handles 150,000 commands per second.
 
-* Node.js: io.js with ioredis performs 93,000 commands per second.
+[Read more results](http://www.stefanwille.com/2015/05/redis-clients-crystal-vs-ruby-vs-c-vs-go/).
 
 
 ## Status
