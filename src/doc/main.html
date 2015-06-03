@@ -11,7 +11,7 @@
 
 <h2>Features</h2>
 
-<ul><li>Performance (> 680,000 commands per second using pipeline on a MacBook Air with a single client thread)</li><li>Pipelining</li><li>Transactions</li><li>LUA Scripting</li><li>All string commands</li><li>All hash commands</li><li>All list commands</li><li>All set commands</li><li>All hyperloglog commands</li><li>All commands for bit operations</li><li>All sorted set commands</li><li>Publish/subscribe</li></ul>
+<ul><li>Performance (> 260.000 commands per second using pipeline on a MacBook Air with a single client thread)</li><li>Pipelining</li><li>Transactions</li><li>LUA Scripting</li><li>All string commands</li><li>All hash commands</li><li>All list commands</li><li>All set commands</li><li>All hyperloglog commands</li><li>All commands for bit operations</li><li>All sorted set commands</li><li>Publish/subscribe</li></ul>
 
 <h2>Installation</h2>
 
@@ -60,19 +60,13 @@
 
 <h2>Performance</h2>
 
-<p>I have benchmarked Crystal-Redis against several other client libraries in various programming languages in this <a href="http://www.stefanwille.com/2015/05/redis-clients-crystal-vs-ruby-vs-c-vs-go/" target="_blank">blog article</a>.</p>
-
-<p>Here are some results:</p>
-
-<ul><li>Crystal: With this library I get > 680,000 commands per second using pipeline on a MacBook Air with a single client thread.</li><li>C: The equivalent program written in C with Hiredis gets me 340,000 commands per second.</li><li>Ruby: Ruby 2.2.1 with the <a href="https://github.com/redis/redis-rb" target="_blank">redis-rb</a> and Hiredis driver handles 150,000 commands per second.</li></ul>
-
-<p><a href="http://www.stefanwille.com/2015/05/redis-clients-crystal-vs-ruby-vs-c-vs-go/" target="_blank">Read more results</a> for Go, Java, Node.js.</p>
+<ul><li>Crystal: With this library I get > 380.000 commands per second using pipeline on a MacBook Air with a single client thread.</li><li>C: The equivalent program written in C with Hiredis gets me 340.000 commands per second.</li><li>Ruby: Ruby 2.2.1 with the <a href="https://github.com/redis/redis-rb" target="_blank">redis-rb</a> handles 50.000 commands per second.</li></ul>
 
 <h2>Status</h2>
 
 <p>I have exercised every API method in the spec and built some example programs. There is no production use yet.</p>
 
-<p>I took great care to make this library very usable with respect to API, reliability and documentation.</p>
+<p>I took great care to make this library very usable with respect to to API, reliability and documentation.</p>
 
 <h2>Questions, Bugs & Support</h2>
 
