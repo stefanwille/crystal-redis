@@ -21,11 +21,10 @@ class Redis::Strategy::SubscriptionLoop < Redis::Strategy::Base
 
   private def enter_message_reception_loop
     @entered_loop = true
-    should_continue_looping = nil
-    begin
+    loop do
       response = @connection.receive
-      should_continue_looping = dispatch_response(response)
-    end while should_continue_looping
+      break if !dispatch_response(response)
+    end
   end
 
   private def dispatch_response(response)
@@ -68,4 +67,3 @@ class Redis::Strategy::SubscriptionLoop < Redis::Strategy::Base
     end
   end
 end
-
