@@ -52,7 +52,7 @@ class Redis::Strategy::Transaction < Redis::Strategy::Base
   end
 
   private def number_of_requests
-    @futures.length
+    @futures.size
   end
 
   private def flush
