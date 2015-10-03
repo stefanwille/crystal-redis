@@ -43,7 +43,7 @@ class Redis::Connection
   end
 
   def marshal(arg : String, io)
-    io << "$" << arg.size << "\r\n" << arg << "\r\n"
+    io << "$" << arg.bytesize << "\r\n" << arg << "\r\n"
   end
 
   def marshal(arg : Array(RedisValue), io)
@@ -61,7 +61,7 @@ class Redis::Connection
   # This method exists to prevent many small read calls.
   #
   def receive_queued_responses(n)
-    bytes_per_queued_responses = "+QUEUED\r\n".size
+    bytes_per_queued_responses = "+QUEUED\r\n".bytesize
     nbytes = n * bytes_per_queued_responses
     @socket.read(nbytes)
   end
@@ -112,6 +112,6 @@ class Redis::Connection
     unless line
       raise Redis::Error.new("Disconnected")
     end
-    line[0, line.size-2]
+    line.byte_slice(0, line.bytesize-2)
   end
 end
