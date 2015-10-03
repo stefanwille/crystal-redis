@@ -41,7 +41,7 @@ $ crystal deps
 
 ## Required Crystal Version
 
-This library needs Crystal version >= 0.7.1.
+This library needs Crystal version >= 0.8.0.
 
 
 ## Usage
