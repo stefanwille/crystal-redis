@@ -61,6 +61,9 @@ class Redis::Connection
   # This method exists to prevent many small read calls.
   #
   def receive_queued_responses(n)
+    if n == 0
+      return
+    end
     bytes_per_queued_responses = "+QUEUED\r\n".bytesize
     nbytes = n * bytes_per_queued_responses
     @socket.read(nbytes)
