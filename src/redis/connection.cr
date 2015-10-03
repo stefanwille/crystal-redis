@@ -47,7 +47,7 @@ class Redis::Connection
   end
 
   def marshal(arg : Array(RedisValue), io)
-    io << "*" << arg.length << "\r\n"
+    io << "*" << arg.size << "\r\n"
     arg.each do |element|
       marshal(element, io)
     end
@@ -112,6 +112,6 @@ class Redis::Connection
     unless line
       raise Redis::Error.new("Disconnected")
     end
-    line[0, line.length-2]
+    line[0, line.size-2]
   end
 end
