@@ -155,7 +155,7 @@ class Redis
       end
 
       if limit
-        if limit.length != 2
+        if limit.size != 2
           raise Error.new("limit must be an array of 2 elements (offset, count)")
         end
         offset, count = limit
@@ -1037,7 +1037,7 @@ class Redis
     #   redis.zadd("myzset", 2, "two", 3, "three")
     # ```
     def zadd(key, *scores_and_members)
-      if scores_and_members.length % 2 > 0
+      if scores_and_members.size % 2 > 0
         raise Error.new("zadd expects an array of scores mapped to members")
       end
 
@@ -1142,7 +1142,7 @@ class Redis
     #   redis.zinterstore("zset3", ["zset1", "zset2"], weights: [2, 3])
     # ```
     def zinterstore(destination, keys : Array, weights = nil, aggregate = nil)
-      numkeys = keys.length
+      numkeys = keys.size
       q = concat(["ZINTERSTORE", destination.to_s, numkeys.to_s], keys)
       if weights
         q << "WEIGHTS"
@@ -1163,7 +1163,7 @@ class Redis
     #
     # **Return value**: Integer, the number of elements in the resulting sorted set at destination.
     def zunionstore(destination, keys : Array, weights = nil, aggregate = nil)
-      numkeys = keys.length
+      numkeys = keys.size
       q = concat(["ZUNIONSTORE", destination.to_s, numkeys.to_s], keys)
       if weights
         q << "WEIGHTS"
@@ -1359,7 +1359,7 @@ class Redis
     #   redis.eval("return {KEYS[1],KEYS[2],ARGV[1],ARGV[2]}", ["key1", "key2"], ["first art", "second arg"])
     # ```
     def eval(script : String, keys = [] of RedisValue, args = [] of RedisValue)
-      string_array_command(concat(["EVAL", script, keys.length.to_s], keys, args))
+      string_array_command(concat(["EVAL", script, keys.size.to_s], keys, args))
     end
 
     # EVAL and EVALSHA are used to evaluate scripts using the Lua interpreter
@@ -1367,7 +1367,7 @@ class Redis
     #
     # **Return value**: Array(String), depends on the executed script
     def evalsha(sha1, keys = [] of RedisValue, args = [] of RedisValue)
-      string_array_command(concat(["EVALSHA", sha1.to_s, keys.length.to_s], keys, args))
+      string_array_command(concat(["EVALSHA", sha1.to_s, keys.size.to_s], keys, args))
     end
 
     # Load a script into the scripts cache, without executing it.
