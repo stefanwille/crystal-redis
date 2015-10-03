@@ -25,9 +25,9 @@ describe Redis do
       redis = Redis.new(host: "localhost", port: 6379)
     end
 
-    it "connects to Unix domain sockets" do
-      redis = Redis.new(unixsocket: "/tmp/redis.sock")
-    end
+    # it "connects to Unix domain sockets" do
+    #     redis = Redis.new(unixsocket: "/tmp/redis.sock")
+    # end
 
     describe "#close" do
       it "closes the connection" do
