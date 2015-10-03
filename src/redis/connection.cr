@@ -10,7 +10,7 @@ class Redis::Connection
     else
       @socket = TCPSocket.new(host, port)
     end
-    @io = BufferedIO.new @socket
+    @socket.sync = false
     @connected = true
   end
 
@@ -31,11 +31,11 @@ class Redis::Connection
   end
 
   def queue(request : Request)
-    marshal(request, @io)
+    marshal(request, @socket)
   end
 
   def flush
-    @io.flush
+    @socket.flush
   end
 
   def marshal(arg : Int, io)
@@ -63,11 +63,11 @@ class Redis::Connection
   def receive_queued_responses(n)
     bytes_per_queued_responses = "+QUEUED\r\n".size
     nbytes = n * bytes_per_queued_responses
-    @io.read(nbytes)
+    @socket.read(nbytes)
   end
 
   def receive
-    type = @io.read_char
+    type = @socket.read_char
     line = receive_line
 
     case type
@@ -85,9 +85,9 @@ class Redis::Connection
       return nil if length == -1
 
       slice = Slice(UInt8).new(length)
-      @io.read(slice)
+      @socket.read(slice)
       bulk_string = String.new(slice)
-      crlf = @io.read(2)
+      crlf = @socket.read(2)
       bulk_string
     when '+'
       # Simple string
@@ -108,7 +108,7 @@ class Redis::Connection
   end
 
   def receive_line
-    line = @io.gets
+    line = @socket.gets
     unless line
       raise Redis::Error.new("Disconnected")
     end
