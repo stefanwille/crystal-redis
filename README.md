@@ -5,7 +5,6 @@ Redis Client for Crystal
 A Redis client for the Crystal programming language.
 
 
-[![Travis CI](https://travis-ci.org/stefanwille/crystal-redis.svg?branch=master)](https://travis-ci.org/stefanwille/crystal-redis)
 [![docrystal.org](http://www.docrystal.org/badge.svg)](http://www.docrystal.org/github.com/stefanwille/crystal-redis)
 
 ## Features
