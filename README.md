@@ -25,15 +25,16 @@ A Redis client for the Crystal programming language.
 
 ## Installation
 
-Add it to `Projectfile`
+Add it to your `shard.yml`:
 
 ```crystal
-deps do
-  github "stefanwille/crystal-redis"
-end
+dependencies:
+  openssl:
+    github: stefanwille/crystal-redis
+    version: ~> 1.2.0
 ```
 
-and then download the library into your project:
+and then install the library into your project:
 
 ```bash
 $ crystal deps
