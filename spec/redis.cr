@@ -78,7 +78,7 @@ describe Redis do
     Redis.open do |redis|
       begin
         redis.auth("some-password").should eq("OK")
-      rescue e: Redis::Error
+      rescue e : Redis::Error
         e.message.should eq("RedisError: ERR Client sent AUTH, but no password is set")
       end
     end
@@ -592,7 +592,7 @@ describe Redis do
       redis.del("myhash")
       redis.hset("myhash", "a", "123")
       redis.hset("myhash", "b", "456")
-      redis.hgetall("myhash").should eq(["a", "123",  "b", "456"])
+      redis.hgetall("myhash").should eq(["a", "123", "b", "456"])
     end
 
     it "#hdel" do
@@ -644,14 +644,14 @@ describe Redis do
 
     it "#hmset" do
       redis.del("myhash")
-      redis.hmset("myhash", { "field1" : "a", "field2" : "b"})
+      redis.hmset("myhash", {"field1": "a", "field2": "b"})
       redis.hget("myhash", "field1").should eq("a")
       redis.hget("myhash", "field2").should eq("b")
     end
 
     it "#hscan" do
       redis.del("myhash")
-      redis.hmset("myhash", { "field1" : "a", "field2" : "b"})
+      redis.hmset("myhash", {"field1": "a", "field2": "b"})
       new_cursor, keys = redis.hscan("myhash", 0)
       new_cursor.should eq("0")
       keys.should eq(["field1", "a", "field2", "b"])
@@ -833,9 +833,9 @@ describe Redis do
     it "executes the commands in the block and returns the results" do
       futures = [] of Redis::Future
       results = redis.pipelined do |pipeline|
-        pipeline.set("foo", "new value")
-        futures << pipeline.get("foo")
-      end
+                  pipeline.set("foo", "new value")
+                  futures << pipeline.get("foo")
+                end
       results[1].should eq("new value")
       futures[0].value.should eq("new value")
     end
@@ -873,20 +873,20 @@ describe Redis do
     it "executes the commands in the block and returns the results" do
       futures = [] of Redis::Future
       results = redis.multi do |multi|
-        multi.set("foo", "new value")
-        futures << multi.get("foo")
-      end
+                  multi.set("foo", "new value")
+                  futures << multi.get("foo")
+                end
       results[1].should eq("new value")
-      #future.not_nil!
+      # future.not_nil!
       futures[0].value.should eq("new value")
     end
 
     it "does not execute the commands in the block upon #discard" do
       redis.set("foo", "initial value")
       results = redis.multi do |multi|
-        multi.set("foo", "new value")
-        multi.discard
-      end
+                  multi.set("foo", "new value")
+                  multi.discard
+                end
       redis.get("foo").should eq("initial value")
       results.should eq([] of Redis::RedisValue)
     end
@@ -896,10 +896,10 @@ describe Redis do
       current_value = redis.get("foo").not_nil!
       redis.watch("foo")
       results = redis.multi do |multi|
-        other_redis = Redis.new
-        other_redis.set("foo", "value set by other client")
-        multi.set("foo", current_value + "2")
-      end
+                  other_redis = Redis.new
+                  other_redis.set("foo", "value set by other client")
+                  multi.set("foo", current_value + "2")
+                end
       redis.get("foo").should eq("value set by other client")
     end
 

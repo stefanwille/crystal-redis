@@ -2,13 +2,12 @@ class Redis
   # Definition of all Redis commands except pipelining and transactions.
   #
   module Commands
-
     # Returns the given message.
     #
     # Example:
     #
     # ```
-    #   redis.echo("Hello Redis")         # => "Hello Redis"
+    # redis.echo("Hello Redis") # => "Hello Redis"
     # ```
     def echo(message)
       string_command(["ECHO", message.to_s])
@@ -19,7 +18,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.ping()         # => "PONG"
+    # redis.ping # => "PONG"
     # ```
     def ping
       string_command(["PING"])
@@ -42,8 +41,8 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.set("foo", "test")
-    #   redis.set("bar", "test", ex: 7)
+    # redis.set("foo", "test")
+    # redis.set("bar", "test", ex: 7)
     # ```
     def set(key, value, ex = nil, px = nil, nx = nil, xx = nil)
       q = ["SET", key.to_s, value.to_s]
@@ -61,8 +60,8 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.set("foo", "test")
-    #   redis.get("foo")                # => "test"
+    # redis.set("foo", "test")
+    # redis.get("foo") # => "test"
     # ```
     def get(key)
       string_or_nil_command(["GET", key.to_s])
@@ -96,7 +95,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.rename("old_name", "new_name")
+    # redis.rename("old_name", "new_name")
     # ```
     def rename(old_key, new_key)
       string_command(["RENAME", old_key.to_s, new_key.to_s])
@@ -109,7 +108,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.renamenx("old_name", "new_name")
+    # redis.renamenx("old_name", "new_name")
     # ```
     def renamenx(old_key, new_key)
       integer_command(["RENAMENX", old_key.to_s, new_key.to_s])
@@ -122,7 +121,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.del("some", "keys", "to", "delete")
+    # redis.del("some", "keys", "to", "delete")
     # ```
     def del(*keys)
       integer_command(concat(["DEL"], keys))
@@ -144,8 +143,8 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.sort("mylist")                  # => [...]
-    #   redis.sort("mylist", order: "DESC")   # => [...]
+    # redis.sort("mylist")                # => [...]
+    # redis.sort("mylist", order: "DESC") # => [...]
     # ```
     def sort(key, by = nil, limit = nil, get = nil : Array(RedisValue)?, order = "ASC", alpha = false, store = nil)
       q = ["SORT", key.to_s]
@@ -193,9 +192,9 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.set("foo1", "test1")
-    #   redis.set("foo2", "test2")
-    #   redis.mget("foo1", "foo2")      # => ["test1", "test2"]
+    # redis.set("foo1", "test1")
+    # redis.set("foo2", "test2")
+    # redis.mget("foo1", "foo2") # => ["test1", "test2"]
     # ```
     def mget(*keys)
       string_array_command(concat(["MGET"], keys))
@@ -208,7 +207,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.mset({"foo1": "bar1", "foo2": "bar2"})
+    # redis.mset({"foo1": "bar1", "foo2": "bar2"})
     # ```
     def mset(hash)
       q = ["MSET"] of RedisValue
@@ -223,7 +222,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.getset("foo", "new")      # => (the old value)
+    # redis.getset("foo", "new") # => (the old value)
     # ```
     def getset(key, value)
       string_or_nil_command(["GETSET", key.to_s, value])
@@ -236,7 +235,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.setex("foo", "bar", 3)
+    # redis.setex("foo", "bar", 3)
     # ```
     def setex(key, value, expire_in_seconds)
       string_command(["SETEX", key.to_s, expire_in_seconds.to_s, value.to_s])
@@ -268,7 +267,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.msetnx({"key1": "hello", "key2": "there"})
+    # redis.msetnx({"key1": "hello", "key2": "there"})
     # ```
     def msetnx(hash)
       q = ["MSETNX"] of RedisValue
@@ -283,8 +282,8 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.set("foo", "3")
-    #   redis.incr("foo")             # => 4
+    # redis.set("foo", "3")
+    # redis.incr("foo") # => 4
     # ```
     def incr(key)
       integer_command(["INCR", key.to_s])
@@ -304,7 +303,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.incrby("foo", 4)
+    # redis.incrby("foo", 4)
     # ```
     def incrby(key, increment)
       integer_command(["INCRBY", key.to_s, increment.to_s])
@@ -317,7 +316,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.incrbyfloat("foo", 2.5)
+    # redis.incrbyfloat("foo", 2.5)
     # ```
     def incrbyfloat(key, increment)
       string_command(["INCRBYFLOAT", key.to_s, increment.to_s])
@@ -338,7 +337,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.append("foo", " world")
+    # redis.append("foo", " world")
     # ```
     def append(key, value)
       integer_command(["APPEND", key.to_s, value.to_s])
@@ -357,9 +356,9 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.set("foo", "This is a string")
-    #   redis.getrange("foo", 0, 3)             # => "This"
-    #   redis.getrange("foo", -3, -1)           # => "ing"
+    # redis.set("foo", "This is a string")
+    # redis.getrange("foo", 0, 3)   # => "This"
+    # redis.getrange("foo", -3, -1) # => "ing"
     # ```
     def getrange(key, start_index, end_index)
       string_command(["GETRANGE", key.to_s, start_index.to_s, end_index.to_s])
@@ -372,7 +371,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.setrange("foo", 6, "Redis")
+    # redis.setrange("foo", 6, "Redis")
     # ```
     def setrange(key, start_index, value)
       integer_command(["SETRANGE", key.to_s, start_index.to_s, value.to_s])
@@ -390,7 +389,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.bitcount("foo", 0, 0)
+    # redis.bitcount("foo", 0, 0)
     # ```
     def bitcount(key, from = nil, to = nil)
       q = ["BITCOUNT", key.to_s]
@@ -412,7 +411,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.bitop("and", "dest", "key1", "key2")
+    # redis.bitop("and", "dest", "key1", "key2")
     # ```
     def bitop(operation, key, *keys)
       integer_command(concat(["BITOP", operation.to_s, key.to_s], keys))
@@ -432,7 +431,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.setbit("mykey", 7, 1)
+    # redis.setbit("mykey", 7, 1)
     # ```
     def setbit(key, index, value)
       integer_command(["SETBIT", key.to_s, index.to_s, value.to_s])
@@ -449,8 +448,8 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.set("mykey", "0")
-    #   redis.bitpos("mykey", 1)        # => 2
+    # redis.set("mykey", "0")
+    # redis.bitpos("mykey", 1) # => 2
     # ```
     def bitpos(key, bit, start = nil, to = nil)
       q = ["BITPOS", key.to_s, bit.to_s] of RedisValue
@@ -493,7 +492,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.scan(0)
+    # redis.scan(0)
     # ```
     def scan(cursor, match = nil, count = nil)
       q = ["SCAN", cursor.to_s]
@@ -527,7 +526,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.keys("callmemaybe")
+    # redis.keys("callmemaybe")
     # ```
     def keys(pattern)
       string_array_command(["KEYS", pattern.to_s])
@@ -540,7 +539,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.rpush("mylist", "1", "2", "3")
+    # redis.rpush("mylist", "1", "2", "3")
     # ```
     def rpush(key, *values)
       integer_command(concat(["RPUSH", key.to_s], values))
@@ -574,7 +573,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.lrem("mylist", 1, "my")
+    # redis.lrem("mylist", 1, "my")
     # ```
     def lrem(key, count, value)
       integer_command(["LREM", key.to_s, count.to_s, value.to_s])
@@ -608,7 +607,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.lpop("mylist")
+    # redis.lpop("mylist")
     # ```
     def lpop(key)
       string_or_nil_command(["LPOP", key.to_s])
@@ -639,7 +638,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.lrange("mylist", 0, 2)
+    # redis.lrange("mylist", 0, 2)
     # ```
     def lrange(key, from, to)
       string_array_command(["LRANGE", key.to_s, from.to_s, to.to_s])
@@ -682,7 +681,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.srem("myset", "Hello")
+    # redis.srem("myset", "Hello")
     # ```
     def srem(key, *values)
       integer_command(concat(["SREM", key.to_s], values))
@@ -721,7 +720,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.sinterstore("destination", "key1", "key2")
+    # redis.sinterstore("destination", "key1", "key2")
     # ```
     def sinterstore(destination_key, *keys)
       integer_command(concat(["SINTERSTORE", destination_key.to_s], keys))
@@ -767,7 +766,6 @@ class Redis
       string_array_or_string_or_nil_command(q)
     end
 
-
     # The SCAN command and the closely related commands SSCAN, HSCAN and ZSCAN are used in order to incrementally iterate over a collection of elements.
     #
     # **Options**:
@@ -780,10 +778,10 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.sscan("myset", 0)
+    # redis.sscan("myset", 0)
     # ```
     def sscan(key, cursor, match = nil, count = nil)
-          q = ["SSCAN", key.to_s, cursor.to_s]
+      q = ["SSCAN", key.to_s, cursor.to_s]
       if match
         q << match
         if count
@@ -822,7 +820,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.blpop(["myotherlist", "mylist"], 1)       # => ["mylist", "hello"]
+    # redis.blpop(["myotherlist", "mylist"], 1) # => ["mylist", "hello"]
     # ```
     def blpop(keys, timeout_in_seconds)
       q = concat(["BLPOP"], keys)
@@ -846,7 +844,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.brpop(["myotherlist", "mylist"], 1)         # => ["mylist", "world"]
+    # redis.brpop(["myotherlist", "mylist"], 1) # => ["mylist", "world"]
     # ```
     def brpop(keys, timeout_in_seconds)
       q = concat(["BRPOP"], keys)
@@ -877,12 +875,12 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.brpoplpush("source", "destination", 0)
+    # redis.brpoplpush("source", "destination", 0)
     # ```
     def brpoplpush(source, destination, timeout_in_seconds = nil)
       q = ["BRPOPLPUSH", source.to_s, destination.to_s]
       if timeout_in_seconds
-        q <<  timeout_in_seconds.to_s
+        q << timeout_in_seconds.to_s
       end
       string_or_nil_command(q)
     end
@@ -896,7 +894,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.hset("myhash", "a", "434")
+    # redis.hset("myhash", "a", "434")
     # ```
     def hset(key, field, value)
       integer_command(["HSET", key.to_s, field.to_s, value.to_s])
@@ -909,7 +907,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.hget("myhash", "a")       # => "434"
+    # redis.hget("myhash", "a") # => "434"
     # ```
     def hget(key, field)
       string_or_nil_command(["HGET", key.to_s, field.to_s])
@@ -947,7 +945,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.hincrby("myhash", "field1", "3")        # => 4
+    # redis.hincrby("myhash", "field1", "3") # => 4
     # ```
     def hincrby(key, field, increment)
       integer_command(["HINCRBY", key.to_s, field.to_s, increment.to_s])
@@ -1033,8 +1031,8 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.zadd("myzset", 1, "one")
-    #   redis.zadd("myzset", 2, "two", 3, "three")
+    # redis.zadd("myzset", 1, "one")
+    # redis.zadd("myzset", 2, "two", 3, "three")
     # ```
     def zadd(key, *scores_and_members)
       if scores_and_members.size % 2 > 0
@@ -1055,7 +1053,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.zrange("myzset", 0, -1, with_scores: true)      # => ["one", "1", "uno", "1", "two", "2", "three", "3"]
+    # redis.zrange("myzset", 0, -1, with_scores: true) # => ["one", "1", "uno", "1", "two", "2", "three", "3"]
     # ```
     def zrange(key, start, stop, with_scores = false)
       q = ["ZRANGE", key.to_s, start.to_s, stop.to_s]
@@ -1139,7 +1137,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.zinterstore("zset3", ["zset1", "zset2"], weights: [2, 3])
+    # redis.zinterstore("zset3", ["zset1", "zset2"], weights: [2, 3])
     # ```
     def zinterstore(destination, keys : Array, weights = nil, aggregate = nil)
       numkeys = keys.size
@@ -1302,10 +1300,10 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.zscan("myzset", 0)
+    # redis.zscan("myzset", 0)
     # ```
     def zscan(key, cursor, match = nil, count = nil)
-          q = ["ZSCAN", key.to_s, cursor.to_s]
+      q = ["ZSCAN", key.to_s, cursor.to_s]
       if match
         q << match
         if count
@@ -1323,7 +1321,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.pfadd("hll", "a", "b", "c", "d", "e", "f", "g")         # => 1
+    # redis.pfadd("hll", "a", "b", "c", "d", "e", "f", "g") # => 1
     # ```
     def pfadd(key, *values)
       integer_command(concat(["PFADD", key.to_s], values))
@@ -1356,7 +1354,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.eval("return {KEYS[1],KEYS[2],ARGV[1],ARGV[2]}", ["key1", "key2"], ["first art", "second arg"])
+    # redis.eval("return {KEYS[1],KEYS[2],ARGV[1],ARGV[2]}", ["key1", "key2"], ["first art", "second arg"])
     # ```
     def eval(script : String, keys = [] of RedisValue, args = [] of RedisValue)
       string_array_command(concat(["EVAL", script, keys.size.to_s], keys, args))
@@ -1378,7 +1376,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.script_load("return {KEYS[1],ARGV[1]}")       # => "a191862bfe0bd3bec995befcd060582bf4bdbd77"
+    # redis.script_load("return {KEYS[1],ARGV[1]}") # => "a191862bfe0bd3bec995befcd060582bf4bdbd77"
     # ```
     def script_load(script : String)
       string_command(["SCRIPT", "LOAD", script])
@@ -1418,7 +1416,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.expire("temp", 2)
+    # redis.expire("temp", 2)
     # ```
     def expire(key, seconds)
       integer_command(["EXPIRE", key.to_s, seconds.to_s])
@@ -1490,8 +1488,8 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.set("foo", 3)
-    #   redis.type("foo")             # => "string"
+    # redis.set("foo", 3)
+    # redis.type("foo") # => "string"
     # ```
     def type(key)
       string_command(["TYPE", key.to_s])
@@ -1510,14 +1508,14 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.subscribe("mychannel") do |on|
-    #     on.message do |channel, message|
-    #       puts "Received message: #{message}"
-    #       if message == "goodbye pal"
-    #         redis.unsubscribe
-    #       end
+    # redis.subscribe("mychannel") do |on|
+    #   on.message do |channel, message|
+    #     puts "Received message: #{message}"
+    #     if message == "goodbye pal"
+    #       redis.unsubscribe
     #     end
     #   end
+    # end
     # ```
     def subscribe(*channels, &callback_setup_block : Subscription ->)
       # Can be called only outside a subscription block
@@ -1596,7 +1594,7 @@ class Redis
     # Example:
     #
     # ```
-    #   redis.publish("mychannel", "some message")
+    # redis.publish("mychannel", "some message")
     # ```
     def publish(channel, message)
       integer_command(["PUBLISH", channel.to_s, message.to_s])

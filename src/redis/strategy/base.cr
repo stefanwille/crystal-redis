@@ -1,7 +1,7 @@
 class Redis
-  #:nodoc:
+  # :nodoc:
   module Strategy
-    #:nodoc:
+    # :nodoc:
     #
     # Depending on the state that the Redis client is in,
     # requests and responses need to be treated differently.
@@ -12,4 +12,3 @@ class Redis
     end
   end
 end
-

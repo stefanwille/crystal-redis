@@ -1,4 +1,4 @@
-#:nodoc:
+# :nodoc:
 #
 # Strategy for the original Redis object that prevents commands from being sent
 # while in transaction mode.

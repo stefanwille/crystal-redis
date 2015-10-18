@@ -3,17 +3,17 @@
 # The caller sets callbacks on this object that the Redis client will
 # trigger for the matching events.
 class Redis::Subscription
-  #:nodoc:
+  # :nodoc:
   getter :subscribe_callback
-  #:nodoc:
+  # :nodoc:
   getter :psubscribe_callback
-  #:nodoc:
+  # :nodoc:
   getter :message_callback
-  #:nodoc:
+  # :nodoc:
   getter :pmessage_callback
-  #:nodoc:
+  # :nodoc:
   getter :unsubscribe_callback
-  #:nodoc:
+  # :nodoc:
   getter :punsubscribe_callback
 
   def initialize

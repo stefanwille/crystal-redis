@@ -1,4 +1,4 @@
-#:nodoc:
+# :nodoc:
 #
 # Strategy for sending commands in pipelined mode.
 #
@@ -31,4 +31,3 @@ class Redis::Strategy::Pipeline < Redis::Strategy::Base
     @connection.flush
   end
 end
-

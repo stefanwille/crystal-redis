@@ -1,11 +1,11 @@
 class Redis
   # This module contains mixins for the execution of Redis commands.
 
-  #:nodoc:
+  # :nodoc:
   module CommandExecution
     # Command execution methods that return real values, not futures.
 
-    #:nodoc:
+    # :nodoc:
     module ValueOriented
       # Executes a Redis command and casts it to the correct type.
       # This is an internal method.

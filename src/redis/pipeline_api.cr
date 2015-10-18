@@ -8,8 +8,8 @@ require "./command_execution/future_oriented"
 #
 # ```
 # redis.pipelined do |pipeline|
-#     pipeline.set("foo1", "first")
-#     pipeline.set("foo2", "second")
+#   pipeline.set("foo1", "first")
+#   pipeline.set("foo2", "second")
 # end
 # ```
 #
@@ -20,10 +20,10 @@ class Redis::PipelineApi
   end
 
   include Redis::Commands
-  #:nodoc:
+  # :nodoc:
   include Redis::CommandExecution::FutureOriented
 
-  #:nodoc:
+  # :nodoc:
   def command(request : Request) : Redis::Future
     @strategy.command(request)
   end

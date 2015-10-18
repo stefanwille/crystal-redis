@@ -1,4 +1,4 @@
-#:nodoc:
+# :nodoc:
 #
 # Strategy for sending commands in a transaction.
 #

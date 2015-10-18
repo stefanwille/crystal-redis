@@ -9,20 +9,19 @@ require "./command_execution/future_oriented"
 #
 # ```
 # redis.multi do |multi|
-#     multi.set("foo1", "first")
-#     multi.set("foo2", "second")
+#   multi.set("foo1", "first")
+#   multi.set("foo2", "second")
 # end
 # ```
 #
 # In this example, the `multi` object passed to the block is a TransactionApi
 # object.
 class Redis::TransactionApi
-
   def initialize(@strategy)
   end
 
   include Redis::Commands
-  #:nodoc:
+  # :nodoc:
   include Redis::CommandExecution::FutureOriented
 
   # Aborts the current transaction.
@@ -30,16 +29,16 @@ class Redis::TransactionApi
   # **Example**:
   #
   # ```
-  #   redis.multi do |multi|
-  #     multi.set("foo", "the new value")
-  #     multi.discard
-  #    end
+  # redis.multi do |multi|
+  #   multi.set("foo", "the new value")
+  #   multi.discard
+  # end
   # ```
   def discard
     @strategy.discard
   end
 
-  #:nodoc:
+  # :nodoc:
   def command(request : Request) : Redis::Future
     @strategy.command(request)
   end

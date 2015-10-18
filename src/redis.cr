@@ -8,21 +8,21 @@ require "./redis/command_execution/value_oriented"
 # Require the package:
 #
 # ```crystal
-#   require "redis"
+# require "redis"
 # ```
 #
 # Then instantiate this client class:
 #
 # ```crystal
-#   redis = Redis.new
+# redis = Redis.new
 # ```
 #
 # Then you can call Redis commands on the `redis` object:
 #
 # ```crystal
-#   redis.set("foo", "bar")
-#   redis.get("foo")
-#   redis.incr("visitors")
+# redis.set("foo", "bar")
+# redis.get("foo")
+# redis.incr("visitors")
 # ```
 #
 # See the mixin module [Commands](Redis/Commands.html) for most
@@ -30,12 +30,12 @@ require "./redis/command_execution/value_oriented"
 class Redis
   # A value from the Redis type system.
 
-  #:nodoc:
+  # :nodoc:
   alias RedisValue = Nil | Int32 | Int64 | String | Array(RedisValue)
 
   # A Redis request.
 
-  #:nodoc:
+  # :nodoc:
   alias Request = Array(RedisValue)
 
   # Opens a Redis connection
@@ -82,7 +82,7 @@ class Redis
   #
   # ```
   # Redis.open do |redis|
-  #    redis.incr("counter")
+  #   redis.incr("counter")
   # end
   # ```
   def self.open(host = "localhost", port = 6379, unixsocket = nil)
@@ -115,8 +115,8 @@ class Redis
   #
   # ```
   # redis.pipelined do |pipeline|
-  #     pipeline.set("foo1", "first")
-  #     pipeline.set("foo2", "second")
+  #   pipeline.set("foo1", "first")
+  #   pipeline.set("foo2", "second")
   # end
   # ```
   #
@@ -130,7 +130,6 @@ class Redis
   ensure
     @strategy = Redis::Strategy::SingleStatement.new(@connection)
   end
-
 
   # Sends Redis commands in transaction mode.
   #
@@ -147,8 +146,8 @@ class Redis
   #
   # ```
   # redis.multi do |multi|
-  #     multi.set("foo1", "first")
-  #     multi.set("foo2", "second")
+  #   multi.set("foo1", "first")
+  #   multi.set("foo2", "second")
   # end
   # ```
   #
@@ -170,7 +169,7 @@ class Redis
   #
   # **Return value**: a RedisValue (never a Future)
 
-  #:nodoc:
+  # :nodoc:
   def command(request : Request)
     @strategy.command(request) as RedisValue
   end
@@ -182,4 +181,3 @@ class Redis
 end
 
 require "./**"
-

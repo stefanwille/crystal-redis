@@ -2,7 +2,7 @@ require "socket"
 
 # A connection to a Redis instance.
 
-#:nodoc:
+# :nodoc:
 class Redis::Connection
   def initialize(host, port, unixsocket)
     if unixsocket
@@ -116,6 +116,6 @@ class Redis::Connection
     unless line
       raise Redis::Error.new("Disconnected")
     end
-    line.byte_slice(0, line.bytesize-2)
+    line.byte_slice(0, line.bytesize - 2)
   end
 end
