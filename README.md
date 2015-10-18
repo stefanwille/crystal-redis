@@ -29,7 +29,7 @@ Add it to your `shard.yml`:
 
 ```crystal
 dependencies:
-  openssl:
+  redis:
     github: stefanwille/crystal-redis
     version: ~> 1.2.0
 ```
