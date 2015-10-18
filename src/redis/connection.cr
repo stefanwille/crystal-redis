@@ -66,7 +66,7 @@ class Redis::Connection
     end
     bytes_per_queued_responses = "+QUEUED\r\n".bytesize
     nbytes = n * bytes_per_queued_responses
-    @socket.read(nbytes)
+    @socket.skip(nbytes)
   end
 
   def receive
@@ -90,7 +90,8 @@ class Redis::Connection
       slice = Slice(UInt8).new(length)
       @socket.read(slice)
       bulk_string = String.new(slice)
-      crlf = @socket.read(2)
+      # Ignore CR/LF
+      @socket.skip(2)
       bulk_string
     when '+'
       # Simple string

@@ -1,3 +1,7 @@
+## v 1.2.0
+
+* Support and require Crystal 0.9.0
+
 ## v 1.1.0
 
 * Support and require Crystal 0.8.0  (thanks to Xanders)
