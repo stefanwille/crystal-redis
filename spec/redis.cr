@@ -592,7 +592,7 @@ describe Redis do
       redis.del("myhash")
       redis.hset("myhash", "a", "123")
       redis.hset("myhash", "b", "456")
-      redis.hgetall("myhash").should eq(["a", "123", "b", "456"])
+      redis.hgetall("myhash").should eq({"a" => "123", "b" => "456"})
     end
 
     it "#hdel" do

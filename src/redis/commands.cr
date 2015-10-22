@@ -918,7 +918,7 @@ class Redis
     # **Return value**: Array(String) of fields and their values stored in the hash,
     # or an empty array when key does not exist.
     def hgetall(key)
-      string_array_command(["HGETALL", key.to_s])
+      string_hash_command(["HGETALL", key.to_s])
     end
 
     # Removes the specified fields from the hash stored at key.

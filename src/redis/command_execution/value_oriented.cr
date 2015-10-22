@@ -45,6 +45,21 @@ class Redis
 
       # Executes a Redis command and casts the response to the correct type.
       # This is an internal method.
+      def string_hash_command(request : Request) : Hash(RedisValue, RedisValue)
+        x = command(request) as Array(RedisValue)
+        y = {} of RedisValue => RedisValue
+
+        x.each_with_index do |v, i|
+          if i.odd?
+            y[x[i-1]] = v
+          end
+        end
+        
+        y
+      end
+
+      # Executes a Redis command and casts the response to the correct type.
+      # This is an internal method.
       def string_array_or_integer_command(request : Request) : Array(RedisValue) | Int64
         command(request) as Array(RedisValue) | Int64
       end
