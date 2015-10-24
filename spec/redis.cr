@@ -293,7 +293,7 @@ describe Redis do
       redis.set("foo", "Hello world")
       new_cursor, keys = redis.scan(0)
       new_cursor = new_cursor as String
-      (new_cursor.to_i > 0).should be_true
+      new_cursor.to_i.should be > 0
       keys.is_a?(Array).should be_true
     end
   end
@@ -986,7 +986,7 @@ describe Redis do
     it "#expireat" do
       redis.set("temp", "3")
       redis.expireat("temp", 1555555555005).should eq(1)
-      (redis.ttl("temp") > 3000).should be_true
+      redis.ttl("temp").should be > 3000
     end
 
     it "#ttl" do
@@ -1004,14 +1004,14 @@ describe Redis do
     it "#pexpireat" do
       redis.set("temp", "3")
       redis.pexpireat("temp", 1555555555005).should eq(1)
-      (redis.pttl("temp") > 3000).should be_true
+      redis.pttl("temp").should be > 2990
     end
 
     it "#pttl" do
       redis.set("temp", "9")
       redis.pttl("temp").should eq(-1)
       redis.pexpire("temp", 3000)
-      (redis.pttl("temp") > 2990).should be_true
+      redis.pttl("temp").should be > 2990
     end
 
     it "#persist" do
