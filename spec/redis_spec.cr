@@ -833,9 +833,9 @@ describe Redis do
     it "executes the commands in the block and returns the results" do
       futures = [] of Redis::Future
       results = redis.pipelined do |pipeline|
-                  pipeline.set("foo", "new value")
-                  futures << pipeline.get("foo")
-                end
+        pipeline.set("foo", "new value")
+        futures << pipeline.get("foo")
+      end
       results[1].should eq("new value")
       futures[0].value.should eq("new value")
     end
@@ -873,9 +873,9 @@ describe Redis do
     it "executes the commands in the block and returns the results" do
       futures = [] of Redis::Future
       results = redis.multi do |multi|
-                  multi.set("foo", "new value")
-                  futures << multi.get("foo")
-                end
+        multi.set("foo", "new value")
+        futures << multi.get("foo")
+      end
       results[1].should eq("new value")
       # future.not_nil!
       futures[0].value.should eq("new value")
@@ -884,9 +884,9 @@ describe Redis do
     it "does not execute the commands in the block upon #discard" do
       redis.set("foo", "initial value")
       results = redis.multi do |multi|
-                  multi.set("foo", "new value")
-                  multi.discard
-                end
+        multi.set("foo", "new value")
+        multi.discard
+      end
       redis.get("foo").should eq("initial value")
       results.should eq([] of Redis::RedisValue)
     end
@@ -896,10 +896,10 @@ describe Redis do
       current_value = redis.get("foo").not_nil!
       redis.watch("foo")
       results = redis.multi do |multi|
-                  other_redis = Redis.new
-                  other_redis.set("foo", "value set by other client")
-                  multi.set("foo", current_value + "2")
-                end
+        other_redis = Redis.new
+        other_redis.set("foo", "value set by other client")
+        multi.set("foo", current_value + "2")
+      end
       redis.get("foo").should eq("value set by other client")
     end
 
