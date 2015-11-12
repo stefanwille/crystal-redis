@@ -1,6 +1,6 @@
 ## v 1.2.1
 
-* Fix issue #8 where large values where not received correctly (thanks to Edward Dorrington + Ary Borenszweig)
+* Fix issue #8 where large values were not received correctly (thanks to Edward Dorrington + Ary Borenszweig)
 
 
 ## v 1.2.0
