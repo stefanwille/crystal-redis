@@ -87,9 +87,10 @@ class Redis::Connection
       # The "Null bulk string" aka nil
       return nil if length == -1
 
-      slice = Slice(UInt8).new(length)
-      @socket.read(slice)
-      bulk_string = String.new(slice)
+      bulk_string = String.new(length) do |buffer|
+        @socket.read_fully(Slice.new(buffer, length))
+        {length, 0}
+      end
       # Ignore CR/LF
       @socket.skip(2)
       bulk_string

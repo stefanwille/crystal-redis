@@ -1104,4 +1104,15 @@ describe Redis do
       callbacks_received.should eq(["psubscribe", "pmessage", "punsubscribe"])
     end
   end
+
+  describe "large values" do
+    redis = Redis.new
+
+    it "sends and receives a large value correctly" do
+      redis.del("foo")
+      large_value = "0123456789" * 100_000 # 1 MB
+      redis.set("foo", large_value)
+      redis.get("foo").should eq(large_value)
+    end
+  end
 end
