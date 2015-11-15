@@ -88,9 +88,9 @@ class Redis::Connection
       return nil if length == -1
 
       bulk_string = String.new(length) do |buffer|
-        @socket.read_fully(Slice.new(buffer, length))
-        {length, 0}
-      end
+                      @socket.read_fully(Slice.new(buffer, length))
+                      {length, 0}
+                    end
       # Ignore CR/LF
       @socket.skip(2)
       bulk_string
@@ -108,7 +108,7 @@ class Redis::Connection
     when nil
       raise Redis::Error.new("Received nil type string")
     else
-      raise Redis::Error.new("Cannot parse response with type #{type}: #{receive_line.inspect}")
+      raise Redis::Error.new("Cannot parse response with type #{type}: #{line.inspect}")
     end
   end
 
