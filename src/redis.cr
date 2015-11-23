@@ -28,10 +28,10 @@ require "./redis/command_execution/value_oriented"
 # See the mixin module [Commands](Redis/Commands.html) for most
 # of the available Redis commands such as #incr, #rename, and so on.
 #
-# **Multithreading**
+# **Multithreading / Coroutines**
 #
-# Please mind that a Redis object can't be shared across multiple threads/fibers!
-# Each thread/fiber that wants to talk to Redis needs its own Redis object instance.
+# Please mind that a Redis object can't be shared across multiple threads/coroutines!
+# Each thread/coroutine that wants to talk to Redis needs its own Redis object instance.
 class Redis
   # A value from the Redis type system.
 
