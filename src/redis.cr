@@ -49,6 +49,7 @@ class Redis
   # * host - the host to connect to
   # * port - the port to connect to
   # * unixsocket - instead of using TCP, you can connect to Redis via a Unix domain socket by passing its path here (e.g. "/tmp/redis.sock")
+  # * password - the password for authentication against the server. This is a convenience which saves you the extra call to the Redis `auth` command.
   #
   # Example:
   #
@@ -71,9 +72,13 @@ class Redis
   # redis = Redis.new(unixsocket: "/tmp/redis.sock")
   # ...
   # ```
-  def initialize(host = "localhost", port = 6379, unixsocket = nil)
+  def initialize(host = "localhost", port = 6379, unixsocket = nil, password = nil)
     @connection = Connection.new(host, port, unixsocket)
     @strategy = Redis::Strategy::SingleStatement.new(@connection)
+
+    if password
+      auth(password)
+    end
   end
 
   # Opens a Redis connection, yields the given block with a Redis object and closes the connection.
@@ -82,6 +87,7 @@ class Redis
   # * host - the host to connect to
   # * port - the port to connect to
   # * unixsocket - instead of using TCP, you can connect to Redis via a Unix domain socket by passing its path here (e.g. "/tmp/redis.sock")
+  # * password - the password for authentication against the server. This is a convenience which saves you the extra call to the Redis `auth` command.
   #
   # Example:
   #
@@ -90,7 +96,7 @@ class Redis
   #   redis.incr("counter")
   # end
   # ```
-  def self.open(host = "localhost", port = 6379, unixsocket = nil)
+  def self.open(host = "localhost", port = 6379, unixsocket = nil, password = nil)
     redis = Redis.new(host, port, unixsocket)
     begin
       yield(redis)
