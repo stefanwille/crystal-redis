@@ -1,10 +1,17 @@
+## v1.4.0
+
+* INCOMPATIBLE API CHANGE: Fix the parameter order of SETEX and PSETEX. According to the official Redis documentation at http://redis.io/commands the setex command is SETEX key seconds value. psetex should be identical to setex except with a ttl time in milliseconds. (thanks to Brian Mason)
+
+
 ## v1.3.1
 
 * When connecting to a password protected Redis server, the password can now be passed as constructor parameter. For example: Redis.new(host: "localhost", port: 6379, password: "foobared"). Fixes #10
 
+
 ## v1.3.0
 
 * Change the Shard name from "crystal-redis" to "redis" (Thanks to Ary Borenszweig)
+
 
 ## v1.2.1
 
