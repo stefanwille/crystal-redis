@@ -235,16 +235,16 @@ class Redis
     # Example:
     #
     # ```
-    # redis.setex("foo", "bar", 3)
+    # redis.setex("foo", 3, "bar")
     # ```
-    def setex(key, value, expire_in_seconds)
+    def setex(key, expire_in_seconds, value)
       string_command(["SETEX", key.to_s, expire_in_seconds.to_s, value.to_s])
     end
 
     # PSETEX works exactly like SETEX with the sole difference that the expire time is specified in milliseconds instead of seconds.
     #
     # **Return value**: "OK"
-    def psetex(key, value, expire_in_milis)
+    def psetex(key, expire_in_milis, value)
       string_command(["PSETEX", key.to_s, expire_in_milis.to_s, value.to_s])
     end
 

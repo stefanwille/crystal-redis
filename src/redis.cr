@@ -110,7 +110,7 @@ class Redis
 
   # The methods used in Redis::Command are implemented in the following module.
   # For Future based responses, there is an alternative module
-  # calls Redis::CommandExecution::FutureOriented
+  # called Redis::CommandExecution::FutureOriented.
   include Redis::CommandExecution::ValueOriented
 
   # Sends Redis commands in pipeline mode.
