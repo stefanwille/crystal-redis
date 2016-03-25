@@ -1,3 +1,7 @@
+## v1.5.1
+
+* Correctly tag the release.
+
 ## v1.5.0
 
 * Fix parameter default syntax for Crystal 0.14 (thanks to Don Park). This makes Crystal 0.14 required.
