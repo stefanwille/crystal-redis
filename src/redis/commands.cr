@@ -146,7 +146,7 @@ class Redis
     # redis.sort("mylist")                # => [...]
     # redis.sort("mylist", order: "DESC") # => [...]
     # ```
-    def sort(key, by = nil, limit = nil, get = nil : Array(RedisValue)?, order = "ASC", alpha = false, store = nil)
+    def sort(key, by = nil, limit = nil, get : Array(RedisValue)? = nil, order = "ASC", alpha = false, store = nil)
       q = ["SORT", key.to_s]
 
       if by
