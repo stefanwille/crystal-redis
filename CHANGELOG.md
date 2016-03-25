@@ -1,3 +1,8 @@
+## v1.5.0
+
+* Fix parameter default syntax for Crystal 0.14 (thanks to Don Park). This makes Crystal 0.14 required.
+
+
 ## v1.4.0
 
 * INCOMPATIBLE API CHANGE: Fix the parameter order of SETEX and PSETEX. According to the official Redis documentation at http://redis.io/commands the setex command is SETEX key seconds value. psetex should be identical to setex except with a ttl time in milliseconds. (thanks to Brian Mason)
