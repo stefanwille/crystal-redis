@@ -644,9 +644,9 @@ describe Redis do
 
     it "#hmset" do
       redis.del("myhash")
-      redis.hmset("myhash", {"field1": "a", "field2": "b"})
+      redis.hmset("myhash", {"field1": "a", "field2": 2})
       redis.hget("myhash", "field1").should eq("a")
-      redis.hget("myhash", "field2").should eq("b")
+      redis.hget("myhash", "field2").should eq("2")
     end
 
     it "#hscan" do

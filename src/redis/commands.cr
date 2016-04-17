@@ -985,7 +985,7 @@ class Redis
     # **Return value**: "OK"
     def hmset(key, hash)
       q = ["HMSET", key.to_s] of RedisValue
-      hash.each { |field, value| q << field.to_s << value }
+      hash.each { |field, value| q << field.to_s << value.to_s }
       string_command(q)
     end
 
