@@ -493,15 +493,13 @@ class Redis
     #
     # ```
     # redis.scan(0)
+    # redis.scan(0, "foo*")
+    # redis.scan(0, "foo*", 1024)
     # ```
     def scan(cursor, match = nil, count = nil)
       q = ["SCAN", cursor.to_s]
-      if match
-        q << match
-        if count
-          q << count
-        end
-      end
+      q << "MATCH" << match.to_s if match
+      q << "COUNT" << count.to_s if count
       string_array_command(q)
     end
 
@@ -779,15 +777,13 @@ class Redis
     #
     # ```
     # redis.sscan("myset", 0)
+    # redis.sscan("myset", 0, "foo*")
+    # redis.sscan("myset", 0, "foo*", 1024)
     # ```
     def sscan(key, cursor, match = nil, count = nil)
       q = ["SSCAN", key.to_s, cursor.to_s]
-      if match
-        q << match
-        if count
-          q << count
-        end
-      end
+      q << "MATCH" << match.to_s if match
+      q << "COUNT" << count.to_s if count
       string_array_command(q)
     end
 
@@ -997,14 +993,16 @@ class Redis
     # * count - While SCAN does not provide guarantees about the number of elements returned at every iteration, it is possible to empirically adjust the behavior of SCAN using the COUNT option.
     #
     # **Return value**: Array(String), two elements, a field and a value, for every returned element of the Hash.
+
+    # ```
+    # redis.hscan("myhash", 0)
+    # redis.hscan("myhash", 0, "foo*")
+    # redis.hscan("myhash", 0, "foo*", 1024)
+    # ```
     def hscan(key, cursor, match = nil, count = nil)
       q = ["HSCAN", key.to_s, cursor.to_s]
-      if match
-        q << match
-        if count
-          q << count
-        end
-      end
+      q << "MATCH" << match.to_s if match
+      q << "COUNT" << count.to_s if count
       string_array_command(q)
     end
 
@@ -1301,15 +1299,13 @@ class Redis
     #
     # ```
     # redis.zscan("myzset", 0)
+    # redis.zscan("myzset", 0, "foo*")
+    # redis.zscan("myzset", 0, "foo*", 1024)
     # ```
     def zscan(key, cursor, match = nil, count = nil)
       q = ["ZSCAN", key.to_s, cursor.to_s]
-      if match
-        q << match
-        if count
-          q << count
-        end
-      end
+      q << "MATCH" << match.to_s if match
+      q << "COUNT" << count.to_s if count
       string_array_command(q)
     end
 
