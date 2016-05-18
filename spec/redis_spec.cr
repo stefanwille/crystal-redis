@@ -292,7 +292,7 @@ describe Redis do
     it "#scan" do
       redis.set("foo", "Hello world")
       new_cursor, keys = redis.scan(0)
-      new_cursor = new_cursor as String
+      new_cursor = new_cursor.as(String)
       new_cursor.to_i.should be > 0
       keys.is_a?(Array).should be_true
     end

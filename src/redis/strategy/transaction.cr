@@ -70,7 +70,7 @@ class Redis::Strategy::Transaction < Redis::Strategy::Base
   end
 
   private def exec
-    single_command(["EXEC"]) as Array(RedisValue)
+    single_command(["EXEC"]).as(Array(RedisValue))
   end
 
   private def single_command(request : Request)
