@@ -4,7 +4,7 @@
 #
 # Used in Redis#pipelined.
 class Redis::Strategy::Pipeline < Redis::Strategy::Base
-  def initialize(@connection)
+  def initialize(@connection : Connection)
     @futures = [] of Redis::Future
   end
 

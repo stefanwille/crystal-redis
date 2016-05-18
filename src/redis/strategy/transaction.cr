@@ -6,7 +6,7 @@
 class Redis::Strategy::Transaction < Redis::Strategy::Base
   getter :futures
 
-  def initialize(connection)
+  def initialize(connection : Connection)
     @connection = connection
     @discarded = false
     @futures = [] of Redis::Future
