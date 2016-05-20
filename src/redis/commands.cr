@@ -1042,6 +1042,10 @@ class Redis
       integer_command(concat(["ZADD", key.to_s], scores_and_members))
     end
 
+    def zadd(key, scores_and_members : Array(RedisValue))
+      integer_command(concat(["ZADD", key.to_s], scores_and_members))
+    end
+
     # Returns the specified range of elements in the sorted set stored at key.
     #
     # **Options**:
