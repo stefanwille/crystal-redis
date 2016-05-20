@@ -552,6 +552,10 @@ class Redis
       integer_command(concat(["LPUSH", key.to_s], values))
     end
 
+    def lpush(key, values : Array(RedisValue))
+      integer_command(concat(["LPUSH", key.to_s], values))
+    end
+
     # Inserts value at the head of the list stored at key, only if key already exists and holds a list.
     #
     # **Return value**: Integer, the length of the list after the push operation.
