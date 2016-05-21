@@ -1408,6 +1408,20 @@ class Redis
       integer_array_command(concat(["SCRIPT", "EXISTS"], sha1_array))
     end
 
+    # Flush the current database.
+    #
+    # **Return value**: "OK"
+    def flushdb
+      string_command(["FLUSHDB"])
+    end
+
+    # Flush all databases.
+    #
+    # **Return value**: "OK"
+    def flushall
+      string_command(["FLUSHALL"])
+    end
+
     # Flush the Lua scripts cache.
     #
     # **Return value**: "OK"

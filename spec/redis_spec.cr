@@ -975,6 +975,15 @@ describe Redis do
     end
   end
 
+  describe "#flush" do
+    redis = Redis.new
+
+    it "returns a value's type as a string" do
+      redis.flushdb.should eq("OK")
+      redis.flushall.should eq("OK")
+    end
+  end
+
   describe "expiry" do
     redis = Redis.new
 
