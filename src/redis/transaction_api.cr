@@ -17,6 +17,8 @@ require "./command_execution/future_oriented"
 # In this example, the `multi` object passed to the block is a TransactionApi
 # object.
 class Redis::TransactionApi
+  @strategy : Redis::Strategy::Transaction
+
   def initialize(@strategy)
   end
 

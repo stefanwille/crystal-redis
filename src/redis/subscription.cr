@@ -16,43 +16,27 @@ class Redis::Subscription
   # :nodoc:
   getter :punsubscribe_callback
 
-  def initialize
-    # By default, the callbacks do nothing.
-    @subscribe_callback = ->(channel : String, subscriptions : Int64) {}
-    @psubscribe_callback = ->(channel_pattern : String, subscriptions : Int64) {}
-    @message_callback = ->(channel : String, message : String) {}
-    @pmessage_callback = ->(channel_pattern : String, channel : String, message : String) {}
-    @unsubscribe_callback = ->(channel : String, subscriptions : Int64) {}
-    @punsubscribe_callback = ->(channel_pattern : String, subscriptions : Int64) {}
-  end
-
   # Sets the 'subscribe' callback.
-  def subscribe(&block : String, Int64 ->)
-    @subscribe_callback = block
+  def subscribe(&@subscribe_callback : String, Int64 ->)
   end
 
   # Sets the 'psubscribe' callback.
-  def psubscribe(&block : String, Int64 ->)
-    @psubscribe_callback = block
+  def psubscribe(&@psubscribe_callback : String, Int64 ->)
   end
 
   # Sets the 'message' callback.
-  def message(&block : String, String ->)
-    @message_callback = block
+  def message(&@message_callback : String, String ->)
   end
 
   # Sets the 'pmessage' callback.
-  def pmessage(&block : String, String, String ->)
-    @pmessage_callback = block
+  def pmessage(&@pmessage_callback : String, String, String ->)
   end
 
   # Sets the 'unsubscribe' callback.
-  def unsubscribe(&block : String, Int64 ->)
-    @unsubscribe_callback = block
+  def unsubscribe(&@unsubscribe_callback : String, Int64 ->)
   end
 
   # Sets the 'punsubscribe' callback.
-  def punsubscribe(&block : String, Int64 ->)
-    @punsubscribe_callback = block
+  def punsubscribe(&@punsubscribe_callback : String, Int64 ->)
   end
 end

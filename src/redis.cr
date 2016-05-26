@@ -43,6 +43,8 @@ class Redis
   # :nodoc:
   alias Request = Array(RedisValue)
 
+  @strategy : Redis::Strategy::Base
+
   # Opens a Redis connection
   #
   # **Options**:
@@ -137,7 +139,7 @@ class Redis
     pipeline_strategy = Redis::Strategy::Pipeline.new(@connection)
     pipeline_api = Redis::PipelineApi.new(pipeline_strategy)
     yield(pipeline_api)
-    pipeline_strategy.commit as Array(RedisValue)
+    pipeline_strategy.commit.as(Array(RedisValue))
   ensure
     @strategy = Redis::Strategy::SingleStatement.new(@connection)
   end
@@ -169,7 +171,7 @@ class Redis
     transaction_strategy.begin
     transaction_api = Redis::TransactionApi.new(transaction_strategy)
     yield(transaction_api)
-    transaction_strategy.commit as Array(RedisValue)
+    transaction_strategy.commit.as(Array(RedisValue))
   ensure
     @strategy = Redis::Strategy::SingleStatement.new(@connection)
   end
@@ -182,7 +184,7 @@ class Redis
 
   # :nodoc:
   def command(request : Request)
-    @strategy.command(request) as RedisValue
+    @strategy.command(request).as(RedisValue)
   end
 
   # Closes the Redis connection.
