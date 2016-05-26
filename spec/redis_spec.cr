@@ -211,12 +211,12 @@ describe Redis do
     end
 
     it "#setex" do
-      redis.setex("foo", "setexed", 3)
+      redis.setex("foo", 3, "setexed")
       redis.get("foo").should eq("setexed")
     end
 
     it "#psetex" do
-      redis.psetex("foo", "psetexed", 3000)
+      redis.psetex("foo", 3000, "psetexed")
       redis.get("foo").should eq("psetexed")
     end
 
@@ -644,9 +644,9 @@ describe Redis do
 
     it "#hmset" do
       redis.del("myhash")
-      redis.hmset("myhash", {"field1": "a", "field2": "b"})
+      redis.hmset("myhash", {"field1": "a", "field2": 2})
       redis.hget("myhash", "field1").should eq("a")
-      redis.hget("myhash", "field2").should eq("b")
+      redis.hget("myhash", "field2").should eq("2")
     end
 
     it "#hscan" do

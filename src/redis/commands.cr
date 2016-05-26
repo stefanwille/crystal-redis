@@ -146,7 +146,7 @@ class Redis
     # redis.sort("mylist")                # => [...]
     # redis.sort("mylist", order: "DESC") # => [...]
     # ```
-    def sort(key, by = nil, limit = nil, get = nil : Array(RedisValue)?, order = "ASC", alpha = false, store = nil)
+    def sort(key, by = nil, limit = nil, get : Array(RedisValue)? = nil, order = "ASC", alpha = false, store = nil)
       q = ["SORT", key.to_s]
 
       if by
@@ -235,16 +235,16 @@ class Redis
     # Example:
     #
     # ```
-    # redis.setex("foo", "bar", 3)
+    # redis.setex("foo", 3, "bar")
     # ```
-    def setex(key, value, expire_in_seconds)
+    def setex(key, expire_in_seconds, value)
       string_command(["SETEX", key.to_s, expire_in_seconds.to_s, value.to_s])
     end
 
     # PSETEX works exactly like SETEX with the sole difference that the expire time is specified in milliseconds instead of seconds.
     #
     # **Return value**: "OK"
-    def psetex(key, value, expire_in_milis)
+    def psetex(key, expire_in_milis, value)
       string_command(["PSETEX", key.to_s, expire_in_milis.to_s, value.to_s])
     end
 
@@ -985,7 +985,7 @@ class Redis
     # **Return value**: "OK"
     def hmset(key, hash)
       q = ["HMSET", key.to_s] of RedisValue
-      hash.each { |field, value| q << field.to_s << value }
+      hash.each { |field, value| q << field.to_s << value.to_s }
       string_command(q)
     end
 
