@@ -49,12 +49,10 @@ class Redis
         x = command(request) as Array(RedisValue)
         y = {} of RedisValue => RedisValue
 
-        x.each_with_index do |v, i|
-          if i.odd?
-            y[x[i-1]] = v
-          end
+        x.in_groups_of(2) do |(key, value)|
+          y[key] = value
         end
-        
+
         y
       end
 
