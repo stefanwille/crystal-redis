@@ -679,7 +679,7 @@ describe Redis do
     it "#zadd / zrange" do
       redis.del("myzset")
       redis.zadd("myzset", 1, "one").should eq(1)
-      redis.zadd("myzset", 1, "uno").should eq(1)
+      redis.zadd("myzset", [1, "uno"]).should eq(1)
       redis.zadd("myzset", 2, "two", 3, "three").should eq(2)
       redis.zrange("myzset", 0, -1, with_scores: true).should eq(["one", "1", "uno", "1", "two", "2", "three", "3"])
     end
