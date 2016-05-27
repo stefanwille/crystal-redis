@@ -15,6 +15,13 @@ private def convert_to_string_array(a)
   a.map { |item| item.to_s }
 end
 
+# Same as `sort` except sorting feature
+private def array(a) : Array(String)
+  (a as Array(Redis::RedisValue)).map(&.to_s)
+rescue
+  raise "Cannot convert to Array(Redis::RedisValue): #{a.class}"
+end
+
 describe Redis do
   describe ".new" do
     it "connects to default host and port" do
@@ -289,12 +296,43 @@ describe Redis do
       redis.get("foo").should eq("Hello Redis")
     end
 
-    it "#scan" do
-      redis.set("foo", "Hello world")
-      new_cursor, keys = redis.scan(0)
-      new_cursor = new_cursor.as(String)
-      new_cursor.to_i.should be > 0
-      keys.is_a?(Array).should be_true
+    describe "#scan" do
+      it "no options" do
+        redis.set("foo", "Hello world")
+        new_cursor, keys = redis.scan(0)
+        new_cursor = new_cursor.as(String)
+        new_cursor.to_i.should be > 0
+        keys.is_a?(Array).should be_true
+      end
+
+      it "with match" do
+        redis.set("scan.match1", "1")
+        redis.set("scan.match2", "2")
+        new_cursor, keys = redis.scan(0, "scan.match*")
+        new_cursor = new_cursor as String
+        new_cursor.to_i.should be > 0
+        keys.is_a?(Array).should be_true
+        # Here `keys.size` should be 0 or 1 or 2, but I don't know how to test it.
+      end
+
+      it "with match and count" do
+        redis.set("scan.match1", "1")
+        redis.set("scan.match2", "2")
+        new_cursor, keys = redis.scan(0, "scan.match*", 1)
+        new_cursor = new_cursor as String
+        new_cursor.to_i.should be > 0
+        keys.is_a?(Array).should be_true
+        # Here `keys.size` should be 0 or 1, but I don't know how to test it.
+      end
+
+      it "with match and count at once" do
+        redis.set("scan.match1", "1")
+        redis.set("scan.match2", "2")
+        # assumes that current Redis instance has at most 10M entries
+        new_cursor, keys = redis.scan(0, "scan.match*", 10_000_000)
+        new_cursor.should eq("0")
+        array(keys).sort.should eq(["scan.match1", "scan.match2"])
+      end
     end
   end
 
@@ -570,12 +608,42 @@ describe Redis do
       redis.srandmember("key1", 1).should eq(["a"])
     end
 
-    it "#sscan" do
-      redis.del("myset")
-      redis.sadd("myset", "a", "b")
-      new_cursor, keys = redis.sscan("myset", 0)
-      new_cursor.should eq("0")
-      sort(keys).should eq(["a", "b"])
+    describe "#sscan" do
+      it "no options" do
+        redis.del("myset")
+        redis.sadd("myset", "a", "b")
+        new_cursor, keys = redis.sscan("myset", 0)
+        new_cursor.should eq("0")
+        sort(keys).should eq(["a", "b"])
+      end
+
+      it "with match" do
+        redis.del("myset")
+        redis.sadd("myset", "foo", "bar", "foo2", "foo3")
+        new_cursor, keys = redis.sscan("myset", 0, "foo*", 2)
+        new_cursor = new_cursor as String
+        keys.is_a?(Array).should be_true
+        array(keys).size.should be > 0
+      end
+
+      it "with match and count" do
+        redis.del("myset")
+        redis.sadd("myset", "foo", "bar", "baz")
+        new_cursor, keys = redis.sscan("myset", 0, "*a*", 1)
+        new_cursor = new_cursor as String
+        new_cursor.to_i.should be > 0
+        keys.is_a?(Array).should be_true
+        array(keys).size.should be > 0
+      end
+
+      it "with match and count at once" do
+        redis.del("myset")
+        redis.sadd("myset", "foo", "bar", "baz")
+        new_cursor, keys = redis.sscan("myset", 0, "*a*", 10)
+        new_cursor.should eq("0")
+        keys.is_a?(Array).should be_true
+        array(keys).sort.should eq(["bar", "baz"])
+      end
     end
   end
 
@@ -649,12 +717,39 @@ describe Redis do
       redis.hget("myhash", "field2").should eq("2")
     end
 
-    it "#hscan" do
-      redis.del("myhash")
-      redis.hmset("myhash", {"field1": "a", "field2": "b"})
-      new_cursor, keys = redis.hscan("myhash", 0)
-      new_cursor.should eq("0")
-      keys.should eq(["field1", "a", "field2", "b"])
+    describe "#hscan" do
+      it "no options" do
+        redis.del("myhash")
+        redis.hmset("myhash", {"field1": "a", "field2": "b"})
+        new_cursor, keys = redis.hscan("myhash", 0)
+        new_cursor.should eq("0")
+        keys.should eq(["field1", "a", "field2", "b"])
+      end
+
+      it "with match" do
+        redis.del("myhash")
+        redis.hmset("myhash", {"foo": "a", "bar": "b"})
+        new_cursor, keys = redis.hscan("myhash", 0, "f*")
+        new_cursor.should eq("0")
+        keys.is_a?(Array).should be_true
+        # {foo:a} is matched, and Redis returns the key and val as a single list
+        array(keys).should eq(["foo", "a"])
+      end
+
+      # pending: hscan doesn't handle COUNT strictly
+      # it "#hscan with match and count" do
+      # end
+
+      it "with match and count at once" do
+        redis.del("myhash")
+        redis.hmset("myhash", {"foo": "a", "bar": "b", "baz": "c"})
+        new_cursor, keys = redis.hscan("myhash", 0, "*a*", 1024)
+        new_cursor.should eq("0")
+        keys.is_a?(Array).should be_true
+        # extract odd elements for keys because hscan returns (key, val) as a single list
+        keys = array(keys).in_groups_of(2).map(&.first.not_nil!)
+        keys.sort.should eq(["bar", "baz"])
+      end
     end
 
     it "#hsetnx" do
@@ -758,12 +853,40 @@ describe Redis do
       redis.zrank("myzset", "four").should eq(nil)
     end
 
-    it "zscan" do
-      redis.del("myset")
-      redis.zadd("myzset", 1, "one", 2, "two", 3, "three")
-      new_cursor, keys = redis.zscan("myzset", 0)
-      new_cursor.should eq("0")
-      keys.should eq(["one", "1", "two", "2", "three", "3"])
+    describe "zscan" do
+      it "no options" do
+        redis.del("myset")
+        redis.zadd("myzset", 1, "one", 2, "two", 3, "three")
+        new_cursor, keys = redis.zscan("myzset", 0)
+        new_cursor.should eq("0")
+        keys.should eq(["one", "1", "two", "2", "three", "3"])
+      end
+
+      it "with match" do
+        redis.del("myzset")
+        redis.zadd("myzset", 1, "one", 2, "two", 3, "three")
+        new_cursor, keys = redis.zscan("myzset", 0, "t*")
+        new_cursor.should eq("0")
+        keys.is_a?(Array).should be_true
+        # extract odd elements for keys because zscan returns (key, val) as a single list
+        keys = array(keys).in_groups_of(2).map(&.first.not_nil!)
+        keys.should eq(["two", "three"])
+      end
+
+      # pending: zscan doesn't handle COUNT strictly
+      # it "#zscan with match and count" do
+      # end
+
+      it "with match and count at once" do
+        redis.del("myzset")
+        redis.zadd("myzset", 1, "one", 2, "two", 3, "three")
+        new_cursor, keys = redis.zscan("myzset", 0, "t*", 1024)
+        new_cursor.should eq("0")
+        keys.is_a?(Array).should be_true
+        # extract odd elements for keys because zscan returns (key, val) as a single list
+        keys = array(keys).in_groups_of(2).map(&.first.not_nil!)
+        keys.should eq(["two", "three"])
+      end
     end
 
     it "#zrevrank" do
