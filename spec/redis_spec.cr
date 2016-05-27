@@ -342,7 +342,7 @@ describe Redis do
     it "#lpush" do
       redis.del("mylist")
       redis.lpush("mylist", "hello").should eq(1)
-      redis.lpush("mylist", "world").should eq(2)
+      redis.lpush("mylist", ["world"]).should eq(2)
       redis.lrange("mylist", 0, 1).should eq(["world", "hello"])
       redis.lpush("mylist", "snip", "snip").should eq(4)
     end
