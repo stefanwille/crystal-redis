@@ -1047,6 +1047,10 @@ class Redis
     end
 
     def zadd(key, scores_and_members : Array(RedisValue))
+      if scores_and_members.size % 2 > 0
+        raise Error.new("zadd expects an array of scores mapped to members")
+      end
+
       integer_command(concat(["ZADD", key.to_s], scores_and_members))
     end
 
