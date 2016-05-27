@@ -2,7 +2,7 @@
 #
 # Strategy for sending commands while the client is subscribed to at least one channel.
 class Redis::Strategy::SubscriptionLoop < Redis::Strategy::Base
-  def initialize(connection, subscription)
+  def initialize(connection : Connection, subscription : Subscription)
     @connection = connection
     @subscription = subscription
     @entered_loop = false
@@ -28,39 +28,39 @@ class Redis::Strategy::SubscriptionLoop < Redis::Strategy::Base
   end
 
   private def dispatch_response(response)
-    result = (response as Array(RedisValue)).not_nil!
-    message_type = result[0] as String
+    result = (response.as(Array(RedisValue))).not_nil!
+    message_type = result[0].as(String)
     case message_type
     when "subscribe"
-      channel = result[1] as String
-      subscriptions = result[2] as Int64
-      @subscription.subscribe_callback.call(channel, subscriptions)
+      channel = result[1].as(String)
+      subscriptions = result[2].as(Int64)
+      @subscription.subscribe_callback.try &.call(channel, subscriptions)
       subscriptions > 0
     when "psubscribe"
-      channel_pattern = result[1] as String
-      subscriptions = result[2] as Int64
-      @subscription.psubscribe_callback.call(channel_pattern, subscriptions)
+      channel_pattern = result[1].as(String)
+      subscriptions = result[2].as(Int64)
+      @subscription.psubscribe_callback.try &.call(channel_pattern, subscriptions)
       subscriptions > 0
     when "message"
-      channel = result[1] as String
-      message = result[2] as String
-      @subscription.message_callback.call(channel, message)
+      channel = result[1].as(String)
+      message = result[2].as(String)
+      @subscription.message_callback.try &.call(channel, message)
       true
     when "pmessage"
-      channel_pattern = result[1] as String
-      channel = result[2] as String
-      message = result[3] as String
-      @subscription.pmessage_callback.call(channel_pattern, channel, message)
+      channel_pattern = result[1].as(String)
+      channel = result[2].as(String)
+      message = result[3].as(String)
+      @subscription.pmessage_callback.try &.call(channel_pattern, channel, message)
       true
     when "unsubscribe"
-      channel = result[1] as String
-      subscriptions = result[2] as Int64
-      @subscription.unsubscribe_callback.call(channel, subscriptions)
+      channel = result[1].as(String)
+      subscriptions = result[2].as(Int64)
+      @subscription.unsubscribe_callback.try &.call(channel, subscriptions)
       subscriptions > 0
     when "punsubscribe"
-      channel_pattern = result[1] as String
-      subscriptions = result[2] as Int64
-      @subscription.punsubscribe_callback.call(channel_pattern, subscriptions)
+      channel_pattern = result[1].as(String)
+      subscriptions = result[2].as(Int64)
+      @subscription.punsubscribe_callback.try &.call(channel_pattern, subscriptions)
       subscriptions > 0
     else
       raise Redis::Error.new("Unknown message_type #{message_type}")

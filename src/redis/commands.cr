@@ -552,6 +552,10 @@ class Redis
       integer_command(concat(["LPUSH", key.to_s], values))
     end
 
+    def lpush(key, values : Array(RedisValue))
+      integer_command(concat(["LPUSH", key.to_s], values))
+    end
+
     # Inserts value at the head of the list stored at key, only if key already exists and holds a list.
     #
     # **Return value**: Integer, the length of the list after the push operation.
@@ -1042,6 +1046,14 @@ class Redis
       integer_command(concat(["ZADD", key.to_s], scores_and_members))
     end
 
+    def zadd(key, scores_and_members : Array(RedisValue))
+      if scores_and_members.size % 2 > 0
+        raise Error.new("zadd expects an array of scores mapped to members")
+      end
+
+      integer_command(concat(["ZADD", key.to_s], scores_and_members))
+    end
+
     # Returns the specified range of elements in the sorted set stored at key.
     #
     # **Options**:
@@ -1398,6 +1410,20 @@ class Redis
     # in the script cache, an 1 is returned, otherwise 0 is returned.
     def script_exists(sha1_array : Array(Reference))
       integer_array_command(concat(["SCRIPT", "EXISTS"], sha1_array))
+    end
+
+    # Flush the current database.
+    #
+    # **Return value**: "OK"
+    def flushdb
+      string_command(["FLUSHDB"])
+    end
+
+    # Flush all databases.
+    #
+    # **Return value**: "OK"
+    def flushall
+      string_command(["FLUSHALL"])
     end
 
     # Flush the Lua scripts cache.

@@ -4,6 +4,8 @@
 #
 # See this [example](https://github.com/stefanwille/crystal-redis-examples/blob/master/src/pipelining.cr).
 class Redis::Future
+  @value : Redis::RedisValue
+
   def initialize
     @value
     @ready = false

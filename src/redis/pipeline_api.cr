@@ -16,6 +16,8 @@ require "./command_execution/future_oriented"
 # In this example, the `pipeline` object passed to the block is a PipelineApi
 # object.
 class Redis::PipelineApi
+  @strategy : Redis::Strategy::Pipeline
+
   def initialize(@strategy)
   end
 

@@ -292,7 +292,7 @@ describe Redis do
     it "#scan" do
       redis.set("foo", "Hello world")
       new_cursor, keys = redis.scan(0)
-      new_cursor = new_cursor as String
+      new_cursor = new_cursor.as(String)
       new_cursor.to_i.should be > 0
       keys.is_a?(Array).should be_true
     end
@@ -342,7 +342,7 @@ describe Redis do
     it "#lpush" do
       redis.del("mylist")
       redis.lpush("mylist", "hello").should eq(1)
-      redis.lpush("mylist", "world").should eq(2)
+      redis.lpush("mylist", ["world"]).should eq(2)
       redis.lrange("mylist", 0, 1).should eq(["world", "hello"])
       redis.lpush("mylist", "snip", "snip").should eq(4)
     end
@@ -679,7 +679,7 @@ describe Redis do
     it "#zadd / zrange" do
       redis.del("myzset")
       redis.zadd("myzset", 1, "one").should eq(1)
-      redis.zadd("myzset", 1, "uno").should eq(1)
+      redis.zadd("myzset", [1, "uno"]).should eq(1)
       redis.zadd("myzset", 2, "two", 3, "three").should eq(2)
       redis.zrange("myzset", 0, -1, with_scores: true).should eq(["one", "1", "uno", "1", "two", "2", "three", "3"])
     end
@@ -972,6 +972,18 @@ describe Redis do
     it "returns a value's type as a string" do
       redis.set("foo", 3)
       redis.type("foo").should eq("string")
+    end
+  end
+
+  describe "#flush" do
+    redis = Redis.new
+
+    it "flushdb" do
+      redis.flushdb.should eq("OK")
+    end
+
+    it "flushall" do
+      redis.flushall.should eq("OK")
     end
   end
 
