@@ -1636,6 +1636,19 @@ class Redis
       string_command(["UNWATCH"])
     end
 
+    def info(section : String = nil)
+      arr = ["INFO"]
+      arr << section if section
+      bulk = string_command(arr)
+      results = Hash(String, String).new
+      bulk.split("\r\n").each do |line|
+        next if line.empty? || line[0] == '#'
+        key, val = line.split(":")
+        results[key] = val
+      end
+      results
+    end
+
     # Concatenates the source array to the destination array.
     # Is there a better way?
     private def concat(destination : Array(RedisValue), source)

@@ -990,6 +990,19 @@ describe Redis do
     end
   end
 
+  describe "#info" do
+    it "returns server data" do
+      redis = Redis.new
+      x = redis.info
+      x.size.should be >= 70
+
+      x = redis.info("cpu")
+      x.size.should eq(4)
+
+      redis.info["redis_version"].should_not be_nil
+    end
+  end
+
   describe "#multi" do
     redis = Redis.new
 
