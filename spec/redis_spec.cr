@@ -978,8 +978,11 @@ describe Redis do
   describe "#flush" do
     redis = Redis.new
 
-    it "returns a value's type as a string" do
+    it "flushdb" do
       redis.flushdb.should eq("OK")
+    end
+
+    it "flushall" do
       redis.flushall.should eq("OK")
     end
   end
