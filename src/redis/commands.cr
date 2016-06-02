@@ -660,6 +660,10 @@ class Redis
       integer_command(concat(["SADD", key.to_s], values))
     end
 
+    def sadd(key, values : Array(RedisValue))
+      integer_command(concat(["SADD", key.to_s], values))
+    end
+
     # Returns all the members of the set value stored at key.
     #
     # **Return value**: Array(String), all elements of the set.
@@ -686,6 +690,10 @@ class Redis
     # redis.srem("myset", "Hello")
     # ```
     def srem(key, *values)
+      integer_command(concat(["SREM", key.to_s], values))
+    end
+
+    def srem(key, values : Array(RedisValue))
       integer_command(concat(["SREM", key.to_s], values))
     end
 
