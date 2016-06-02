@@ -111,4 +111,3 @@ I took great care to make this library very usable with respect to API, reliabil
 
 If you have questions or need help, please open a ticket in the [GitHub issue tracker](https://github.com/stefanwille/crystal-redis/issues). This way others can benefit from the discussion.
 
-
