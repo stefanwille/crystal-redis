@@ -1644,6 +1644,9 @@ class Redis
       string_command(["UNWATCH"])
     end
 
+    # The INFO command returns information and statistics about the server.
+    #
+    # **Return value**: A hash with the server information
     def info(section : String = nil)
       arr = ["INFO"]
       arr << section if section
