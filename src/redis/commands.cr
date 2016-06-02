@@ -660,6 +660,10 @@ class Redis
       integer_command(concat(["SADD", key.to_s], values))
     end
 
+    def sadd(key, values : Array(RedisValue))
+      integer_command(concat(["SADD", key.to_s], values))
+    end
+
     # Returns all the members of the set value stored at key.
     #
     # **Return value**: Array(String), all elements of the set.
@@ -686,6 +690,10 @@ class Redis
     # redis.srem("myset", "Hello")
     # ```
     def srem(key, *values)
+      integer_command(concat(["SREM", key.to_s], values))
+    end
+
+    def srem(key, values : Array(RedisValue))
       integer_command(concat(["SREM", key.to_s], values))
     end
 
@@ -1634,6 +1642,22 @@ class Redis
     # **Return value**: "OK"
     def unwatch
       string_command(["UNWATCH"])
+    end
+
+    # The INFO command returns information and statistics about the server.
+    #
+    # **Return value**: A hash with the server information
+    def info(section : String = nil)
+      arr = ["INFO"]
+      arr << section if section
+      bulk = string_command(arr)
+      results = Hash(String, String).new
+      bulk.split("\r\n").each do |line|
+        next if line.empty? || line[0] == '#'
+        key, val = line.split(":")
+        results[key] = val
+      end
+      results
     end
 
     # Concatenates the source array to the destination array.

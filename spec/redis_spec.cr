@@ -514,7 +514,8 @@ describe Redis do
       redis.sadd("myset", "Hello").should eq(1)
       redis.sadd("myset", "World").should eq(1)
       redis.sadd("myset", "World").should eq(0)
-      sort(redis.smembers("myset")).should eq(["Hello", "World"])
+      redis.sadd("myset", ["Foo", "Bar"]).should eq(2)
+      sort(redis.smembers("myset")).should eq(["Bar", "Foo", "Hello", "World"])
     end
 
     it "#scard" do
@@ -534,6 +535,10 @@ describe Redis do
       redis.del("myset")
       redis.sadd("myset", "Hello", "World")
       redis.srem("myset", "Hello").should eq(1)
+      redis.smembers("myset").should eq(["World"])
+
+      redis.sadd("myset", ["Hello", "World", "Foo"])
+      redis.srem("myset", ["Hello", "Foo"]).should eq(2)
       redis.smembers("myset").should eq(["World"])
     end
 
@@ -987,6 +992,19 @@ describe Redis do
       redis.pfadd("hll2", "a", "b", "c", "foo")
       redis.pfmerge("hll3", "hll1", "hll2").should eq("OK")
       redis.pfcount("hll3").should eq(6)
+    end
+  end
+
+  describe "#info" do
+    it "returns server data" do
+      redis = Redis.new
+      x = redis.info
+      x.size.should be >= 70
+
+      x = redis.info("cpu")
+      x.size.should eq(4)
+
+      redis.info["redis_version"].should_not be_nil
     end
   end
 
