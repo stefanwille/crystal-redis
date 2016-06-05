@@ -36,9 +36,10 @@ describe Redis do
       redis = Redis.new(host: "localhost", port: 6379, database: 1)
     end
 
-    # it "connects to Unix domain sockets" do
-    #     redis = Redis.new(unixsocket: "/tmp/redis.sock")
-    # end
+    it "connects to Unix domain sockets" do
+      redis = Redis.new(unixsocket: "/tmp/redis.sock")
+      redis.ping.should eq "PONG"
+    end
 
     describe "#close" do
       it "closes the connection" do
