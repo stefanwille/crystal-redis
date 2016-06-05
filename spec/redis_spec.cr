@@ -32,6 +32,10 @@ describe Redis do
       redis = Redis.new(host: "localhost", port: 6379)
     end
 
+    it "connects to a specific database" do
+      redis = Redis.new(host: "localhost", port: 6379, database: 1)
+    end
+
     # it "connects to Unix domain sockets" do
     #     redis = Redis.new(unixsocket: "/tmp/redis.sock")
     # end
