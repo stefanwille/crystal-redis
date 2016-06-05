@@ -17,7 +17,7 @@ end
 
 # Same as `sort` except sorting feature
 private def array(a) : Array(String)
-  (a as Array(Redis::RedisValue)).map(&.to_s)
+  (a.as(Array(Redis::RedisValue))).map(&.to_s)
 rescue
   raise "Cannot convert to Array(Redis::RedisValue): #{a.class}"
 end
@@ -32,9 +32,14 @@ describe Redis do
       redis = Redis.new(host: "localhost", port: 6379)
     end
 
-    # it "connects to Unix domain sockets" do
-    #     redis = Redis.new(unixsocket: "/tmp/redis.sock")
-    # end
+    it "connects to a specific database" do
+      redis = Redis.new(host: "localhost", port: 6379, database: 1)
+    end
+
+    it "connects to Unix domain sockets" do
+      redis = Redis.new(unixsocket: "/tmp/redis.sock")
+      redis.ping.should eq "PONG"
+    end
 
     describe "#close" do
       it "closes the connection" do
@@ -310,7 +315,7 @@ describe Redis do
         redis.set("scan.match1", "1")
         redis.set("scan.match2", "2")
         new_cursor, keys = redis.scan(0, "scan.match*")
-        new_cursor = new_cursor as String
+        new_cursor = new_cursor.as(String)
         new_cursor.to_i.should be > 0
         keys.is_a?(Array).should be_true
         # Here `keys.size` should be 0 or 1 or 2, but I don't know how to test it.
@@ -320,7 +325,7 @@ describe Redis do
         redis.set("scan.match1", "1")
         redis.set("scan.match2", "2")
         new_cursor, keys = redis.scan(0, "scan.match*", 1)
-        new_cursor = new_cursor as String
+        new_cursor = new_cursor.as(String)
         new_cursor.to_i.should be > 0
         keys.is_a?(Array).should be_true
         # Here `keys.size` should be 0 or 1, but I don't know how to test it.
@@ -627,7 +632,7 @@ describe Redis do
         redis.del("myset")
         redis.sadd("myset", "foo", "bar", "foo2", "foo3")
         new_cursor, keys = redis.sscan("myset", 0, "foo*", 2)
-        new_cursor = new_cursor as String
+        new_cursor = new_cursor.as(String)
         keys.is_a?(Array).should be_true
         array(keys).size.should be > 0
       end
@@ -636,7 +641,7 @@ describe Redis do
         redis.del("myset")
         redis.sadd("myset", "foo", "bar", "baz")
         new_cursor, keys = redis.sscan("myset", 0, "*a*", 1)
-        new_cursor = new_cursor as String
+        new_cursor = new_cursor.as(String)
         new_cursor.to_i.should be > 0
         keys.is_a?(Array).should be_true
         array(keys).size.should be > 0
