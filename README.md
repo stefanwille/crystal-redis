@@ -31,7 +31,7 @@ Add it to your `shard.yml`:
 dependencies:
   redis:
     github: stefanwille/crystal-redis
-    version: ~> 1.6.2
+    version: ~> 1.6.3
 ```
 
 and then install the library into your project:
@@ -43,7 +43,7 @@ $ crystal deps
 
 ## Required Crystal Version
 
-This library needs Crystal version >= 0.17.4.
+This library needs Crystal version >= 0.18.2
 
 
 ## Usage
