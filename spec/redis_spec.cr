@@ -160,7 +160,7 @@ describe Redis do
       it "by" do
         redis.del("mylist", "objects", "weights")
         redis.rpush("mylist", "1", "3", "2")
-        redis.mset({"weight_1": 1, "weight_2": 2, "weight_3": 3})
+        redis.mset({"weight_1" => 1, "weight_2" => 2, "weight_3" => 3})
         redis.sort("mylist", by: "weights_*").should eq(["1", "2", "3"])
       end
 
@@ -212,7 +212,7 @@ describe Redis do
     end
 
     it "#mset" do
-      redis.mset({"foo1": "bar1", "foo2": "bar2"})
+      redis.mset({"foo1" => "bar1", "foo2" => "bar2"})
       redis.get("foo1").should eq("bar1")
       redis.get("foo2").should eq("bar2")
     end
