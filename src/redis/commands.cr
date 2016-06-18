@@ -200,6 +200,10 @@ class Redis
       string_array_command(concat(["MGET"], keys))
     end
 
+    def mget(keys : Array)
+      string_array_command(concat(["MGET"], keys))
+    end
+
     # Sets the given keys to their respective values as defined in the hash.
     #
     # **Return value**: "OK"
@@ -209,7 +213,7 @@ class Redis
     # ```
     # redis.mset({"foo1": "bar1", "foo2": "bar2"})
     # ```
-    def mset(hash)
+    def mset(hash : Hash)
       q = ["MSET"] of RedisValue
       hash.each { |key, value| q << key.to_s << value.to_s }
       string_command(q)

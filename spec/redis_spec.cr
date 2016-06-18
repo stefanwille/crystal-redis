@@ -208,6 +208,7 @@ describe Redis do
       redis.set("foo1", "test1")
       redis.set("foo2", "test2")
       redis.mget("foo1", "foo2").should eq(["test1", "test2"])
+      redis.mget(["foo2", "foo1"]).should eq(["test2", "test1"])
     end
 
     it "#mset" do
