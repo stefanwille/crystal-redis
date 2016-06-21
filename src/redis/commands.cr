@@ -760,7 +760,7 @@ class Redis
       if count
         q << count.to_s
       end
-      string_array_or_string_command(q)
+      string_array_or_string_or_nil_command(q)
     end
 
     # When called with just the key argument, return a random element from the set value stored at key.
