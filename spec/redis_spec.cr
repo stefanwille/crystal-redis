@@ -564,6 +564,10 @@ describe Redis do
       #
       # redis.sadd("myset", "one", "two")
       # sort(redis.spop("myset", count: 2)).should eq(["one", "two"])
+
+
+      redis.del("myset")
+      redis.spop("myset").should eq(nil)
     end
 
     it "#sdiffstore" do
