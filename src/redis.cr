@@ -43,7 +43,7 @@ class Redis
   # :nodoc:
   alias Request = Array(RedisValue)
 
-  getter! location : String
+  getter! url : String
   @strategy : Redis::Strategy::Base
 
   # Opens a Redis connection
@@ -79,11 +79,11 @@ class Redis
   def initialize(host = "localhost", port = 6379, unixsocket = nil, password = nil, database = nil)
     @connection = Connection.new(host, port, unixsocket)
     @strategy = Redis::Strategy::SingleStatement.new(@connection)
-    @location = if unixsocket
-      "redis://#{unixsocket}/#{database ? database : 0}"
-    else
-      "redis://#{host}:#{port}/#{database ? database : 0}"
-    end
+    @url = if unixsocket
+             "redis://#{unixsocket}/#{database ? database : 0}"
+           else
+             "redis://#{host}:#{port}/#{database ? database : 0}"
+           end
 
     if password
       auth(password)

@@ -34,12 +34,12 @@ describe Redis do
 
     it "connects to a specific database" do
       redis = Redis.new(host: "localhost", port: 6379, database: 1)
-      redis.location.should eq("redis://localhost:6379/1")
+      redis.url.should eq("redis://localhost:6379/1")
     end
 
     it "connects to Unix domain sockets" do
       redis = Redis.new(unixsocket: "/tmp/redis.sock")
-      redis.location.should eq("redis:///tmp/redis.sock/0")
+      redis.url.should eq("redis:///tmp/redis.sock/0")
       redis.ping.should eq "PONG"
     end
 
