@@ -43,7 +43,9 @@ class Redis
   # :nodoc:
   alias Request = Array(RedisValue)
 
+  # Returns the server URI for this client.
   getter! url : String
+
   @strategy : Redis::Strategy::Base
 
   # Opens a Redis connection
