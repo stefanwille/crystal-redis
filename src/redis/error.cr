@@ -4,3 +4,9 @@ class Redis::Error < Exception
     super("RedisError: #{s}")
   end
 end
+
+class Redis::DisconnectedError < Redis::Error
+  def initialize
+    super("Disconnected")
+  end
+end
