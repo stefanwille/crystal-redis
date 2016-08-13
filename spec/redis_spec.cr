@@ -402,7 +402,7 @@ describe Redis do
       redis.lrange("mylist", 0, 1).should eq(["world", "hello"])
     end
 
-    it "#lpushx" do
+    it "#rpushx" do
       redis.del("mylist")
       redis.rpushx("mylist", "hello").should eq(0)
       redis.lrange("mylist", 0, 1).should eq([] of Redis::RedisValue)
