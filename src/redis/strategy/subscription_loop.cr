@@ -9,6 +9,7 @@ class Redis::Strategy::SubscriptionLoop < Redis::Strategy::Base
   end
 
   def command(request : Request)
+    validate_command(request)
     @connection.send(request)
 
     # Enter the message reception loop only once.
@@ -17,6 +18,13 @@ class Redis::Strategy::SubscriptionLoop < Redis::Strategy::Base
     else
       enter_message_reception_loop
     end
+  end
+
+  ALLOWED_COMMANDS = ["SUBSCRIBE", "PSUBSCRIBE", "UNSUBSCRIBE", "PUNSUBSCRIBE", "PING", "QUIT"]
+
+  private def validate_command(request : Request)
+    return if ALLOWED_COMMANDS.includes?(request[0])
+    raise Redis::Error.new("Command #{request[0]} not allowed in the context of a subscribed connection")
   end
 
   private def enter_message_reception_loop
