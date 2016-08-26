@@ -92,7 +92,7 @@ class Redis
     end
 
     if database
-      select(database)
+      self.select(database)
     end
   end
 
