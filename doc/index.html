@@ -1,20 +1,148 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8" />
+  <meta id="repository-name" content="github.com/stefanwille/crystal-redis">
   <link href="css/style.css" rel="stylesheet" type="text/css" />
-  <script type="text/javascript">
-    function setMainFrame() {
-      var mainFrame = document.getElementById("main");
-      if (window.location.hash == "") {
-        mainFrame.src = "main.html"
-      } else {
-        mainFrame.src = unescape(window.location.hash.substring(1));
-      }
-    }
-  </script>
+  <script type="text/javascript" src="js/doc.js"></script>
+  <title>README - github.com/stefanwille/crystal-redis</title>
 </head>
-<frameset cols="20%,*" onload="setMainFrame()">
-  <frame name="list" src="list.html" />
-  <frame id="main" name="main" />
-</frameset>
+<body>
+
+<div id="types-list">
+  <div id="search-box">
+    <input type="search" id="search-input" placeholder="Search...">
+  </div>
+
+  <ul>
+    <li class="current"><a href="index.html">README</a></li>
+  </ul>
+
+  <ul>
+  
+  <li class="parent " data-id="github.com/stefanwille/crystal-redis/Redis" data-name="redis">
+      <a href="Redis.html">Redis</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/Commands" data-name="redis::commands">
+      <a href="Redis/Commands.html">Commands</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/DisconnectedError" data-name="redis::disconnectederror">
+      <a href="Redis/DisconnectedError.html">DisconnectedError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/Error" data-name="redis::error">
+      <a href="Redis/Error.html">Error</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/Future" data-name="redis::future">
+      <a href="Redis/Future.html">Future</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/PipelineApi" data-name="redis::pipelineapi">
+      <a href="Redis/PipelineApi.html">PipelineApi</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/Subscription" data-name="redis::subscription">
+      <a href="Redis/Subscription.html">Subscription</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/TransactionApi" data-name="redis::transactionapi">
+      <a href="Redis/TransactionApi.html">TransactionApi</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+</div>
+
+<div id="main-content">
+<h1>Redis Client for Crystal</h1>
+
+<p>A Redis client for the Crystal programming language.</p>
+
+<h2>Features</h2>
+
+<ul><li>Performance (> 680,000 commands per second using pipeline on a MacBook Air with a single client thread)</li><li>Pipelining</li><li>Transactions</li><li>LUA Scripting</li><li>All string commands</li><li>All hash commands</li><li>All list commands</li><li>All set commands</li><li>All hyperloglog commands</li><li>All commands for bit operations</li><li>All sorted set commands</li><li>Publish/subscribe</li></ul>
+
+<h2>Installation</h2>
+
+<p>Add it to your <code>shard.yml</code>:</p>
+
+<pre><code class='language-crystal'>dependencies:
+  redis:
+    github: stefanwille<span class="s">/crystal-redis
+    version: ~&gt; 1.6.7</code></pre>
+
+<p>and then install the library into your project:</p>
+
+<pre><code class='language-bash'>$ crystal deps</code></pre>
+
+<h2>Required Crystal Version</h2>
+
+<p>This library needs Crystal version >= 0.18.2</p>
+
+<h2>Usage</h2>
+
+<p>Require the package:</p>
+
+<pre><code class='language-crystal'>  <span class="k">require</span> <span class="s">&quot;redis&quot;</span></code></pre>
+
+<p>then</p>
+
+<pre><code class='language-crystal'>  redis <span class="o">=</span> <span class="t">Redis</span>.<span class="k">new</span></code></pre>
+
+<p>Then you can call Redis commands on the <code>redis</code> object:</p>
+
+<pre><code class='language-crystal'>  redis.set(<span class="s">&quot;foo&quot;</span>, <span class="s">&quot;bar&quot;</span>)
+  redis.get(<span class="s">&quot;foo&quot;</span>)</code></pre>
+
+<h2>Examples</h2>
+
+<p>To get started, see the examples:</p>
+
+<ul><li>There is a separate git repository <a href="https://github.com/stefanwille/crystal-redis-examples" target="_blank">crystal-redis-examples</a> with examples.</li><li>start with this <a href="https://github.com/stefanwille/crystal-redis-examples/blob/master/src/basic.cr" target="_blank">basic example</a></li><li>look at <a href="https://github.com/stefanwille/crystal-redis-examples/blob/master/src/" target="_blank">the other examples</a></li><li>the <a href="https://github.com/stefanwille/crystal-redis/blob/master/spec/redis.cr" target="_blank">spec</a> contains even more usage examples</li></ul>
+
+<h2>Documentation</h2>
+
+<ul><li><a href="http://stefanwille.github.io/crystal-redis/doc/" target="_blank">API documentation</a> -</li></ul>
+
+<p>start reading it at the class <code><a href="Redis.html">Redis</a></code>.</p>
+
+<ul><li><a href="http://redis.io/commands" target="_blank">Redis commands documentation</a> - the original Redis documentation is necessary, as the API documentation above is just a quick reference</li><li><a href="http://redis.io/documentation" target="_blank">Redis documentation page</a> - general information about Redis and its concepts</li></ul>
+
+<h2>Performance</h2>
+
+<p>I have benchmarked Crystal-Redis against several other client libraries in various programming languages in this <a href="http://www.stefanwille.com/2015/05/redis-clients-crystal-vs-ruby-vs-c-vs-go/" target="_blank">blog article</a>.</p>
+
+<p>Here are some results:</p>
+
+<ul><li>Crystal: With this library I get > 680,000 commands per second using pipeline on a MacBook Air with a single client thread.</li><li>C: The equivalent program written in C with Hiredis gets me 340,000 commands per second.</li><li>Ruby: Ruby 2.2.1 with the <a href="https://github.com/redis/redis-rb" target="_blank">redis-rb</a> and Hiredis driver handles 150,000 commands per second.</li></ul>
+
+<p><a href="http://www.stefanwille.com/2015/05/redis-clients-crystal-vs-ruby-vs-c-vs-go/" target="_blank">Read more results</a> for Go, Java, Node.js.</p>
+
+<h2>Status</h2>
+
+<p>I have exercised every API method in the spec and built some example programs. There is no production use yet.</p>
+
+<p>I took great care to make this library very usable with respect to API, reliability and documentation.</p>
+
+<h2>Questions, Bugs & Support</h2>
+
+<p>If you have questions or need help, please open a ticket in the <a href="https://github.com/stefanwille/crystal-redis/issues" target="_blank">GitHub issue tracker</a>. This way others can benefit from the discussion.</p>
+</div>
+</body>
 </html>

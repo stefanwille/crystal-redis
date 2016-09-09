@@ -5,7 +5,7 @@
   <meta id="repository-name" content="github.com/stefanwille/crystal-redis">
   <link href="../css/style.css" rel="stylesheet" type="text/css" />
   <script type="text/javascript" src="../js/doc.js"></script>
-  <title>Redis::Error - github.com/stefanwille/crystal-redis</title>
+  <title>Redis::DisconnectedError - github.com/stefanwille/crystal-redis</title>
 </head>
 <body>
 
@@ -30,12 +30,12 @@
       
     </li>
   
-  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/DisconnectedError" data-name="redis::disconnectederror">
+  <li class=" current" data-id="github.com/stefanwille/crystal-redis/Redis/DisconnectedError" data-name="redis::disconnectederror">
       <a href="../Redis/DisconnectedError.html">DisconnectedError</a>
       
     </li>
   
-  <li class=" current" data-id="github.com/stefanwille/crystal-redis/Redis/Error" data-name="redis::error">
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/Error" data-name="redis::error">
       <a href="../Redis/Error.html">Error</a>
       
     </li>
@@ -72,19 +72,12 @@
 <div id="main-content">
 <h1 class="type-name">
 
-  <span class="kind">class</span> Redis::Error
+  <span class="kind">class</span> Redis::DisconnectedError
 
 </h1>
 
 
-  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Redis/Error.html">Redis::Error</a></li><li class="superclass">Exception</li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
-
-
-
-
-  <h2>Overview</h2>
-
-  <p>Exception for errors that Redis returns.</p>
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Redis/DisconnectedError.html">Redis::DisconnectedError</a></li><li class="superclass"><a href="../Redis/Error.html">Redis::Error</a></li><li class="superclass">Exception</li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
 
 
 
@@ -94,12 +87,8 @@
 
 
 
-  <h2>Direct Known Subclasses</h2>
-  <ul class="other-types-list">
-  
-    <li class="other-type"><a href="../Redis/DisconnectedError.html">Redis::DisconnectedError</a></li>
-  
-  </ul>
+
+
 
 
 
@@ -109,7 +98,7 @@
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/795509339a0edc9665a647edea0ffdec478186b1/src/redis/error.cr#L2" target="_blank">redis/error.cr</a>
+      <a href="https://github.com/stefanwille/crystal-redis/blob/795509339a0edc9665a647edea0ffdec478186b1/src/redis/error.cr#L8" target="_blank">redis/error.cr</a>
     
     <br/>
   
@@ -125,6 +114,13 @@
 
 
 <div class="methods-inherited">
+  
+    
+
+
+    
+
+
   
     
 
