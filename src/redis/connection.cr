@@ -113,7 +113,7 @@ class Redis::Connection
   end
 
   def receive_line
-    line = @socket.gets
+    line = @socket.gets(chomp: false)
     unless line
       raise Redis::DisconnectedError.new
     end
