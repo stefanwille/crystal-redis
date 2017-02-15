@@ -1,3 +1,4 @@
+require "uri"
 require "./redis/commands"
 require "./redis/command_execution/value_oriented"
 
@@ -57,6 +58,8 @@ class Redis
   # * password - the password for authentication against the server. This is a convenience which saves you the extra call to the Redis `auth` command.
   # * database - the number of the database to select. This a convenience which saves you a call a call to `#select`.
   #
+  # If REDIS_URL environment variable is defined, the method will use that.
+  #
   # Example:
   #
   # ```
@@ -78,7 +81,22 @@ class Redis
   # redis = Redis.new(unixsocket: "/tmp/redis.sock")
   # ...
   # ```
+  #
+  # Example:
+  #
+  # ```
+  # ENV["REDIS_URL"] = "redis://:my-secret-pw@my.redis.com:6380/my-database"
+  # redis = Redis.new
+  # ...
+  # ```
   def initialize(host = "localhost", port = 6379, unixsocket = nil, password = nil, database = nil)
+    if ENV["REDIS_URL"]?
+      uri = URI.parse ENV["REDIS_URL"]
+      host = uri.host.to_s
+      port = uri.port if uri.port
+      password = uri.password
+      database = uri.path if uri.path != "" && uri.path != "/"
+    end
     @connection = Connection.new(host, port, unixsocket)
     @strategy = Redis::Strategy::SingleStatement.new(@connection)
     @url = if unixsocket
@@ -104,6 +122,8 @@ class Redis
   # * unixsocket - instead of using TCP, you can connect to Redis via a Unix domain socket by passing its path here (e.g. "/tmp/redis.sock")
   # * password - the password for authentication against the server. This is a convenience which saves you the extra call to the Redis `auth` command.
   # * database - the number of the database to select. This a convenience which saves you a call a call to `#select`.
+  #
+  # If REDIS_URL environment variable is defined, the method will use that.
   #
   # Example:
   #

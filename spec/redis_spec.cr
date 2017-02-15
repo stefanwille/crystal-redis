@@ -43,6 +43,22 @@ describe Redis do
       redis.ping.should eq "PONG"
     end
 
+    context "when REDIS_URL env variable is given" do
+      it "connects using given URL" do
+        ENV["REDIS_URL"] = "redis://127.0.0.1"
+        redis = Redis.new
+        redis.url.should eq("redis://127.0.0.1:6379/0")
+      end
+    end
+
+    context "when REDIS_URL env variable with trailing slash is given" do
+      it "connects using given URL" do
+        ENV["REDIS_URL"] = "redis://127.0.0.1/"
+        redis = Redis.new
+        redis.url.should eq("redis://127.0.0.1:6379/0")
+      end
+    end
+
     describe "#close" do
       it "closes the connection" do
         redis = Redis.new
@@ -54,6 +70,10 @@ describe Redis do
         redis.close
         redis.close
       end
+    end
+
+    Spec.after_each do
+      ENV.delete "REDIS_URL"
     end
   end
 
