@@ -71,7 +71,7 @@ To get started, see the examples:
 * There is a separate git repository [crystal-redis-examples](https://github.com/stefanwille/crystal-redis-examples) with examples.
 * start with this [basic example](https://github.com/stefanwille/crystal-redis-examples/blob/master/src/basic.cr)
 * look at [the other examples](https://github.com/stefanwille/crystal-redis-examples/blob/master/src/)
-* the [spec](https://github.com/stefanwille/crystal-redis/blob/master/spec/redis.cr) contains even more usage examples
+* the [spec](https://github.com/stefanwille/crystal-redis/blob/master/spec/redis_spec.cr) contains even more usage examples
 
 
 ## Documentation
