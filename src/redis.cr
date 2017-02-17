@@ -89,15 +89,17 @@ class Redis
   # redis = Redis.new
   # ...
   # ```
-  def initialize(host = "localhost", port = 6379, unixsocket = nil, password = nil, database = nil)
+  def initialize(host = nil, port = nil, unixsocket = nil, password = nil, database = nil)
     if ENV["REDIS_URL"]?
       uri = URI.parse ENV["REDIS_URL"]
-      host = uri.host.to_s
-      port = uri.port if uri.port
-      password = uri.password
+      host ||= uri.host.to_s
+      port ||= uri.port if uri.port
+      password ||= uri.password
       path = uri.path
-      database = path[1..-1] if path && path.size > 1
+      database ||= path[1..-1] if path && path.size > 1
     end
+    host ||= "localhost"
+    port ||= 6379
     @connection = Connection.new(host, port, unixsocket)
     @strategy = Redis::Strategy::SingleStatement.new(@connection)
     @url = if unixsocket
@@ -133,7 +135,7 @@ class Redis
   #   redis.incr("counter")
   # end
   # ```
-  def self.open(host = "localhost", port = 6379, unixsocket = nil, password = nil, database = nil)
+  def self.open(host = nil, port = nil, unixsocket = nil, password = nil, database = nil)
     redis = Redis.new(host, port, unixsocket, database)
     begin
       yield(redis)
