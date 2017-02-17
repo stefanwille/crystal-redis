@@ -95,7 +95,8 @@ class Redis
       host = uri.host.to_s
       port = uri.port if uri.port
       password = uri.password
-      database = uri.path if uri.path != "" && uri.path != "/"
+      path = uri.path
+      database = path[1..-1] if path && path.size > 1
     end
     @connection = Connection.new(host, port, unixsocket)
     @strategy = Redis::Strategy::SingleStatement.new(@connection)
