@@ -43,6 +43,20 @@ describe Redis do
       redis.ping.should eq "PONG"
     end
 
+    context "when url argument is given" do
+      it "connects using given URL" do
+        redis = Redis.new(url: "redis://127.0.0.1", host: "host.to.be.ignored", port: 1234)
+        redis.url.should eq("redis://127.0.0.1:6379/0")
+      end
+    end
+
+    context "when url argument with trailing slash is given" do
+      it "connects using given URL" do
+        redis = Redis.new(url: "redis://127.0.0.1/")
+        redis.url.should eq("redis://127.0.0.1:6379/0")
+      end
+    end
+
     describe "#close" do
       it "closes the connection" do
         redis = Redis.new
@@ -60,6 +74,13 @@ describe Redis do
   describe ".open" do
     it "connects to the Redis server, yields its block and disconnects" do
       Redis.open do |redis|
+        redis.url.should eq("redis://localhost:6379/0")
+      end
+    end
+
+    it "connects to the Redis using given url, yields its block and disconnects" do
+      Redis.open(url: "redis://127.0.0.1") do |redis|
+        redis.url.should eq("redis://127.0.0.1:6379/0")
       end
     end
   end

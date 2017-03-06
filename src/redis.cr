@@ -1,3 +1,4 @@
+require "uri"
 require "./redis/commands"
 require "./redis/command_execution/value_oriented"
 
@@ -56,6 +57,7 @@ class Redis
   # * unixsocket - instead of using TCP, you can connect to Redis via a Unix domain socket by passing its path here (e.g. "/tmp/redis.sock")
   # * password - the password for authentication against the server. This is a convenience which saves you the extra call to the Redis `auth` command.
   # * database - the number of the database to select. This a convenience which saves you a call a call to `#select`.
+  # * url - Redis url. If this is given, it overrides all others.
   #
   # Example:
   #
@@ -78,7 +80,22 @@ class Redis
   # redis = Redis.new(unixsocket: "/tmp/redis.sock")
   # ...
   # ```
-  def initialize(host = "localhost", port = 6379, unixsocket = nil, password = nil, database = nil)
+  #
+  # Example:
+  #
+  # ```
+  # redis = Redis.new(url: "redis://:my-secret-pw@my.redis.com:6380/my-database")
+  # ...
+  # ```
+  def initialize(host = "localhost", port = 6379, unixsocket = nil, password = nil, database = nil, url = nil)
+    if url
+      uri = URI.parse url
+      host = uri.host.to_s
+      port = uri.port || 6379
+      password = uri.password
+      path = uri.path
+      database = path[1..-1] if path && path.size > 1
+    end
     @connection = Connection.new(host, port, unixsocket)
     @strategy = Redis::Strategy::SingleStatement.new(@connection)
     @url = if unixsocket
@@ -104,6 +121,7 @@ class Redis
   # * unixsocket - instead of using TCP, you can connect to Redis via a Unix domain socket by passing its path here (e.g. "/tmp/redis.sock")
   # * password - the password for authentication against the server. This is a convenience which saves you the extra call to the Redis `auth` command.
   # * database - the number of the database to select. This a convenience which saves you a call a call to `#select`.
+  # * url - Redis url. If this is given, it overrides all others.
   #
   # Example:
   #
@@ -112,8 +130,8 @@ class Redis
   #   redis.incr("counter")
   # end
   # ```
-  def self.open(host = "localhost", port = 6379, unixsocket = nil, password = nil, database = nil)
-    redis = Redis.new(host, port, unixsocket, database)
+  def self.open(host = "localhost", port = 6379, unixsocket = nil, password = nil, database = nil, url = nil)
+    redis = Redis.new(host, port, unixsocket, password, database, url)
     begin
       yield(redis)
     ensure
