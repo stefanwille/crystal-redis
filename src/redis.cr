@@ -57,8 +57,7 @@ class Redis
   # * unixsocket - instead of using TCP, you can connect to Redis via a Unix domain socket by passing its path here (e.g. "/tmp/redis.sock")
   # * password - the password for authentication against the server. This is a convenience which saves you the extra call to the Redis `auth` command.
   # * database - the number of the database to select. This a convenience which saves you a call a call to `#select`.
-  #
-  # If REDIS_URL environment variable is defined, the method will use that.
+  # * url - Redis url. If this is given, it overrides all others.
   #
   # Example:
   #
@@ -85,21 +84,18 @@ class Redis
   # Example:
   #
   # ```
-  # ENV["REDIS_URL"] = "redis://:my-secret-pw@my.redis.com:6380/my-database"
-  # redis = Redis.new
+  # redis = Redis.new(url: "redis://:my-secret-pw@my.redis.com:6380/my-database")
   # ...
   # ```
-  def initialize(host = nil, port = nil, unixsocket = nil, password = nil, database = nil)
-    if ENV["REDIS_URL"]?
-      uri = URI.parse ENV["REDIS_URL"]
-      host ||= uri.host.to_s
-      port ||= uri.port if uri.port
-      password ||= uri.password
+  def initialize(host = "localhost", port = 6379, unixsocket = nil, password = nil, database = nil, url = nil)
+    if url
+      uri = URI.parse url
+      host = uri.host.to_s
+      port = uri.port || 6379
+      password = uri.password
       path = uri.path
-      database ||= path[1..-1] if path && path.size > 1
+      database = path[1..-1] if path && path.size > 1
     end
-    host ||= "localhost"
-    port ||= 6379
     @connection = Connection.new(host, port, unixsocket)
     @strategy = Redis::Strategy::SingleStatement.new(@connection)
     @url = if unixsocket
@@ -125,8 +121,7 @@ class Redis
   # * unixsocket - instead of using TCP, you can connect to Redis via a Unix domain socket by passing its path here (e.g. "/tmp/redis.sock")
   # * password - the password for authentication against the server. This is a convenience which saves you the extra call to the Redis `auth` command.
   # * database - the number of the database to select. This a convenience which saves you a call a call to `#select`.
-  #
-  # If REDIS_URL environment variable is defined, the method will use that.
+  # * url - Redis url. If this is given, it overrides all others.
   #
   # Example:
   #
@@ -135,8 +130,8 @@ class Redis
   #   redis.incr("counter")
   # end
   # ```
-  def self.open(host = nil, port = nil, unixsocket = nil, password = nil, database = nil)
-    redis = Redis.new(host, port, unixsocket, database)
+  def self.open(host = "localhost", port = 6379, unixsocket = nil, password = nil, database = nil, url = nil)
+    redis = Redis.new(host, port, unixsocket, password, database, url)
     begin
       yield(redis)
     ensure
