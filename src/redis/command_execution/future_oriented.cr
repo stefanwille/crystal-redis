@@ -23,6 +23,11 @@ class Redis
       end
 
       # Executes a Redis command and returns a Future.
+      def integer_hash_command(request : Request) : Redis::Future
+        command(request)
+      end
+
+      # Executes a Redis command and returns a Future.
       def string_command(request : Request) : Redis::Future
         command(request)
       end
