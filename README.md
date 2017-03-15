@@ -1,5 +1,5 @@
 
-Redis Client for Crystal
+Redis Client for Crystal &middot; [![Build Status](https://img.shields.io/travis/stefanwille/crystal-redis/master.svg?style=flat)](https://travis-ci.org/stefanwille/crystal-redis) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md#pull-requests)
 ========================
 
 A Redis client for the Crystal programming language.
