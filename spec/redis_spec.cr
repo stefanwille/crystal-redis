@@ -1303,7 +1303,7 @@ describe Redis do
     it "#object_encoding" do
       redis.del("mylist")
       redis.rpush("mylist", "Hello", "World")
-      redis.object_encoding("mylist").should eq("ziplist")
+      redis.object_encoding("mylist").should eq("quicklist")
     end
 
     it "#object_idletime" do
