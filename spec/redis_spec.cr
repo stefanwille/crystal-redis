@@ -1301,4 +1301,14 @@ describe Redis do
       redis.get("foo").should eq(large_value)
     end
   end
+
+  describe "OBJECT commands" do
+    redis = Redis.new
+    
+    it "#object_refcount" do
+      redis.del("mylist")
+      redis.rpush("mylist", "Hello", "World")
+      redis.object_refcount("mylist").should eq(1)
+    end
+  end
 end

@@ -1664,6 +1664,14 @@ class Redis
       results
     end
 
+    # Returns the number of references of the value associated with the specified key.
+    #
+    # **Return value**: Integer: returns the number of references
+    # of the value associated with the specified key.
+    def object_refcount(key)
+      integer_command(["OBJECT", "REFCOUNT", key.to_s])
+    end
+
     # Concatenates the source array to the destination array.
     # Is there a better way?
     private def concat(destination : Array(RedisValue), source)
