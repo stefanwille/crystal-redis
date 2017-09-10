@@ -12,7 +12,7 @@
 
 ## Running the Spec
 
-To run the spec, you need a Redis server on `localhost` / port `6379` (which is the default port).
+To run the spec, you need a Redis 4 server on `localhost` / port `6379` (which is the default port).
 
 The server also needs to accept Unix domain connections at `/tmp/redis.sock`. This means that you need the following two lines in your `redis.conf`:
 
@@ -26,5 +26,3 @@ Run the spec as usual via
 ```bash
 $ crystal spec
 ```
-
-
