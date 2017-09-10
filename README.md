@@ -31,7 +31,7 @@ Add it to your `shard.yml`:
 dependencies:
   redis:
     github: stefanwille/crystal-redis
-    version: ~> 1.8.0
+    version: ~> 1.9.0
 ```
 
 and then install the library into your project:
@@ -110,4 +110,3 @@ I took great care to make this library very usable with respect to API, reliabil
 ## Questions, Bugs & Support
 
 If you have questions or need help, please open a ticket in the [GitHub issue tracker](https://github.com/stefanwille/crystal-redis/issues). This way others can benefit from the discussion.
-
