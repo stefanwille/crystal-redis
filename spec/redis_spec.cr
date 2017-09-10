@@ -22,6 +22,8 @@ rescue
   raise "Cannot convert to Array(Redis::RedisValue): #{a.class}"
 end
 
+ENV["CI"] ||= "false"
+
 describe Redis do
   describe ".new" do
     it "connects to default host and port" do
@@ -38,9 +40,11 @@ describe Redis do
     end
 
     it "connects to Unix domain sockets" do
-      redis = Redis.new(unixsocket: "/tmp/redis.sock")
-      redis.url.should eq("redis:///tmp/redis.sock/0")
-      redis.ping.should eq "PONG"
+      if ENV["CI"] != "true"
+        redis = Redis.new(unixsocket: "/tmp/redis.sock")
+        redis.url.should eq("redis:///tmp/redis.sock/0")
+        redis.ping.should eq "PONG"
+      end
     end
 
     context "when url argument is given" do

@@ -3,3 +3,6 @@ sudo: required
 language: crystal
 
 services: redis-server
+
+env:
+  - CI=true
