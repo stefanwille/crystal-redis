@@ -3,8 +3,3 @@ sudo: required
 language: crystal
 
 services: redis-server
-
-before_script: 
-  - sudo sed -i 's/# \(unixsocket\)/\1/g' `sudo find / -type f -name redis.conf` # enable socket connection
-  - sudo service redis-server restart
-  - sudo chown travis:travis /tmp/redis.sock
