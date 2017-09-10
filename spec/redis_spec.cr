@@ -22,8 +22,6 @@ rescue
   raise "Cannot convert to Array(Redis::RedisValue): #{a.class}"
 end
 
-ENV["TRAVIS_CI_BUILD"] ||= "false"
-
 describe Redis do
   describe ".new" do
     it "connects to default host and port" do
@@ -40,7 +38,7 @@ describe Redis do
     end
 
     it "connects to Unix domain sockets" do
-      if ENV["TRAVIS_CI_BUILD"] != "true"
+      if ENV["TRAVIS_CI_BUILD"]? != "true"
         redis = Redis.new(unixsocket: "/tmp/redis.sock")
         redis.url.should eq("redis:///tmp/redis.sock/0")
         redis.ping.should eq "PONG"
