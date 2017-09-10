@@ -1305,6 +1305,12 @@ describe Redis do
       redis.rpush("mylist", "Hello", "World")
       redis.object_encoding("mylist").should eq("ziplist")
     end
+
+    it "#object_idletime" do
+      redis.del("mylist")
+      redis.rpush("mylist", "Hello", "World")
+      redis.object_idletime("mylist").should eq(0)
+    end
   end
 
   describe "large values" do

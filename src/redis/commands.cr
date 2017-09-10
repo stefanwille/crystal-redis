@@ -1664,20 +1664,32 @@ class Redis
       results
     end
 
-    # Returns the number of references of the value associated with the specified key.
+    # Returns the number of references of the value associated
+    # with the specified key.
     #
     # **Return value**: Integer: returns the number of references
     # of the value associated with the specified key.
     def object_refcount(key)
-      integer_command(["OBJECT", "REFCOUNT", key.to_s])
+      integer_or_nil_command(["OBJECT", "REFCOUNT", key.to_s])
     end
 
-    # Returns the number of references of the value associated with the specified key.
+    # Returns the kind of internal representation used in order to store
+    # the value associated with a key.
     #
-    # **Return value**: Integer: returns the number of references
-    # of the value associated with the specified key.
+    # **Return value**: String: returns the kind of internal representation
+    # used in order to store the value associated with a key.
     def object_encoding(key)
-      string_command(["OBJECT", "ENCODING", key.to_s])
+      string_or_nil_command(["OBJECT", "ENCODING", key.to_s])
+    end
+
+    # Returns the number of seconds since the object stored at the specified key
+    # is idle (not requested by read or write operations).
+    #
+    # **Return value**: Integer: returns the number of seconds
+    # since the object stored at the specified key is idle
+    # (not requested by read or write operations).
+    def object_idletime(key)
+      integer_or_nil_command(["OBJECT", "IDLETIME", key.to_s])
     end
 
     # Concatenates the source array to the destination array.
