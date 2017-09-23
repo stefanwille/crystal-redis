@@ -106,6 +106,11 @@ I have exercised every API method in the spec and built some example programs. T
 
 I took great care to make this library very usable with respect to API, reliability and documentation.
 
+## Development
+
+This project requires a locally running redis server running on port 6379 and with a unix socket located at /tmp/redis.sock.
+
+`$ crystal spec`
 
 ## Questions, Bugs & Support
 
