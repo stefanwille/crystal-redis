@@ -108,9 +108,12 @@ I took great care to make this library very usable with respect to API, reliabil
 
 ## Development
 
-This project requires a locally running redis server running on port 6379 and with a unix socket located at /tmp/redis.sock.
+This project requires a locally running redis server running on port 6379 and with a unix socket located at /tmp/redis.sock. Then you can the specs via
 
 `$ crystal spec`
+
+See more information at https://github.com/stefanwille/crystal-redis/blob/master/CONTRIBUTING.md
+
 
 ## Questions, Bugs & Support
 
