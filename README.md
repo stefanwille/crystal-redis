@@ -112,7 +112,7 @@ This project requires a locally running redis server running on port 6379 and wi
 
 `$ crystal spec`
 
-See more information at https://github.com/stefanwille/crystal-redis/blob/master/CONTRIBUTING.md
+[See more information](https://github.com/stefanwille/crystal-redis/blob/master/CONTRIBUTING.md).
 
 
 ## Questions, Bugs & Support
