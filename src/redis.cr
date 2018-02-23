@@ -1,4 +1,5 @@
 require "uri"
+require "openssl"
 require "./redis/commands"
 require "./redis/command_execution/value_oriented"
 
@@ -87,7 +88,7 @@ class Redis
   # redis = Redis.new(url: "redis://:my-secret-pw@my.redis.com:6380/my-database")
   # ...
   # ```
-  def initialize(host = "localhost", port = 6379, unixsocket = nil, password = nil, database = nil, url = nil)
+  def initialize(host = "localhost", port = 6379, unixsocket = nil, password = nil, database = nil, url = nil, ssl = false, sslcontext = nil)
     if url
       uri = URI.parse url
       host = uri.host.to_s
@@ -95,11 +96,19 @@ class Redis
       password = uri.password
       path = uri.path
       database = path[1..-1] if path && path.size > 1
+      sslcxt = default_sslcontext if uri.scheme == "rediss"
     end
-    @connection = Connection.new(host, port, unixsocket)
+    if sslcontext
+        sslcxt = sslcontext
+    elsif ssl && !sslcontext
+        sslcxt = default_sslcontext
+    end
+    @connection = Connection.new(host, port, unixsocket, sslcxt)
     @strategy = Redis::Strategy::SingleStatement.new(@connection)
     @url = if unixsocket
              "redis://#{unixsocket}/#{database ? database : 0}"
+           elsif ssl || sslcontext
+             "rediss://#{host}:#{port}/#{database ? database : 0}"
            else
              "redis://#{host}:#{port}/#{database ? database : 0}"
            end
@@ -111,6 +120,13 @@ class Redis
     if database
       self.select(database)
     end
+  end
+
+  private def default_sslcontext
+    context = OpenSSL::SSL::Context::Client.new
+    context.ciphers = "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH"
+    context.add_options(OpenSSL::SSL::Options::NO_SSL_V2 | OpenSSL::SSL::Options::NO_SSL_V3)
+    context
   end
 
   # Opens a Redis connection, yields the given block with a Redis object and closes the connection.

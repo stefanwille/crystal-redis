@@ -1,16 +1,22 @@
 require "socket"
+require "openssl"
 
 # A connection to a Redis instance.
 
 # :nodoc:
 class Redis::Connection
-  def initialize(host, port, unixsocket)
+  def initialize(host, port, unixsocket, sslcontext)
     if unixsocket
       @socket = UNIXSocket.new(unixsocket)
+    elsif sslcontext
+      tcpsocket = TCPSocket.new(host, port)
+      tcpsocket.sync = false
+      @socket = OpenSSL::SSL::Socket::Client.new(tcpsocket, sslcontext)
     else
-      @socket = TCPSocket.new(host, port)
+      tcpsocket = TCPSocket.new(host, port)
+      tcpsocket.sync = false
+      @socket = tcpsocket
     end
-    @socket.sync = false
     @connected = true
   end
 
