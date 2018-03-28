@@ -1325,4 +1325,19 @@ describe Redis do
       redis.get("foo").should eq(large_value)
     end
   end
+
+  describe "async list" do
+    redis = Redis.new
+
+    spawn {
+      loop {
+        sleep (rand(10) + 1).milliseconds
+        redis.lpush("mylist", rand.to_s)
+      }
+    }
+
+    it "async read list" do
+      99999.times { redis.lindex("list", 0) }
+    end
+  end
 end
