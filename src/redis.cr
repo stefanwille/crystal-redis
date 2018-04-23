@@ -58,6 +58,8 @@ class Redis
   # * unixsocket - instead of using TCP, you can connect to Redis via a Unix domain socket by passing its path here (e.g. "/tmp/redis.sock")
   # * password - the password for authentication against the server. This is a convenience which saves you the extra call to the Redis `auth` command.
   # * database - the number of the database to select. This a convenience which saves you a call a call to `#select`.
+  # * ssl - whether SSL should be enabled.
+  # * ssl_context - a OpenSSL::SSL::Context::Client.
   # * url - Redis url. If this is given, it overrides all others.
   #
   # Example:
@@ -88,7 +90,7 @@ class Redis
   # redis = Redis.new(url: "redis://:my-secret-pw@my.redis.com:6380/my-database")
   # ...
   # ```
-  def initialize(host = "localhost", port = 6379, unixsocket = nil, password = nil, database = nil, url = nil, ssl = false, sslcontext = nil)
+  def initialize(host = "localhost", port = 6379, unixsocket = nil, password = nil, database = nil, url = nil, ssl = false, ssl_context = nil)
     if url
       uri = URI.parse url
       host = uri.host.to_s
@@ -98,16 +100,16 @@ class Redis
       database = path[1..-1] if path && path.size > 1
       sslcxt = default_sslcontext if uri.scheme == "rediss"
     end
-    if sslcontext
-        sslcxt = sslcontext
-    elsif ssl && !sslcontext
-        sslcxt = default_sslcontext
+    if ssl_context
+      sslcxt = ssl_context
+    elsif ssl && !ssl_context
+      sslcxt = default_sslcontext
     end
     @connection = Connection.new(host, port, unixsocket, sslcxt)
     @strategy = Redis::Strategy::SingleStatement.new(@connection)
     @url = if unixsocket
              "redis://#{unixsocket}/#{database ? database : 0}"
-           elsif ssl || sslcontext
+           elsif ssl || ssl_context
              "rediss://#{host}:#{port}/#{database ? database : 0}"
            else
              "redis://#{host}:#{port}/#{database ? database : 0}"
