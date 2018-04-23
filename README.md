@@ -1,9 +1,6 @@
-
-Redis Client for Crystal
-========================
+# Redis Client for Crystal
 
 [![Build Status](https://img.shields.io/travis/stefanwille/crystal-redis/master.svg?style=flat)](https://travis-ci.org/stefanwille/crystal-redis) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md#pull-requests)
-
 
 A Redis client for the Crystal programming language.
 
@@ -22,7 +19,6 @@ A Redis client for the Crystal programming language.
 * All sorted set commands
 * Publish/subscribe
 
-
 ## Installation
 
 Add it to your `shard.yml`:
@@ -31,7 +27,7 @@ Add it to your `shard.yml`:
 dependencies:
   redis:
     github: stefanwille/crystal-redis
-    version: ~> 1.9.0
+    version: ~> 1.10.0
 ```
 
 and then install the library into your project:
@@ -40,11 +36,42 @@ and then install the library into your project:
 $ crystal deps
 ```
 
+### Installation on MacOS X
+
+On MacOS X you may get this warning:
+
+```
+Package libssl was not found in the pkg-config search path.
+Perhaps you should add the directory containing `libssl.pc'
+to the PKG_CONFIG_PATH environment variable
+No package 'libssl' found
+Package libcrypto was not found in the pkg-config search path.
+Perhaps you should add the directory containing `libcrypto.pc'
+to the PKG_CONFIG_PATH environment variable
+No package 'libcrypto' found
+```
+
+The problem is that Crystal can't find openssl, because it is not installed by default on MacOS X.
+
+The fix:
+
+1.  Install openssl via [Homebrew](https://brew.sh/):
+
+```bash
+$ brew install openssl
+```
+
+2.  Set the environment variable `PKG_CONFIG_PATH`:
+
+```bash
+$ export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig
+```
 
 ## Required Crystal Version
 
-This library needs Crystal version >= 0.18.2
+This library needs Crystal version >= 0.24.2
 
+I haven't tested older Crystal versions.
 
 ## Usage
 
@@ -76,14 +103,12 @@ To get started, see the examples:
 * look at [the other examples](https://github.com/stefanwille/crystal-redis-examples/blob/master/src/)
 * the [spec](https://github.com/stefanwille/crystal-redis/blob/master/spec/redis_spec.cr) contains even more usage examples
 
-
 ## Documentation
 
 * [API documentation](http://stefanwille.github.io/crystal-redis/doc/) -
-start reading it at the class `Redis`.
+  start reading it at the class `Redis`.
 * [Redis commands documentation](http://redis.io/commands) - the original Redis documentation is necessary, as the API documentation above is just a quick reference
 * [Redis documentation page](http://redis.io/documentation) - general information about Redis and its concepts
-
 
 ## Performance
 
@@ -99,7 +124,6 @@ Here are some results:
 
 [Read more results](http://www.stefanwille.com/2015/05/redis-clients-crystal-vs-ruby-vs-c-vs-go/) for Go, Java, Node.js.
 
-
 ## Status
 
 I have exercised every API method in the spec and built some example programs. There is no production use yet.
@@ -113,7 +137,6 @@ This project requires a locally running redis server running on port 6379 and wi
 `$ crystal spec`
 
 [See more information](https://github.com/stefanwille/crystal-redis/blob/master/CONTRIBUTING.md).
-
 
 ## Questions, Bugs & Support
 
