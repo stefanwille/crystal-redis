@@ -98,12 +98,12 @@ class Redis
       password = uri.password
       path = uri.path
       database = path[1..-1] if path && path.size > 1
-      sslcxt = default_sslcontext if uri.scheme == "rediss"
+      sslcxt = default_ssl_context if uri.scheme == "rediss"
     end
     if ssl_context
       sslcxt = ssl_context
     elsif ssl && !ssl_context
-      sslcxt = default_sslcontext
+      sslcxt = default_ssl_context
     end
     @connection = Connection.new(host, port, unixsocket, sslcxt)
     @strategy = Redis::Strategy::SingleStatement.new(@connection)
@@ -124,7 +124,7 @@ class Redis
     end
   end
 
-  private def default_sslcontext
+  private def default_ssl_context
     context = OpenSSL::SSL::Context::Client.new
     context.ciphers = "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH"
     context.add_options(OpenSSL::SSL::Options::NO_SSL_V2 | OpenSSL::SSL::Options::NO_SSL_V3)
