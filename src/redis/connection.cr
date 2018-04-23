@@ -5,13 +5,13 @@ require "openssl"
 
 # :nodoc:
 class Redis::Connection
-  def initialize(host, port, unixsocket, sslcontext)
+  def initialize(host, port, unixsocket, ssl_context)
     if unixsocket
       @socket = UNIXSocket.new(unixsocket)
-    elsif sslcontext
+    elsif ssl_context
       tcpsocket = TCPSocket.new(host, port)
       tcpsocket.sync = false
-      @socket = OpenSSL::SSL::Socket::Client.new(tcpsocket, sslcontext)
+      @socket = OpenSSL::SSL::Socket::Client.new(tcpsocket, ssl_context)
     else
       tcpsocket = TCPSocket.new(host, port)
       tcpsocket.sync = false
