@@ -5,6 +5,7 @@ require "openssl"
 
 # :nodoc:
 class Redis::Connection
+  @socket : TCPSocket | UNIXSocket | OpenSSL::SSL::Socket::Client
   def initialize(host, port, unixsocket, ssl_context)
     if unixsocket
       @socket = UNIXSocket.new(unixsocket)
