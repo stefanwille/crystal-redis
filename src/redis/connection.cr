@@ -6,19 +6,34 @@ require "openssl"
 # :nodoc:
 class Redis::Connection
   @socket : TCPSocket | UNIXSocket | OpenSSL::SSL::Socket::Client
-  def initialize(host, port, unixsocket, ssl_context)
+
+  def initialize(host, port, unixsocket, ssl_context, dns_timeout = nil, connect_timeout = nil)
     if unixsocket
-      @socket = UNIXSocket.new(unixsocket)
+      @socket = catch_connection_errors do
+        UNIXSocket.new(unixsocket)
+      end
     elsif ssl_context
-      tcpsocket = TCPSocket.new(host, port)
+      tcpsocket = catch_connection_errors do
+        TCPSocket.new(host, port, dns_timeout: dns_timeout, connect_timeout: connect_timeout)
+      end
       tcpsocket.sync = false
       @socket = OpenSSL::SSL::Socket::Client.new(tcpsocket, ssl_context)
     else
-      tcpsocket = TCPSocket.new(host, port)
+      tcpsocket = catch_connection_errors do
+        TCPSocket.new(host, port, dns_timeout: dns_timeout, connect_timeout: connect_timeout)
+      end
       tcpsocket.sync = false
       @socket = tcpsocket
     end
     @connected = true
+  end
+
+  protected def catch_connection_errors
+    yield
+  rescue IO::Timeout
+    raise Redis::ConnectionError.new("timeouted")
+  rescue ex : Errno
+    raise Redis::ConnectionError.new(ex.message)
   end
 
   def finalize

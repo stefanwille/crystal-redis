@@ -90,7 +90,7 @@ class Redis
   # redis = Redis.new(url: "redis://:my-secret-pw@my.redis.com:6380/my-database")
   # ...
   # ```
-  def initialize(host = "localhost", port = 6379, unixsocket = nil, password = nil, database = nil, url = nil, ssl = false, ssl_context = nil)
+  def initialize(host = "localhost", port = 6379, unixsocket = nil, password = nil, database = nil, url = nil, ssl = false, ssl_context = nil, dns_timeout = nil, connect_timeout = nil)
     if url
       uri = URI.parse url
       host = uri.host.to_s
@@ -105,7 +105,7 @@ class Redis
     elsif ssl && !ssl_context
       sslcxt = default_ssl_context
     end
-    @connection = Connection.new(host, port, unixsocket, sslcxt)
+    @connection = Connection.new(host, port, unixsocket, sslcxt, dns_timeout, connect_timeout)
     @strategy = Redis::Strategy::SingleStatement.new(@connection)
     @url = if unixsocket
              "redis://#{unixsocket}/#{database ? database : 0}"
