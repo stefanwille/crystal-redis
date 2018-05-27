@@ -10,3 +10,9 @@ class Redis::DisconnectedError < Redis::Error
     super("Disconnected")
   end
 end
+
+class Redis::ConnectionError < Redis::Error
+  def initialize(s)
+    super(s)
+  end
+end
