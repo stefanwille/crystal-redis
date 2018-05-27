@@ -60,6 +60,8 @@ class Redis
   # * database - the number of the database to select. This a convenience which saves you a call a call to `#select`.
   # * ssl - whether SSL should be enabled.
   # * ssl_context - a OpenSSL::SSL::Context::Client.
+  # * dns_timeout - the dns timeout
+  # * connect_timeout - the connect timeout
   # * url - Redis url. If this is given, it overrides all others.
   #
   # Example:
