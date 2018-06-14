@@ -60,7 +60,7 @@ describe Redis do
     end
 
     it "raise ConnectionError when cant connect to redis" do
-      expect_raises(Redis::ConnectionError, "RedisError: Error connecting to 'localhost:12345': Connection refused") do
+      expect_raises(Redis::CannotConnectError, "Errno: Error connecting to 'localhost:12345': Connection refused") do
         Redis.new(host: "localhost", port: 12345)
       end
     end
@@ -119,10 +119,8 @@ describe Redis do
 
   it "#auth" do
     Redis.open do |redis|
-      begin
+      expect_raises(Redis::Error, "ERR Client sent AUTH, but no password is set") do
         redis.auth("some-password").should eq("OK")
-      rescue e : Redis::Error
-        e.message.should eq("RedisError: ERR Client sent AUTH, but no password is set")
       end
     end
   end
@@ -219,6 +217,40 @@ describe Redis do
         # redis.get("foo").should eq("9")
         # redis.ttl("foo").should eq(-1)
       end
+    end
+  end
+
+  describe "select database" do
+    it "select database when connect" do
+      redis1 = Redis.new(host: "localhost", port: 6379, database: 1)
+      redis2 = Redis.new(host: "localhost", port: 6379, database: 2)
+
+      redis1.del("test_database")
+      redis2.del("test_database")
+
+      redis1.set("test_database", "1")
+      redis2.set("test_database", "2")
+
+      redis1.get("test_database").should eq "1"
+      redis2.get("test_database").should eq "2"
+    end
+
+    it "select database by command" do
+      redis1 = Redis.new(host: "localhost", port: 6379, database: 1)
+      redis2 = Redis.new(host: "localhost", port: 6379, database: 2)
+
+      redis1.del("test_database")
+      redis2.del("test_database")
+
+      redis1.set("test_database", "1")
+      redis2.set("test_database", "2")
+
+      redis = Redis.new(host: "localhost", port: 6379)
+      redis.select(1)
+      redis.get("test_database").should eq "1"
+
+      redis.select(2)
+      redis.get("test_database").should eq "2"
     end
   end
 

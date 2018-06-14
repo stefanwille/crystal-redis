@@ -5,35 +5,24 @@ require "openssl"
 
 # :nodoc:
 class Redis::Connection
-  @socket : TCPSocket | UNIXSocket | OpenSSL::SSL::Socket::Client
-
   def initialize(host, port, unixsocket, ssl_context, dns_timeout = nil, connect_timeout = nil)
     if unixsocket
-      @socket = catch_connection_errors do
+      @socket = SocketWrapper.new do
         UNIXSocket.new(unixsocket)
       end
     elsif ssl_context
-      tcpsocket = catch_connection_errors do
-        TCPSocket.new(host, port, dns_timeout: dns_timeout, connect_timeout: connect_timeout)
+      @socket = SocketWrapper.new do
+        tcpsocket = TCPSocket.new(host, port, dns_timeout: dns_timeout, connect_timeout: connect_timeout)
+        tcpsocket.sync = false
+        OpenSSL::SSL::Socket::Client.new(tcpsocket, ssl_context)
       end
-      tcpsocket.sync = false
-      @socket = OpenSSL::SSL::Socket::Client.new(tcpsocket, ssl_context)
     else
-      tcpsocket = catch_connection_errors do
-        TCPSocket.new(host, port, dns_timeout: dns_timeout, connect_timeout: connect_timeout)
+      @socket = SocketWrapper.new do
+        tcpsocket = TCPSocket.new(host, port, dns_timeout: dns_timeout, connect_timeout: connect_timeout)
+        tcpsocket.sync = false
+        tcpsocket
       end
-      tcpsocket.sync = false
-      @socket = tcpsocket
     end
-    @connected = true
-  end
-
-  protected def catch_connection_errors
-    yield
-  rescue IO::Timeout
-    raise Redis::ConnectionError.new("timeouted")
-  rescue ex : Errno
-    raise Redis::ConnectionError.new(ex.message)
   end
 
   def finalize
@@ -41,10 +30,7 @@ class Redis::Connection
   end
 
   def close
-    if @connected
-      @socket.close
-      @connected = false
-    end
+    @socket.close
   end
 
   def send(request : Request)
@@ -137,7 +123,7 @@ class Redis::Connection
   def receive_line
     line = @socket.gets(chomp: false)
     unless line
-      raise Redis::DisconnectedError.new
+      raise Redis::ConnectionError.new("The redis server closed the connection")
     end
     line.byte_slice(0, line.bytesize - 2)
   end

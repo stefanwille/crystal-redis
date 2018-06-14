@@ -1,18 +1,9 @@
 # Exception for errors that Redis returns.
 class Redis::Error < Exception
-  def initialize(s)
-    super("RedisError: #{s}")
-  end
-end
-
-class Redis::DisconnectedError < Redis::Error
-  def initialize
-    super("Disconnected")
-  end
 end
 
 class Redis::ConnectionError < Redis::Error
-  def initialize(s)
-    super(s)
-  end
+end
+
+class Redis::CannotConnectError < Redis::ConnectionError
 end
