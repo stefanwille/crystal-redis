@@ -77,7 +77,7 @@ $ export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig
 
 ## Required Crystal Version
 
-This library needs Crystal version >= 0.24.2
+This library needs Crystal version >= 0.25.0
 
 I haven't tested older Crystal versions.
 
