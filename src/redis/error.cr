@@ -1,9 +1,11 @@
-# Exception for errors that Redis returns.
+# Exception for errors raised by this shard.
 class Redis::Error < Exception
 end
 
-class Redis::ConnectionError < Redis::Error
+# Raised when connecting to the Redis server is not possible.
+class Redis::CannotConnectError < Redis::Error
 end
 
-class Redis::CannotConnectError < Redis::ConnectionError
+# Errors that occur on a connection.
+class Redis::ConnectionError < Redis::Error
 end
