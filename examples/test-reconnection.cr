@@ -1,5 +1,7 @@
 require "../src/redis"
 
+# This program tests auto reconnection.
+#
 # run: redis-server --port 7777 --timeout 5
 # start/stop server in the middle
 
