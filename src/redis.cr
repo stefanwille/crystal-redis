@@ -64,6 +64,7 @@ class Redis
   # * dns_timeout - the dns timeout.
   # * connect_timeout - the connect timeout.
   # * reconnect - whether we should reconnect when we encounter a disconnected Redis connection.
+  # * command_timeout - the command timeout.
   # * url - Redis url. If this is given, it overrides all others.
   #
   # Example:
@@ -96,7 +97,7 @@ class Redis
   # ```
   def initialize(@host = "localhost", @port = 6379, @unixsocket : String? = nil, @password : String? = nil,
                  @database : Int32? = nil, url = nil, ssl = false, ssl_context = nil,
-                 @dns_timeout : Time::Span? = nil, @connect_timeout : Time::Span? = nil, @reconnect = true)
+                 @dns_timeout : Time::Span? = nil, @connect_timeout : Time::Span? = nil, @reconnect = true, @command_timeout : Time::Span? = nil)
     if url
       uri = URI.parse url
       @host = uri.host.to_s
@@ -126,7 +127,7 @@ class Redis
   end
 
   def client
-    @client ||= Redis::Client.new(@host, @port, @unixsocket, @password, @database, @sslcxt, @dns_timeout, @connect_timeout)
+    @client ||= Redis::Client.new(@host, @port, @unixsocket, @password, @database, @sslcxt, @dns_timeout, @connect_timeout, @command_timeout)
   end
 
   # :nodoc:
@@ -150,6 +151,7 @@ class Redis
   # * dns_timeout - the dns timeout.
   # * connect_timeout - the connect timeout.
   # * reconnect - whether we should reconnect when we encounter a disconnected Redis connection.
+  # * command_timeout - the command timeout.
   # * url - Redis url. If this is given, it overrides all others.
   #
   # Example:
@@ -161,8 +163,8 @@ class Redis
   # ```
   def self.open(host = "localhost", port = 6379, unixsocket = nil, password = nil,
                 database = nil, url = nil, ssl = false, ssl_context = nil,
-                dns_timeout = nil, connect_timeout = nil, reconnect = true)
-    redis = Redis.new(host, port, unixsocket, password, database, url, ssl, ssl_context, dns_timeout, connect_timeout, reconnect)
+                dns_timeout = nil, connect_timeout = nil, reconnect = true, command_timeout = nil)
+    redis = Redis.new(host, port, unixsocket, password, database, url, ssl, ssl_context, dns_timeout, connect_timeout, reconnect, command_timeout)
     begin
       yield(redis)
     ensure
@@ -203,7 +205,7 @@ class Redis
     pipeline_api = Redis::PipelineApi.new(pipeline_strategy)
     yield(pipeline_api)
     pipeline_strategy.commit.as(Array(RedisValue))
-  rescue ex : Redis::ConnectionError
+  rescue ex : Redis::ConnectionError | Redis::CommandTimeoutError
     close
     raise ex
   ensure
@@ -240,7 +242,7 @@ class Redis
     transaction_api = Redis::TransactionApi.new(transaction_strategy)
     yield(transaction_api)
     transaction_strategy.commit.as(Array(RedisValue))
-  rescue ex : Redis::ConnectionError
+  rescue ex : Redis::ConnectionError | Redis::CommandTimeoutError
     close
     raise ex
   ensure
@@ -274,6 +276,9 @@ class Redis
       # Just tell the caller that the connection died.
       raise ex
     end
+  rescue ex : Redis::CommandTimeoutError
+    close
+    raise ex
   end
 
   # Closes the Redis connection.

@@ -5,20 +5,33 @@ require "openssl"
 
 # :nodoc:
 class Redis::Connection
-  def initialize(host, port, unixsocket, ssl_context, dns_timeout = nil, connect_timeout = nil)
+  def initialize(host, port, unixsocket, ssl_context, dns_timeout = nil, connect_timeout = nil, command_timeout = nil)
     if unixsocket
-      @socket = SocketWrapper.new do
-        UNIXSocket.new(unixsocket)
+      @socket = Redis::SocketWrapper.new do
+        socket = UNIXSocket.new(unixsocket)
+        if command_timeout
+          socket.read_timeout = command_timeout
+          socket.write_timeout = command_timeout
+        end
+        socket
       end
     elsif ssl_context
-      @socket = SocketWrapper.new do
+      @socket = Redis::SocketWrapper.new do
         tcpsocket = TCPSocket.new(host, port, dns_timeout: dns_timeout, connect_timeout: connect_timeout)
+        if command_timeout
+          tcpsocket.read_timeout = command_timeout
+          tcpsocket.write_timeout = command_timeout
+        end
         tcpsocket.sync = false
         OpenSSL::SSL::Socket::Client.new(tcpsocket, ssl_context)
       end
     else
-      @socket = SocketWrapper.new do
+      @socket = Redis::SocketWrapper.new do
         tcpsocket = TCPSocket.new(host, port, dns_timeout: dns_timeout, connect_timeout: connect_timeout)
+        if command_timeout
+          tcpsocket.read_timeout = command_timeout
+          tcpsocket.write_timeout = command_timeout
+        end
         tcpsocket.sync = false
         tcpsocket
       end

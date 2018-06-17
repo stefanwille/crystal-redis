@@ -13,3 +13,7 @@ end
 # Raised when the connection to the Redis server is lost.
 class Redis::ConnectionLostError < Redis::ConnectionError
 end
+
+# Errors that occur on a command execute timeout.
+class Redis::CommandTimeoutError < Redis::Error
+end
