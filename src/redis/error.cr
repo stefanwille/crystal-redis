@@ -2,15 +2,14 @@
 class Redis::Error < Exception
 end
 
-# Raised when connecting to the Redis server is not possible.
-class Redis::CannotConnectError < Redis::Error
-end
-
-# Errors that occur on a connection.
+# An error that makes the connection unusable.
 class Redis::ConnectionError < Redis::Error
 end
 
-# The connection to the Redis server got lost,
-# possibly because the Redis server died, or because it decided to close the connection.
-class Redis::DisconnectedError < Redis::ConnectionError
+# Raised when connecting to the Redis server is not possible.
+class Redis::CannotConnectError < Redis::ConnectionError
+end
+
+# Raised when the connection to the Redis server is lost.
+class Redis::ConnectionLostError < Redis::ConnectionError
 end

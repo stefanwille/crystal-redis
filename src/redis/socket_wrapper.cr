@@ -19,7 +19,7 @@ struct SocketWrapper
   private def catch_errors
     yield
   rescue ex : Errno | IO::Error | IO::Timeout | OpenSSL::Error
-    raise Redis::ConnectionError.new("#{ex.class}: #{ex.message}")
+    raise Redis::ConnectionLostError.new("#{ex.class}: #{ex.message}")
   end
 
   def close

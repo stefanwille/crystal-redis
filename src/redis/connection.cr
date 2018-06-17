@@ -123,7 +123,9 @@ class Redis::Connection
   def receive_line
     line = @socket.gets(chomp: false)
     unless line
-      raise Redis::DisconnectedError.new("The redis server closed the connection")
+      # The connection to the Redis server got lost,
+      # possibly because the Redis server died, or because it decided to close the connection.
+      raise Redis::ConnectionLostError.new("The redis server closed the connection")
     end
     line.byte_slice(0, line.bytesize - 2)
   end
