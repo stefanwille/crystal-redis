@@ -75,6 +75,8 @@ $ brew install openssl
 $ export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig
 ```
 
+Note: Please write me if you know a better way!
+
 ## Required Crystal Version
 
 This library needs Crystal version >= 0.25.0
