@@ -61,8 +61,9 @@ class Redis
   # * database - the number of the database to select. This a convenience which saves you a call a call to `#select`.
   # * ssl - whether SSL should be enabled.
   # * ssl_context - a OpenSSL::SSL::Context::Client.
-  # * dns_timeout - the dns timeout
-  # * connect_timeout - the connect timeout
+  # * dns_timeout - the dns timeout.
+  # * connect_timeout - the connect timeout.
+  # * reconnect - whether we should reconnect when we encounter a disconnected Redis connection.
   # * url - Redis url. If this is given, it overrides all others.
   #
   # Example:
@@ -95,7 +96,7 @@ class Redis
   # ```
   def initialize(@host = "localhost", @port = 6379, @unixsocket : String? = nil, @password : String? = nil,
                  @database : Int32? = nil, url = nil, ssl = false, ssl_context = nil,
-                 @dns_timeout : Time::Span? = nil, @connect_timeout : Time::Span? = nil)
+                 @dns_timeout : Time::Span? = nil, @connect_timeout : Time::Span? = nil, @reconnect = true)
     if url
       uri = URI.parse url
       @host = uri.host.to_s
@@ -144,6 +145,11 @@ class Redis
   # * unixsocket - instead of using TCP, you can connect to Redis via a Unix domain socket by passing its path here (e.g. "/tmp/redis.sock")
   # * password - the password for authentication against the server. This is a convenience which saves you the extra call to the Redis `auth` command.
   # * database - the number of the database to select. This a convenience which saves you a call a call to `#select`.
+  # * ssl - whether SSL should be enabled.
+  # * ssl_context - a OpenSSL::SSL::Context::Client.
+  # * dns_timeout - the dns timeout.
+  # * connect_timeout - the connect timeout.
+  # * reconnect - whether we should reconnect when we encounter a disconnected Redis connection.
   # * url - Redis url. If this is given, it overrides all others.
   #
   # Example:
@@ -153,8 +159,10 @@ class Redis
   #   redis.incr("counter")
   # end
   # ```
-  def self.open(host = "localhost", port = 6379, unixsocket = nil, password = nil, database = nil, url = nil, ssl = false, ssl_context = nil, dns_timeout = nil, connect_timeout = nil)
-    redis = Redis.new(host, port, unixsocket, password, database, url, ssl, ssl_context, dns_timeout, connect_timeout)
+  def self.open(host = "localhost", port = 6379, unixsocket = nil, password = nil,
+                database = nil, url = nil, ssl = false, ssl_context = nil,
+                ns_timeout = nil, connect_timeout = nil, reconnect = true)
+    redis = Redis.new(host, port, unixsocket, password, database, url, ssl, ssl_context, dns_timeout, connect_timeout, reconnect)
     begin
       yield(redis)
     ensure
@@ -257,9 +265,13 @@ class Redis
   # :nodoc:
   private def with_reconnect
     yield
-  rescue Redis::ConnectionError
-    close
-    yield
+  rescue ex : Redis::ConnectionError
+    if @reconnect
+      close
+      yield
+    else
+      raise ex
+    end
   end
 
   # Closes the Redis connection.
