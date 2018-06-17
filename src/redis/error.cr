@@ -1,18 +1,11 @@
-# Exception for errors that Redis returns.
+# Exception for errors raised by this shard.
 class Redis::Error < Exception
-  def initialize(s)
-    super("RedisError: #{s}")
-  end
 end
 
-class Redis::DisconnectedError < Redis::Error
-  def initialize
-    super("Disconnected")
-  end
+# Raised when connecting to the Redis server is not possible.
+class Redis::CannotConnectError < Redis::Error
 end
 
+# Errors that occur on a connection.
 class Redis::ConnectionError < Redis::Error
-  def initialize(s)
-    super(s)
-  end
 end

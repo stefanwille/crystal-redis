@@ -48,7 +48,8 @@ class Redis
   # Returns the server URI for this client.
   getter! url : String
 
-  @strategy : Redis::Strategy::Base
+  @client : Redis::Client?
+  @sslcxt : OpenSSL::SSL::Context::Client?
 
   # Opens a Redis connection
   #
@@ -92,40 +93,42 @@ class Redis
   # redis = Redis.new(url: "redis://:my-secret-pw@my.redis.com:6380/my-database")
   # ...
   # ```
-  def initialize(host = "localhost", port = 6379, unixsocket = nil, password = nil, database = nil, url = nil, ssl = false, ssl_context = nil, dns_timeout = nil, connect_timeout = nil)
+  def initialize(@host = "localhost", @port = 6379, @unixsocket : String? = nil, @password : String? = nil,
+                 @database : Int32? = nil, url = nil, ssl = false, ssl_context = nil,
+                 @dns_timeout : Time::Span? = nil, @connect_timeout : Time::Span? = nil)
     if url
       uri = URI.parse url
-      host = uri.host.to_s
-      port = uri.port || 6379
-      password = uri.password
+      @host = uri.host.to_s
+      @port = uri.port || 6379
+      @password = uri.password
       path = uri.path
-      database = path[1..-1] if path && path.size > 1
-      sslcxt = default_ssl_context if uri.scheme == "rediss"
+      @database = path[1..-1].to_i if path && path.size > 1
+      @sslcxt = default_ssl_context if uri.scheme == "rediss"
     end
+
     if ssl_context
-      sslcxt = ssl_context
+      @sslcxt = ssl_context
     elsif ssl && !ssl_context
-      sslcxt = default_ssl_context
+      @sslcxt = default_ssl_context
     end
-    @connection = Connection.new(host, port, unixsocket, sslcxt, dns_timeout, connect_timeout)
-    @strategy = Redis::Strategy::SingleStatement.new(@connection)
+
     @url = if unixsocket
-             "redis://#{unixsocket}/#{database ? database : 0}"
+             "redis://#{@unixsocket}/#{@database || 0}"
            elsif ssl || ssl_context
-             "rediss://#{host}:#{port}/#{database ? database : 0}"
+             "rediss://#{@host}:#{@port}/#{@database || 0}"
            else
-             "redis://#{host}:#{port}/#{database ? database : 0}"
+             "redis://#{@host}:#{@port}/#{@database || 0}"
            end
 
-    if password
-      auth(password)
-    end
-
-    if database
-      self.select(database)
-    end
+    # instantinate it
+    client
   end
 
+  def client
+    @client ||= Redis::Client.new(@host, @port, @unixsocket, @password, @database, @sslcxt, @dns_timeout, @connect_timeout)
+  end
+
+  # :nodoc:
   private def default_ssl_context
     context = OpenSSL::SSL::Context::Client.new
     context.ciphers = "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH"
@@ -150,8 +153,8 @@ class Redis
   #   redis.incr("counter")
   # end
   # ```
-  def self.open(host = "localhost", port = 6379, unixsocket = nil, password = nil, database = nil, url = nil)
-    redis = Redis.new(host, port, unixsocket, password, database, url)
+  def self.open(host = "localhost", port = 6379, unixsocket = nil, password = nil, database = nil, url = nil, ssl = false, ssl_context = nil, dns_timeout = nil, connect_timeout = nil)
+    redis = Redis.new(host, port, unixsocket, password, database, url, ssl, ssl_context, dns_timeout, connect_timeout)
     begin
       yield(redis)
     ensure
@@ -187,13 +190,18 @@ class Redis
   #
   # See the [examples repository](https://github.com/stefanwille/crystal-redis-examples) for more examples.
   def pipelined
-    @strategy = Redis::Strategy::PauseDuringPipeline.new
-    pipeline_strategy = Redis::Strategy::Pipeline.new(@connection)
+    client.strategy = Redis::Strategy::PauseDuringPipeline.new
+    pipeline_strategy = Redis::Strategy::Pipeline.new(client.connection)
     pipeline_api = Redis::PipelineApi.new(pipeline_strategy)
     yield(pipeline_api)
     pipeline_strategy.commit.as(Array(RedisValue))
+  rescue ex : Redis::ConnectionError
+    close
+    raise ex
   ensure
-    @strategy = Redis::Strategy::SingleStatement.new(@connection)
+    if _client = @client
+      _client.strategy = Redis::Strategy::SingleStatement.new(_client.connection)
+    end
   end
 
   # Sends Redis commands in transaction mode.
@@ -218,14 +226,19 @@ class Redis
   #
   # See the [examples repository](https://github.com/stefanwille/crystal-redis-examples) for more examples.
   def multi
-    @strategy = Redis::Strategy::PauseDuringTransaction.new
-    transaction_strategy = Redis::Strategy::Transaction.new(@connection)
+    client.strategy = Redis::Strategy::PauseDuringTransaction.new
+    transaction_strategy = Redis::Strategy::Transaction.new(client.connection)
     transaction_strategy.begin
     transaction_api = Redis::TransactionApi.new(transaction_strategy)
     yield(transaction_api)
     transaction_strategy.commit.as(Array(RedisValue))
+  rescue ex : Redis::ConnectionError
+    close
+    raise ex
   ensure
-    @strategy = Redis::Strategy::SingleStatement.new(@connection)
+    if _client = @client
+      _client.strategy = Redis::Strategy::SingleStatement.new(_client.connection)
+    end
   end
 
   # This is an internal method.
@@ -236,12 +249,23 @@ class Redis
 
   # :nodoc:
   def command(request : Request)
-    @strategy.command(request).as(RedisValue)
+    with_reconnect do
+      client.strategy.command(request).as(RedisValue)
+    end
+  end
+
+  # :nodoc:
+  private def with_reconnect
+    yield
+  rescue Redis::ConnectionError
+    close
+    yield
   end
 
   # Closes the Redis connection.
   def close
-    @connection.close
+    @client.try(&.close)
+    @client = nil
   end
 end
 
