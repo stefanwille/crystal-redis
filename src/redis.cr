@@ -266,10 +266,12 @@ class Redis
   private def with_reconnect
     yield
   rescue ex : Redis::ConnectionError
+    close
     if @reconnect
-      close
+      # Implicitly reconnect by retrying the given block
       yield
     else
+      # Just tell the caller that the connection died.
       raise ex
     end
   end
