@@ -123,7 +123,7 @@ class Redis::Connection
   def receive_line
     line = @socket.gets(chomp: false)
     unless line
-      raise Redis::ConnectionError.new("The redis server closed the connection")
+      raise Redis::DisconnectedError.new("The redis server closed the connection")
     end
     line.byte_slice(0, line.bytesize - 2)
   end
