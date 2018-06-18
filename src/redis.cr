@@ -63,8 +63,8 @@ class Redis
   # * ssl_context - a OpenSSL::SSL::Context::Client.
   # * dns_timeout - the dns timeout.
   # * connect_timeout - the connect timeout.
-  # * reconnect - whether we should reconnect when we encounter a disconnected Redis connection.
   # * command_timeout - the command timeout.
+  # * reconnect - whether we should reconnect when we encounter a disconnected Redis connection.
   # * url - Redis url. If this is given, it overrides all others.
   #
   # Example:
@@ -150,8 +150,8 @@ class Redis
   # * ssl_context - a OpenSSL::SSL::Context::Client.
   # * dns_timeout - the dns timeout.
   # * connect_timeout - the connect timeout.
-  # * reconnect - whether we should reconnect when we encounter a disconnected Redis connection.
   # * command_timeout - the command timeout.
+  # * reconnect - whether we should reconnect when we encounter a disconnected Redis connection.
   # * url - Redis url. If this is given, it overrides all others.
   #
   # Example:
