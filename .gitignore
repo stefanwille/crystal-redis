@@ -1,8 +1,9 @@
 .crystal/
 .deps/
 .deps.lock
-libs/
+lib/
 ./redis
 doc
 TODO.md
 experiments
+shard.lock
