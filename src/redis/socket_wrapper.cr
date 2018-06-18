@@ -1,7 +1,7 @@
 # Wraps an open socket connection.
 #
 # The purpose is to be able to convert all exceptions to Redis:Error's.
-struct SocketWrapper
+struct Redis::SocketWrapper
   def initialize(@socket : TCPSocket | UNIXSocket | OpenSSL::SSL::Socket::Client)
     @connected = true
   end
@@ -18,8 +18,10 @@ struct SocketWrapper
 
   private def catch_errors
     yield
-  rescue ex : Errno | IO::Error | IO::Timeout | OpenSSL::Error
+  rescue ex : Errno | IO::Error | OpenSSL::Error
     raise Redis::ConnectionLostError.new("#{ex.class}: #{ex.message}")
+  rescue ex : IO::Timeout
+    raise Redis::CommandTimeoutError.new("Command timed out")
   end
 
   def close
