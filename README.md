@@ -132,7 +132,7 @@ To get started, see the examples:
 
 ## Documentation
 
-- [API documentation](http://stefanwille.github.io/crystal-redis/docs/) -
+- [API documentation](http://stefanwille.github.io/crystal-redis) -
   start reading it at the class `Redis`.
 - [Redis commands documentation](http://redis.io/commands) - the original Redis documentation is necessary, as the API documentation above is just a quick reference
 - [Redis documentation page](http://redis.io/documentation) - general information about Redis and its concepts
