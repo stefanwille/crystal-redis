@@ -33,7 +33,7 @@ dependencies:
 and then install the library into your project:
 
 ```bash
-$ crystal deps
+$ shards install
 ```
 
 ### Installation on MacOS X
