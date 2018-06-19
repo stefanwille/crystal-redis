@@ -4,5 +4,6 @@
 libs/
 ./redis
 doc
+docs
 TODO.md
 experiments
