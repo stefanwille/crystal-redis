@@ -5,8 +5,8 @@ require "pool/connection"
 #
 # Example usage:
 #
-# ```
-# redis = Redis::PooledClient.new(host: ..., port: ..., ..., pool_size: 50, pool_timout: 5)
+# ```Crystal
+# redis = Redis::PooledClient.new(host: ..., port: ..., ..., pool_size: 5, pool_timout: 7)
 # 10.times do |j|
 #   spawn do
 #     redis.set("foo#{j}", "bar")
@@ -14,7 +14,9 @@ require "pool/connection"
 #   end
 # end
 # ```
-
+#
+# Here 10 fibers access the same `Redis::PooledClient` instance while automatically sharing 5 Redis connections.
+#
 class Redis::PooledClient
   # The connection pool.
   # See https://github.com/ysbaddaden/pool
