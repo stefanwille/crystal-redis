@@ -104,12 +104,12 @@ Then you can call Redis commands on the `redis` object:
   redis.get("foo")
 ```
 
-## Connection Pooling
+#### Connection Pooling
 
 Since version 2.0.0, a connection pool is builtin. It is used implicitly through `Redis::PooledClient`:
 
 ```Crystal
-redis = Redis::PooledClient.new(host: ..., port: ..., ..., pool_size: 5)
+redis = Redis::PooledClient.new
 10.times do |i|
   spawn do
     redis.set("foo#{i}", "bar")
@@ -118,7 +118,7 @@ redis = Redis::PooledClient.new(host: ..., port: ..., ..., pool_size: 5)
 end
 ```
 
-This redis instance can be shared across fibers, and accepts the same Redis commands as the `Redis` class.
+This `redis` instance can be shared across fibers, and accepts the same Redis commands as the `Redis` class.
 It automatically allocates and frees connections from/to the pool, per command.
 
 ## Examples
