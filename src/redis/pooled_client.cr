@@ -7,10 +7,10 @@ require "pool/connection"
 #
 # ```Crystal
 # redis = Redis::PooledClient.new(host: ..., port: ..., ..., pool_size: 5, pool_timout: 7)
-# 10.times do |j|
+# 10.times do |i|
 #   spawn do
-#     redis.set("foo#{j}", "bar")
-#     redis.get("foo#{j}") # => "bar"
+#     redis.set("foo#{i}", "bar")
+#     redis.get("foo#{i}") # => "bar"
 #   end
 # end
 # ```
