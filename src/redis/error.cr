@@ -17,3 +17,7 @@ end
 # Raised when the `command_timeout` option triggers - a command took too long because the Redis-server is blocked by another command or by a dump.
 class Redis::CommandTimeoutError < Redis::Error
 end
+
+# Raised when no free connection became available in the pool within a certain time.
+class Redis::PoolTimeoutError < Redis::Error
+end
