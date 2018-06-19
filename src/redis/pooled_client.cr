@@ -1,8 +1,27 @@
 require "pool/connection"
 
+# A Redis client object that can be shared across multiple fibers.
+# It is backed by a connection pool of `Redis` instances and will automatically allocate and free these instances from/to the pool, per command.
+#
+# Example usage:
+#
+# ```
+# redis = Redis::PooledClient.new(host: ..., port: ..., ..., pool_size: 50, pool_timout: 5)
+# 10.times do |j|
+#   spawn do
+#     redis.set("foo#{j}", "bar")
+#     redis.get("foo#{j}") # => "bar"
+#   end
+# end
+# ```
+
 class Redis::PooledClient
   getter pool
 
+  # Accepts the same connection parameters like a `Redis` instance, plus the documented ones.
+  #
+  # * pool_size - the number of `Redis` to hold in the connection pool.
+  # * pool_timeout - the time to wait for a `Redis` instance to become available from the pool before dying with `Redis::PoolTimeoutError`.
   def initialize(*args, pool_size = 5, pool_timeout = 5.0, **args2)
     @pool = ConnectionPool(Redis).new(capacity: pool_size, timeout: pool_timeout) do
       Redis.new(*args, **args2)
@@ -13,6 +32,7 @@ class Redis::PooledClient
     with_pool_connection { |conn| conn.{{call}} }
   end
 
+  # Executes the given block, passing it a Redis client from the connection pool.
   private def with_pool_connection
     conn = begin
       @pool.checkout
@@ -28,10 +48,10 @@ class Redis::PooledClient
   end
 
   def subscribe(*channels, &callback_setup_block : Redis::Subscription ->)
-    @pool.with_pool_connection &.subscribe(*channels) { |s| callback_setup_block.call(s) }
+    with_pool_connection &.subscribe(*channels) { |s| callback_setup_block.call(s) }
   end
 
   def psubscribe(*channel_patterns, &callback_setup_block : Redis::Subscription ->)
-    @pool.with_pool_connection &.subscribe(*channel_patterns) { |s| callback_setup_block.call(s) }
+    with_pool_connection &.subscribe(*channel_patterns) { |s| callback_setup_block.call(s) }
   end
 end
