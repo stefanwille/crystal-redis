@@ -12,7 +12,7 @@ describe Redis::PooledClient do
     client.pool.checkout
     client.pool.checkout
 
-    expect_raises(Redis::PoolTimeoutError, "No ready connection (used 2 from 2)") do
+    expect_raises(Redis::PoolTimeoutError, "No free connection (used 2 of 2) after timeout 0.01") do
       client.get("bla")
     end
   end
