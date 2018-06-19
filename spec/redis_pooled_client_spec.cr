@@ -1,14 +1,14 @@
 require "./spec_helper"
 
-describe Redis::Pool do
+describe Redis::PooledClient do
   it "work" do
-    client = Redis::Pool.new(pool: 5)
+    client = Redis::PooledClient.new(pool_size: 5)
     client.set("bla3", "a")
     client.get("bla3").should eq "a"
   end
 
-  it "raises Redis::PoolError when no free connection available after a given time" do
-    client = Redis::Pool.new(pool: 2, pool_timeout: 0.01)
+  it "raises Redis::PooledClientError when no free connection available after a given time" do
+    client = Redis::PooledClient.new(pool_size: 2, pool_timeout: 0.01)
     client.pool.checkout
     client.pool.checkout
 
@@ -18,8 +18,8 @@ describe Redis::Pool do
   end
 
   it "pass other options to redis client" do
-    redis1 = Redis::Pool.new(host: "localhost", port: 6379, pool: 5, database: 1)
-    redis2 = Redis::Pool.new(host: "localhost", port: 6379, database: 2, pool: 10)
+    redis1 = Redis::PooledClient.new(host: "localhost", port: 6379, pool_size: 5, database: 1)
+    redis2 = Redis::PooledClient.new(host: "localhost", port: 6379, database: 2, pool_size: 10)
 
     redis1.del("test_database")
     redis2.del("test_database")
@@ -32,7 +32,7 @@ describe Redis::Pool do
   end
 
   it "work with pipelined" do
-    client = Redis::Pool.new(pool: 5)
+    client = Redis::PooledClient.new(pool_size: 5)
     client.pipelined do |pipeline|
       pipeline.del("foo")
       pipeline.del("foo1")
@@ -47,7 +47,7 @@ describe Redis::Pool do
   end
 
   it "work with transaction" do
-    client = Redis::Pool.new(pool: 5)
+    client = Redis::PooledClient.new(pool_size: 5)
     client.multi do |multi|
       multi.del("foo")
       multi.del("foo1")
@@ -62,7 +62,7 @@ describe Redis::Pool do
   end
 
   it "work with transaction with futures" do
-    client = Redis::Pool.new(pool: 5)
+    client = Redis::PooledClient.new(pool_size: 5)
     future_1 = Redis::Future.new
     future_2 = Redis::Future.new
     client.multi do |multi|
@@ -77,7 +77,7 @@ describe Redis::Pool do
   end
 
   it "test multiconcurrent execution" do
-    client = Redis::Pool.new(pool: 200)
+    client = Redis::PooledClient.new(pool_size: 200)
     client.del("test-queue")
     res = [] of String
     checks = 0

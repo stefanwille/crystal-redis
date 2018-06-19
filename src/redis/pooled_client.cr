@@ -1,10 +1,10 @@
 require "pool/connection"
 
-class Redis::Pool
+class Redis::PooledClient
   getter pool
 
-  def initialize(*args, pool = 5, pool_timeout = 5.0, **args2)
-    @pool = ConnectionPool(Redis).new(capacity: pool, timeout: pool_timeout) do
+  def initialize(*args, pool_size = 5, pool_timeout = 5.0, **args2)
+    @pool = ConnectionPool(Redis).new(capacity: pool_size, timeout: pool_timeout) do
       Redis.new(*args, **args2)
     end
   end
@@ -28,10 +28,10 @@ class Redis::Pool
   end
 
   def subscribe(*channels, &callback_setup_block : Redis::Subscription ->)
-    @pool.connection &.subscribe(*channels) { |s| callback_setup_block.call(s) }
+    @pool.with_pool_connection &.subscribe(*channels) { |s| callback_setup_block.call(s) }
   end
 
   def psubscribe(*channel_patterns, &callback_setup_block : Redis::Subscription ->)
-    @pool.connection &.subscribe(*channel_patterns) { |s| callback_setup_block.call(s) }
+    @pool.with_pool_connection &.subscribe(*channel_patterns) { |s| callback_setup_block.call(s) }
   end
 end
