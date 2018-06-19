@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.24.2">
+
+
+<link href="css/style.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="js/doc.js"></script>
+<script type="text/javascript">
+  CrystalDoc.base_path = "";
+</script>
+
+  <meta id="repository-name" content="github.com/stefanwille/crystal-redis">
+  <title>Redis - github.com/stefanwille/crystal-redis</title>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false">
+    </div>
+
+    <div class="repository-links">
+      <a href="index.html">README</a>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="github.com/stefanwille/crystal-redis/Redis" data-name="redis">
+      <a href="Redis.html">Redis</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/CannotConnectError" data-name="redis::cannotconnecterror">
+      <a href="Redis/CannotConnectError.html">CannotConnectError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/Client" data-name="redis::client">
+      <a href="Redis/Client.html">Client</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/Commands" data-name="redis::commands">
+      <a href="Redis/Commands.html">Commands</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/CommandTimeoutError" data-name="redis::commandtimeouterror">
+      <a href="Redis/CommandTimeoutError.html">CommandTimeoutError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/ConnectionError" data-name="redis::connectionerror">
+      <a href="Redis/ConnectionError.html">ConnectionError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/ConnectionLostError" data-name="redis::connectionlosterror">
+      <a href="Redis/ConnectionLostError.html">ConnectionLostError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/Error" data-name="redis::error">
+      <a href="Redis/Error.html">Error</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/Future" data-name="redis::future">
+      <a href="Redis/Future.html">Future</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/PipelineApi" data-name="redis::pipelineapi">
+      <a href="Redis/PipelineApi.html">PipelineApi</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/PooledClient" data-name="redis::pooledclient">
+      <a href="Redis/PooledClient.html">PooledClient</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/PoolTimeoutError" data-name="redis::pooltimeouterror">
+      <a href="Redis/PoolTimeoutError.html">PoolTimeoutError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/SocketWrapper" data-name="redis::socketwrapper">
+      <a href="Redis/SocketWrapper.html">SocketWrapper</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/Subscription" data-name="redis::subscription">
+      <a href="Redis/Subscription.html">Subscription</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/TransactionApi" data-name="redis::transactionapi">
+      <a href="Redis/TransactionApi.html">TransactionApi</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">class</span> Redis
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="Redis.html">Redis</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+
+  <h2>Overview</h2>
+
+  <p>The class is the main entry point for the Redis client.</p>
+
+<p><strong>How to use</strong>:</p>
+
+<p>Require the package:</p>
+
+<pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;redis&quot;</span></code></pre>
+
+<p>Then instantiate this client class:</p>
+
+<pre><code class="language-crystal">redis <span class="o">=</span> <span class="t">Redis</span>.<span class="k">new</span></code></pre>
+
+<p>Then you can call Redis commands on the <code>redis</code> object:</p>
+
+<pre><code class="language-crystal">redis.set(<span class="s">&quot;foo&quot;</span>, <span class="s">&quot;bar&quot;</span>)
+redis.get(<span class="s">&quot;foo&quot;</span>)
+redis.incr(<span class="s">&quot;visitors&quot;</span>)</code></pre>
+
+<p>See the mixin module <a href="Redis/Commands.html" target="_blank">Commands</a> for most
+of the available Redis commands such as #incr, #rename, and so on.</p>
+
+<p><strong>Multithreading / Coroutines</strong></p>
+
+<p>Please mind that a Redis object can't be shared across multiple threads/coroutines!
+Each thread/coroutine that wants to talk to Redis needs its own Redis object instance.</p>
+
+
+
+
+
+  <h2>Included Modules</h2>
+  <ul class="other-types-list">
+  
+    <li class="other-type">Redis::CommandExecution::ValueOriented</li>
+  
+    <li class="other-type"><a href="Redis/Commands.html">Redis::Commands</a></li>
+  
+  </ul>
+
+
+
+
+
+
+
+
+
+
+  <h2>Defined in:</h2>
+  
+    
+      <a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis/commands.cr#L1" target="_blank">redis/commands.cr</a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis/command_execution/value_oriented.cr#L1" target="_blank">redis/command_execution/value_oriented.cr</a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis.cr#L37" target="_blank">redis.cr</a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis/command_execution/future_oriented.cr#L1" target="_blank">redis/command_execution/future_oriented.cr</a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis/strategy/base.cr#L1" target="_blank">redis/strategy/base.cr</a>
+    
+    <br/>
+  
+
+
+
+
+
+  <h2>Constructors</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new%28host%3D%26quot%3Blocalhost%26quot%3B%2Cport%3D6379%2Cunixsocket%3AString%3F%3Dnil%2Cpassword%3AString%3F%3Dnil%2Cdatabase%3AInt32%3F%3Dnil%2Curl%3Dnil%2Cssl%3Dfalse%2Cssl_context%3Dnil%2Cdns_timeout%3ATime%3A%3ASpan%3F%3Dnil%2Cconnect_timeout%3ATime%3A%3ASpan%3F%3Dnil%2Creconnect%3Dtrue%2Ccommand_timeout%3ATime%3A%3ASpan%3F%3Dnil%29-class-method" class="signature"><strong>.new</strong>(host = <span class="s">&quot;localhost&quot;</span>, port = <span class="n">6379</span>, unixsocket : String? = <span class="n">nil</span>, password : String? = <span class="n">nil</span>, database : Int32? = <span class="n">nil</span>, url = <span class="n">nil</span>, ssl = <span class="n">false</span>, ssl_context = <span class="n">nil</span>, dns_timeout : Time::Span? = <span class="n">nil</span>, connect_timeout : Time::Span? = <span class="n">nil</span>, reconnect = <span class="n">true</span>, command_timeout : Time::Span? = <span class="n">nil</span>)</a>
+        
+          <div class="summary"><p>Opens a Redis connection</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <h2>Class Method Summary</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#open%28host%3D%26quot%3Blocalhost%26quot%3B%2Cport%3D6379%2Cunixsocket%3Dnil%2Cpassword%3Dnil%2Cdatabase%3Dnil%2Curl%3Dnil%2Cssl%3Dfalse%2Cssl_context%3Dnil%2Cdns_timeout%3Dnil%2Cconnect_timeout%3Dnil%2Creconnect%3Dtrue%2Ccommand_timeout%3Dnil%2C%26block%29-class-method" class="signature"><strong>.open</strong>(host = <span class="s">&quot;localhost&quot;</span>, port = <span class="n">6379</span>, unixsocket = <span class="n">nil</span>, password = <span class="n">nil</span>, database = <span class="n">nil</span>, url = <span class="n">nil</span>, ssl = <span class="n">false</span>, ssl_context = <span class="n">nil</span>, dns_timeout = <span class="n">nil</span>, connect_timeout = <span class="n">nil</span>, reconnect = <span class="n">true</span>, command_timeout = <span class="n">nil</span>, &block)</a>
+        
+          <div class="summary"><p>Opens a Redis connection, yields the given block with a Redis object and closes the connection.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <h2>Instance Method Summary</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#client-instance-method" class="signature"><strong>#client</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#close-instance-method" class="signature"><strong>#close</strong></a>
+        
+          <div class="summary"><p>Closes the Redis connection.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#multi%28%26block%29-instance-method" class="signature"><strong>#multi</strong>(&block)</a>
+        
+          <div class="summary"><p>Sends Redis commands in transaction mode.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#pipelined%28%26block%29-instance-method" class="signature"><strong>#pipelined</strong>(&block)</a>
+        
+          <div class="summary"><p>Sends Redis commands in pipeline mode.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#url-instance-method" class="signature"><strong>#url</strong></a>
+        
+          <div class="summary"><p>Returns the server URI for this client.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#url%3F%3AString%3F-instance-method" class="signature"><strong>#url?</strong> : String?</a>
+        
+          <div class="summary"><p>Returns the server URI for this client.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+  <h3>Instance methods inherited from module <code>Redis::CommandExecution::ValueOriented</code></h3>
+  
+  
+    <a href="Redis/CommandExecution/ValueOriented.html#array_or_nil_command%28request%3ARequest%29%3AArray%28RedisValue%29%3F-instance-method" class="tooltip">
+      <span>array_or_nil_command(request : Request) : Array(RedisValue)?</span>
+    array_or_nil_command</a>, 
+    
+  
+    <a href="Redis/CommandExecution/ValueOriented.html#integer_array_command%28request%3ARequest%29%3AArray%28RedisValue%29-instance-method" class="tooltip">
+      <span>integer_array_command(request : Request) : Array(RedisValue)</span>
+    integer_array_command</a>, 
+    
+  
+    <a href="Redis/CommandExecution/ValueOriented.html#integer_command%28request%3ARequest%29%3AInt64-instance-method" class="tooltip">
+      <span>integer_command(request : Request) : Int64</span>
+    integer_command</a>, 
+    
+  
+    <a href="Redis/CommandExecution/ValueOriented.html#integer_or_nil_command%28request%3ARequest%29%3AInt64%3F-instance-method" class="tooltip">
+      <span>integer_or_nil_command(request : Request) : Int64?</span>
+    integer_or_nil_command</a>, 
+    
+  
+    <a href="Redis/CommandExecution/ValueOriented.html#string_array_command%28request%3ARequest%29%3AArray%28RedisValue%29-instance-method" class="tooltip">
+      <span>string_array_command(request : Request) : Array(RedisValue)</span>
+    string_array_command</a>, 
+    
+  
+    <a href="Redis/CommandExecution/ValueOriented.html#string_array_or_integer_command%28request%3ARequest%29%3AArray%28RedisValue%29%7CInt64-instance-method" class="tooltip">
+      <span>string_array_or_integer_command(request : Request) : Array(RedisValue) | Int64</span>
+    string_array_or_integer_command</a>, 
+    
+  
+    <a href="Redis/CommandExecution/ValueOriented.html#string_array_or_string_command%28request%3ARequest%29%3AArray%28RedisValue%29%7CString-instance-method" class="tooltip">
+      <span>string_array_or_string_command(request : Request) : Array(RedisValue) | String</span>
+    string_array_or_string_command</a>, 
+    
+  
+    <a href="Redis/CommandExecution/ValueOriented.html#string_array_or_string_or_nil_command%28request%3ARequest%29%3AArray%28RedisValue%29%7CString%3F-instance-method" class="tooltip">
+      <span>string_array_or_string_or_nil_command(request : Request) : Array(RedisValue) | String?</span>
+    string_array_or_string_or_nil_command</a>, 
+    
+  
+    <a href="Redis/CommandExecution/ValueOriented.html#string_command%28request%3ARequest%29%3AString-instance-method" class="tooltip">
+      <span>string_command(request : Request) : String</span>
+    string_command</a>, 
+    
+  
+    <a href="Redis/CommandExecution/ValueOriented.html#string_or_nil_command%28request%3ARequest%29%3AString%3F-instance-method" class="tooltip">
+      <span>string_or_nil_command(request : Request) : String?</span>
+    string_or_nil_command</a>, 
+    
+  
+    <a href="Redis/CommandExecution/ValueOriented.html#void_command%28request%3ARequest%29%3ANil-instance-method" class="tooltip">
+      <span>void_command(request : Request) : Nil</span>
+    void_command</a>
+    
+  
+
+
+    
+
+
+    
+
+
+  
+    
+
+  <h3>Instance methods inherited from module <code><a href="Redis/Commands.html">Redis::Commands</a></code></h3>
+  
+  
+    <a href="Redis/Commands.html#append%28key%2Cvalue%29-instance-method" class="tooltip">
+      <span>append(key, value)</span>
+    append</a>, 
+    
+  
+    <a href="Redis/Commands.html#auth%28password%29-instance-method" class="tooltip">
+      <span>auth(password)</span>
+    auth</a>, 
+    
+  
+    <a href="Redis/Commands.html#bitcount%28key%2Cfrom%3Dnil%2Cto%3Dnil%29-instance-method" class="tooltip">
+      <span>bitcount(key, from = <span class="n">nil</span>, to = <span class="n">nil</span>)</span>
+    bitcount</a>, 
+    
+  
+    <a href="Redis/Commands.html#bitop%28operation%2Ckey%2C%2Akeys%29-instance-method" class="tooltip">
+      <span>bitop(operation, key, *keys)</span>
+    bitop</a>, 
+    
+  
+    <a href="Redis/Commands.html#bitpos%28key%2Cbit%2Cstart%3Dnil%2Cto%3Dnil%29-instance-method" class="tooltip">
+      <span>bitpos(key, bit, start = <span class="n">nil</span>, to = <span class="n">nil</span>)</span>
+    bitpos</a>, 
+    
+  
+    <a href="Redis/Commands.html#blpop%28keys%2Ctimeout_in_seconds%29-instance-method" class="tooltip">
+      <span>blpop(keys, timeout_in_seconds)</span>
+    blpop</a>, 
+    
+  
+    <a href="Redis/Commands.html#brpop%28keys%2Ctimeout_in_seconds%29-instance-method" class="tooltip">
+      <span>brpop(keys, timeout_in_seconds)</span>
+    brpop</a>, 
+    
+  
+    <a href="Redis/Commands.html#brpoplpush%28source%2Cdestination%2Ctimeout_in_seconds%3Dnil%29-instance-method" class="tooltip">
+      <span>brpoplpush(source, destination, timeout_in_seconds = <span class="n">nil</span>)</span>
+    brpoplpush</a>, 
+    
+  
+    <a href="Redis/Commands.html#decr%28key%29-instance-method" class="tooltip">
+      <span>decr(key)</span>
+    decr</a>, 
+    
+  
+    <a href="Redis/Commands.html#decrby%28key%2Cdecrement%29-instance-method" class="tooltip">
+      <span>decrby(key, decrement)</span>
+    decrby</a>, 
+    
+  
+    <a href="Redis/Commands.html#del%28%2Akeys%29-instance-method" class="tooltip">
+      <span>del(*keys)</span>
+    del</a>, 
+    
+  
+    <a href="Redis/Commands.html#dump%28key%29-instance-method" class="tooltip">
+      <span>dump(key)</span>
+    dump</a>, 
+    
+  
+    <a href="Redis/Commands.html#echo%28message%29-instance-method" class="tooltip">
+      <span>echo(message)</span>
+    echo</a>, 
+    
+  
+    <a href="Redis/Commands.html#eval%28script%3AString%2Ckeys%3D%5B%5DofRedisValue%2Cargs%3D%5B%5DofRedisValue%29-instance-method" class="tooltip">
+      <span>eval(script : String, keys = <span class="o">[]</span> <span class="k">of</span> <span class="t">RedisValue</span>, args = <span class="o">[]</span> <span class="k">of</span> <span class="t">RedisValue</span>)</span>
+    eval</a>, 
+    
+  
+    <a href="Redis/Commands.html#evalsha%28sha1%2Ckeys%3D%5B%5DofRedisValue%2Cargs%3D%5B%5DofRedisValue%29-instance-method" class="tooltip">
+      <span>evalsha(sha1, keys = <span class="o">[]</span> <span class="k">of</span> <span class="t">RedisValue</span>, args = <span class="o">[]</span> <span class="k">of</span> <span class="t">RedisValue</span>)</span>
+    evalsha</a>, 
+    
+  
+    <a href="Redis/Commands.html#exists%28key%29-instance-method" class="tooltip">
+      <span>exists(key)</span>
+    exists</a>, 
+    
+  
+    <a href="Redis/Commands.html#expire%28key%2Cseconds%29-instance-method" class="tooltip">
+      <span>expire(key, seconds)</span>
+    expire</a>, 
+    
+  
+    <a href="Redis/Commands.html#expireat%28key%2Cunix_date%29-instance-method" class="tooltip">
+      <span>expireat(key, unix_date)</span>
+    expireat</a>, 
+    
+  
+    <a href="Redis/Commands.html#flushall-instance-method" class="tooltip">
+      <span>flushall</span>
+    flushall</a>, 
+    
+  
+    <a href="Redis/Commands.html#flushdb-instance-method" class="tooltip">
+      <span>flushdb</span>
+    flushdb</a>, 
+    
+  
+    <a href="Redis/Commands.html#get%28key%29-instance-method" class="tooltip">
+      <span>get(key)</span>
+    get</a>, 
+    
+  
+    <a href="Redis/Commands.html#getbit%28key%2Cindex%29-instance-method" class="tooltip">
+      <span>getbit(key, index)</span>
+    getbit</a>, 
+    
+  
+    <a href="Redis/Commands.html#getrange%28key%2Cstart_index%2Cend_index%29-instance-method" class="tooltip">
+      <span>getrange(key, start_index, end_index)</span>
+    getrange</a>, 
+    
+  
+    <a href="Redis/Commands.html#getset%28key%2Cvalue%29-instance-method" class="tooltip">
+      <span>getset(key, value)</span>
+    getset</a>, 
+    
+  
+    <a href="Redis/Commands.html#hdel%28key%2Cfield%29-instance-method" class="tooltip">
+      <span>hdel(key, field)</span>
+    hdel</a>, 
+    
+  
+    <a href="Redis/Commands.html#hexists%28key%2Cfield%29-instance-method" class="tooltip">
+      <span>hexists(key, field)</span>
+    hexists</a>, 
+    
+  
+    <a href="Redis/Commands.html#hget%28key%2Cfield%29-instance-method" class="tooltip">
+      <span>hget(key, field)</span>
+    hget</a>, 
+    
+  
+    <a href="Redis/Commands.html#hgetall%28key%29-instance-method" class="tooltip">
+      <span>hgetall(key)</span>
+    hgetall</a>, 
+    
+  
+    <a href="Redis/Commands.html#hincrby%28key%2Cfield%2Cincrement%29-instance-method" class="tooltip">
+      <span>hincrby(key, field, increment)</span>
+    hincrby</a>, 
+    
+  
+    <a href="Redis/Commands.html#hincrbyfloat%28key%2Cfield%2Cincrement%29-instance-method" class="tooltip">
+      <span>hincrbyfloat(key, field, increment)</span>
+    hincrbyfloat</a>, 
+    
+  
+    <a href="Redis/Commands.html#hkeys%28key%29-instance-method" class="tooltip">
+      <span>hkeys(key)</span>
+    hkeys</a>, 
+    
+  
+    <a href="Redis/Commands.html#hlen%28key%29-instance-method" class="tooltip">
+      <span>hlen(key)</span>
+    hlen</a>, 
+    
+  
+    <a href="Redis/Commands.html#hmget%28key%2C%2Afields%29-instance-method" class="tooltip">
+      <span>hmget(key, *fields)</span>
+    hmget</a>, 
+    
+  
+    <a href="Redis/Commands.html#hmset%28key%2Chash%29-instance-method" class="tooltip">
+      <span>hmset(key, hash)</span>
+    hmset</a>, 
+    
+  
+    <a href="Redis/Commands.html#hscan%28key%2Ccursor%2Cmatch%3Dnil%2Ccount%3Dnil%29-instance-method" class="tooltip">
+      <span>hscan(key, cursor, match = <span class="n">nil</span>, count = <span class="n">nil</span>)</span>
+    hscan</a>, 
+    
+  
+    <a href="Redis/Commands.html#hset%28key%2Cfield%2Cvalue%29-instance-method" class="tooltip">
+      <span>hset(key, field, value)</span>
+    hset</a>, 
+    
+  
+    <a href="Redis/Commands.html#hsetnx%28key%2Cfield%2Cvalue%29-instance-method" class="tooltip">
+      <span>hsetnx(key, field, value)</span>
+    hsetnx</a>, 
+    
+  
+    <a href="Redis/Commands.html#hvals%28key%29-instance-method" class="tooltip">
+      <span>hvals(key)</span>
+    hvals</a>, 
+    
+  
+    <a href="Redis/Commands.html#incr%28key%29-instance-method" class="tooltip">
+      <span>incr(key)</span>
+    incr</a>, 
+    
+  
+    <a href="Redis/Commands.html#incrby%28key%2Cincrement%29-instance-method" class="tooltip">
+      <span>incrby(key, increment)</span>
+    incrby</a>, 
+    
+  
+    <a href="Redis/Commands.html#incrbyfloat%28key%2Cincrement%29-instance-method" class="tooltip">
+      <span>incrbyfloat(key, increment)</span>
+    incrbyfloat</a>, 
+    
+  
+    <a href="Redis/Commands.html#info%28section%3AString%3F%3Dnil%29-instance-method" class="tooltip">
+      <span>info(section : String? = <span class="n">nil</span>)</span>
+    info</a>, 
+    
+  
+    <a href="Redis/Commands.html#keys%28pattern%29-instance-method" class="tooltip">
+      <span>keys(pattern)</span>
+    keys</a>, 
+    
+  
+    <a href="Redis/Commands.html#lindex%28key%2Cindex%29-instance-method" class="tooltip">
+      <span>lindex(key, index)</span>
+    lindex</a>, 
+    
+  
+    <a href="Redis/Commands.html#linsert%28key%2Cwhere%2Cpivot%2Cvalue%29-instance-method" class="tooltip">
+      <span>linsert(key, where, pivot, value)</span>
+    linsert</a>, 
+    
+  
+    <a href="Redis/Commands.html#llen%28key%29-instance-method" class="tooltip">
+      <span>llen(key)</span>
+    llen</a>, 
+    
+  
+    <a href="Redis/Commands.html#lpop%28key%29-instance-method" class="tooltip">
+      <span>lpop(key)</span>
+    lpop</a>, 
+    
+  
+    <a href="Redis/Commands.html#lpush%28key%2C%2Avalues%29-instance-method" class="tooltip">
+      <span>lpush(key, *values)<br/>lpush(key, values : Array(RedisValue))</span>
+    lpush</a>, 
+    
+  
+    <a href="Redis/Commands.html#lpushx%28key%2Cvalue%29-instance-method" class="tooltip">
+      <span>lpushx(key, value)</span>
+    lpushx</a>, 
+    
+  
+    <a href="Redis/Commands.html#lrange%28key%2Cfrom%2Cto%29-instance-method" class="tooltip">
+      <span>lrange(key, from, to)</span>
+    lrange</a>, 
+    
+  
+    <a href="Redis/Commands.html#lrem%28key%2Ccount%2Cvalue%29-instance-method" class="tooltip">
+      <span>lrem(key, count, value)</span>
+    lrem</a>, 
+    
+  
+    <a href="Redis/Commands.html#lset%28key%2Cindex%2Cvalue%29-instance-method" class="tooltip">
+      <span>lset(key, index, value)</span>
+    lset</a>, 
+    
+  
+    <a href="Redis/Commands.html#ltrim%28key%2Cstart%2Cstop%29-instance-method" class="tooltip">
+      <span>ltrim(key, start, stop)</span>
+    ltrim</a>, 
+    
+  
+    <a href="Redis/Commands.html#mget%28%2Akeys%29-instance-method" class="tooltip">
+      <span>mget(*keys)<br/>mget(keys : Array)</span>
+    mget</a>, 
+    
+  
+    <a href="Redis/Commands.html#mset%28hash%3AHash%29-instance-method" class="tooltip">
+      <span>mset(hash : Hash)</span>
+    mset</a>, 
+    
+  
+    <a href="Redis/Commands.html#msetnx%28hash%29-instance-method" class="tooltip">
+      <span>msetnx(hash)</span>
+    msetnx</a>, 
+    
+  
+    <a href="Redis/Commands.html#object_encoding%28key%29-instance-method" class="tooltip">
+      <span>object_encoding(key)</span>
+    object_encoding</a>, 
+    
+  
+    <a href="Redis/Commands.html#object_idletime%28key%29-instance-method" class="tooltip">
+      <span>object_idletime(key)</span>
+    object_idletime</a>, 
+    
+  
+    <a href="Redis/Commands.html#object_refcount%28key%29-instance-method" class="tooltip">
+      <span>object_refcount(key)</span>
+    object_refcount</a>, 
+    
+  
+    <a href="Redis/Commands.html#persist%28key%29-instance-method" class="tooltip">
+      <span>persist(key)</span>
+    persist</a>, 
+    
+  
+    <a href="Redis/Commands.html#pexpire%28key%2Cmilis%29-instance-method" class="tooltip">
+      <span>pexpire(key, milis)</span>
+    pexpire</a>, 
+    
+  
+    <a href="Redis/Commands.html#pexpireat%28key%2Cunix_date_in_millis%29-instance-method" class="tooltip">
+      <span>pexpireat(key, unix_date_in_millis)</span>
+    pexpireat</a>, 
+    
+  
+    <a href="Redis/Commands.html#pfadd%28key%2C%2Avalues%29-instance-method" class="tooltip">
+      <span>pfadd(key, *values)</span>
+    pfadd</a>, 
+    
+  
+    <a href="Redis/Commands.html#pfcount%28%2Akeys%29-instance-method" class="tooltip">
+      <span>pfcount(*keys)</span>
+    pfcount</a>, 
+    
+  
+    <a href="Redis/Commands.html#pfmerge%28%2Akeys%29-instance-method" class="tooltip">
+      <span>pfmerge(*keys)</span>
+    pfmerge</a>, 
+    
+  
+    <a href="Redis/Commands.html#ping-instance-method" class="tooltip">
+      <span>ping</span>
+    ping</a>, 
+    
+  
+    <a href="Redis/Commands.html#psetex%28key%2Cexpire_in_milis%2Cvalue%29-instance-method" class="tooltip">
+      <span>psetex(key, expire_in_milis, value)</span>
+    psetex</a>, 
+    
+  
+    <a href="Redis/Commands.html#psubscribe%28%2Achannel_patterns%2C%26callback_setup_block%3ASubscription-%3E%29-instance-method" class="tooltip">
+      <span>psubscribe(*channel_patterns, &callback_setup_block : Subscription -> )<br/>psubscribe(*channel_patterns)</span>
+    psubscribe</a>, 
+    
+  
+    <a href="Redis/Commands.html#pttl%28key%29-instance-method" class="tooltip">
+      <span>pttl(key)</span>
+    pttl</a>, 
+    
+  
+    <a href="Redis/Commands.html#publish%28channel%2Cmessage%29-instance-method" class="tooltip">
+      <span>publish(channel, message)</span>
+    publish</a>, 
+    
+  
+    <a href="Redis/Commands.html#punsubscribe%28%2Achannel_patterns%29-instance-method" class="tooltip">
+      <span>punsubscribe(*channel_patterns)</span>
+    punsubscribe</a>, 
+    
+  
+    <a href="Redis/Commands.html#quit-instance-method" class="tooltip">
+      <span>quit</span>
+    quit</a>, 
+    
+  
+    <a href="Redis/Commands.html#randomkey-instance-method" class="tooltip">
+      <span>randomkey</span>
+    randomkey</a>, 
+    
+  
+    <a href="Redis/Commands.html#rename%28old_key%2Cnew_key%29-instance-method" class="tooltip">
+      <span>rename(old_key, new_key)</span>
+    rename</a>, 
+    
+  
+    <a href="Redis/Commands.html#renamenx%28old_key%2Cnew_key%29-instance-method" class="tooltip">
+      <span>renamenx(old_key, new_key)</span>
+    renamenx</a>, 
+    
+  
+    <a href="Redis/Commands.html#restore%28key%2Cttl_in_milis%3AInt%2Cserialized_value%3AString%2Creplace%3Dfalse%29-instance-method" class="tooltip">
+      <span>restore(key, ttl_in_milis : Int, serialized_value : String, replace = <span class="n">false</span>)</span>
+    restore</a>, 
+    
+  
+    <a href="Redis/Commands.html#rpop%28key%29-instance-method" class="tooltip">
+      <span>rpop(key)</span>
+    rpop</a>, 
+    
+  
+    <a href="Redis/Commands.html#rpoplpush%28source%2Cdestination%29-instance-method" class="tooltip">
+      <span>rpoplpush(source, destination)</span>
+    rpoplpush</a>, 
+    
+  
+    <a href="Redis/Commands.html#rpush%28key%2C%2Avalues%29-instance-method" class="tooltip">
+      <span>rpush(key, *values)</span>
+    rpush</a>, 
+    
+  
+    <a href="Redis/Commands.html#rpushx%28key%2Cvalue%29-instance-method" class="tooltip">
+      <span>rpushx(key, value)</span>
+    rpushx</a>, 
+    
+  
+    <a href="Redis/Commands.html#sadd%28key%2Cvalues%3AArray%28RedisValue%29%29-instance-method" class="tooltip">
+      <span>sadd(key, values : Array(RedisValue))<br/>sadd(key, *values)</span>
+    sadd</a>, 
+    
+  
+    <a href="Redis/Commands.html#scan%28cursor%2Cmatch%3Dnil%2Ccount%3Dnil%29-instance-method" class="tooltip">
+      <span>scan(cursor, match = <span class="n">nil</span>, count = <span class="n">nil</span>)</span>
+    scan</a>, 
+    
+  
+    <a href="Redis/Commands.html#scard%28key%29-instance-method" class="tooltip">
+      <span>scard(key)</span>
+    scard</a>, 
+    
+  
+    <a href="Redis/Commands.html#script_exists%28sha1_array%3AArray%28Reference%29%29-instance-method" class="tooltip">
+      <span>script_exists(sha1_array : Array(Reference))</span>
+    script_exists</a>, 
+    
+  
+    <a href="Redis/Commands.html#script_flush-instance-method" class="tooltip">
+      <span>script_flush</span>
+    script_flush</a>, 
+    
+  
+    <a href="Redis/Commands.html#script_kill-instance-method" class="tooltip">
+      <span>script_kill</span>
+    script_kill</a>, 
+    
+  
+    <a href="Redis/Commands.html#script_load%28script%3AString%29-instance-method" class="tooltip">
+      <span>script_load(script : String)</span>
+    script_load</a>, 
+    
+  
+    <a href="Redis/Commands.html#sdiff%28%2Akeys%29-instance-method" class="tooltip">
+      <span>sdiff(*keys)</span>
+    sdiff</a>, 
+    
+  
+    <a href="Redis/Commands.html#sdiffstore%28destination%2C%2Akeys%29-instance-method" class="tooltip">
+      <span>sdiffstore(destination, *keys)</span>
+    sdiffstore</a>, 
+    
+  
+    <a href="Redis/Commands.html#select%28database_number%29-instance-method" class="tooltip">
+      <span>select(database_number)</span>
+    select</a>, 
+    
+  
+    <a href="Redis/Commands.html#set%28key%2Cvalue%2Cex%3Dnil%2Cpx%3Dnil%2Cnx%3Dnil%2Cxx%3Dnil%29-instance-method" class="tooltip">
+      <span>set(key, value, ex = <span class="n">nil</span>, px = <span class="n">nil</span>, nx = <span class="n">nil</span>, xx = <span class="n">nil</span>)</span>
+    set</a>, 
+    
+  
+    <a href="Redis/Commands.html#setbit%28key%2Cindex%2Cvalue%29-instance-method" class="tooltip">
+      <span>setbit(key, index, value)</span>
+    setbit</a>, 
+    
+  
+    <a href="Redis/Commands.html#setex%28key%2Cexpire_in_seconds%2Cvalue%29-instance-method" class="tooltip">
+      <span>setex(key, expire_in_seconds, value)</span>
+    setex</a>, 
+    
+  
+    <a href="Redis/Commands.html#setnx%28key%2Cvalue%29-instance-method" class="tooltip">
+      <span>setnx(key, value)</span>
+    setnx</a>, 
+    
+  
+    <a href="Redis/Commands.html#setrange%28key%2Cstart_index%2Cvalue%29-instance-method" class="tooltip">
+      <span>setrange(key, start_index, value)</span>
+    setrange</a>, 
+    
+  
+    <a href="Redis/Commands.html#sinter%28%2Akeys%29-instance-method" class="tooltip">
+      <span>sinter(*keys)</span>
+    sinter</a>, 
+    
+  
+    <a href="Redis/Commands.html#sinterstore%28destination_key%2C%2Akeys%29-instance-method" class="tooltip">
+      <span>sinterstore(destination_key, *keys)</span>
+    sinterstore</a>, 
+    
+  
+    <a href="Redis/Commands.html#sismember%28key%2Cvalue%29-instance-method" class="tooltip">
+      <span>sismember(key, value)</span>
+    sismember</a>, 
+    
+  
+    <a href="Redis/Commands.html#smembers%28key%29-instance-method" class="tooltip">
+      <span>smembers(key)</span>
+    smembers</a>, 
+    
+  
+    <a href="Redis/Commands.html#smove%28source%2Cdestination%2Cmember%29-instance-method" class="tooltip">
+      <span>smove(source, destination, member)</span>
+    smove</a>, 
+    
+  
+    <a href="Redis/Commands.html#sort%28key%2Cby%3Dnil%2Climit%3Dnil%2Cget%3AArray%28RedisValue%29%3F%3Dnil%2Corder%3D%26quot%3BASC%26quot%3B%2Calpha%3Dfalse%2Cstore%3Dnil%29-instance-method" class="tooltip">
+      <span>sort(key, by = <span class="n">nil</span>, limit = <span class="n">nil</span>, get : Array(RedisValue)? = <span class="n">nil</span>, order = <span class="s">&quot;ASC&quot;</span>, alpha = <span class="n">false</span>, store = <span class="n">nil</span>)</span>
+    sort</a>, 
+    
+  
+    <a href="Redis/Commands.html#spop%28key%2Ccount%3Dnil%29-instance-method" class="tooltip">
+      <span>spop(key, count = <span class="n">nil</span>)</span>
+    spop</a>, 
+    
+  
+    <a href="Redis/Commands.html#srandmember%28key%2Ccount%3Dnil%29-instance-method" class="tooltip">
+      <span>srandmember(key, count = <span class="n">nil</span>)</span>
+    srandmember</a>, 
+    
+  
+    <a href="Redis/Commands.html#srem%28key%2C%2Avalues%29-instance-method" class="tooltip">
+      <span>srem(key, *values)<br/>srem(key, values : Array(RedisValue))</span>
+    srem</a>, 
+    
+  
+    <a href="Redis/Commands.html#sscan%28key%2Ccursor%2Cmatch%3Dnil%2Ccount%3Dnil%29-instance-method" class="tooltip">
+      <span>sscan(key, cursor, match = <span class="n">nil</span>, count = <span class="n">nil</span>)</span>
+    sscan</a>, 
+    
+  
+    <a href="Redis/Commands.html#strlen%28key%29-instance-method" class="tooltip">
+      <span>strlen(key)</span>
+    strlen</a>, 
+    
+  
+    <a href="Redis/Commands.html#subscribe%28%2Achannels%2C%26callback_setup_block%3ASubscription-%3E%29-instance-method" class="tooltip">
+      <span>subscribe(*channels, &callback_setup_block : Subscription -> )<br/>subscribe(*channels)</span>
+    subscribe</a>, 
+    
+  
+    <a href="Redis/Commands.html#sunion%28%2Akeys%29-instance-method" class="tooltip">
+      <span>sunion(*keys)</span>
+    sunion</a>, 
+    
+  
+    <a href="Redis/Commands.html#sunionstore%28destination%2C%2Akeys%29-instance-method" class="tooltip">
+      <span>sunionstore(destination, *keys)</span>
+    sunionstore</a>, 
+    
+  
+    <a href="Redis/Commands.html#ttl%28key%29-instance-method" class="tooltip">
+      <span>ttl(key)</span>
+    ttl</a>, 
+    
+  
+    <a href="Redis/Commands.html#type%28key%29-instance-method" class="tooltip">
+      <span>type(key)</span>
+    type</a>, 
+    
+  
+    <a href="Redis/Commands.html#unsubscribe%28%2Achannels%29-instance-method" class="tooltip">
+      <span>unsubscribe(*channels)</span>
+    unsubscribe</a>, 
+    
+  
+    <a href="Redis/Commands.html#unwatch-instance-method" class="tooltip">
+      <span>unwatch</span>
+    unwatch</a>, 
+    
+  
+    <a href="Redis/Commands.html#watch%28%2Akeys%29-instance-method" class="tooltip">
+      <span>watch(*keys)</span>
+    watch</a>, 
+    
+  
+    <a href="Redis/Commands.html#zadd%28key%2C%2Ascores_and_members%29-instance-method" class="tooltip">
+      <span>zadd(key, *scores_and_members)<br/>zadd(key, scores_and_members : Array(RedisValue))</span>
+    zadd</a>, 
+    
+  
+    <a href="Redis/Commands.html#zcard%28key%29-instance-method" class="tooltip">
+      <span>zcard(key)</span>
+    zcard</a>, 
+    
+  
+    <a href="Redis/Commands.html#zcount%28key%2Cmin%2Cmax%29-instance-method" class="tooltip">
+      <span>zcount(key, min, max)</span>
+    zcount</a>, 
+    
+  
+    <a href="Redis/Commands.html#zincrby%28key%2Cincrement%2Cmember%29-instance-method" class="tooltip">
+      <span>zincrby(key, increment, member)</span>
+    zincrby</a>, 
+    
+  
+    <a href="Redis/Commands.html#zinterstore%28destination%2Ckeys%3AArray%2Cweights%3Dnil%2Caggregate%3Dnil%29-instance-method" class="tooltip">
+      <span>zinterstore(destination, keys : Array, weights = <span class="n">nil</span>, aggregate = <span class="n">nil</span>)</span>
+    zinterstore</a>, 
+    
+  
+    <a href="Redis/Commands.html#zlexcount%28key%2Cmin%2Cmax%29-instance-method" class="tooltip">
+      <span>zlexcount(key, min, max)</span>
+    zlexcount</a>, 
+    
+  
+    <a href="Redis/Commands.html#zrange%28key%2Cstart%2Cstop%2Cwith_scores%3Dfalse%29-instance-method" class="tooltip">
+      <span>zrange(key, start, stop, with_scores = <span class="n">false</span>)</span>
+    zrange</a>, 
+    
+  
+    <a href="Redis/Commands.html#zrangebylex%28key%2Cmin%2Cmax%2Climit%3Dnil%29-instance-method" class="tooltip">
+      <span>zrangebylex(key, min, max, limit = <span class="n">nil</span>)</span>
+    zrangebylex</a>, 
+    
+  
+    <a href="Redis/Commands.html#zrangebyscore%28key%2Cmin%2Cmax%2Climit%3Dnil%2Cwith_scores%3Dfalse%29-instance-method" class="tooltip">
+      <span>zrangebyscore(key, min, max, limit = <span class="n">nil</span>, with_scores = <span class="n">false</span>)</span>
+    zrangebyscore</a>, 
+    
+  
+    <a href="Redis/Commands.html#zrank%28key%2Cmember%29-instance-method" class="tooltip">
+      <span>zrank(key, member)</span>
+    zrank</a>, 
+    
+  
+    <a href="Redis/Commands.html#zrem%28key%2Cmember%29-instance-method" class="tooltip">
+      <span>zrem(key, member)</span>
+    zrem</a>, 
+    
+  
+    <a href="Redis/Commands.html#zremrangebylex%28key%2Cmin%2Cmax%29-instance-method" class="tooltip">
+      <span>zremrangebylex(key, min, max)</span>
+    zremrangebylex</a>, 
+    
+  
+    <a href="Redis/Commands.html#zremrangebyrank%28key%2Cstart%2Cstop%29-instance-method" class="tooltip">
+      <span>zremrangebyrank(key, start, stop)</span>
+    zremrangebyrank</a>, 
+    
+  
+    <a href="Redis/Commands.html#zremrangebyscore%28key%2Cstart%2Cstop%29-instance-method" class="tooltip">
+      <span>zremrangebyscore(key, start, stop)</span>
+    zremrangebyscore</a>, 
+    
+  
+    <a href="Redis/Commands.html#zrevrange%28key%2Cstart%2Cstop%2Cwith_scores%3Dfalse%29-instance-method" class="tooltip">
+      <span>zrevrange(key, start, stop, with_scores = <span class="n">false</span>)</span>
+    zrevrange</a>, 
+    
+  
+    <a href="Redis/Commands.html#zrevrangebylex%28key%2Cmin%2Cmax%2Climit%3Dnil%29-instance-method" class="tooltip">
+      <span>zrevrangebylex(key, min, max, limit = <span class="n">nil</span>)</span>
+    zrevrangebylex</a>, 
+    
+  
+    <a href="Redis/Commands.html#zrevrangebyscore%28key%2Cmin%2Cmax%2Climit%3Dnil%2Cwith_scores%3Dfalse%29-instance-method" class="tooltip">
+      <span>zrevrangebyscore(key, min, max, limit = <span class="n">nil</span>, with_scores = <span class="n">false</span>)</span>
+    zrevrangebyscore</a>, 
+    
+  
+    <a href="Redis/Commands.html#zrevrank%28key%2Cmember%29-instance-method" class="tooltip">
+      <span>zrevrank(key, member)</span>
+    zrevrank</a>, 
+    
+  
+    <a href="Redis/Commands.html#zscan%28key%2Ccursor%2Cmatch%3Dnil%2Ccount%3Dnil%29-instance-method" class="tooltip">
+      <span>zscan(key, cursor, match = <span class="n">nil</span>, count = <span class="n">nil</span>)</span>
+    zscan</a>, 
+    
+  
+    <a href="Redis/Commands.html#zscore%28key%2Cmember%29-instance-method" class="tooltip">
+      <span>zscore(key, member)</span>
+    zscore</a>, 
+    
+  
+    <a href="Redis/Commands.html#zunionstore%28destination%2Ckeys%3AArray%2Cweights%3Dnil%2Caggregate%3Dnil%29-instance-method" class="tooltip">
+      <span>zunionstore(destination, keys : Array, weights = <span class="n">nil</span>, aggregate = <span class="n">nil</span>)</span>
+    zunionstore</a>
+    
+  
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+  <h2>Constructor Detail</h2>
+  
+    <div class="entry-detail" id="new(host=&amp;quot;localhost&amp;quot;,port=6379,unixsocket:String?=nil,password:String?=nil,database:Int32?=nil,url=nil,ssl=false,ssl_context=nil,dns_timeout:Time::Span?=nil,connect_timeout:Time::Span?=nil,reconnect=true,command_timeout:Time::Span?=nil)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(host = <span class="s">&quot;localhost&quot;</span>, port = <span class="n">6379</span>, unixsocket : String? = <span class="n">nil</span>, password : String? = <span class="n">nil</span>, database : Int32? = <span class="n">nil</span>, url = <span class="n">nil</span>, ssl = <span class="n">false</span>, ssl_context = <span class="n">nil</span>, dns_timeout : Time::Span? = <span class="n">nil</span>, connect_timeout : Time::Span? = <span class="n">nil</span>, reconnect = <span class="n">true</span>, command_timeout : Time::Span? = <span class="n">nil</span>)
+
+        <a class="method-permalink" href="#new%28host%3D%26quot%3Blocalhost%26quot%3B%2Cport%3D6379%2Cunixsocket%3AString%3F%3Dnil%2Cpassword%3AString%3F%3Dnil%2Cdatabase%3AInt32%3F%3Dnil%2Curl%3Dnil%2Cssl%3Dfalse%2Cssl_context%3Dnil%2Cdns_timeout%3ATime%3A%3ASpan%3F%3Dnil%2Cconnect_timeout%3ATime%3A%3ASpan%3F%3Dnil%2Creconnect%3Dtrue%2Ccommand_timeout%3ATime%3A%3ASpan%3F%3Dnil%29-class-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Opens a Redis connection</p>
+
+<p><strong>Options</strong>:</p>
+
+<ul><li>host - the host to connect to</li><li>port - the port to connect to</li><li>unixsocket - instead of using TCP, you can connect to Redis via a Unix domain socket by passing its path here (e.g. "/tmp/redis.sock")</li><li>password - the password for authentication against the server. This is a convenience which saves you the extra call to the Redis <code>auth</code> command.</li><li>database - the number of the database to select. This a convenience which saves you a call a call to <code>#select</code>.</li><li>ssl - whether SSL should be enabled.</li><li>ssl_context - a OpenSSL::SSL::Context::Client.</li><li>dns_timeout - the dns timeout.</li><li>connect_timeout - the connect timeout.</li><li>command_timeout - the command timeout - applies when a command takes too long because the Redis-server is blocked by another command or by a dump.</li><li>reconnect - whether we should reconnect when we encounter a disconnected Redis connection.</li><li>url - Redis url. If this is given, it overrides all others.</li></ul>
+
+<p>Example:</p>
+
+<pre><code>redis <span class="o">=</span> <span class="t">Redis</span>.<span class="k">new</span>
+redis.incr(<span class="s">&quot;counter&quot;</span>)
+redis.close</code></pre>
+
+<p>Example:</p>
+
+<pre><code>redis <span class="o">=</span> <span class="t">Redis</span>.<span class="k">new</span>(host: <span class="s">&quot;localhost&quot;</span>, port: <span class="n">6379</span>)
+...</code></pre>
+
+<p>Example:</p>
+
+<pre><code>redis <span class="o">=</span> <span class="t">Redis</span>.<span class="k">new</span>(unixsocket: <span class="s">&quot;/tmp/redis.sock&quot;</span>)
+...</code></pre>
+
+<p>Example:</p>
+
+<pre><code>redis <span class="o">=</span> <span class="t">Redis</span>.<span class="k">new</span>(url: <span class="s">&quot;redis://:my-secret-pw@my.redis.com:6380/my-database&quot;</span>)
+...</code></pre></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis.cr#L98" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+  <h2>Class Method Detail</h2>
+  
+    <div class="entry-detail" id="open(host=&amp;quot;localhost&amp;quot;,port=6379,unixsocket=nil,password=nil,database=nil,url=nil,ssl=false,ssl_context=nil,dns_timeout=nil,connect_timeout=nil,reconnect=true,command_timeout=nil,&amp;block)-class-method">
+      <div class="signature">
+        
+        def self.<strong>open</strong>(host = <span class="s">&quot;localhost&quot;</span>, port = <span class="n">6379</span>, unixsocket = <span class="n">nil</span>, password = <span class="n">nil</span>, database = <span class="n">nil</span>, url = <span class="n">nil</span>, ssl = <span class="n">false</span>, ssl_context = <span class="n">nil</span>, dns_timeout = <span class="n">nil</span>, connect_timeout = <span class="n">nil</span>, reconnect = <span class="n">true</span>, command_timeout = <span class="n">nil</span>, &block)
+
+        <a class="method-permalink" href="#open%28host%3D%26quot%3Blocalhost%26quot%3B%2Cport%3D6379%2Cunixsocket%3Dnil%2Cpassword%3Dnil%2Cdatabase%3Dnil%2Curl%3Dnil%2Cssl%3Dfalse%2Cssl_context%3Dnil%2Cdns_timeout%3Dnil%2Cconnect_timeout%3Dnil%2Creconnect%3Dtrue%2Ccommand_timeout%3Dnil%2C%26block%29-class-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Opens a Redis connection, yields the given block with a Redis object and closes the connection.</p>
+
+<p><strong>Options</strong>:</p>
+
+<ul><li>host - the host to connect to</li><li>port - the port to connect to</li><li>unixsocket - instead of using TCP, you can connect to Redis via a Unix domain socket by passing its path here (e.g. "/tmp/redis.sock")</li><li>password - the password for authentication against the server. This is a convenience which saves you the extra call to the Redis <code>auth</code> command.</li><li>database - the number of the database to select. This a convenience which saves you a call a call to <code>#select</code>.</li><li>ssl - whether SSL should be enabled.</li><li>ssl_context - a OpenSSL::SSL::Context::Client.</li><li>dns_timeout - the dns timeout.</li><li>connect_timeout - the connect timeout.</li><li>command_timeout - the command timeout - applies when a command takes too long because the Redis-server is blocked by another command or by a dump.</li><li>reconnect - whether we should reconnect when we encounter a disconnected Redis connection.</li><li>url - Redis url. If this is given, it overrides all others.</li></ul>
+
+<p>Example:</p>
+
+<pre><code><span class="t">Redis</span>.open <span class="k">do</span> <span class="o">|</span>redis<span class="o">|</span>
+  redis.incr(<span class="s">&quot;counter&quot;</span>)
+<span class="k">end</span></code></pre></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis.cr#L164" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+  <h2>Instance Method Detail</h2>
+  
+    <div class="entry-detail" id="client-instance-method">
+      <div class="signature">
+        
+        def <strong>client</strong>
+
+        <a class="method-permalink" href="#client-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis.cr#L129" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="close-instance-method">
+      <div class="signature">
+        
+        def <strong>close</strong>
+
+        <a class="method-permalink" href="#close-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Closes the Redis connection.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis.cr#L285" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="multi(&amp;block)-instance-method">
+      <div class="signature">
+        
+        def <strong>multi</strong>(&block)
+
+        <a class="method-permalink" href="#multi%28%26block%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Sends Redis commands in transaction mode.</p>
+
+<p>Yields its block. The block receives as argument
+an object that has the same API as this class, except:</p>
+
+<ul><li>it participates in the transaction</li><li>all the Redis commands return Futures</li><li>there is an additional method #discard that will abort the transaction.</li></ul></ul>
+
+<p><strong>Return value</strong>: an array with all the responses</p>
+
+<ul><li>one element for each executed command.</li></ul>
+
+<p>Example:</p>
+
+<pre><code>redis.multi <span class="k">do</span> <span class="o">|</span>multi<span class="o">|</span>
+  multi.set(<span class="s">&quot;foo1&quot;</span>, <span class="s">&quot;first&quot;</span>)
+  multi.set(<span class="s">&quot;foo2&quot;</span>, <span class="s">&quot;second&quot;</span>)
+<span class="k">end</span></code></pre>
+
+<p>See the <a href="https://github.com/stefanwille/crystal-redis-examples" target="_blank">examples repository</a> for more examples.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis.cr#L238" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="pipelined(&amp;block)-instance-method">
+      <div class="signature">
+        
+        def <strong>pipelined</strong>(&block)
+
+        <a class="method-permalink" href="#pipelined%28%26block%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Sends Redis commands in pipeline mode.</p>
+
+<p>Yields its block. The block receives as argument
+an object that has the same API as this class, except
+it participates in pipelining and all Redis commands return Futures.</p>
+
+<p><strong>Return value</strong>: an array with all the responses</p>
+
+<ul><li>one element for each executed command.</li></ul>
+
+<p>Example:</p>
+
+<pre><code>redis.pipelined <span class="k">do</span> <span class="o">|</span>pipeline<span class="o">|</span>
+  pipeline.set(<span class="s">&quot;foo1&quot;</span>, <span class="s">&quot;first&quot;</span>)
+  pipeline.set(<span class="s">&quot;foo2&quot;</span>, <span class="s">&quot;second&quot;</span>)
+<span class="k">end</span></code></pre>
+
+<p>See the <a href="https://github.com/stefanwille/crystal-redis-examples" target="_blank">examples repository</a> for more examples.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis.cr#L202" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="url-instance-method">
+      <div class="signature">
+        
+        def <strong>url</strong>
+
+        <a class="method-permalink" href="#url-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Returns the server URI for this client.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis.cr#L49" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="url?:String?-instance-method">
+      <div class="signature">
+        
+        def <strong>url?</strong> : String?
+
+        <a class="method-permalink" href="#url%3F%3AString%3F-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Returns the server URI for this client.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis.cr#L49" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>

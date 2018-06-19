@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.24.2">
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="../js/doc.js"></script>
+<script type="text/javascript">
+  CrystalDoc.base_path = "../";
+</script>
+
+  <meta id="repository-name" content="github.com/stefanwille/crystal-redis">
+  <title>Redis::Subscription - github.com/stefanwille/crystal-redis</title>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false">
+    </div>
+
+    <div class="repository-links">
+      <a href="../index.html">README</a>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="github.com/stefanwille/crystal-redis/Redis" data-name="redis">
+      <a href="../Redis.html">Redis</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/CannotConnectError" data-name="redis::cannotconnecterror">
+      <a href="../Redis/CannotConnectError.html">CannotConnectError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/Client" data-name="redis::client">
+      <a href="../Redis/Client.html">Client</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/Commands" data-name="redis::commands">
+      <a href="../Redis/Commands.html">Commands</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/CommandTimeoutError" data-name="redis::commandtimeouterror">
+      <a href="../Redis/CommandTimeoutError.html">CommandTimeoutError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/ConnectionError" data-name="redis::connectionerror">
+      <a href="../Redis/ConnectionError.html">ConnectionError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/ConnectionLostError" data-name="redis::connectionlosterror">
+      <a href="../Redis/ConnectionLostError.html">ConnectionLostError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/Error" data-name="redis::error">
+      <a href="../Redis/Error.html">Error</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/Future" data-name="redis::future">
+      <a href="../Redis/Future.html">Future</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/PipelineApi" data-name="redis::pipelineapi">
+      <a href="../Redis/PipelineApi.html">PipelineApi</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/PooledClient" data-name="redis::pooledclient">
+      <a href="../Redis/PooledClient.html">PooledClient</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/PoolTimeoutError" data-name="redis::pooltimeouterror">
+      <a href="../Redis/PoolTimeoutError.html">PoolTimeoutError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/SocketWrapper" data-name="redis::socketwrapper">
+      <a href="../Redis/SocketWrapper.html">SocketWrapper</a>
+      
+    </li>
+  
+  <li class=" current" data-id="github.com/stefanwille/crystal-redis/Redis/Subscription" data-name="redis::subscription">
+      <a href="../Redis/Subscription.html">Subscription</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/TransactionApi" data-name="redis::transactionapi">
+      <a href="../Redis/TransactionApi.html">TransactionApi</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">class</span> Redis::Subscription
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Redis/Subscription.html">Redis::Subscription</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+
+  <h2>Overview</h2>
+
+  <p>Models a subscription to one or more publish/subscribe channels.</p>
+
+<p>The caller sets callbacks on this object that the Redis client will
+trigger for the matching events.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>Defined in:</h2>
+  
+    
+      <a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis/subscription.cr#L5" target="_blank">redis/subscription.cr</a>
+    
+    <br/>
+  
+
+
+
+
+
+
+
+
+
+  <h2>Instance Method Summary</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#message%28%26message_callback%3AString%2CString-%3E%29-instance-method" class="signature"><strong>#message</strong>(&message_callback : String, String -> )</a>
+        
+          <div class="summary"><p>Sets the 'message' callback.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#pmessage%28%26pmessage_callback%3AString%2CString%2CString-%3E%29-instance-method" class="signature"><strong>#pmessage</strong>(&pmessage_callback : String, String, String -> )</a>
+        
+          <div class="summary"><p>Sets the 'pmessage' callback.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#psubscribe%28%26psubscribe_callback%3AString%2CInt64-%3E%29-instance-method" class="signature"><strong>#psubscribe</strong>(&psubscribe_callback : String, Int64 -> )</a>
+        
+          <div class="summary"><p>Sets the 'psubscribe' callback.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#punsubscribe%28%26punsubscribe_callback%3AString%2CInt64-%3E%29-instance-method" class="signature"><strong>#punsubscribe</strong>(&punsubscribe_callback : String, Int64 -> )</a>
+        
+          <div class="summary"><p>Sets the 'punsubscribe' callback.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#subscribe%28%26subscribe_callback%3AString%2CInt64-%3E%29-instance-method" class="signature"><strong>#subscribe</strong>(&subscribe_callback : String, Int64 -> )</a>
+        
+          <div class="summary"><p>Sets the 'subscribe' callback.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#unsubscribe%28%26unsubscribe_callback%3AString%2CInt64-%3E%29-instance-method" class="signature"><strong>#unsubscribe</strong>(&unsubscribe_callback : String, Int64 -> )</a>
+        
+          <div class="summary"><p>Sets the 'unsubscribe' callback.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+
+
+
+
+  <h2>Instance Method Detail</h2>
+  
+    <div class="entry-detail" id="message(&amp;message_callback:String,String-&gt;)-instance-method">
+      <div class="signature">
+        
+        def <strong>message</strong>(&message_callback : String, String -> )
+
+        <a class="method-permalink" href="#message%28%26message_callback%3AString%2CString-%3E%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Sets the 'message' callback.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis/subscription.cr#L28" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="pmessage(&amp;pmessage_callback:String,String,String-&gt;)-instance-method">
+      <div class="signature">
+        
+        def <strong>pmessage</strong>(&pmessage_callback : String, String, String -> )
+
+        <a class="method-permalink" href="#pmessage%28%26pmessage_callback%3AString%2CString%2CString-%3E%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Sets the 'pmessage' callback.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis/subscription.cr#L32" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="psubscribe(&amp;psubscribe_callback:String,Int64-&gt;)-instance-method">
+      <div class="signature">
+        
+        def <strong>psubscribe</strong>(&psubscribe_callback : String, Int64 -> )
+
+        <a class="method-permalink" href="#psubscribe%28%26psubscribe_callback%3AString%2CInt64-%3E%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Sets the 'psubscribe' callback.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis/subscription.cr#L24" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="punsubscribe(&amp;punsubscribe_callback:String,Int64-&gt;)-instance-method">
+      <div class="signature">
+        
+        def <strong>punsubscribe</strong>(&punsubscribe_callback : String, Int64 -> )
+
+        <a class="method-permalink" href="#punsubscribe%28%26punsubscribe_callback%3AString%2CInt64-%3E%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Sets the 'punsubscribe' callback.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis/subscription.cr#L40" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="subscribe(&amp;subscribe_callback:String,Int64-&gt;)-instance-method">
+      <div class="signature">
+        
+        def <strong>subscribe</strong>(&subscribe_callback : String, Int64 -> )
+
+        <a class="method-permalink" href="#subscribe%28%26subscribe_callback%3AString%2CInt64-%3E%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Sets the 'subscribe' callback.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis/subscription.cr#L20" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="unsubscribe(&amp;unsubscribe_callback:String,Int64-&gt;)-instance-method">
+      <div class="signature">
+        
+        def <strong>unsubscribe</strong>(&unsubscribe_callback : String, Int64 -> )
+
+        <a class="method-permalink" href="#unsubscribe%28%26unsubscribe_callback%3AString%2CInt64-%3E%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Sets the 'unsubscribe' callback.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis/subscription.cr#L36" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>

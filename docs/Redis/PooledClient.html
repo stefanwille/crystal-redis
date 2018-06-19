@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.24.2">
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="../js/doc.js"></script>
+<script type="text/javascript">
+  CrystalDoc.base_path = "../";
+</script>
+
+  <meta id="repository-name" content="github.com/stefanwille/crystal-redis">
+  <title>Redis::PooledClient - github.com/stefanwille/crystal-redis</title>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false">
+    </div>
+
+    <div class="repository-links">
+      <a href="../index.html">README</a>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="github.com/stefanwille/crystal-redis/Redis" data-name="redis">
+      <a href="../Redis.html">Redis</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/CannotConnectError" data-name="redis::cannotconnecterror">
+      <a href="../Redis/CannotConnectError.html">CannotConnectError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/Client" data-name="redis::client">
+      <a href="../Redis/Client.html">Client</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/Commands" data-name="redis::commands">
+      <a href="../Redis/Commands.html">Commands</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/CommandTimeoutError" data-name="redis::commandtimeouterror">
+      <a href="../Redis/CommandTimeoutError.html">CommandTimeoutError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/ConnectionError" data-name="redis::connectionerror">
+      <a href="../Redis/ConnectionError.html">ConnectionError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/ConnectionLostError" data-name="redis::connectionlosterror">
+      <a href="../Redis/ConnectionLostError.html">ConnectionLostError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/Error" data-name="redis::error">
+      <a href="../Redis/Error.html">Error</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/Future" data-name="redis::future">
+      <a href="../Redis/Future.html">Future</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/PipelineApi" data-name="redis::pipelineapi">
+      <a href="../Redis/PipelineApi.html">PipelineApi</a>
+      
+    </li>
+  
+  <li class=" current" data-id="github.com/stefanwille/crystal-redis/Redis/PooledClient" data-name="redis::pooledclient">
+      <a href="../Redis/PooledClient.html">PooledClient</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/PoolTimeoutError" data-name="redis::pooltimeouterror">
+      <a href="../Redis/PoolTimeoutError.html">PoolTimeoutError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/SocketWrapper" data-name="redis::socketwrapper">
+      <a href="../Redis/SocketWrapper.html">SocketWrapper</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/Subscription" data-name="redis::subscription">
+      <a href="../Redis/Subscription.html">Subscription</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/TransactionApi" data-name="redis::transactionapi">
+      <a href="../Redis/TransactionApi.html">TransactionApi</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">class</span> Redis::PooledClient
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Redis/PooledClient.html">Redis::PooledClient</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+
+  <h2>Overview</h2>
+
+  <p>A Redis client object that can be shared across multiple fibers.
+It is backed by a connection pool of <code><a href="../Redis.html">Redis</a></code> instances and will automatically allocate and free these instances from/to the pool, per command.</p>
+
+<p>Example usage:</p>
+
+<pre><code class="language-Crystal">redis = Redis::PooledClient.new(host: ..., port: ..., ..., pool_size: 5, pool_timout: 7)
+10.times do |i|
+  spawn do
+    redis.set("foo#{i}", "bar")
+    redis.get("foo#{i}") # => "bar"
+  end
+end</code></pre>
+
+<p>Here 10 fibers access the same <code><a href="../Redis/PooledClient.html">Redis::PooledClient</a></code> instance while automatically sharing 5 Redis connections.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>Defined in:</h2>
+  
+    
+      <a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis/pooled_client.cr#L20" target="_blank">redis/pooled_client.cr</a>
+    
+    <br/>
+  
+
+
+
+
+
+  <h2>Constructors</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new%28%2Aargs%2Cpool_size%3D5%2Cpool_timeout%3D5.0%2C%2A%2Aargs2%29-class-method" class="signature"><strong>.new</strong>(*args, pool_size = <span class="n">5</span>, pool_timeout = <span class="n">5.0</span>, **args2)</a>
+        
+          <div class="summary"><p>Accepts the same connection parameters like a <code><a href="../Redis.html">Redis</a></code> instance, plus the documented ones.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+  <h2>Instance Method Summary</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#pool%3AConnectionPool%28Redis%29-instance-method" class="signature"><strong>#pool</strong> : ConnectionPool(Redis)</a>
+        
+          <div class="summary"><p>The connection pool.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#psubscribe%28%2Achannel_patterns%2C%26callback_setup_block%3ARedis%3A%3ASubscription-%3E%29-instance-method" class="signature"><strong>#psubscribe</strong>(*channel_patterns, &callback_setup_block : Redis::Subscription -> )</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#subscribe%28%2Achannels%2C%26callback_setup_block%3ARedis%3A%3ASubscription-%3E%29-instance-method" class="signature"><strong>#subscribe</strong>(*channels, &callback_setup_block : Redis::Subscription -> )</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <h2>Macro Summary</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#method_missing%28call%29-macro" class="signature"><strong>method_missing</strong>(call)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+  <h2>Constructor Detail</h2>
+  
+    <div class="entry-detail" id="new(*args,pool_size=5,pool_timeout=5.0,**args2)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(*args, pool_size = <span class="n">5</span>, pool_timeout = <span class="n">5.0</span>, **args2)
+
+        <a class="method-permalink" href="#new%28%2Aargs%2Cpool_size%3D5%2Cpool_timeout%3D5.0%2C%2A%2Aargs2%29-class-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Accepts the same connection parameters like a <code><a href="../Redis.html">Redis</a></code> instance, plus the documented ones.</p>
+
+<ul><li>pool_size - the number of <code><a href="../Redis.html">Redis</a></code> to hold in the connection pool.</li><li>pool_timeout - the time to wait for a <code><a href="../Redis.html">Redis</a></code> instance to become available from the pool before dying with <code><a href="../Redis/PoolTimeoutError.html">Redis::PoolTimeoutError</a></code>.</li></ul></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis/pooled_client.cr#L29" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+
+  <h2>Instance Method Detail</h2>
+  
+    <div class="entry-detail" id="pool:ConnectionPool(Redis)-instance-method">
+      <div class="signature">
+        
+        def <strong>pool</strong> : ConnectionPool(<a href="../Redis.html">Redis</a>)
+
+        <a class="method-permalink" href="#pool%3AConnectionPool%28Redis%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>The connection pool.
+See https://github.com/ysbaddaden/pool</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis/pooled_client.cr#L23" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="psubscribe(*channel_patterns,&amp;callback_setup_block:Redis::Subscription-&gt;)-instance-method">
+      <div class="signature">
+        
+        def <strong>psubscribe</strong>(*channel_patterns, &callback_setup_block : <a href="../Redis/Subscription.html">Redis::Subscription</a> -> )
+
+        <a class="method-permalink" href="#psubscribe%28%2Achannel_patterns%2C%26callback_setup_block%3ARedis%3A%3ASubscription-%3E%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis/pooled_client.cr#L59" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="subscribe(*channels,&amp;callback_setup_block:Redis::Subscription-&gt;)-instance-method">
+      <div class="signature">
+        
+        def <strong>subscribe</strong>(*channels, &callback_setup_block : <a href="../Redis/Subscription.html">Redis::Subscription</a> -> )
+
+        <a class="method-permalink" href="#subscribe%28%2Achannels%2C%26callback_setup_block%3ARedis%3A%3ASubscription-%3E%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis/pooled_client.cr#L55" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+  <h2>Macro Detail</h2>
+  
+    <div class="entry-detail" id="method_missing(call)-macro">
+      <div class="signature">
+        
+        macro <strong>method_missing</strong>(call)
+
+        <a class="method-permalink" href="#method_missing%28call%29-macro">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis/pooled_client.cr#L35" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.24.2">
+
+
+<link href="css/style.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="js/doc.js"></script>
+<script type="text/javascript">
+  CrystalDoc.base_path = "";
+</script>
+
+  <meta id="repository-name" content="github.com/stefanwille/crystal-redis">
+  <title>README - github.com/stefanwille/crystal-redis</title>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false">
+    </div>
+
+    <div class="repository-links">
+      <a href="index.html">README</a>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent " data-id="github.com/stefanwille/crystal-redis/Redis" data-name="redis">
+      <a href="Redis.html">Redis</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/CannotConnectError" data-name="redis::cannotconnecterror">
+      <a href="Redis/CannotConnectError.html">CannotConnectError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/Client" data-name="redis::client">
+      <a href="Redis/Client.html">Client</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/Commands" data-name="redis::commands">
+      <a href="Redis/Commands.html">Commands</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/CommandTimeoutError" data-name="redis::commandtimeouterror">
+      <a href="Redis/CommandTimeoutError.html">CommandTimeoutError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/ConnectionError" data-name="redis::connectionerror">
+      <a href="Redis/ConnectionError.html">ConnectionError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/ConnectionLostError" data-name="redis::connectionlosterror">
+      <a href="Redis/ConnectionLostError.html">ConnectionLostError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/Error" data-name="redis::error">
+      <a href="Redis/Error.html">Error</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/Future" data-name="redis::future">
+      <a href="Redis/Future.html">Future</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/PipelineApi" data-name="redis::pipelineapi">
+      <a href="Redis/PipelineApi.html">PipelineApi</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/PooledClient" data-name="redis::pooledclient">
+      <a href="Redis/PooledClient.html">PooledClient</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/PoolTimeoutError" data-name="redis::pooltimeouterror">
+      <a href="Redis/PoolTimeoutError.html">PoolTimeoutError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/SocketWrapper" data-name="redis::socketwrapper">
+      <a href="Redis/SocketWrapper.html">SocketWrapper</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/Subscription" data-name="redis::subscription">
+      <a href="Redis/Subscription.html">Subscription</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/TransactionApi" data-name="redis::transactionapi">
+      <a href="Redis/TransactionApi.html">TransactionApi</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1>Redis Client for Crystal</h1>
+
+<p><a href="https://travis-ci.org/stefanwille/crystal-redis" target="_blank"><img src="https://img.shields.io/travis/stefanwille/crystal-redis/master.svg?style=flat" alt="Build Status"/></a> <a href="CONTRIBUTING.md#pull-requests" target="_blank"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"/></a></p>
+
+<p>A Redis client for the Crystal programming language.</p>
+
+<h2>Features</h2>
+
+<ul><li>Performance (> 680,000 commands per second using pipeline on a MacBook Air with a single client thread)</li><li>Pipelining</li><li>Transactions</li><li>LUA Scripting</li><li>All string commands</li><li>All hash commands</li><li>All list commands</li><li>All set commands</li><li>All hyperloglog commands</li><li>All commands for bit operations</li><li>All sorted set commands</li><li>Publish/subscribe</li></ul>
+
+<h2>Installation</h2>
+
+<p>Add it to your <code>shard.yml</code>:</p>
+
+<pre><code class="language-crystal">dependencies:
+  redis:
+    github: stefanwille<span class="s">/crystal-redis
+    version: ~&gt; 2.0.0</code></pre>
+
+<p>and then install the library into your project:</p>
+
+<pre><code class="language-bash">$ shards install</code></pre>
+
+<h3>Installation on MacOS X</h3>
+
+<p>On MacOS X you may get this error:</p>
+
+<pre><code>ld: library not found <span class="k">for</span> <span class="o">-</span>lssl (this usually means you need to install the development package <span class="k">for</span> libssl)
+clang: error: linker command failed <span class="k">with</span> exit code <span class="n">1</span> (use <span class="o">-</span>v to see invocation)
+...</code></pre>
+
+<p>Or this warning:</p>
+
+<pre><code><span class="t">Package</span> libssl was not found <span class="k">in</span> the pkg<span class="o">-</span>config search path.
+<span class="t">Perhaps</span> you should add the directory containing <span class="s">`libssl.pc&#39;
+to the PKG_CONFIG_PATH environment variable
+No package &#39;libssl&#39; found
+Package libcrypto was not found in the pkg-config search path.
+Perhaps you should add the directory containing `</span>libcrypto.pc</code></pre>
+
+<p>The problem is that Crystal can't find openssl, because it is not installed by default on MacOS X.</p>
+
+<p>The fix:</p>
+
+<ol><li>Install openssl via <a href="https://brew.sh/" target="_blank">Homebrew</a>:</li></ol>
+
+<pre><code class="language-bash">$ brew install openssl</code></pre>
+
+<ol><li>Set the environment variable <code>PKG_CONFIG_PATH</code>:</li></ol>
+
+<pre><code class="language-bash">$ export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig</code></pre>
+
+<p>Note: Please write me if you know a better way!</p>
+
+<h2>Required Crystal Version</h2>
+
+<p>This library needs Crystal version >= 0.25.0</p>
+
+<p>I haven't tested older Crystal versions.</p>
+
+<h2>Usage</h2>
+
+<p>Require the package:</p>
+
+<pre><code class="language-crystal">  <span class="k">require</span> <span class="s">&quot;redis&quot;</span></code></pre>
+
+<p>then</p>
+
+<pre><code class="language-crystal">  redis <span class="o">=</span> <span class="t">Redis</span>.<span class="k">new</span></code></pre>
+
+<p>Then you can call Redis commands on the <code>redis</code> object:</p>
+
+<pre><code class="language-crystal">  redis.set(<span class="s">&quot;foo&quot;</span>, <span class="s">&quot;bar&quot;</span>)
+  redis.get(<span class="s">&quot;foo&quot;</span>)</code></pre>
+
+<h4>Connection Pooling</h4>
+
+<p>Since version 2.0.0, a connection pool is builtin. It is used implicitly through <code><a href="Redis/PooledClient.html">Redis::PooledClient</a></code>:</p>
+
+<pre><code class="language-Crystal">redis = Redis::PooledClient.new
+10.times do |i|
+  spawn do
+    redis.set("foo#{i}", "bar")
+    redis.get("foo#{i}") # => "bar"
+  end
+end</code></pre>
+
+<p>This <code>redis</code> instance can be shared across fibers, and accepts the same Redis commands as the <code><a href="Redis.html">Redis</a></code> class.
+It automatically allocates and frees connections from/to the pool, per command.</p>
+
+<h2>Examples</h2>
+
+<p>To get started, see the examples:</p>
+
+<ul><li>There is a separate git repository <a href="https://github.com/stefanwille/crystal-redis-examples" target="_blank">crystal-redis-examples</a> with examples.</li><li>start with this <a href="https://github.com/stefanwille/crystal-redis-examples/blob/master/src/basic.cr" target="_blank">basic example</a></li><li>look at <a href="https://github.com/stefanwille/crystal-redis-examples/blob/master/src/" target="_blank">the other examples</a></li><li>the <a href="https://github.com/stefanwille/crystal-redis/blob/master/spec/redis_spec.cr" target="_blank">spec</a> contains even more usage examples</li></ul>
+
+<h2>Documentation</h2>
+
+<ul><li><a href="http://stefanwille.github.io/crystal-redis/docs/" target="_blank">API documentation</a> -
+  start reading it at the class <code><a href="Redis.html">Redis</a></code>.</li><li><a href="http://redis.io/commands" target="_blank">Redis commands documentation</a> - the original Redis documentation is necessary, as the API documentation above is just a quick reference</li><li><a href="http://redis.io/documentation" target="_blank">Redis documentation page</a> - general information about Redis and its concepts</li></ul>
+
+<h2>Performance</h2>
+
+<p>I have benchmarked Crystal-Redis against several other client libraries in various programming languages in this <a href="http://www.stefanwille.com/2015/05/redis-clients-crystal-vs-ruby-vs-c-vs-go/" target="_blank">blog article</a>.</p>
+
+<p>Here are some results:</p>
+
+<ul><li>Crystal: With this library I get > 680,000 commands per second using pipeline on a MacBook Air with a single client thread.</li></ul>
+
+<ul><li>C: The equivalent program written in C with Hiredis gets me 340,000 commands per second.</li></ul>
+
+<ul><li>Ruby: Ruby 2.2.1 with the <a href="https://github.com/redis/redis-rb" target="_blank">redis-rb</a> and Hiredis driver handles 150,000 commands per second.</li></ul>
+
+<p><a href="http://www.stefanwille.com/2015/05/redis-clients-crystal-vs-ruby-vs-c-vs-go/" target="_blank">Read more results</a> for Go, Java, Node.js.</p>
+
+<h2>Status</h2>
+
+<p>I have exercised every API method in the spec and built some example programs. There is no production use yet.</p>
+
+<p>I took great care to make this library very usable with respect to API, reliability and documentation.</p>
+
+<h2>Development</h2>
+
+<p>This project requires a locally running redis server running on port 6379 and with a unix socket located at /tmp/redis.sock. Then you can the specs via</p>
+
+<p><code>$ crystal spec</code></p>
+
+<p><a href="https://github.com/stefanwille/crystal-redis/blob/master/CONTRIBUTING.md" target="_blank">See more information</a>.</p>
+
+<h2>Questions, Bugs & Support</h2>
+
+<p>If you have questions or need help, please open a ticket in the <a href="https://github.com/stefanwille/crystal-redis/issues" target="_blank">GitHub issue tracker</a>. This way others can benefit from the discussion.</p>
+</div>
+</body>
+</html>
