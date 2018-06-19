@@ -3,7 +3,7 @@
 .deps.lock
 lib/
 ./redis
-doc
+docs
 TODO.md
 experiments
 shard.lock
