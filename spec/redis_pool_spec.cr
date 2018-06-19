@@ -7,12 +7,12 @@ describe Redis::Pool do
     client.get("bla3").should eq "a"
   end
 
-  it "raises Redis::PoolError when no free connection" do
+  it "raises Redis::PoolError when no free connection available after a given time" do
     client = Redis::Pool.new(pool: 2, pool_timeout: 0.01)
     client.pool.checkout
     client.pool.checkout
 
-    expect_raises(Redis::PoolError, "No ready connection (used 2 from 2)") do
+    expect_raises(Redis::PoolTimeoutError, "No ready connection (used 2 from 2)") do
       client.get("bla")
     end
   end

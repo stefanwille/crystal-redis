@@ -18,6 +18,6 @@ end
 class Redis::CommandTimeoutError < Redis::Error
 end
 
-# Raised error when no free connections in the pool
-class Redis::PoolError < Redis::Error
+# Raised when no free connection became available in the pool within a certain time.
+class Redis::PoolTimeoutError < Redis::Error
 end
