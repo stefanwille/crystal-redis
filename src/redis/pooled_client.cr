@@ -40,7 +40,7 @@ class Redis::PooledClient
     conn = begin
       @pool.checkout
     rescue IO::Timeout
-      raise Redis::PoolTimeoutError.new("No ready connection (used #{@pool.size} from #{@pool.capacity})")
+      raise Redis::PoolTimeoutError.new("No free connection (used #{@pool.size} of #{@pool.capacity}) after timeout #{@pool.timeout}")
     end
 
     begin
