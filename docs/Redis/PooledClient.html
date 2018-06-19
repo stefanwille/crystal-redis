@@ -142,7 +142,7 @@ It is backed by a connection pool of <code><a href="../Redis.html">Redis</a></co
 
 <p>Example usage:</p>
 
-<pre><code class="language-Crystal">redis = Redis::PooledClient.new(host: ..., port: ..., ..., pool_size: 5, pool_timout: 7)
+<pre><code class="language-Crystal">redis = Redis::PooledClient.new(host: ..., port: ..., ..., pool_size: 5)
 10.times do |i|
   spawn do
     redis.set("foo#{i}", "bar")
@@ -168,7 +168,7 @@ end</code></pre>
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis/pooled_client.cr#L20" target="_blank">redis/pooled_client.cr</a>
+      <a href="https://github.com/stefanwille/crystal-redis/blob/39c20d8f0a744e91839b8fae513acb7aec489a3a/src/redis/pooled_client.cr#L20" target="_blank">redis/pooled_client.cr</a>
     
     <br/>
   
@@ -271,7 +271,7 @@ end</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis/pooled_client.cr#L29" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/39c20d8f0a744e91839b8fae513acb7aec489a3a/src/redis/pooled_client.cr#L29" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -292,12 +292,12 @@ end</code></pre>
       </div>
       
         <div class="doc"><p>The connection pool.
-See https://github.com/ysbaddaden/pool</p></div>
+See <a href="https://github.com/ysbaddaden/pool" target="_blank">https://github.com/ysbaddaden/pool</a></p></div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis/pooled_client.cr#L23" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/39c20d8f0a744e91839b8fae513acb7aec489a3a/src/redis/pooled_client.cr#L23" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -313,7 +313,7 @@ See https://github.com/ysbaddaden/pool</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis/pooled_client.cr#L59" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/39c20d8f0a744e91839b8fae513acb7aec489a3a/src/redis/pooled_client.cr#L59" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -329,7 +329,7 @@ See https://github.com/ysbaddaden/pool</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis/pooled_client.cr#L55" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/39c20d8f0a744e91839b8fae513acb7aec489a3a/src/redis/pooled_client.cr#L55" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -350,7 +350,7 @@ See https://github.com/ysbaddaden/pool</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/55b8c01baafa429d099defd5b07f8913a01ddf6a/src/redis/pooled_client.cr#L35" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/39c20d8f0a744e91839b8fae513acb7aec489a3a/src/redis/pooled_client.cr#L35" target="_blank">View source</a>]
         
       </div>
     </div>

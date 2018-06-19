@@ -6,7 +6,7 @@ require "pool/connection"
 # Example usage:
 #
 # ```Crystal
-# redis = Redis::PooledClient.new(host: ..., port: ..., ..., pool_size: 5, pool_timout: 7)
+# redis = Redis::PooledClient.new(host: ..., port: ..., ..., pool_size: 5)
 # 10.times do |i|
 #   spawn do
 #     redis.set("foo#{i}", "bar")
@@ -19,7 +19,7 @@ require "pool/connection"
 #
 class Redis::PooledClient
   # The connection pool.
-  # See https://github.com/ysbaddaden/pool
+  # See [https://github.com/ysbaddaden/pool](https://github.com/ysbaddaden/pool)
   getter pool
 
   # Accepts the same connection parameters like a `Redis` instance, plus the documented ones.
