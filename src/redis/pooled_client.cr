@@ -16,6 +16,8 @@ require "pool/connection"
 # ```
 
 class Redis::PooledClient
+  # The connection pool.
+  # See https://github.com/ysbaddaden/pool
   getter pool
 
   # Accepts the same connection parameters like a `Redis` instance, plus the documented ones.
@@ -29,6 +31,7 @@ class Redis::PooledClient
   end
 
   macro method_missing(call)
+    # Delegates all Redis commands to a `Redis` instance from the connection pool.
     with_pool_connection { |conn| conn.{{call}} }
   end
 
