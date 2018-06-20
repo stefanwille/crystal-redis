@@ -106,7 +106,7 @@ Then you can call Redis commands on the `redis` object:
 
 #### Connection Pooling
 
-Since version 2.0.0, a connection pool is builtin. It is used implicitly through `Redis::PooledClient`:
+Since version 2.0.0, a connection pool is built in. It is used implicitly through `Redis::PooledClient`:
 
 ```Crystal
 redis = Redis::PooledClient.new
