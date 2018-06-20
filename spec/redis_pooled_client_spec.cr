@@ -1,25 +1,27 @@
 require "./spec_helper"
 
 describe Redis::PooledClient do
-  it "work" do
+  it "handles commands like a Redis instance" do
     client = Redis::PooledClient.new(pool_size: 5)
     client.set("bla3", "a")
     client.get("bla3").should eq "a"
   end
 
-  it "raises Redis::PooledClientError when no free connection available after a given time" do
-    client = Redis::PooledClient.new(pool_size: 2, pool_timeout: 0.01)
-    client.pool.checkout
-    client.pool.checkout
+  describe "pool_timeout option" do
+    it "raises Redis::PooledClientError when no free connection is available after the given time" do
+      client = Redis::PooledClient.new(pool_size: 2, pool_timeout: 0.01)
+      client.pool.checkout
+      client.pool.checkout
 
-    expect_raises(Redis::PoolTimeoutError, "No free connection (used 2 of 2) after timeout 0.01") do
-      client.get("bla")
+      expect_raises(Redis::PoolTimeoutError, "No free connection (used 2 of 2) after timeout of 0.01s") do
+        client.get("bla")
+      end
     end
   end
 
-  it "pass other options to redis client" do
-    redis1 = Redis::PooledClient.new(host: "localhost", port: 6379, pool_size: 5, database: 1)
-    redis2 = Redis::PooledClient.new(host: "localhost", port: 6379, database: 2, pool_size: 10)
+  it "passes other connection options to Redis instance" do
+    redis1 = Redis::PooledClient.new(host: "localhost", port: 6379, database: 1)
+    redis2 = Redis::PooledClient.new(host: "localhost", port: 6379, database: 2)
 
     redis1.del("test_database")
     redis2.del("test_database")
@@ -31,7 +33,7 @@ describe Redis::PooledClient do
     redis2.get("test_database").should eq "2"
   end
 
-  it "work with pipelined" do
+  it "works with #pipelined" do
     client = Redis::PooledClient.new(pool_size: 5)
     client.pipelined do |pipeline|
       pipeline.del("foo")
@@ -46,7 +48,7 @@ describe Redis::PooledClient do
     client.get("foo2").should eq "second"
   end
 
-  it "work with transaction" do
+  it "works with transaction" do
     client = Redis::PooledClient.new(pool_size: 5)
     client.multi do |multi|
       multi.del("foo")
@@ -61,7 +63,7 @@ describe Redis::PooledClient do
     client.get("foo2").should eq "second"
   end
 
-  it "work with transaction with futures" do
+  it "works with transaction with futures" do
     client = Redis::PooledClient.new(pool_size: 5)
     future_1 = Redis::Future.new
     future_2 = Redis::Future.new
@@ -76,7 +78,7 @@ describe Redis::PooledClient do
     future_2.value.should eq "B"
   end
 
-  it "test multiconcurrent execution" do
+  it "supports concurrent use of a single instance" do
     client = Redis::PooledClient.new(pool_size: 200)
     client.del("test-queue")
     res = [] of String
