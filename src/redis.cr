@@ -45,12 +45,9 @@ class Redis
   # :nodoc:
   alias Request = Array(RedisValue)
 
-  # Returns the server URI for this client.
-  getter! url : String
-
   @connection : Redis::Connection?
   @strategy : Redis::Strategy::Base?
-  @sslcxt : OpenSSL::SSL::Context::Client?
+  @ssl_context : OpenSSL::SSL::Context::Client?
 
   # Opens a Redis connection
   #
@@ -97,7 +94,7 @@ class Redis
   # ...
   # ```
   def initialize(@host = "localhost", @port = 6379, @unixsocket : String? = nil, @password : String? = nil,
-                 @database : Int32? = nil, url = nil, ssl = false, ssl_context = nil,
+                 @database : Int32? = nil, url = nil, @ssl = false, ssl_context = nil,
                  @dns_timeout : Time::Span? = nil, @connect_timeout : Time::Span? = nil, @reconnect = true, @command_timeout : Time::Span? = nil)
     if url
       uri = URI.parse url
@@ -106,22 +103,14 @@ class Redis
       @password = uri.password
       path = uri.path
       @database = path[1..-1].to_i if path && path.size > 1
-      @sslcxt = default_ssl_context if uri.scheme == "rediss"
+      @ssl_context = default_ssl_context if uri.scheme == "rediss"
     end
 
     if ssl_context
-      @sslcxt = ssl_context
+      @ssl_context = ssl_context
     elsif ssl && !ssl_context
-      @sslcxt = default_ssl_context
+      @ssl_context = default_ssl_context
     end
-
-    @url = if unixsocket
-             "redis://#{@unixsocket}/#{@database || 0}"
-           elsif ssl || ssl_context
-             "rediss://#{@host}:#{@port}/#{@database || 0}"
-           else
-             "redis://#{@host}:#{@port}/#{@database || 0}"
-           end
 
     connect
   end
@@ -131,12 +120,12 @@ class Redis
     @connection.not_nil!
   end
 
-  private def strategy
+  private def strategy : Redis::Strategy::Base
     @strategy.not_nil!
   end
 
   private def connect
-    @connection = Connection.new(@host, @port, @unixsocket, @sslcxt, @dns_timeout, @connect_timeout, @command_timeout)
+    @connection = Connection.new(@host, @port, @unixsocket, @ssl_context, @dns_timeout, @connect_timeout, @command_timeout)
     @strategy = Redis::Strategy::SingleStatement.new(@connection.not_nil!)
     strategy.command(["AUTH", @password]) if @password
     strategy.command(["SELECT", @database.to_s]) if @database
@@ -181,6 +170,23 @@ class Redis
       yield(redis)
     ensure
       redis.close
+    end
+  end
+
+  # Closes the Redis connection.
+  def close
+    @connection.try(&.close)
+    @connection = nil
+  end
+
+  # Returns the server URI for this client.
+  def url
+    if @unixsocket
+      "redis://#{@unixsocket}/#{@database || 0}"
+    elsif @ssl || @ssl_context
+      "rediss://#{@host}:#{@port}/#{@database || 0}"
+    else
+      "redis://#{@host}:#{@port}/#{@database || 0}"
     end
   end
 
@@ -291,12 +297,6 @@ class Redis
   rescue ex : Redis::CommandTimeoutError
     close
     raise ex
-  end
-
-  # Closes the Redis connection.
-  def close
-    @connection.try(&.close)
-    @connection = nil
   end
 end
 
