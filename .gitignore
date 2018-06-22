@@ -1,6 +1,7 @@
 .crystal/
 .deps/
 .deps.lock
+.shards
 lib/
 ./redis
 TODO.md
