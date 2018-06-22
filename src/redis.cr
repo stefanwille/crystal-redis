@@ -127,7 +127,8 @@ class Redis
   end
 
   def connection
-    @client ||= Redis::Client.new(@host, @port, @unixsocket, @password, @database, @sslcxt, @dns_timeout, @connect_timeout, @command_timeout)
+    conn = Connection.new(@host, @port, @unixsocket, @sslcxt, @dns_timeout, @connect_timeout, @command_timeout)
+    @client ||= Redis::Client.new(conn, @password, @database)
   end
 
   # :nodoc:
