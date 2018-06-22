@@ -113,7 +113,7 @@ class Redis
     connect
   end
 
-  # Returns an open Redis connection
+  # Returns an open Redis connection.
 
   # :nodoc:
   private def connection : Redis::Connection
@@ -121,7 +121,7 @@ class Redis
     @connection.not_nil!
   end
 
-  # Connects to Redis
+  # Connects to Redis.
 
   # :nodoc:
   private def connect
