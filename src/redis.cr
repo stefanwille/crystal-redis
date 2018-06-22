@@ -177,6 +177,7 @@ class Redis
   def close
     @connection.try(&.close)
     @connection = nil
+    @strategy = nil
   end
 
   # Returns the current strategy
