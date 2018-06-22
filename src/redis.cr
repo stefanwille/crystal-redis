@@ -127,8 +127,15 @@ class Redis
   end
 
   def connection
+    @client ||= connect
+  end
+
+  def connect
     conn = Connection.new(@host, @port, @unixsocket, @sslcxt, @dns_timeout, @connect_timeout, @command_timeout)
-    @client ||= Redis::Client.new(conn, @password, @database)
+    strategy = Redis::Strategy::SingleStatement.new(conn)
+    strategy.command(["AUTH", @password]) if @password
+    strategy.command(["SELECT", @database.to_s]) if @database
+    Redis::Client.new(conn, strategy)
   end
 
   # :nodoc:
