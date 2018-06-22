@@ -123,30 +123,23 @@ class Redis
              "redis://#{@host}:#{@port}/#{@database || 0}"
            end
 
-    # instantinate it
-    connection
+    connect
   end
 
-  def connection
-    @connection ||= connect
+  private def connection : Redis::Connection
+    connect unless @connection
+    @connection.not_nil!
   end
 
-  private def connected?
-    @connection ? true : false
-  end
-
-  def strategy
+  private def strategy
     @strategy.not_nil!
   end
 
-  def connect
-    conn = Connection.new(@host, @port, @unixsocket, @sslcxt, @dns_timeout, @connect_timeout, @command_timeout)
-    @connection = conn
-    strategy = Redis::Strategy::SingleStatement.new(conn)
-    @strategy = strategy
+  private def connect
+    @connection = Connection.new(@host, @port, @unixsocket, @sslcxt, @dns_timeout, @connect_timeout, @command_timeout)
+    @strategy = Redis::Strategy::SingleStatement.new(@connection.not_nil!)
     strategy.command(["AUTH", @password]) if @password
     strategy.command(["SELECT", @database.to_s]) if @database
-    conn
   end
 
   # :nodoc:
@@ -228,8 +221,8 @@ class Redis
     close
     raise ex
   ensure
-    if connected?
-      @strategy = Redis::Strategy::SingleStatement.new(connection)
+    if @connection
+      @strategy = Redis::Strategy::SingleStatement.new(@connection.not_nil!)
     end
   end
 
@@ -265,8 +258,8 @@ class Redis
     close
     raise ex
   ensure
-    if connected?
-      @strategy = Redis::Strategy::SingleStatement.new(connection)
+    if @connection
+      @strategy = Redis::Strategy::SingleStatement.new(@connection.not_nil!)
     end
   end
 
