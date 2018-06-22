@@ -1561,7 +1561,7 @@ class Redis
       # Allow the caller to populate the subscription with his callbacks.
       callback_setup_block.call(subscription)
 
-      connection.strategy = Redis::Strategy::SubscriptionLoop.new(connection.connection, subscription)
+      @strategy = Redis::Strategy::SubscriptionLoop.new(connection, subscription)
 
       subscribe(*channels)
     end
@@ -1592,7 +1592,7 @@ class Redis
       # Allow the caller to populate the subscription with his callbacks.
       callback_setup_block.call(subscription)
 
-      connection.strategy = Redis::Strategy::SubscriptionLoop.new(connection.connection, subscription)
+      @strategy = Redis::Strategy::SubscriptionLoop.new(connection, subscription)
 
       psubscribe(*channel_patterns)
     end
@@ -1608,7 +1608,7 @@ class Redis
     end
 
     private def already_in_subscription_loop?
-      connection.strategy.is_a? Redis::Strategy::SubscriptionLoop
+      strategy.is_a? Redis::Strategy::SubscriptionLoop
     end
 
     # Unsubscribes the client from the given channels, or from all of them if none is given.

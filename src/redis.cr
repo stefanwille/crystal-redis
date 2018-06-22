@@ -48,8 +48,8 @@ class Redis
   # Returns the server URI for this client.
   getter! url : String
 
-  @client : Redis::Client?
   @connection : Redis::Connection?
+  @strategy : Redis::Strategy::Base?
   @sslcxt : OpenSSL::SSL::Context::Client?
 
   # Opens a Redis connection
@@ -128,16 +128,25 @@ class Redis
   end
 
   def connection
-    @client ||= connect
+    @connection ||= connect
+  end
+
+  private def connected?
+    @connection ? true : false
+  end
+
+  def strategy
+    @strategy.not_nil!
   end
 
   def connect
     conn = Connection.new(@host, @port, @unixsocket, @sslcxt, @dns_timeout, @connect_timeout, @command_timeout)
     @connection = conn
     strategy = Redis::Strategy::SingleStatement.new(conn)
+    @strategy = strategy
     strategy.command(["AUTH", @password]) if @password
     strategy.command(["SELECT", @database.to_s]) if @database
-    Redis::Client.new(conn, strategy)
+    conn
   end
 
   # :nodoc:
@@ -210,8 +219,8 @@ class Redis
   #
   # See the [examples repository](https://github.com/stefanwille/crystal-redis-examples) for more examples.
   def pipelined
-    connection.strategy = Redis::Strategy::PauseDuringPipeline.new
-    pipeline_strategy = Redis::Strategy::Pipeline.new(connection.connection)
+    @strategy = Redis::Strategy::PauseDuringPipeline.new
+    pipeline_strategy = Redis::Strategy::Pipeline.new(connection)
     pipeline_api = Redis::PipelineApi.new(pipeline_strategy)
     yield(pipeline_api)
     pipeline_strategy.commit.as(Array(RedisValue))
@@ -219,8 +228,8 @@ class Redis
     close
     raise ex
   ensure
-    if _client = @client
-      _client.strategy = Redis::Strategy::SingleStatement.new(_client.connection)
+    if connected?
+      @strategy = Redis::Strategy::SingleStatement.new(connection)
     end
   end
 
@@ -246,8 +255,8 @@ class Redis
   #
   # See the [examples repository](https://github.com/stefanwille/crystal-redis-examples) for more examples.
   def multi
-    connection.strategy = Redis::Strategy::PauseDuringTransaction.new
-    transaction_strategy = Redis::Strategy::Transaction.new(connection.connection)
+    @strategy = Redis::Strategy::PauseDuringTransaction.new
+    transaction_strategy = Redis::Strategy::Transaction.new(connection)
     transaction_strategy.begin
     transaction_api = Redis::TransactionApi.new(transaction_strategy)
     yield(transaction_api)
@@ -256,8 +265,8 @@ class Redis
     close
     raise ex
   ensure
-    if _client = @client
-      _client.strategy = Redis::Strategy::SingleStatement.new(_client.connection)
+    if connected?
+      @strategy = Redis::Strategy::SingleStatement.new(connection)
     end
   end
 
@@ -270,7 +279,7 @@ class Redis
   # :nodoc:
   def command(request : Request)
     with_reconnect do
-      connection.strategy.command(request).as(RedisValue)
+      strategy.command(request).as(RedisValue)
     end
   end
 
@@ -295,7 +304,6 @@ class Redis
   def close
     @connection.try(&.close)
     @connection = nil
-    @client = nil
   end
 end
 
