@@ -47,7 +47,6 @@ class Redis
 
   @connection : Redis::Connection?
   @strategy : Redis::Strategy::Base?
-  @ssl_context : OpenSSL::SSL::Context::Client?
 
   # Opens a Redis connection
   #
@@ -94,7 +93,7 @@ class Redis
   # ...
   # ```
   def initialize(@host = "localhost", @port = 6379, @unixsocket : String? = nil, @password : String? = nil,
-                 @database : Int32? = nil, url = nil, @ssl = false, @ssl_context = nil,
+                 @database : Int32? = nil, url = nil, @ssl = false, @ssl_context : OpenSSL::SSL::Context::Client? = nil,
                  @dns_timeout : Time::Span? = nil, @connect_timeout : Time::Span? = nil, @reconnect = true, @command_timeout : Time::Span? = nil)
     if url
       uri = URI.parse url
