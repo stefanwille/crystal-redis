@@ -105,6 +105,10 @@ class Redis
       @ssl = uri.scheme == "rediss"
     end
 
+    if @ssl_context
+      @ssl = true
+    end
+
     if @ssl && !@ssl_context
       @ssl_context = default_ssl_context
     end
@@ -188,12 +192,11 @@ class Redis
 
   # Returns the server URL for this client.
   def url
+    scheme = @ssl ? "rediss" : "redis"
     if @unixsocket
-      "redis://#{@unixsocket}/#{@database || 0}"
-    elsif @ssl || @ssl_context
-      "rediss://#{@host}:#{@port}/#{@database || 0}"
+      "#{scheme}://#{@unixsocket}/#{@database || 0}"
     else
-      "redis://#{@host}:#{@port}/#{@database || 0}"
+      "#{scheme}://#{@host}:#{@port}/#{@database || 0}"
     end
   end
 

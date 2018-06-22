@@ -80,13 +80,24 @@ describe Redis do
   end
 
   describe ".open" do
-    it "connects to the Redis server, yields its block and disconnects" do
-      Redis.open do |redis|
-        redis.url.should eq("redis://localhost:6379/0")
+    it "connects to the Redis server using the given connection params, yields its block and disconnects" do
+      Redis.open(host: "localhost", port: 6379) do |redis|
+        redis.ping
       end
     end
 
-    it "connects to the Redis using given url, yields its block and disconnects" do
+    it "connects to the Redis using the given url, yields its block and disconnects" do
+      Redis.open(url: "redis://127.0.0.1") do |redis|
+        redis.ping
+      end
+    end
+  end
+
+  describe "#url" do
+    it "returns the server url" do
+      Redis.open do |redis|
+        redis.url.should eq("redis://localhost:6379/0")
+      end
       Redis.open(url: "redis://127.0.0.1") do |redis|
         redis.url.should eq("redis://127.0.0.1:6379/0")
       end
