@@ -94,7 +94,7 @@ class Redis
   # ...
   # ```
   def initialize(@host = "localhost", @port = 6379, @unixsocket : String? = nil, @password : String? = nil,
-                 @database : Int32? = nil, url = nil, @ssl = false, ssl_context = nil,
+                 @database : Int32? = nil, url = nil, @ssl = false, @ssl_context = nil,
                  @dns_timeout : Time::Span? = nil, @connect_timeout : Time::Span? = nil, @reconnect = true, @command_timeout : Time::Span? = nil)
     if url
       uri = URI.parse url
@@ -103,23 +103,27 @@ class Redis
       @password = uri.password
       path = uri.path
       @database = path[1..-1].to_i if path && path.size > 1
-      @ssl_context = default_ssl_context if uri.scheme == "rediss"
+      @ssl = uri.scheme == "rediss"
     end
 
-    if ssl_context
-      @ssl_context = ssl_context
-    elsif ssl && !ssl_context
+    if @ssl && !@ssl_context
       @ssl_context = default_ssl_context
     end
 
     connect
   end
 
+  # Returns an open Redis connection
+
+  # :nodoc:
   private def connection : Redis::Connection
     connect unless @connection
     @connection.not_nil!
   end
 
+  # Connects to Redis
+
+  # :nodoc:
   private def connect
     @connection = Connection.new(@host, @port, @unixsocket, @ssl_context, @dns_timeout, @connect_timeout, @command_timeout)
     @strategy = Redis::Strategy::SingleStatement.new(@connection.not_nil!)
@@ -175,6 +179,9 @@ class Redis
     @connection = nil
   end
 
+  # Returns the current strategy
+
+  # :nodoc:
   private def strategy : Redis::Strategy::Base
     @strategy.not_nil!
   end
