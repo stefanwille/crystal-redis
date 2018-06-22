@@ -120,10 +120,6 @@ class Redis
     @connection.not_nil!
   end
 
-  private def strategy : Redis::Strategy::Base
-    @strategy.not_nil!
-  end
-
   private def connect
     @connection = Connection.new(@host, @port, @unixsocket, @ssl_context, @dns_timeout, @connect_timeout, @command_timeout)
     @strategy = Redis::Strategy::SingleStatement.new(@connection.not_nil!)
@@ -179,7 +175,11 @@ class Redis
     @connection = nil
   end
 
-  # Returns the server URI for this client.
+  private def strategy : Redis::Strategy::Base
+    @strategy.not_nil!
+  end
+
+  # Returns the server URL for this client.
   def url
     if @unixsocket
       "redis://#{@unixsocket}/#{@database || 0}"
