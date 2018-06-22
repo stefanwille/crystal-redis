@@ -123,10 +123,10 @@ class Redis
            end
 
     # instantinate it
-    client
+    connection
   end
 
-  def client
+  def connection
     @client ||= Redis::Client.new(@host, @port, @unixsocket, @password, @database, @sslcxt, @dns_timeout, @connect_timeout, @command_timeout)
   end
 
@@ -200,8 +200,8 @@ class Redis
   #
   # See the [examples repository](https://github.com/stefanwille/crystal-redis-examples) for more examples.
   def pipelined
-    client.strategy = Redis::Strategy::PauseDuringPipeline.new
-    pipeline_strategy = Redis::Strategy::Pipeline.new(client.connection)
+    connection.strategy = Redis::Strategy::PauseDuringPipeline.new
+    pipeline_strategy = Redis::Strategy::Pipeline.new(connection.connection)
     pipeline_api = Redis::PipelineApi.new(pipeline_strategy)
     yield(pipeline_api)
     pipeline_strategy.commit.as(Array(RedisValue))
@@ -236,8 +236,8 @@ class Redis
   #
   # See the [examples repository](https://github.com/stefanwille/crystal-redis-examples) for more examples.
   def multi
-    client.strategy = Redis::Strategy::PauseDuringTransaction.new
-    transaction_strategy = Redis::Strategy::Transaction.new(client.connection)
+    connection.strategy = Redis::Strategy::PauseDuringTransaction.new
+    transaction_strategy = Redis::Strategy::Transaction.new(connection.connection)
     transaction_strategy.begin
     transaction_api = Redis::TransactionApi.new(transaction_strategy)
     yield(transaction_api)
@@ -260,7 +260,7 @@ class Redis
   # :nodoc:
   def command(request : Request)
     with_reconnect do
-      client.strategy.command(request).as(RedisValue)
+      connection.strategy.command(request).as(RedisValue)
     end
   end
 
