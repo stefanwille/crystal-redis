@@ -4,8 +4,4 @@ class Redis::Client
 
   def initialize(@connection : Redis::Connection, @strategy : Redis::Strategy::Base)
   end
-
-  def close
-    @connection.close
-  end
 end

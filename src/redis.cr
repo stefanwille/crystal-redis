@@ -49,6 +49,7 @@ class Redis
   getter! url : String
 
   @client : Redis::Client?
+  @connection : Redis::Connection?
   @sslcxt : OpenSSL::SSL::Context::Client?
 
   # Opens a Redis connection
@@ -132,6 +133,7 @@ class Redis
 
   def connect
     conn = Connection.new(@host, @port, @unixsocket, @sslcxt, @dns_timeout, @connect_timeout, @command_timeout)
+    @connection = conn
     strategy = Redis::Strategy::SingleStatement.new(conn)
     strategy.command(["AUTH", @password]) if @password
     strategy.command(["SELECT", @database.to_s]) if @database
@@ -291,7 +293,8 @@ class Redis
 
   # Closes the Redis connection.
   def close
-    @client.try(&.close)
+    @connection.try(&.close)
+    @connection = nil
     @client = nil
   end
 end
