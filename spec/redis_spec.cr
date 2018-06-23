@@ -1374,4 +1374,15 @@ describe Redis do
       redis.get("foo").should eq(large_value)
     end
   end
+
+  describe "reconnect option" do
+    describe "when true" do
+      it "reconnects after losing the connection" do
+        Redis.open(reconnect: true) do |redis|
+          redis.close
+          redis.ping.should eq("PONG")
+        end
+      end
+    end
+  end
 end

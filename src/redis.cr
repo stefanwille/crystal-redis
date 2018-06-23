@@ -187,6 +187,7 @@ class Redis
 
   # :nodoc:
   private def strategy : Redis::Strategy::Base
+    connect unless @strategy
     @strategy.not_nil!
   end
 
@@ -298,7 +299,7 @@ class Redis
   rescue ex : Redis::ConnectionError
     close
     if @reconnect
-      # Implicitly reconnect by retrying the given block
+      # Implicitly reconnect by retrying the given block.
       yield
     else
       # Just tell the caller that the connection died.
