@@ -1405,7 +1405,7 @@ describe Redis do
     end
 
     describe "when false" do
-      it "raises a friendly exception" do
+      it "raises a helpful exception" do
         redis = Redis.new(reconnect: false)
         redis.close
         expect_raises(Redis::ConnectionLostError, "Not connected to Redis server and reconnect=false") do
