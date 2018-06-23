@@ -1382,6 +1382,16 @@ describe Redis do
         redis.close
         redis.ping.should eq("PONG")
       end
+
+      it "reconnects for #multi" do
+        redis = Redis.new(reconnect: true)
+        redis.close
+        ping_future : Redis::Future? = nil
+        redis.multi do |api|
+          ping_future = api.ping
+        end
+        ping_future.not_nil!.value.should eq("PONG")
+      end
     end
 
     describe "when false" do
