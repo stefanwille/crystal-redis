@@ -1383,6 +1383,16 @@ describe Redis do
         redis.ping.should eq("PONG")
       end
 
+      it "reconnects for #pipelined" do
+        redis = Redis.new(reconnect: true)
+        redis.close
+        ping_future : Redis::Future? = nil
+        redis.pipelined do |api|
+          ping_future = api.ping
+        end
+        ping_future.not_nil!.value.should eq("PONG")
+      end
+
       it "reconnects for #multi" do
         redis = Redis.new(reconnect: true)
         redis.close
