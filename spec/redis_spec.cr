@@ -59,7 +59,7 @@ describe Redis do
       end
     end
 
-    it "raise ConnectionError when cant connect to redis" do
+    it "raises ConnectionError when it cant connect to redis" do
       expect_raises(Redis::CannotConnectError, "Errno: Error connecting to 'localhost:12345': Connection refused") do
         Redis.new(host: "localhost", port: 12345)
       end
@@ -1375,12 +1375,41 @@ describe Redis do
     end
   end
 
-  describe "reconnect option" do
+  describe "reconnect option: after losing the connection" do
     describe "when true" do
-      it "reconnects after losing the connection" do
-        Redis.open(reconnect: true) do |redis|
-          redis.close
-          redis.ping.should eq("PONG")
+      it "reconnects" do
+        redis = Redis.new(reconnect: true)
+        redis.close
+        redis.ping.should eq("PONG")
+      end
+
+      it "reconnects for #pipelined" do
+        redis = Redis.new(reconnect: true)
+        redis.close
+        ping_future : Redis::Future? = nil
+        redis.pipelined do |api|
+          ping_future = api.ping
+        end
+        ping_future.not_nil!.value.should eq("PONG")
+      end
+
+      it "reconnects for #multi" do
+        redis = Redis.new(reconnect: true)
+        redis.close
+        ping_future : Redis::Future? = nil
+        redis.multi do |api|
+          ping_future = api.ping
+        end
+        ping_future.not_nil!.value.should eq("PONG")
+      end
+    end
+
+    describe "when false" do
+      it "raises a helpful exception" do
+        redis = Redis.new(reconnect: false)
+        redis.close
+        expect_raises(Redis::ConnectionLostError, "Not connected to Redis server and reconnect=false") do
+          redis.ping
         end
       end
     end

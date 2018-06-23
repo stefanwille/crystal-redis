@@ -120,8 +120,33 @@ class Redis
 
   # :nodoc:
   private def connection : Redis::Connection
-    connect unless @connection
+    ensure_connection
+    # We have just ensured that have a connection.
     @connection.not_nil!
+  end
+
+  # Returns the current strategy
+
+  # :nodoc:
+  private def strategy : Redis::Strategy::Base
+    ensure_connection
+    # When we have a connection, we have a strategy too.
+    @strategy.not_nil!
+  end
+
+  # Makes sure that there is a connection instance in @connection,
+  # and thereby implicitly also that there is a strategy instance in @strategy.
+  private def ensure_connection
+    if @connection
+      # Already connected, nothing to be done.
+      return
+    end
+
+    if @reconnect
+      connect
+    else
+      raise ConnectionLostError.new("Not connected to Redis server and reconnect=false")
+    end
   end
 
   # Connects to Redis.
@@ -181,14 +206,6 @@ class Redis
     @connection.try(&.close)
     @connection = nil
     @strategy = nil
-  end
-
-  # Returns the current strategy
-
-  # :nodoc:
-  private def strategy : Redis::Strategy::Base
-    connect unless @strategy
-    @strategy.not_nil!
   end
 
   # Returns the server URL for this client.
