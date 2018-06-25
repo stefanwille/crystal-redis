@@ -85,7 +85,15 @@ class Redis
     #
     # **Return value**: "OK"
     def select(database_number)
-      string_command(["SELECT", database_number.to_s])
+      if database_number && database_number != @database
+      	res = string_command(["SELECT", database_number.to_s])
+      	@database = database_number
+      	res
+	  elsif ! database_number
+	  	raise Redis::Error.new("ERR database number could not be Nil")
+	  else
+	  	"OK"
+	  end
     end
 
     # Renames old_key to newkey.

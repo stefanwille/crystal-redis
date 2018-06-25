@@ -263,6 +263,33 @@ describe Redis do
       redis.select(2)
       redis.get("test_database").should eq "2"
     end
+    it "can do nothing if current database is the same as target one" do
+      redis1 = Redis.new
+      redis1.select(2)
+      ch1 = Channel(String).new
+      spawn do
+        redis1.select(2)
+        ch1.send("hello")
+      end
+
+      spawn do
+        ch1.send("bye")
+      end
+	  ch1.receive.should eq "hello"
+	  
+      redis2 = Redis.new
+      redis2.select(2)
+      ch2 = Channel(String).new
+      spawn do
+        redis2.select(1)
+        ch2.send("hello")
+      end
+
+      spawn do
+        ch2.send("bye")
+      end
+	  ch2.receive.should eq "bye"
+    end    
   end
 
   describe "strings" do
