@@ -122,6 +122,17 @@ describe Redis do
     end
   end
 
+  it "#flushdb" do
+    Redis.open do |redis|
+      redis.set("foo", "test")
+      redis.get("foo").should eq("test")
+
+      redis.flushdb.should eq("OK")
+
+      redis.get("foo").should eq(nil)
+    end
+  end
+
   it "#select" do
     Redis.open do |redis|
       redis.select(0).should eq("OK")
