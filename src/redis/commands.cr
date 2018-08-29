@@ -74,6 +74,13 @@ class Redis
       string_command(["QUIT"])
     end
 
+    # Remove all keys from the current database.
+    #
+    # **Return value**: "OK"
+    def flushdb
+      string_command(["FLUSHDB"])
+    end
+
     # Request for authentication in a password-protected Redis server.
     #
     # **Return value**: "OK"
