@@ -5,4 +5,4 @@
 3.  crystal docs
 4.  git commit
 5.  Wait for Travis-CI
-6.  Add a release in the GitHub's release page
+6.  Add a release at GitHub's release page (https://github.com/stefanwille/crystal-redis/releases)
