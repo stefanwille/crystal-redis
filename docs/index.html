@@ -46,11 +46,6 @@
       
     </li>
   
-  <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/Client" data-name="redis::client">
-      <a href="Redis/Client.html">Client</a>
-      
-    </li>
-  
   <li class=" " data-id="github.com/stefanwille/crystal-redis/Redis/Commands" data-name="redis::commands">
       <a href="Redis/Commands.html">Commands</a>
       
@@ -140,7 +135,7 @@
 <pre><code class="language-crystal">dependencies:
   redis:
     github: stefanwille<span class="s">/crystal-redis
-    version: ~&gt; 2.0.0</code></pre>
+    version: ~&gt; 2.1.0</code></pre>
 
 <p>and then install the library into your project:</p>
 
@@ -200,7 +195,7 @@ Perhaps you should add the directory containing `</span>libcrypto.pc</code></pre
 
 <h4>Connection Pooling</h4>
 
-<p>Since version 2.0.0, a connection pool is builtin. It is used implicitly through <code><a href="Redis/PooledClient.html">Redis::PooledClient</a></code>:</p>
+<p>Since version 2.0.0, a connection pool is built in. It is used implicitly through <code><a href="Redis/PooledClient.html">Redis::PooledClient</a></code>:</p>
 
 <pre><code class="language-Crystal">redis = Redis::PooledClient.new
 10.times do |i|
@@ -246,11 +241,15 @@ It automatically allocates and frees connections from/to the pool, per command.<
 
 <h2>Development</h2>
 
-<p>This project requires a locally running redis server running on port 6379 and with a unix socket located at /tmp/redis.sock. Then you can the specs via</p>
+<p>This project requires a locally running redis server running on port 6379 and with a unix socket located at /tmp/redis.sock. Then you can run the specs via</p>
 
 <p><code>$ crystal spec</code></p>
 
 <p><a href="https://github.com/stefanwille/crystal-redis/blob/master/CONTRIBUTING.md" target="_blank">See more information</a>.</p>
+
+<h3>WARNING</h3>
+
+<p>Running the spec will delete database number 0!</p>
 
 <h2>Questions, Bugs & Support</h2>
 
