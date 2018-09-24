@@ -594,6 +594,10 @@ describe Redis do
       redis.brpoplpush("source", "destination", 0)
       redis.lrange("source", 0, 4).should eq(["a", "b"])
       redis.lrange("destination", 0, 4).should eq(["c", "1", "2", "3"])
+
+      # timeout test (#68)
+      redis.del("source")
+      redis.brpoplpush("source", "destination", 1).should eq(nil)
     end
   end
 
