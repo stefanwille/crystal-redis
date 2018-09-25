@@ -34,7 +34,9 @@ class Redis
       # Executes a Redis command and casts the response to the correct type.
       # This is an internal method.
       def string_or_nil_command(request : Request) : String?
-        command(request).as(String?)
+        res = command(request)
+        res = nil if res.is_a?(Array) && res.empty? # "*-1\r\n"
+        res.as(String?)
       end
 
       # Executes a Redis command and casts the response to the correct type.
