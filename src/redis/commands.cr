@@ -1045,6 +1045,116 @@ class Redis
       string_array_command(["HVALS", key.to_s])
     end
 
+    # Returns the stream information each subcommand.
+    #
+    # **Return value**: Array(String), the list of values in the hash, or an empty list when key does not exist.
+    def xinfo(subcommand, key, group = nil)
+      args = ["XINFO", subcommand, key.to_s]
+      args << group.to_s if group
+      hashify string_array_command(args)
+    end
+
+    # Add new entry to the stream.
+    def xadd(key, hash, id = nil, maxlen = nil, approximate = false)
+      args = ["XADD", key]
+      if maxlen
+        args << "MAXLEN"
+        args << "~" if approximate
+        args << maxlen.to_s
+      end
+      args << (id.nil? ? "*" : id.to_s)
+      hash.each { |k, v| args << k.to_s << v.to_s }
+
+      string_command(args)
+    end
+
+    # Trims older entries of the stream if needed.
+    def xtrim(key, maxlen, appoximate = false)
+      args = ["XTRIM", key.to_s, "MAXLEN"]
+      args << "~" if appoximate
+      args << maxlen.to_s
+      integer_command(args)
+    end
+
+    # Delete entries by entry ids.
+    def xdel(key, *ids)
+      args = ["XDEL", key.to_s].concat(ids.to_a.flatten.map { |x| x.to_s })
+      integer_command(args)
+    end
+
+    # Fetches entries of the stream in ascending order.
+    def xrange(key, start = "-", _end = "+", count = nil)
+      args = ["XRANGE", key.to_s, start.to_s, _end.to_s]
+      args << "COUNT" << count.to_s if count
+      hashify_stream_entries string_array_command(args)
+    end
+
+    # Fetches entries of the stream in descending order.
+    def xrevrange(key, _end = "+", start = "-", count = nil)
+      args = ["XREVRANGE", key.to_s, _end.to_s, start.to_s]
+      args << "COUNT" << count.to_s if count
+      hashify_stream_entries string_array_command(args)
+    end
+
+    # Returns the number of entries inside a stream.
+    def xlen(key)
+      integer_command(["XLEN", key.to_s])
+    end
+
+    # Fetches entries from one or multiple streams. Optionally blocking.
+    def xread(keys, ids, count = nil, block = nil)
+      args = ["XREAD"]
+      args << "COUNT" << count.to_s if count
+      args << "BLOCK" << block.to_s if block
+      _xread args, keys, ids
+    end
+
+    # Manages the consumer group of the stream.
+    def xgroup(subcommand, key, group, id_or_consumer = nil, mkstream = false)
+      args = ["XGROUP", subcommand.to_s, key.to_s, group.to_s]
+      args << id_or_consumer.to_s if id_or_consumer
+      args << "MKSTREAM" if mkstream
+      case subcommand.to_s
+      when "create", "setid"
+        string_command args
+      when "destroy", "delconsumer"
+        integer_command args
+      end
+    end
+
+    # Fetches a subset of the entries from one or multiple streams related with the consumer group.
+    # Optionally blocking.
+    def xreadgroup(group, consumer, keys, ids, count = nil, block = nil, noack = nil)
+      args = ["XREADGROUP", "GROUP", group.to_s, consumer.to_s]
+      args << "COUNT" << count.to_s if count
+      args << "BLOCK" << block.to_s if block
+      args << "NOACK" if noack
+      _xread args, keys, ids
+    end
+
+    # Removes one or multiple entries from the pending entries list of a stream consumer group.
+    def xack(key, group, *ids)
+      args = ["XACK", key.to_s, group.to_s]
+      args.concat ids.to_a.flatten.map { |x| x.to_s }
+      integer_command args
+    end
+
+    # Changes the ownership of a pending entry
+    def xclaim(key, group, consumer, min_idle_time, *ids, **options)
+      args = ["XCLAIM", key.to_s, group.to_s, consumer.to_s, min_idle_time.to_s]
+      args.concat ids.to_a.flatten.map { |x| x.to_s }
+      args << "IDLE" << options[:idle]?.to_s if options[:idle]?
+      args << "TIME" << options[:time]?.to_s if options[:time]?
+      args << "RETRYCOUNT" << options[:retrycount]?.to_s if options[:retrycount]?
+      args << "FORCE" if options[:force]?
+      if options[:justid]?
+        args << "JUSTID"
+        integer_array_command args
+      else
+        hashify_stream_entries string_array_command(args)
+      end
+    end
+
     # Adds all the specified members with the specified scores to the sorted set stored at key.
     #
     # **Return value**: Integer, the number of elements added to the sorted sets, not including elements already existing for which the score was updated.
@@ -1712,6 +1822,44 @@ class Redis
       concat(destination, source1)
       concat(destination, source2)
       destination
+    end
+
+    private def hashify(ary : Array(RedisValue))
+      Hash(String, RedisValue).new.tap do |hsh|
+        ary.in_groups_of(2) { |(k, v)| hsh[k.to_s] = v }
+      end
+    end
+
+    private def hashify_stream_entries(ary)
+      StreamMessagesValue.new.tap do |entries|
+        ary.each do |entry|
+          if entry.is_a? Array(Redis::RedisValue)
+            entries[entry.first.to_s] = StringHashValue.new.tap do |values|
+              entry.last.as(Array(Redis::RedisValue))
+                .each_slice(2) { |(k, v)| values[k.to_s] = v.to_s }
+            end
+          end
+        end
+      end
+    end
+
+    def hashify_streams(ary)
+      StreamsValue.new.tap do |streams|
+        ary.each do |stream|
+          if stream.is_a? Array(Redis::RedisValue)
+            streams[stream.first.to_s] = hashify_stream_entries stream.last.as(Array(Redis::RedisValue))
+          end
+        end
+      end
+    end
+
+    private def _xread(args, keys, ids)
+      keys = [keys].flatten.map { |x| x.to_s }
+      ids = [ids].flatten.map { |x| x.to_s }
+      args << "STREAMS"
+      concat args, keys, ids
+
+      hashify_streams string_array_command(args)
     end
   end
 end
