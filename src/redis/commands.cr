@@ -1047,7 +1047,7 @@ class Redis
 
     # Returns the stream information each subcommand.
     #
-    # **Return value**: Array(String), the list of values in the hash, or an empty list when key does not exist.
+    # **Return value**: Hash(String, Redis::RedisValue), with the values returned from the command in a hash.
     def xinfo(subcommand, key, group = nil)
       args = ["XINFO", subcommand, key.to_s]
       args << group.to_s if group
@@ -1055,20 +1055,24 @@ class Redis
     end
 
     # Add new entry to the stream.
-    def xadd(key, hash, id = nil, maxlen = nil, approximate = false)
-      args = ["XADD", key]
-      if maxlen
+    #
+    # **Return value**: String, the stream entry id.
+    def xadd(key, hash, **opts)
+      args = ["XADD", key.to_s]
+      if opts[:maxlen]?
         args << "MAXLEN"
-        args << "~" if approximate
-        args << maxlen.to_s
+        args << "~" if opts[:approximate]?
+        args << opts[:maxlen]?.to_s
       end
-      args << (id.nil? ? "*" : id.to_s)
+      args << (opts[:id]? ? opts[:id]?.to_s : "*")
       hash.each { |k, v| args << k.to_s << v.to_s }
 
       string_command(args)
     end
 
     # Trims older entries of the stream if needed.
+    #
+    # **Return value**: Integer, the quantity of entries trimmed.
     def xtrim(key, maxlen, appoximate = false)
       args = ["XTRIM", key.to_s, "MAXLEN"]
       args << "~" if appoximate
@@ -1077,12 +1081,16 @@ class Redis
     end
 
     # Delete entries by entry ids.
+    #
+    # **Return value**: Integer, the quantity of entries removed.
     def xdel(key, *ids)
       args = ["XDEL", key.to_s].concat(ids.to_a.flatten.map { |x| x.to_s })
       integer_command(args)
     end
 
     # Fetches entries of the stream in ascending order.
+    #
+    # **Return value**: Hash(String, Hash(String, String)), where the keys are the entry ids and the values are the hashes of field name and value.
     def xrange(key, start = "-", _end = "+", count = nil)
       args = ["XRANGE", key.to_s, start.to_s, _end.to_s]
       args << "COUNT" << count.to_s if count
@@ -1090,6 +1098,8 @@ class Redis
     end
 
     # Fetches entries of the stream in descending order.
+    #
+    # **Return value**: Hash(String, Hash(String, String)), where the keys are the entry ids and the values are the hashes of field name and value.
     def xrevrange(key, _end = "+", start = "-", count = nil)
       args = ["XREVRANGE", key.to_s, _end.to_s, start.to_s]
       args << "COUNT" << count.to_s if count
@@ -1097,11 +1107,15 @@ class Redis
     end
 
     # Returns the number of entries inside a stream.
+    #
+    # **Return value**: Integer, the quantity of entries in the stream.
     def xlen(key)
       integer_command(["XLEN", key.to_s])
     end
 
     # Fetches entries from one or multiple streams. Optionally blocking.
+    #
+    # **Return value**: Hash(String, Hash(String, Hash(String, String))), a hash of streams and messages: stream_name => { entry_id => { field_name => value } }
     def xread(keys, ids, count = nil, block = nil)
       args = ["XREAD"]
       args << "COUNT" << count.to_s if count
@@ -1110,8 +1124,11 @@ class Redis
     end
 
     # Manages the consumer group of the stream.
+    #
+    # **Return value**: String, the code for the result
+    # **Return value**: Integer, the quantity of groups involved
     def xgroup(subcommand, key, group, id_or_consumer = nil, mkstream = false)
-      args = ["XGROUP", subcommand.to_s, key.to_s, group.to_s]
+      args = ["XGROUP", subcommand.to_s.upcase, key.to_s, group.to_s]
       args << id_or_consumer.to_s if id_or_consumer
       args << "MKSTREAM" if mkstream
       case subcommand.to_s
@@ -1124,6 +1141,8 @@ class Redis
 
     # Fetches a subset of the entries from one or multiple streams related with the consumer group.
     # Optionally blocking.
+    #
+    # **Return value**: Hash(String, Hash(String, Hash(String, String))), a hash of streams and messages: stream_name => { entry_id => { field_name => value } }
     def xreadgroup(group, consumer, keys, ids, count = nil, block = nil, noack = nil)
       args = ["XREADGROUP", "GROUP", group.to_s, consumer.to_s]
       args << "COUNT" << count.to_s if count
@@ -1133,6 +1152,8 @@ class Redis
     end
 
     # Removes one or multiple entries from the pending entries list of a stream consumer group.
+    #
+    # **Return value**: Integer, the quantity of entries acknowledged.
     def xack(key, group, *ids)
       args = ["XACK", key.to_s, group.to_s]
       args.concat ids.to_a.flatten.map { |x| x.to_s }
@@ -1140,6 +1161,9 @@ class Redis
     end
 
     # Changes the ownership of a pending entry
+    #
+    # **Return value**: Hash(String, Hash(String, String)), a hash of entry ids and entries (names => values)
+    # **Return value**: Array(String), an array of entry ids with the `justid` option.
     def xclaim(key, group, consumer, min_idle_time, *ids, **options)
       args = ["XCLAIM", key.to_s, group.to_s, consumer.to_s, min_idle_time.to_s]
       args.concat ids.to_a.flatten.map { |x| x.to_s }
@@ -1153,6 +1177,21 @@ class Redis
       else
         hashify_stream_entries string_array_command(args)
       end
+    end
+
+    # Fetches not acknowledging pending entries
+    #
+    # **Return value**: Hash(String, Hash(String, String) | String), a summary of entries if no extra arguments are passed.
+    # **Return value**: Array(Hash(String, String)), a hash of details per pending message found if extra args are passed.
+    def xpending(key, group, *extra_args)
+      unless [0, 3, 4].includes? extra_args.size
+        raise ArgumentError.new("wrong number of arguments (given #{extra_args.size + 2}, expected 2, 5 or 6)")
+      end
+
+      args = ["XPENDING", key.to_s, group.to_s]
+      extra_args.each { |x| args << x.to_s }
+      result = string_array_command args
+      extra_args.empty? ? hashify_stream_pendings(result) : hashify_stream_pending_details(result)
     end
 
     # Adds all the specified members with the specified scores to the sorted set stored at key.
@@ -1834,20 +1873,66 @@ class Redis
       StreamMessagesValue.new.tap do |entries|
         ary.each do |entry|
           if entry.is_a? Array(Redis::RedisValue)
-            entries[entry.first.to_s] = StringHashValue.new.tap do |values|
-              entry.last.as(Array(Redis::RedisValue))
-                .each_slice(2) { |(k, v)| values[k.to_s] = v.to_s }
+            entries[entry.first.to_s] = array_to_string_hash entry.last
+          end
+        end
+      end
+    end
+
+    private def hashify_streams(ary)
+      StreamsValue.new.tap do |streams|
+        ary.each do |stream|
+          if stream.is_a? Array(Redis::RedisValue)
+            streams[stream.first.to_s] = hashify_stream_entries stream.last.as(Array(Redis::RedisValue))
+          end
+        end
+      end
+    end
+
+    private def hashify_stream_pendings(result)
+      hsh = Hash(String, String | Hash(String, String)).new
+      return hsh unless result.is_a? Array(Redis::RedisValue)
+
+      consumers = array_pairs_to_string_hash result[3]
+      hsh["size"] = result[0].to_s
+      hsh["min_entry_id"] = result[1].to_s
+      hsh["max_entry_id"] = result[2].to_s
+      hsh["consumers"] = consumers
+      hsh
+    end
+
+    private def hashify_stream_pending_details(result)
+      Array(Hash(String, String)).new.tap do |ary|
+        if result.is_a? Array(Redis::RedisValue)
+          result.each do |arr|
+            if arr.is_a? Array(RedisValue)
+              ary << {
+                "entry_id" => arr[0].to_s,
+                "consumer" => arr[1].to_s,
+                "elapsed"  => arr[2].to_s,
+                "count"    => arr[3].to_s,
+              }
             end
           end
         end
       end
     end
 
-    def hashify_streams(ary)
-      StreamsValue.new.tap do |streams|
-        ary.each do |stream|
-          if stream.is_a? Array(Redis::RedisValue)
-            streams[stream.first.to_s] = hashify_stream_entries stream.last.as(Array(Redis::RedisValue))
+    private def array_to_string_hash(entry)
+      StringHashValue.new.tap do |values|
+        if entry.is_a? Array(Redis::RedisValue)
+          entry.each_slice(2) { |(k, v)| values[k.to_s] = v.to_s }
+        end
+      end
+    end
+
+    private def array_pairs_to_string_hash(entry)
+      StringHashValue.new.tap do |values|
+        if entry.is_a? Array(Redis::RedisValue)
+          entry.each do |pair|
+            if pair.is_a?(Array(Redis::RedisValue))
+              values[pair.first.to_s] = pair.last.to_s
+            end
           end
         end
       end
