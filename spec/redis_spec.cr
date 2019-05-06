@@ -154,6 +154,9 @@ describe Redis do
       redis.set("foo", "test")
       redis.del("foo")
       redis.get("foo").should eq(nil)
+
+      redis.mset({"foo1" => "bar1", "foo2" => "bar2"})
+      redis.del(["foo1", "foo2"]).should eq(2)
     end
 
     it "converts keys to strings" do
