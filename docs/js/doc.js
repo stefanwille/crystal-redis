@@ -257,7 +257,7 @@ CrystalDoc.rankResults = function(results, query) {
   });
 
   if (results.length > 1) {
-    // if we have more than two search terms, only include results whith the most matches
+    // if we have more than two search terms, only include results with the most matches
     var bestMatchedTerms = uniqueArray(results[0].matched_terms).length;
 
     results = results.filter(function(result) {
@@ -844,6 +844,16 @@ document.addEventListener('DOMContentLoaded', function() {
   var typesList = document.querySelector('.types-list');
   var searchInput = document.querySelector('.search-input');
   var parents = document.querySelectorAll('.types-list li.parent');
+
+  var scrollSidebarToOpenType = function(){
+    var openTypes = typesList.querySelectorAll('.current');
+    if (openTypes.length > 0) {
+      var lastOpenType = openTypes[openTypes.length - 1];
+      lastOpenType.scrollIntoView();
+    }
+  }
+
+  scrollSidebarToOpenType();
 
   var setPersistentSearchQuery = function(value){
     sessionStorage.setItem(repositoryName + '::search-input:value', value);
