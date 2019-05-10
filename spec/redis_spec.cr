@@ -1259,7 +1259,7 @@ describe Redis do
     it "#pexpireat" do
       redis.set("temp", "3")
       redis.pexpireat("temp", 1555555555005).should eq(1)
-      redis.pttl("temp").should be > 2990
+      redis.pttl("temp").should eq(-2)
     end
 
     it "#pttl" do
