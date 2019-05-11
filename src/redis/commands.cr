@@ -128,16 +128,21 @@ class Redis
     # Example:
     #
     # ```
-    # # with a Tuple params
     # redis.del("some", "keys", "to", "delete")
-    #
-    # # with a Array params
-    # redis.del(["some", "keys", "to", "delete"])
     # ```
     def del(*keys)
       integer_command(concat(["DEL"], keys))
     end
 
+    # Removes the specified keys.
+    #
+    # **Return value**: Integer, the number of keys that were removed.
+    #
+    # Example:
+    #
+    # ```
+    # redis.del(["some", "keys", "to", "delete"])
+    # ```
     def del(keys : Array)
       integer_command(concat(["DEL"], keys))
     end
