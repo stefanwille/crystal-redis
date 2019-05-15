@@ -134,6 +134,19 @@ class Redis
       integer_command(concat(["DEL"], keys))
     end
 
+    # Removes the specified keys.
+    #
+    # **Return value**: Integer, the number of keys that were removed.
+    #
+    # Example:
+    #
+    # ```
+    # redis.del(["some", "keys", "to", "delete"])
+    # ```
+    def del(keys : Array)
+      integer_command(concat(["DEL"], keys))
+    end
+
     # Returns or stores the elements contained in the list, set or sorted set at key.
     #
     # **Options**:

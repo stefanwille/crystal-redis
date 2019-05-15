@@ -154,6 +154,9 @@ describe Redis do
       redis.set("foo", "test")
       redis.del("foo")
       redis.get("foo").should eq(nil)
+
+      redis.mset({"foo1" => "bar1", "foo2" => "bar2"})
+      redis.del(["foo1", "foo2"]).should eq(2)
     end
 
     it "converts keys to strings" do
@@ -1255,7 +1258,7 @@ describe Redis do
 
     it "#pexpireat" do
       redis.set("temp", "3")
-      redis.pexpireat("temp", 1555555555005).should eq(1)
+      redis.pexpireat("temp", 1747332592000).should eq(1)
       redis.pttl("temp").should be > 2990
     end
 

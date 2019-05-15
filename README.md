@@ -159,7 +159,19 @@ I took great care to make this library very usable with respect to API, reliabil
 
 ## Development
 
-This project requires a locally running redis server running on port 6379 and with a unix socket located at /tmp/redis.sock. Then you can run the specs via
+This project requires a locally running redis server running on port 6379 and with a Unix socket located at /tmp/redis.sock. In Homebrew's default redis.config the Unix domain socket option is disabled. To enable, edit `/usr/local/etc/redis.conf` or whatever your `redis.conf` is and uncomment this line:
+
+```
+# unixsocket /tmp/redis.sock
+```
+
+so that it reads
+
+```
+unixsocket /tmp/redis.sock
+```
+
+Then you can run the specs via
 
 `$ crystal spec`
 
