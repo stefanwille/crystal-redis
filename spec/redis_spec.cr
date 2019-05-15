@@ -1258,7 +1258,8 @@ describe Redis do
 
     it "#pexpireat" do
       redis.set("temp", "3")
-      redis.pexpireat("temp", 1747332592000).should eq(1)
+      timeout = Time.utc(2029, 2, 15, 10, 20, 30)
+      redis.pexpireat("temp", timeout.to_unix_ms).should eq(1)
       redis.pttl("temp").should be > 2990
     end
 
