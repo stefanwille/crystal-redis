@@ -57,6 +57,6 @@ class Redis::PooledClient
   end
 
   def psubscribe(*channel_patterns, &callback_setup_block : Redis::Subscription ->)
-    with_pool_connection &.subscribe(*channel_patterns) { |s| callback_setup_block.call(s) }
+    with_pool_connection &.psubscribe(*channel_patterns) { |s| callback_setup_block.call(s) }
   end
 end
