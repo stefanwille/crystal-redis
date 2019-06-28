@@ -135,7 +135,7 @@
 <pre><code class="language-crystal">dependencies:
   redis:
     github: stefanwille<span class="s">/crystal-redis
-    version: ~&gt; 2.1.1</code></pre>
+    version: ~&gt; 2.2.1</code></pre>
 
 <p>and then install the library into your project:</p>
 
@@ -235,13 +235,21 @@ It automatically allocates and frees connections from/to the pool, per command.<
 
 <h2>Status</h2>
 
-<p>I have exercised every API method in the spec and built some example programs. There is no production use yet.</p>
+<p>I have exercised every API method in the spec and built some example programs. Some people report production usage.</p>
 
 <p>I took great care to make this library very usable with respect to API, reliability and documentation.</p>
 
 <h2>Development</h2>
 
-<p>This project requires a locally running redis server running on port 6379 and with a unix socket located at /tmp/redis.sock. Then you can run the specs via</p>
+<p>This project requires a locally running redis server running on port 6379 and with a Unix socket located at /tmp/redis.sock. In Homebrew's default redis.config the Unix domain socket option is disabled. To enable, edit <code>/usr/local/etc/redis.conf</code> or whatever your <code>redis.conf</code> is and uncomment this line:</p>
+
+<pre><code><span class="c"># unixsocket /tmp/redis.sock</span></code></pre>
+
+<p>so that it reads</p>
+
+<pre><code>unixsocket <span class="s">/tmp/</span>redis.sock</code></pre>
+
+<p>Then you can run the specs via</p>
 
 <p><code>$ crystal spec</code></p>
 
