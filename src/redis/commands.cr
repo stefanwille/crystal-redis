@@ -131,7 +131,7 @@ class Redis
     # redis.del("some", "keys", "to", "delete")
     # ```
     def del(*keys)
-      integer_command(concat(["DEL"], keys))
+      del keys.to_a
     end
 
     # Removes the specified keys.
@@ -220,7 +220,7 @@ class Redis
       string_array_command(concat(["MGET"], keys))
     end
 
-    def mget(keys : Array)
+    def mget(keys : Array(String)) : Array(RedisValue)
       string_array_command(concat(["MGET"], keys))
     end
 
@@ -437,8 +437,13 @@ class Redis
     # ```
     # redis.bitop("and", "dest", "key1", "key2")
     # ```
-    def bitop(operation, key, *keys)
+    def bitop(operation, key, keys : Array(String)) : Int64
       integer_command(concat(["BITOP", operation.to_s, key.to_s], keys))
+    end
+
+    # :ditto:
+    def bitop(operation, key, *keys : String) : Int64
+      bitop operation, key, keys.to_a
     end
 
     # Returns the bit value at offset in the string value stored at key.
@@ -563,17 +568,23 @@ class Redis
     # ```
     # redis.rpush("mylist", "1", "2", "3")
     # ```
-    def rpush(key, *values)
+    def rpush(key, values : Array(RedisValue))
       integer_command(concat(["RPUSH", key.to_s], values))
+    end
+
+    # :ditto:
+    def rpush(key, *values : String)
+      rpush key, values.to_a
     end
 
     # Insert all the specified values at the head of the list stored at key.
     #
     # **Return value**: Integer, the length of the list after the push operation.
     def lpush(key, *values)
-      integer_command(concat(["LPUSH", key.to_s], values))
+      lpush key, values.to_a
     end
 
+    # :ditto:
     def lpush(key, values : Array(RedisValue))
       integer_command(concat(["LPUSH", key.to_s], values))
     end
@@ -681,7 +692,7 @@ class Redis
     #
     # **Return value**: Integer, the number of elements that were added to the set, not including all the elements already present into the set.
     def sadd(key, *values)
-      integer_command(concat(["SADD", key.to_s], values))
+      sadd key, values.to_a
     end
 
     def sadd(key, values : Array(RedisValue))
@@ -714,7 +725,7 @@ class Redis
     # redis.srem("myset", "Hello")
     # ```
     def srem(key, *values)
-      integer_command(concat(["SREM", key.to_s], values))
+      srem key, values.to_a
     end
 
     def srem(key, values : Array(RedisValue))
@@ -729,22 +740,36 @@ class Redis
     # Returns the members of the set resulting from the difference between the first set and all the successive sets.
     #
     # **Return value**: Array(String), a list with members of the resulting set.
-    def sdiff(*keys)
+    def sdiff(keys : Array(String)) : Array(RedisValue)
       string_array_command(concat(["SDIFF"], keys))
+    end
+
+    def sdiff(*keys : String) : Array(RedisValue)
+      sdiff keys.to_a
     end
 
     # This command is equal to SDIFF, but instead of returning the resulting set, it is stored in destination.
     #
     # **Return value**: Integer, the number of elements in the resulting set.
-    def sdiffstore(destination, *keys)
+    def sdiffstore(destination, keys : Array(String)) : Int64
       integer_command(concat(["SDIFFSTORE", destination.to_s], keys))
+    end
+
+    # :ditto:
+    def sdiffstore(destination, *keys : String) : Int64
+      sdiffstore destination, keys.to_a
     end
 
     # Returns the members of the set resulting from the intersection of all the given sets.
     #
     # **Return value**: Array(String), an array with members of the resulting set.
-    def sinter(*keys)
+    def sinter(keys : Array(String)) : Array(RedisValue)
       string_array_command(concat(["SINTER"], keys))
+    end
+
+    # :ditto:
+    def sinter(*keys : String) : Array(RedisValue)
+      sinter keys.to_a
     end
 
     # This command is equal to SINTER, but instead of returning the resulting set, it is stored in destination.
@@ -756,8 +781,13 @@ class Redis
     # ```
     # redis.sinterstore("destination", "key1", "key2")
     # ```
-    def sinterstore(destination_key, *keys)
+    def sinterstore(destination_key, keys : Array(String)) : Int64
       integer_command(concat(["SINTERSTORE", destination_key.to_s], keys))
+    end
+
+    # :ditto:
+    def sinterstore(destination_key, *keys : String) : Int64
+      sinterstore destination_key, keys.to_a
     end
 
     # Move member from the set at source to the set at destination.
@@ -826,15 +856,25 @@ class Redis
     # Returns the members of the set resulting from the union of all the given sets.
     #
     # **Return value**: Array(String), with members of the resulting set.
-    def sunion(*keys)
+    def sunion(keys : Array(String))
       string_array_command(concat(["SUNION"], keys))
+    end
+
+    # :ditto:
+    def sunion(*keys : String)
+      sunion keys.to_a
     end
 
     # This command is equal to SUNION, but instead of returning the resulting set, it is stored in destination.
     #
     # **Return value**: Integer, the number of elements in the resulting set.
-    def sunionstore(destination, *keys)
+    def sunionstore(destination, keys : Array(String)) : Int64
       integer_command(concat(["SUNIONSTORE", destination.to_s], keys))
+    end
+
+    # :ditto:
+    def sunionstore(destination, *keys : String) : Int64
+      sunionstore destination, keys.to_a
     end
 
     # BLPOP is a blocking list pop primitive.
@@ -1007,9 +1047,14 @@ class Redis
 
     # Returns the values associated with the specified fields in the hash stored at key.
     #
-    # **Return value**: Array(String), the list of values associated with the given fields, in the same order as they are requested.
-    def hmget(key, *fields)
+    # **Return value**: Array(RedisValue), the list of values associated with the given fields, in the same order as they are requested.
+    def hmget(key, fields : Array(String)) : Array(RedisValue)
       string_array_command(concat(["HMGET", key.to_s], fields))
+    end
+
+    # :ditto:
+    def hmget(key, *fields : String) : Array(RedisValue)
+      hmget key, fields.to_a
     end
 
     # Sets the specified fields to their respective values in the hash stored at key.
@@ -1363,17 +1408,25 @@ class Redis
     # ```
     # redis.pfadd("hll", "a", "b", "c", "d", "e", "f", "g") # => 1
     # ```
-    def pfadd(key, *values)
+    def pfadd(key, values : Array(String)) : Int64
       integer_command(concat(["PFADD", key.to_s], values))
+    end
+
+    # :ditto:
+    def pfadd(key, *values : String) : Int64
+      pfadd key, values.to_a
     end
 
     # Merge multiple HyperLogLog values into an unique value that will
     # approximate the cardinality of the union of the observed Sets of the
     # source HyperLogLog structures.
-    #
-    # **Return value**: "OK".
-    def pfmerge(*keys)
+    def pfmerge(keys : Array(String))
       string_command(concat(["PFMERGE"], keys))
+    end
+
+    # :ditto:
+    def pfmerge(*keys : String)
+      pfmerge keys.to_a
     end
 
     # When called with a single key, returns the approximated cardinality computed
@@ -1382,8 +1435,13 @@ class Redis
     #
     # **Return value**: Integer, the approximated number of unique elements
     # observed via PFADD.
-    def pfcount(*keys)
+    def pfcount(keys : Array(String)) : Int64
       integer_command(concat(["PFCOUNT"], keys))
+    end
+
+    # :ditto:
+    def pfcount(*keys : String) : Int64
+      pfcount keys.to_a
     end
 
     # EVAL and EVALSHA are used to evaluate scripts using the Lua interpreter
@@ -1587,13 +1645,18 @@ class Redis
     end
 
     # Subscribes to more channels while already being in a subscription loop.
-    def subscribe(*channels)
+    def subscribe(channels : Array(String)) : Void
       # Can be called only inside a subscription block
       unless already_in_subscription_loop?
         raise Redis::Error.new("Must call subscribe with a subscription block")
       end
 
       void_command(concat(["SUBSCRIBE"], channels))
+    end
+
+    # :ditto:
+    def subscribe(*channels : String)
+      subscribe channels.to_a
     end
 
     # Subscribes to channel patterns and enters a subscription loop, waiting for events.
@@ -1618,7 +1681,7 @@ class Redis
     end
 
     # Subscribes to more channel patterns while already being in a subscription loop.
-    def psubscribe(*channel_patterns)
+    def psubscribe(channel_patterns : Array(String))
       # Can be called only inside a subscription block
       unless already_in_subscription_loop?
         raise Redis::Error.new("Must call psubscribe with a subscription block")
@@ -1627,18 +1690,31 @@ class Redis
       void_command(concat(["PSUBSCRIBE"], channel_patterns))
     end
 
+    def psubscribe(*channel_patterns)
+      psubscribe channel_patterns.to_a
+    end
     private def already_in_subscription_loop?
       strategy.is_a? Redis::Strategy::SubscriptionLoop
     end
 
     # Unsubscribes the client from the given channels, or from all of them if none is given.
-    def unsubscribe(*channels)
+    def unsubscribe(channels : Array(String)) : Nil
       void_command(concat(["UNSUBSCRIBE"], channels))
     end
 
+    # :ditto:
+    def unsubscribe(*channels)
+      unsubscribe channels.to_a
+    end
+
     # Unsubscribes the client from the given patterns, or from all of them if none is given.
-    def punsubscribe(*channel_patterns)
+    def punsubscribe(channel_patterns : Array(String))
       void_command(concat(["PUNSUBSCRIBE"], channel_patterns))
+    end
+
+    # :ditto:
+    def punsubscribe(*channel_patterns)
+      punsubscribe channel_patterns.to_a
     end
 
     # Posts a message to the given channel.
@@ -1657,8 +1733,12 @@ class Redis
     # Marks the given keys to be watched for conditional execution of a transaction.
     #
     # **Return value**: "OK"
-    def watch(*keys)
+    def watch(keys : Array(String))
       string_command(concat(["WATCH"], keys))
+    end
+
+    def watch(*keys)
+      watch keys.to_a
     end
 
     # Flushes all the previously watched keys for a transaction.

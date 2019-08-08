@@ -815,6 +815,7 @@ describe Redis do
       redis.hset("myhash", "a", "123")
       redis.hset("myhash", "b", "456")
       redis.hmget("myhash", "a", "b").should eq(["123", "456"])
+      redis.hmget("myhash", ["a", "b"]).should eq(["123", "456"])
     end
 
     it "#hmset" do
