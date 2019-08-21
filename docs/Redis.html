@@ -183,35 +183,35 @@ Each thread/coroutine that wants to talk to Redis needs its own Redis object ins
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/d95a9867d324401754dfa10d4fa5745a85a2e740/src/redis/commands.cr#L1" target="_blank">
+      <a href="https://github.com/stefanwille/crystal-redis/blob/ef8cf5321123c3794933501b98c8a26175ce4053/src/redis/commands.cr#L1" target="_blank">
         redis/commands.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/d95a9867d324401754dfa10d4fa5745a85a2e740/src/redis/command_execution/value_oriented.cr#L1" target="_blank">
+      <a href="https://github.com/stefanwille/crystal-redis/blob/ef8cf5321123c3794933501b98c8a26175ce4053/src/redis/command_execution/value_oriented.cr#L1" target="_blank">
         redis/command_execution/value_oriented.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/d95a9867d324401754dfa10d4fa5745a85a2e740/src/redis.cr#L37" target="_blank">
+      <a href="https://github.com/stefanwille/crystal-redis/blob/ef8cf5321123c3794933501b98c8a26175ce4053/src/redis.cr#L37" target="_blank">
         redis.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/d95a9867d324401754dfa10d4fa5745a85a2e740/src/redis/command_execution/future_oriented.cr#L1" target="_blank">
+      <a href="https://github.com/stefanwille/crystal-redis/blob/ef8cf5321123c3794933501b98c8a26175ce4053/src/redis/command_execution/future_oriented.cr#L1" target="_blank">
         redis/command_execution/future_oriented.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/d95a9867d324401754dfa10d4fa5745a85a2e740/src/redis/strategy/base.cr#L1" target="_blank">
+      <a href="https://github.com/stefanwille/crystal-redis/blob/ef8cf5321123c3794933501b98c8a26175ce4053/src/redis/strategy/base.cr#L1" target="_blank">
         redis/strategy/base.cr
       </a>
     
@@ -378,8 +378,8 @@ Each thread/coroutine that wants to talk to Redis needs its own Redis object ins
     bitcount</a>, 
     
   
-    <a href="Redis/Commands.html#bitop%28operation%2Ckey%2C%2Akeys%29-instance-method" class="tooltip">
-      <span>bitop(operation, key, *keys)</span>
+    <a href="Redis/Commands.html#bitop%28operation%2Ckey%2C%2Akeys%3AString%29%3AInt64-instance-method" class="tooltip">
+      <span>bitop(operation, key, *keys : String) : Int64<br/>bitop(operation, key, keys : Array(String)) : Int64</span>
     bitop</a>, 
     
   
@@ -523,8 +523,8 @@ Each thread/coroutine that wants to talk to Redis needs its own Redis object ins
     hlen</a>, 
     
   
-    <a href="Redis/Commands.html#hmget%28key%2C%2Afields%29-instance-method" class="tooltip">
-      <span>hmget(key, *fields)</span>
+    <a href="Redis/Commands.html#hmget%28key%2C%2Afields%3AString%29%3AArray%28RedisValue%29-instance-method" class="tooltip">
+      <span>hmget(key, *fields : String) : Array(RedisValue)<br/>hmget(key, fields : Array(String)) : Array(RedisValue)</span>
     hmget</a>, 
     
   
@@ -628,8 +628,8 @@ Each thread/coroutine that wants to talk to Redis needs its own Redis object ins
     ltrim</a>, 
     
   
-    <a href="Redis/Commands.html#mget%28%2Akeys%29-instance-method" class="tooltip">
-      <span>mget(*keys)<br/>mget(keys : Array)</span>
+    <a href="Redis/Commands.html#mget%28keys%3AArray%28String%29%29%3AArray%28RedisValue%29-instance-method" class="tooltip">
+      <span>mget(keys : Array(String)) : Array(RedisValue)<br/>mget(*keys)</span>
     mget</a>, 
     
   
@@ -673,18 +673,18 @@ Each thread/coroutine that wants to talk to Redis needs its own Redis object ins
     pexpireat</a>, 
     
   
-    <a href="Redis/Commands.html#pfadd%28key%2C%2Avalues%29-instance-method" class="tooltip">
-      <span>pfadd(key, *values)</span>
+    <a href="Redis/Commands.html#pfadd%28key%2C%2Avalues%3AString%29%3AInt64-instance-method" class="tooltip">
+      <span>pfadd(key, *values : String) : Int64<br/>pfadd(key, values : Array(String)) : Int64</span>
     pfadd</a>, 
     
   
-    <a href="Redis/Commands.html#pfcount%28%2Akeys%29-instance-method" class="tooltip">
-      <span>pfcount(*keys)</span>
+    <a href="Redis/Commands.html#pfcount%28keys%3AArray%28String%29%29%3AInt64-instance-method" class="tooltip">
+      <span>pfcount(keys : Array(String)) : Int64<br/>pfcount(*keys : String) : Int64</span>
     pfcount</a>, 
     
   
-    <a href="Redis/Commands.html#pfmerge%28%2Akeys%29-instance-method" class="tooltip">
-      <span>pfmerge(*keys)</span>
+    <a href="Redis/Commands.html#pfmerge%28keys%3AArray%28String%29%29-instance-method" class="tooltip">
+      <span>pfmerge(keys : Array(String))<br/>pfmerge(*keys : String)</span>
     pfmerge</a>, 
     
   
@@ -699,7 +699,7 @@ Each thread/coroutine that wants to talk to Redis needs its own Redis object ins
     
   
     <a href="Redis/Commands.html#psubscribe%28%2Achannel_patterns%29-instance-method" class="tooltip">
-      <span>psubscribe(*channel_patterns)<br/>psubscribe(*channel_patterns, &callback_setup_block : Subscription -> )</span>
+      <span>psubscribe(*channel_patterns)<br/>psubscribe(channel_patterns : Array(String))<br/>psubscribe(*channel_patterns, &callback_setup_block : Subscription -> )</span>
     psubscribe</a>, 
     
   
@@ -714,7 +714,7 @@ Each thread/coroutine that wants to talk to Redis needs its own Redis object ins
     
   
     <a href="Redis/Commands.html#punsubscribe%28%2Achannel_patterns%29-instance-method" class="tooltip">
-      <span>punsubscribe(*channel_patterns)</span>
+      <span>punsubscribe(*channel_patterns)<br/>punsubscribe(channel_patterns : Array(String))</span>
     punsubscribe</a>, 
     
   
@@ -753,8 +753,8 @@ Each thread/coroutine that wants to talk to Redis needs its own Redis object ins
     rpoplpush</a>, 
     
   
-    <a href="Redis/Commands.html#rpush%28key%2C%2Avalues%29-instance-method" class="tooltip">
-      <span>rpush(key, *values)</span>
+    <a href="Redis/Commands.html#rpush%28key%2C%2Avalues%3AString%29-instance-method" class="tooltip">
+      <span>rpush(key, *values : String)<br/>rpush(key, values : Array(RedisValue))</span>
     rpush</a>, 
     
   
@@ -798,13 +798,13 @@ Each thread/coroutine that wants to talk to Redis needs its own Redis object ins
     script_load</a>, 
     
   
-    <a href="Redis/Commands.html#sdiff%28%2Akeys%29-instance-method" class="tooltip">
-      <span>sdiff(*keys)</span>
+    <a href="Redis/Commands.html#sdiff%28keys%3AArray%28String%29%29%3AArray%28RedisValue%29-instance-method" class="tooltip">
+      <span>sdiff(keys : Array(String)) : Array(RedisValue)<br/>sdiff(*keys : String) : Array(RedisValue)</span>
     sdiff</a>, 
     
   
-    <a href="Redis/Commands.html#sdiffstore%28destination%2C%2Akeys%29-instance-method" class="tooltip">
-      <span>sdiffstore(destination, *keys)</span>
+    <a href="Redis/Commands.html#sdiffstore%28destination%2C%2Akeys%3AString%29%3AInt64-instance-method" class="tooltip">
+      <span>sdiffstore(destination, *keys : String) : Int64<br/>sdiffstore(destination, keys : Array(String)) : Int64</span>
     sdiffstore</a>, 
     
   
@@ -838,13 +838,13 @@ Each thread/coroutine that wants to talk to Redis needs its own Redis object ins
     setrange</a>, 
     
   
-    <a href="Redis/Commands.html#sinter%28%2Akeys%29-instance-method" class="tooltip">
-      <span>sinter(*keys)</span>
+    <a href="Redis/Commands.html#sinter%28keys%3AArray%28String%29%29%3AArray%28RedisValue%29-instance-method" class="tooltip">
+      <span>sinter(keys : Array(String)) : Array(RedisValue)<br/>sinter(*keys : String) : Array(RedisValue)</span>
     sinter</a>, 
     
   
-    <a href="Redis/Commands.html#sinterstore%28destination_key%2C%2Akeys%29-instance-method" class="tooltip">
-      <span>sinterstore(destination_key, *keys)</span>
+    <a href="Redis/Commands.html#sinterstore%28destination_key%2C%2Akeys%3AString%29%3AInt64-instance-method" class="tooltip">
+      <span>sinterstore(destination_key, *keys : String) : Int64<br/>sinterstore(destination_key, keys : Array(String)) : Int64</span>
     sinterstore</a>, 
     
   
@@ -893,18 +893,18 @@ Each thread/coroutine that wants to talk to Redis needs its own Redis object ins
     strlen</a>, 
     
   
-    <a href="Redis/Commands.html#subscribe%28%2Achannels%2C%26callback_setup_block%3ASubscription-%3E%29-instance-method" class="tooltip">
-      <span>subscribe(*channels, &callback_setup_block : Subscription -> )<br/>subscribe(*channels)</span>
+    <a href="Redis/Commands.html#subscribe%28channels%3AArray%28String%29%29%3AVoid-instance-method" class="tooltip">
+      <span>subscribe(channels : Array(String)) : Void<br/>subscribe(*channels : String)<br/>subscribe(*channels, &callback_setup_block : Subscription -> )</span>
     subscribe</a>, 
     
   
-    <a href="Redis/Commands.html#sunion%28%2Akeys%29-instance-method" class="tooltip">
-      <span>sunion(*keys)</span>
+    <a href="Redis/Commands.html#sunion%28keys%3AArray%28String%29%29-instance-method" class="tooltip">
+      <span>sunion(keys : Array(String))<br/>sunion(*keys : String)</span>
     sunion</a>, 
     
   
-    <a href="Redis/Commands.html#sunionstore%28destination%2C%2Akeys%29-instance-method" class="tooltip">
-      <span>sunionstore(destination, *keys)</span>
+    <a href="Redis/Commands.html#sunionstore%28destination%2Ckeys%3AArray%28String%29%29%3AInt64-instance-method" class="tooltip">
+      <span>sunionstore(destination, keys : Array(String)) : Int64<br/>sunionstore(destination, *keys : String) : Int64</span>
     sunionstore</a>, 
     
   
@@ -918,8 +918,8 @@ Each thread/coroutine that wants to talk to Redis needs its own Redis object ins
     type</a>, 
     
   
-    <a href="Redis/Commands.html#unsubscribe%28%2Achannels%29-instance-method" class="tooltip">
-      <span>unsubscribe(*channels)</span>
+    <a href="Redis/Commands.html#unsubscribe%28channels%3AArray%28String%29%29%3ANil-instance-method" class="tooltip">
+      <span>unsubscribe(channels : Array(String)) : Nil<br/>unsubscribe(*channels)</span>
     unsubscribe</a>, 
     
   
@@ -928,13 +928,13 @@ Each thread/coroutine that wants to talk to Redis needs its own Redis object ins
     unwatch</a>, 
     
   
-    <a href="Redis/Commands.html#watch%28%2Akeys%29-instance-method" class="tooltip">
-      <span>watch(*keys)</span>
+    <a href="Redis/Commands.html#watch%28keys%3AArray%28String%29%29-instance-method" class="tooltip">
+      <span>watch(keys : Array(String))<br/>watch(*keys)</span>
     watch</a>, 
     
   
-    <a href="Redis/Commands.html#zadd%28key%2Cscores_and_members%3AArray%28RedisValue%29%29-instance-method" class="tooltip">
-      <span>zadd(key, scores_and_members : Array(RedisValue))<br/>zadd(key, *scores_and_members)</span>
+    <a href="Redis/Commands.html#zadd%28key%2C%2Ascores_and_members%29-instance-method" class="tooltip">
+      <span>zadd(key, *scores_and_members)<br/>zadd(key, scores_and_members : Array(RedisValue))</span>
     zadd</a>, 
     
   
@@ -1110,7 +1110,7 @@ redis.close</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/d95a9867d324401754dfa10d4fa5745a85a2e740/src/redis.cr#L95" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/ef8cf5321123c3794933501b98c8a26175ce4053/src/redis.cr#L95" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1143,7 +1143,7 @@ redis.close</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/d95a9867d324401754dfa10d4fa5745a85a2e740/src/redis.cr#L193" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/ef8cf5321123c3794933501b98c8a26175ce4053/src/redis.cr#L193" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1166,7 +1166,7 @@ redis.close</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/d95a9867d324401754dfa10d4fa5745a85a2e740/src/redis.cr#L205" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/ef8cf5321123c3794933501b98c8a26175ce4053/src/redis.cr#L205" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1202,7 +1202,7 @@ an object that has the same API as this class, except:</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/d95a9867d324401754dfa10d4fa5745a85a2e740/src/redis.cr#L284" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/ef8cf5321123c3794933501b98c8a26175ce4053/src/redis.cr#L284" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1237,7 +1237,7 @@ it participates in pipelining and all Redis commands return Futures.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/d95a9867d324401754dfa10d4fa5745a85a2e740/src/redis.cr#L248" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/ef8cf5321123c3794933501b98c8a26175ce4053/src/redis.cr#L248" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1255,7 +1255,7 @@ it participates in pipelining and all Redis commands return Futures.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/d95a9867d324401754dfa10d4fa5745a85a2e740/src/redis.cr#L212" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/ef8cf5321123c3794933501b98c8a26175ce4053/src/redis.cr#L212" target="_blank">View source</a>]
         
       </div>
     </div>
