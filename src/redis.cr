@@ -39,6 +39,10 @@ class Redis
 
   # :nodoc:
   alias RedisValue = Nil | Int32 | Int64 | String | Array(RedisValue)
+  alias StringHashValue = Hash(String, String)
+  alias HashValue = String | Int64 | StringHashValue
+  alias StreamMessagesValue = Hash(String, Hash(String, String))
+  alias StreamsValue = Hash(String, StreamMessagesValue)
 
   # A Redis request.
 
