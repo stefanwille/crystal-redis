@@ -1433,5 +1433,17 @@ describe Redis do
         end
       end
     end
+
+    describe "namespace" do
+      redis = Redis.new(namespace: "abc")
+      other = Redis.new
+
+      it "store on namespace" do
+        redis.set("foo", "abc")
+        redis.get("foo").should eq("abc")
+
+        other.get("abc::foo").should eq("abc")
+      end
+    end
   end
 end

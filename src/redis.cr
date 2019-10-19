@@ -94,7 +94,8 @@ class Redis
   # ```
   def initialize(@host = "localhost", @port = 6379, @unixsocket : String? = nil, @password : String? = nil,
                  @database : Int32? = nil, url = nil, @ssl = false, @ssl_context : OpenSSL::SSL::Context::Client? = nil,
-                 @dns_timeout : Time::Span? = nil, @connect_timeout : Time::Span? = nil, @reconnect = true, @command_timeout : Time::Span? = nil)
+                 @dns_timeout : Time::Span? = nil, @connect_timeout : Time::Span? = nil, @reconnect = true, @command_timeout : Time::Span? = nil,
+                 @namespace : String? = "")
     if url
       uri = URI.parse url
       @host = uri.host.to_s
@@ -249,6 +250,7 @@ class Redis
     @strategy = Redis::Strategy::PauseDuringPipeline.new
     pipeline_strategy = Redis::Strategy::Pipeline.new(connection)
     pipeline_api = Redis::PipelineApi.new(pipeline_strategy)
+    pipeline_api.namespace = @namespace
     yield(pipeline_api)
     pipeline_strategy.commit.as(Array(RedisValue))
   rescue ex : Redis::ConnectionError | Redis::CommandTimeoutError
@@ -286,6 +288,7 @@ class Redis
     transaction_strategy = Redis::Strategy::Transaction.new(connection)
     transaction_strategy.begin
     transaction_api = Redis::TransactionApi.new(transaction_strategy)
+    transaction_api.namespace = @namespace
     yield(transaction_api)
     transaction_strategy.commit.as(Array(RedisValue))
   rescue ex : Redis::ConnectionError | Redis::CommandTimeoutError
