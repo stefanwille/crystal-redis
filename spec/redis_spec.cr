@@ -1439,6 +1439,9 @@ describe Redis do
       other = Redis.new
 
       it "store on namespace" do
+        # Clear redis key
+        other.del("abc::foo")
+
         redis.set("foo", "abc")
         redis.get("foo").should eq("abc")
 

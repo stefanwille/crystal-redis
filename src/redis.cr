@@ -249,8 +249,7 @@ class Redis
   def pipelined
     @strategy = Redis::Strategy::PauseDuringPipeline.new
     pipeline_strategy = Redis::Strategy::Pipeline.new(connection)
-    pipeline_api = Redis::PipelineApi.new(pipeline_strategy)
-    pipeline_api.namespace = @namespace
+    pipeline_api = Redis::PipelineApi.new(pipeline_strategy, @namespace.to_s)
     yield(pipeline_api)
     pipeline_strategy.commit.as(Array(RedisValue))
   rescue ex : Redis::ConnectionError | Redis::CommandTimeoutError
@@ -287,8 +286,7 @@ class Redis
     @strategy = Redis::Strategy::PauseDuringTransaction.new
     transaction_strategy = Redis::Strategy::Transaction.new(connection)
     transaction_strategy.begin
-    transaction_api = Redis::TransactionApi.new(transaction_strategy)
-    transaction_api.namespace = @namespace
+    transaction_api = Redis::TransactionApi.new(transaction_strategy, @namespace.to_s)
     yield(transaction_api)
     transaction_strategy.commit.as(Array(RedisValue))
   rescue ex : Redis::ConnectionError | Redis::CommandTimeoutError

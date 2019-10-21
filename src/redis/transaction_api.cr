@@ -20,11 +20,7 @@ class Redis::TransactionApi
   @strategy : Redis::Strategy::Transaction
   @namespace : String = ""
 
-  def initialize(@strategy)
-  end
-
-  def namespace=(value)
-    @namespace = "#{value}"
+  def initialize(@strategy, @namespace = "")
   end
 
   include Redis::Commands
