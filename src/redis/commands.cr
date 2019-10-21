@@ -198,7 +198,7 @@ class Redis
       end
 
       if store
-        q << "STORE" << store.to_s
+        q << "STORE" << namespaced(store)
       end
 
       string_array_or_integer_command(q)
@@ -527,9 +527,9 @@ class Redis
     # ```
     def scan(cursor, match = nil, count = nil)
       q = ["SCAN", cursor.to_s]
-      q << "MATCH" << match.to_s if match
+      q << "MATCH" << namespaced(match) if match
       q << "COUNT" << count.to_s if count
-      string_array_command(q)
+      string_array_command(q)# .map { |key| without_namespace(key) }
     end
 
     # Return a random key from the currently selected database.
@@ -556,7 +556,7 @@ class Redis
     # redis.keys("callmemaybe")
     # ```
     def keys(pattern)
-      string_array_command(["KEYS", pattern.to_s])
+      string_array_command(["KEYS", namespaced(pattern)]) # .map { |key| without_namespace(key.as(String)) }
     end
 
     # Insert all the specified values at the tail of the list stored at key.
@@ -796,7 +796,7 @@ class Redis
     # * 1 if the element is moved.
     # * 0 if the element is not a member of source and no operation was performed.
     def smove(source, destination, member)
-      integer_command(["SMOVE", source.to_s, destination.to_s, member.to_s])
+      integer_command(["SMOVE", namespaced(source), namespaced(destination), member.to_s])
     end
 
     # Removes and returns one or more random elements from the set value store at key.
@@ -850,7 +850,7 @@ class Redis
       q = ["SSCAN", namespaced(key), cursor.to_s]
       q << "MATCH" << match.to_s if match
       q << "COUNT" << count.to_s if count
-      string_array_command(q)
+      string_array_command(q)# .map { |key| without_namespace(key) }
     end
 
     # Returns the members of the set resulting from the union of all the given sets.
@@ -1807,14 +1807,18 @@ class Redis
       destination
     end
 
-    def namespaced(keys : (Array(String) | Tuple(String, String)))
+    private def namespaced(keys : (Array(String) | Tuple(String, String)))
       keys.map { |key| namespaced(key) }
     end
 
-    def namespaced(key : (String | Symbol | Int32))
+    private def namespaced(key : (String | Symbol | Int32))
       return key.to_s if @namespace == ""
 
       [@namespace, key.to_s].join("::")
     end
+
+    # def without_namespace(key : RedisValue | Nil | String)
+    #   key.to_s.gsub(namespaced(""), "")
+    # end
   end
 end

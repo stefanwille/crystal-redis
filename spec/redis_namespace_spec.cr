@@ -25,21 +25,21 @@ end
 describe Redis do
   describe ".new" do
     it "connects to default host and port" do
-      redis = Redis.new
+      redis = Redis.new(namespace: "abc")
     end
 
     it "connects to specific port and host / disconnects" do
-      redis = Redis.new(host: "localhost", port: 6379)
+      redis = Redis.new(host: "localhost", port: 6379, namespace: "abc")
     end
 
     it "connects to a specific database" do
-      redis = Redis.new(host: "localhost", port: 6379, database: 1)
+      redis = Redis.new(host: "localhost", port: 6379, database: 1, namespace: "abc")
       redis.url.should eq("redis://localhost:6379/1")
     end
 
     it "connects to Unix domain sockets" do
       if ENV["TRAVIS_CI_BUILD"]? != "true"
-        redis = Redis.new(unixsocket: "/tmp/redis.sock")
+        redis = Redis.new(unixsocket: "/tmp/redis.sock", namespace: "abc")
         redis.url.should eq("redis:///tmp/redis.sock/0")
         redis.ping.should eq "PONG"
       end
@@ -47,32 +47,32 @@ describe Redis do
 
     context "when url argument is given" do
       it "connects using given URL" do
-        redis = Redis.new(url: "redis://127.0.0.1", host: "host.to.be.ignored", port: 1234)
+        redis = Redis.new(url: "redis://127.0.0.1", host: "host.to.be.ignored", port: 1234, namespace: "abc")
         redis.url.should eq("redis://127.0.0.1:6379/0")
       end
     end
 
     context "when url argument with trailing slash is given" do
       it "connects using given URL" do
-        redis = Redis.new(url: "redis://127.0.0.1/")
+        redis = Redis.new(url: "redis://127.0.0.1/", namespace: "abc")
         redis.url.should eq("redis://127.0.0.1:6379/0")
       end
     end
 
     it "raises ConnectionError when it cant connect to redis" do
       expect_raises(Redis::CannotConnectError, "Errno: Error connecting to 'localhost:12345': Connection refused") do
-        Redis.new(host: "localhost", port: 12345)
+        Redis.new(host: "localhost", port: 12345, namespace: "abc")
       end
     end
 
     describe "#close" do
       it "closes the connection" do
-        redis = Redis.new
+        redis = Redis.new(namespace: "abc")
         redis.close
       end
 
       it "tolerates a duplicate call" do
-        redis = Redis.new
+        redis = Redis.new(namespace: "abc")
         redis.close
         redis.close
       end
@@ -81,13 +81,13 @@ describe Redis do
 
   describe ".open" do
     it "connects to the Redis server using the given connection params, yields its block and disconnects" do
-      Redis.open(host: "localhost", port: 6379) do |redis|
+      Redis.open(host: "localhost", port: 6379, namespace: "abc") do |redis|
         redis.ping
       end
     end
 
     it "connects to the Redis using the given url, yields its block and disconnects" do
-      Redis.open(url: "redis://127.0.0.1") do |redis|
+      Redis.open(url: "redis://127.0.0.1", namespace: "abc") do |redis|
         redis.ping
       end
     end
@@ -95,35 +95,35 @@ describe Redis do
 
   describe "#url" do
     it "returns the server url" do
-      Redis.open do |redis|
+      Redis.open(namespace: "abc") do |redis|
         redis.url.should eq("redis://localhost:6379/0")
       end
-      Redis.open(url: "redis://127.0.0.1") do |redis|
+      Redis.open(url: "redis://127.0.0.1", namespace: "abc") do |redis|
         redis.url.should eq("redis://127.0.0.1:6379/0")
       end
     end
   end
 
   it "#ping" do
-    Redis.open do |redis|
+    Redis.open(namespace: "abc") do |redis|
       redis.ping.should eq("PONG")
     end
   end
 
   it "#echo" do
-    Redis.open do |redis|
+    Redis.open(namespace: "abc") do |redis|
       redis.echo("Ciao").should eq("Ciao")
     end
   end
 
   it "#quit" do
-    Redis.open do |redis|
+    Redis.open(namespace: "abc") do |redis|
       redis.quit.should eq("OK")
     end
   end
 
   it "#flushdb" do
-    Redis.open do |redis|
+    Redis.open(namespace: "abc") do |redis|
       redis.set("foo", "test")
       redis.get("foo").should eq("test")
 
@@ -134,13 +134,13 @@ describe Redis do
   end
 
   it "#select" do
-    Redis.open do |redis|
+    Redis.open(namespace: "abc") do |redis|
       redis.select(0).should eq("OK")
     end
   end
 
   it "#auth" do
-    Redis.open do |redis|
+    Redis.open(namespace: "abc") do |redis|
       expect_raises(Redis::Error, "ERR Client sent AUTH, but no password is set") do
         redis.auth("some-password").should eq("OK")
       end
@@ -148,7 +148,7 @@ describe Redis do
   end
 
   describe "keys" do
-    redis = Redis.new
+    redis = Redis.new(namespace: "abc")
 
     it "#del" do
       redis.set("foo", "test")
@@ -233,7 +233,7 @@ describe Redis do
     end
 
     it "#dump / #restore" do
-      Redis.open do |redis|
+      Redis.open(namespace: "abc") do |redis|
         redis.set("foo", "9")
         serialized_value = redis.dump("foo")
         # puts "**** ser: #{serialized_value.size}"
@@ -247,8 +247,8 @@ describe Redis do
 
   describe "select database" do
     it "select database when connect" do
-      redis1 = Redis.new(host: "localhost", port: 6379, database: 1)
-      redis2 = Redis.new(host: "localhost", port: 6379, database: 2)
+      redis1 = Redis.new(host: "localhost", port: 6379, database: 1, namespace: "abc")
+      redis2 = Redis.new(host: "localhost", port: 6379, database: 2, namespace: "abc")
 
       redis1.del("test_database")
       redis2.del("test_database")
@@ -261,8 +261,8 @@ describe Redis do
     end
 
     it "select database by command" do
-      redis1 = Redis.new(host: "localhost", port: 6379, database: 1)
-      redis2 = Redis.new(host: "localhost", port: 6379, database: 2)
+      redis1 = Redis.new(host: "localhost", port: 6379, database: 1, namespace: "abc")
+      redis2 = Redis.new(host: "localhost", port: 6379, database: 2, namespace: "abc")
 
       redis1.del("test_database")
       redis2.del("test_database")
@@ -270,7 +270,7 @@ describe Redis do
       redis1.set("test_database", "1")
       redis2.set("test_database", "2")
 
-      redis = Redis.new(host: "localhost", port: 6379)
+      redis = Redis.new(host: "localhost", port: 6379, namespace: "abc")
       redis.select(1)
       redis.get("test_database").should eq "1"
 
@@ -280,7 +280,7 @@ describe Redis do
   end
 
   describe "strings" do
-    redis = Redis.new
+    redis = Redis.new(namespace: "abc")
 
     it "#set / #get" do
       redis.set("foo", "test")
@@ -431,7 +431,7 @@ describe Redis do
   end
 
   describe "bit operations" do
-    redis = Redis.new
+    redis = Redis.new(namespace: "abc")
 
     it "#bitcount" do
       redis.set("foo", "foobar")
@@ -461,7 +461,7 @@ describe Redis do
   end
 
   describe "lists" do
-    redis = Redis.new
+    redis = Redis.new(namespace: "abc")
 
     it "#rpush / #lrange" do
       redis.del("mylist")
@@ -588,24 +588,10 @@ describe Redis do
       redis.lrange("source", 0, 4).should eq(["a", "b"])
       redis.lrange("destination", 0, 4).should eq(["c", "1", "2", "3"])
     end
-
-    it "#brpoplpush" do
-      redis.del("source")
-      redis.del("destination")
-      redis.rpush("source", "a", "b", "c")
-      redis.rpush("destination", "1", "2", "3")
-      redis.brpoplpush("source", "destination", 0)
-      redis.lrange("source", 0, 4).should eq(["a", "b"])
-      redis.lrange("destination", 0, 4).should eq(["c", "1", "2", "3"])
-
-      # timeout test (#68)
-      redis.del("source")
-      redis.brpoplpush("source", "destination", 1).should eq(nil)
-    end
   end
 
   describe "sets" do
-    redis = Redis.new
+    redis = Redis.new(namespace: "abc")
 
     it "#sadd / #smembers" do
       redis.del("myset")
@@ -755,7 +741,7 @@ describe Redis do
   end
 
   describe "hashes" do
-    redis = Redis.new
+    redis = Redis.new(namespace: "abc")
 
     it "#hset / #hget" do
       redis.del("myhash")
@@ -877,7 +863,7 @@ describe Redis do
   end
 
   describe "sorted sets" do
-    redis = Redis.new
+    redis = Redis.new(namespace: "abc")
 
     it "#zadd / zrange" do
       redis.del("myzset")
@@ -1059,7 +1045,7 @@ describe Redis do
   end
 
   describe "#pipelined" do
-    redis = Redis.new
+    redis = Redis.new(namespace: "abc")
 
     it "executes the commands in the block and returns the results" do
       futures = [] of Redis::Future
@@ -1081,7 +1067,7 @@ describe Redis do
   end
 
   describe "hyperloglog" do
-    redis = Redis.new
+    redis = Redis.new(namespace: "abc")
 
     it "#pfadd / #pfcount" do
       redis.del("hll")
@@ -1112,7 +1098,7 @@ describe Redis do
   end
 
   describe "#multi" do
-    redis = Redis.new
+    redis = Redis.new(namespace: "abc")
 
     it "executes the commands in the block and returns the results" do
       futures = [] of Redis::Future
@@ -1140,7 +1126,7 @@ describe Redis do
       current_value = redis.get("foo").not_nil!
       redis.watch("foo")
       results = redis.multi do |multi|
-        other_redis = Redis.new
+        other_redis = Redis.new(namespace: "abc")
         other_redis.set("foo", "value set by other client")
         multi.set("foo", current_value + "2")
       end
@@ -1163,7 +1149,7 @@ describe Redis do
   end
 
   describe "LUA scripting" do
-    redis = Redis.new
+    redis = Redis.new(namespace: "abc")
 
     describe "#eval" do
       it "executes the LUA script" do
@@ -1211,7 +1197,7 @@ describe Redis do
   end
 
   describe "#type" do
-    redis = Redis.new
+    redis = Redis.new(namespace: "abc")
 
     it "returns a value's type as a string" do
       redis.set("foo", 3)
@@ -1220,7 +1206,7 @@ describe Redis do
   end
 
   describe "#flush" do
-    redis = Redis.new
+    redis = Redis.new(namespace: "abc")
 
     it "flushdb" do
       redis.flushdb.should eq("OK")
@@ -1232,7 +1218,7 @@ describe Redis do
   end
 
   describe "expiry" do
-    redis = Redis.new
+    redis = Redis.new(namespace: "abc")
 
     it "#expire" do
       redis.set("temp", "3")
@@ -1281,7 +1267,7 @@ describe Redis do
   end
 
   describe "publish / subscribe" do
-    redis = Redis.new
+    redis = Redis.new(namespace: "abc")
 
     it "#publish" do
       redis.publish("mychannel", "my message")
@@ -1323,7 +1309,7 @@ describe Redis do
   end
 
   describe "punsubscribe" do
-    redis = Redis.new
+    redis = Redis.new(namespace: "abc")
 
     it "#psubscribe / #punsubscribe" do
       callbacks_received = [] of String
@@ -1336,7 +1322,7 @@ describe Redis do
 
           # Send a message to ourselves so that we can test the other callbacks.
           # We need a second connection to do so.
-          Redis.open do |other_redis|
+          Redis.open(namespace: "abc") do |other_redis|
             other_redis.publish("otherchannel", "hello subscriber")
           end
         end
@@ -1363,7 +1349,7 @@ describe Redis do
   end
 
   describe "OBJECT commands" do
-    redis = Redis.new
+    redis = Redis.new(namespace: "abc")
 
     it "#object_refcount" do
       redis.del("mylist")
@@ -1385,7 +1371,7 @@ describe Redis do
   end
 
   describe "large values" do
-    redis = Redis.new
+    redis = Redis.new(namespace: "abc")
 
     it "sends and receives a large value correctly" do
       redis.del("foo")
@@ -1398,13 +1384,13 @@ describe Redis do
   describe "reconnect option: after losing the connection" do
     describe "when true" do
       it "reconnects" do
-        redis = Redis.new(reconnect: true)
+        redis = Redis.new(reconnect: true, namespace: "abc")
         redis.close
         redis.ping.should eq("PONG")
       end
 
       it "reconnects for #pipelined" do
-        redis = Redis.new(reconnect: true)
+        redis = Redis.new(reconnect: true, namespace: "abc")
         redis.close
         ping_future : Redis::Future? = nil
         redis.pipelined do |api|
@@ -1414,7 +1400,7 @@ describe Redis do
       end
 
       it "reconnects for #multi" do
-        redis = Redis.new(reconnect: true)
+        redis = Redis.new(reconnect: true, namespace: "abc")
         redis.close
         ping_future : Redis::Future? = nil
         redis.multi do |api|
@@ -1426,28 +1412,11 @@ describe Redis do
 
     describe "when false" do
       it "raises a helpful exception" do
-        redis = Redis.new(reconnect: false)
+        redis = Redis.new(reconnect: false, namespace: "abc")
         redis.close
         expect_raises(Redis::ConnectionLostError, "Not connected to Redis server and reconnect=false") do
           redis.ping
         end
-      end
-    end
-
-    describe "namespace" do
-      redis = Redis.new(namespace: "abc")
-      other = Redis.new
-
-      it "store on namespace" do
-        # Clear redis key
-        other.del("abc::foo")
-        other.del("foo")
-
-        redis.set("foo", "abc")
-        redis.get("foo").should eq("abc")
-
-        other.get("abc::foo").should eq("abc")
-        other.get("foo").should eq(nil)
       end
     end
   end

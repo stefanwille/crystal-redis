@@ -193,8 +193,9 @@ class Redis
   # ```
   def self.open(host = "localhost", port = 6379, unixsocket = nil, password = nil,
                 database = nil, url = nil, ssl = false, ssl_context = nil,
-                dns_timeout = nil, connect_timeout = nil, reconnect = true, command_timeout = nil)
-    redis = Redis.new(host, port, unixsocket, password, database, url, ssl, ssl_context, dns_timeout, connect_timeout, reconnect, command_timeout)
+                dns_timeout = nil, connect_timeout = nil, reconnect = true, command_timeout = nil,
+                namespace : String? = "")
+    redis = Redis.new(host, port, unixsocket, password, database, url, ssl, ssl_context, dns_timeout, connect_timeout, reconnect, command_timeout, namespace)
     begin
       yield(redis)
     ensure
