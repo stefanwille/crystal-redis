@@ -1792,6 +1792,77 @@ class Redis
       integer_or_nil_command(["OBJECT", "IDLETIME", key.to_s])
     end
 
+    # Adds the specified geospatial items (latitude, longitude, name) to the specified key.
+    #
+    # **Return value**: Integer: The number of elements added to the sorted set, not including elements already existing for which the score was updated.
+    def geoadd(key, longitude, latitude, place)
+      integer_command(["GEOADD", key.to_s, longitude.to_s, latitude.to_s, place.to_s])
+    end
+
+    # Return the distance between two members in the geospatial index represented by the sorted set.
+    #
+    # **Return value**: String: returns the distance as a double (represented as a string) in the specified unit,
+    # or NULL if one or both the elements are missing
+    def geodist(key, member1, member2, unit = nil)
+      q = ["GEODIST", key.to_s, member1.to_s, member2.to_s]
+      q << unit.to_s if unit
+      string_or_nil_command(q)
+    end
+
+    # Return valid Geohash strings representing the position of one or more elements in a sorted set value representing a geospatial index
+    #
+    # **Return value**: Array(String): returns an array where each element is the Geohash corresponding to each
+    # member name passed as argument to the command
+    def geohash(key, *args)
+      q = ["GEOHASH", key]
+      args.each do |arg|
+        q << arg.to_s
+      end
+      string_array_command(q)
+    end
+
+    # Return the positions (longitude,latitude) of all the specified members of the geospatial index represented by the sorted set at key
+    #
+    # **Return value**: Array(String): returns an array where each element is a two elements array representing
+    # longitude and latitude (x,y) of each member name passed as argument to the command
+    def geopos(key, *args)
+      q = ["GEOPOS", key]
+      args.each do |arg|
+        q << arg.to_s
+      end
+      string_array_command(q)
+    end
+
+    # Return the members of a sorted set populated with geospatial information using GEOADD, which are within the borders
+    # of the area specified with the center location and the maximum distance from the center (the radius).
+    #
+    # **Return value**: Array(String): Returns a simple array or array of arrays, depending on the options passed
+    # https://redis.io/commands/georadius#return-value
+    def georadius(key, longitude, latitude, radius, unit, withcoord = nil, withdist = nil, withhash = nil, count = nil, sort = nil)
+      q = ["GEORADIUS", key, longitude.to_s, latitude.to_s, radius.to_s, unit.to_s]
+      q << "WITHCOORD" if withcoord
+      q << "WITHDIST" if withdist
+      q << "WITHHASH" if withhash
+      q << count.to_s if count
+      q << sort.to_s if sort
+      string_array_command(q)
+    end
+
+    # Exactly like GEORADIUS with the sole difference that instead of taking, as the center of the area to query, a longitude
+    # and latitude value, it takes the name of a member already existing inside the geospatial index represented by the sorted set
+    #
+    # **Return value**: Array(String): Returns a simple array or array of arrays, depending on the options passed
+    # https://redis.io/commands/georadius#return-value
+    def georadiusbymember(key, member, radius, unit, withcoord = nil, withdist = nil, withhash = nil, count = nil, sort = nil)
+      q = ["GEORADIUSBYMEMBER", key.to_s, member.to_s, radius.to_s, unit.to_s]
+      q << "WITHCOORD" if withcoord
+      q << "WITHDIST" if withdist
+      q << "WITHHASH" if withhash
+      q << count.to_s if count
+      q << sort.to_s if sort
+      string_array_command(q)
+    end
+
     # Concatenates the source array to the destination array.
     # Is there a better way?
     private def concat(destination : Array(RedisValue), source)
