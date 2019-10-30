@@ -529,7 +529,11 @@ class Redis
       q = ["SCAN", cursor.to_s]
       q << "MATCH" << namespaced(match) if match
       q << "COUNT" << count.to_s if count
-      string_array_command(q)# .map { |key| without_namespace(key) }
+      result = string_array_command(q)
+
+      # result[1] = array_without_namespace(result[1])
+
+      result
     end
 
     # Return a random key from the currently selected database.
@@ -556,7 +560,7 @@ class Redis
     # redis.keys("callmemaybe")
     # ```
     def keys(pattern)
-      string_array_command(["KEYS", namespaced(pattern)]) # .map { |key| without_namespace(key.as(String)) }
+      string_array_command(["KEYS", namespaced(pattern)]).map { |key| without_namespace("#{key}") }
     end
 
     # Insert all the specified values at the tail of the list stored at key.
@@ -752,7 +756,7 @@ class Redis
     #
     # **Return value**: Integer, the number of elements in the resulting set.
     def sdiffstore(destination, keys : Array(String)) : Int64
-      integer_command(concat(["SDIFFSTORE", destination.to_s], namespaced(keys)))
+      integer_command(concat(["SDIFFSTORE", namespaced(destination)], namespaced(keys)))
     end
 
     # :ditto:
@@ -782,7 +786,7 @@ class Redis
     # redis.sinterstore("destination", "key1", "key2")
     # ```
     def sinterstore(destination_key, keys : Array(String)) : Int64
-      integer_command(concat(["SINTERSTORE", destination_key.to_s], namespaced(keys)))
+      integer_command(concat(["SINTERSTORE", namespaced(destination_key)], namespaced(keys)))
     end
 
     # :ditto:
@@ -869,7 +873,7 @@ class Redis
     #
     # **Return value**: Integer, the number of elements in the resulting set.
     def sunionstore(destination, keys : Array(String)) : Int64
-      integer_command(concat(["SUNIONSTORE", destination.to_s], namespaced(keys)))
+      integer_command(concat(["SUNIONSTORE", namespaced(destination)], namespaced(keys)))
     end
 
     # :ditto:
@@ -897,7 +901,12 @@ class Redis
     def blpop(keys, timeout_in_seconds)
       q = concat(["BLPOP"], namespaced(keys))
       q << timeout_in_seconds.to_s
-      array_or_nil_command(q)
+      result = array_or_nil_command(q)
+
+      return result unless result
+
+      result[0] = without_namespace("#{result.first}")
+      result
     end
 
     # BRPOP is a blocking list pop primitive.
@@ -921,7 +930,12 @@ class Redis
     def brpop(keys, timeout_in_seconds)
       q = concat(["BRPOP"], namespaced(keys))
       q << timeout_in_seconds.to_s
-      array_or_nil_command(q)
+      result = array_or_nil_command(q)
+
+      return result unless result
+
+      result[0] = without_namespace("#{result.first}")
+      result
     end
 
     # Atomically returns and removes the last element (tail) of the list stored at source,
@@ -929,7 +943,7 @@ class Redis
     #
     # **Return value**: String, the element being popped and pushed.
     def rpoplpush(source, destination)
-      string_or_nil_command(["RPOPLPUSH", source.to_s, destination.to_s])
+      string_or_nil_command(["RPOPLPUSH", namespaced(source), namespaced(destination)])
     end
 
     # BRPOPLPUSH is the blocking variant of RPOPLPUSH.
@@ -1228,7 +1242,7 @@ class Redis
     # ```
     def zinterstore(destination, keys : Array, weights = nil, aggregate = nil)
       numkeys = keys.size
-      q = concat(["ZINTERSTORE", destination.to_s, numkeys.to_s], namespaced(keys))
+      q = concat(["ZINTERSTORE", namespaced(destination), numkeys.to_s], namespaced(keys))
       if weights
         q << "WEIGHTS"
         concat(q, weights)
@@ -1249,7 +1263,7 @@ class Redis
     # **Return value**: Integer, the number of elements in the resulting sorted set at destination.
     def zunionstore(destination, keys : Array, weights = nil, aggregate = nil)
       numkeys = keys.size
-      q = concat(["ZUNIONSTORE", destination.to_s, numkeys.to_s], namespaced(keys))
+      q = concat(["ZUNIONSTORE", namespaced(destination), numkeys.to_s], namespaced(keys))
       if weights
         q << "WEIGHTS"
         concat(q, weights)
@@ -1817,8 +1831,16 @@ class Redis
       [@namespace, key.to_s].join("::")
     end
 
-    # def without_namespace(key : RedisValue | Nil | String)
-    #   key.to_s.gsub(namespaced(""), "")
+    private def without_namespace(key : String)
+      key.to_s.gsub(namespaced(""), "")
+    end
+
+    # private def array_without_namespace(keys : Array(RedisValue))
+    #   keys.map { |key| without_namespace("#{key}") }
+    # end
+
+    # private def array_without_namespace(keys : (Int32 | Int64 | String | Nil))
+    #   keys
     # end
   end
 end
