@@ -425,8 +425,7 @@ describe Redis do
         # assumes that current Redis instance has at most 10M entries
         new_cursor, keys = redis.scan(0, "scan.match*", 10_000_000)
         new_cursor.should eq("0")
-        puts keys.class
-        # array(keys).sort.should eq(["scan.match1", "scan.match2"])
+        array(keys).sort.should eq(["scan.match1", "scan.match2"])
       end
     end
   end

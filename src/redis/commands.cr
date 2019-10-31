@@ -531,7 +531,7 @@ class Redis
       q << "COUNT" << count.to_s if count
       result = string_array_command(q)
 
-      # result[1] = array_without_namespace(result[1])
+      result[1] = array_without_namespace(result[1])
 
       result
     end
@@ -1832,15 +1832,13 @@ class Redis
     end
 
     private def without_namespace(key : String)
-      key.to_s.gsub(namespaced(""), "")
+      key.to_s.gsub(namespaced(""), "").as(RedisValue)
     end
 
-    # private def array_without_namespace(keys : Array(RedisValue))
-    #   keys.map { |key| without_namespace("#{key}") }
-    # end
+    private def array_without_namespace(keys : (Array(Redis::RedisValue) | Int32 | Int64 | String | Nil))
+      return keys unless keys.is_a?(Array(RedisValue))
 
-    # private def array_without_namespace(keys : (Int32 | Int64 | String | Nil))
-    #   keys
-    # end
+      keys.map { |key| without_namespace("#{key}") }
+    end
   end
 end
