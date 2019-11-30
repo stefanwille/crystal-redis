@@ -45,7 +45,7 @@ class Redis
     # redis.set("bar", "test", ex: 7)
     # ```
     def set(key, value, ex = nil, px = nil, nx = nil, xx = nil)
-      q = ["SET", key.to_s, value.to_s]
+      q = ["SET", namespaced(key), value.to_s]
       q << "EX" << ex.to_s if ex
       q << "PX" << px.to_s if px
       q << "NX" if nx
@@ -64,7 +64,7 @@ class Redis
     # redis.get("foo") # => "test"
     # ```
     def get(key)
-      string_or_nil_command(["GET", key.to_s])
+      string_or_nil_command(["GET", namespaced(key)])
     end
 
     # Ask the server to close the connection. The connection is closed as soon as all pending replies have been written to the client.
@@ -105,7 +105,7 @@ class Redis
     # redis.rename("old_name", "new_name")
     # ```
     def rename(old_key, new_key)
-      string_command(["RENAME", old_key.to_s, new_key.to_s])
+      string_command(["RENAME", namespaced(old_key), namespaced(new_key)])
     end
 
     # Renames old_key to newkey if newkey does not yet exist.
@@ -118,7 +118,7 @@ class Redis
     # redis.renamenx("old_name", "new_name")
     # ```
     def renamenx(old_key, new_key)
-      integer_command(["RENAMENX", old_key.to_s, new_key.to_s])
+      integer_command(["RENAMENX", namespaced(old_key), namespaced(new_key)])
     end
 
     # Removes the specified keys.
@@ -144,7 +144,7 @@ class Redis
     # redis.del(["some", "keys", "to", "delete"])
     # ```
     def del(keys : Array)
-      integer_command(concat(["DEL"], keys))
+      integer_command(concat(["DEL"], namespaced(keys)))
     end
 
     # Returns or stores the elements contained in the list, set or sorted set at key.
@@ -167,7 +167,7 @@ class Redis
     # redis.sort("mylist", order: "DESC") # => [...]
     # ```
     def sort(key, by = nil, limit = nil, get : Array(RedisValue)? = nil, order = "ASC", alpha = false, store = nil)
-      q = ["SORT", key.to_s]
+      q = ["SORT", namespaced(key)]
 
       if by
         q << "BY" << by.to_s
@@ -198,7 +198,7 @@ class Redis
       end
 
       if store
-        q << "STORE" << store.to_s
+        q << "STORE" << namespaced(store)
       end
 
       string_array_or_integer_command(q)
@@ -217,11 +217,11 @@ class Redis
     # redis.mget("foo1", "foo2") # => ["test1", "test2"]
     # ```
     def mget(*keys)
-      string_array_command(concat(["MGET"], keys))
+      string_array_command(concat(["MGET"], namespaced(keys)))
     end
 
     def mget(keys : Array(String)) : Array(RedisValue)
-      string_array_command(concat(["MGET"], keys))
+      string_array_command(concat(["MGET"], namespaced(keys)))
     end
 
     # Sets the given keys to their respective values as defined in the hash.
@@ -235,7 +235,7 @@ class Redis
     # ```
     def mset(hash : Hash)
       q = ["MSET"] of RedisValue
-      hash.each { |key, value| q << key.to_s << value.to_s }
+      hash.each { |key, value| q << namespaced(key) << value.to_s }
       string_command(q)
     end
 
@@ -249,7 +249,7 @@ class Redis
     # redis.getset("foo", "new") # => (the old value)
     # ```
     def getset(key, value)
-      string_or_nil_command(["GETSET", key.to_s, value])
+      string_or_nil_command(["GETSET", namespaced(key), value])
     end
 
     # Set key to hold the string value and set key to timeout after a given number of seconds.
@@ -262,14 +262,14 @@ class Redis
     # redis.setex("foo", 3, "bar")
     # ```
     def setex(key, expire_in_seconds, value)
-      string_command(["SETEX", key.to_s, expire_in_seconds.to_s, value.to_s])
+      string_command(["SETEX", namespaced(key), expire_in_seconds.to_s, value.to_s])
     end
 
     # PSETEX works exactly like SETEX with the sole difference that the expire time is specified in milliseconds instead of seconds.
     #
     # **Return value**: "OK"
     def psetex(key, expire_in_milis, value)
-      string_command(["PSETEX", key.to_s, expire_in_milis.to_s, value.to_s])
+      string_command(["PSETEX", namespaced(key), expire_in_milis.to_s, value.to_s])
     end
 
     # Set key to hold string value if key does not exist.
@@ -278,7 +278,7 @@ class Redis
     # * 1 if the key was set
     # * 0 if the key was not set
     def setnx(key, value)
-      integer_command(["SETNX", key.to_s, value.to_s])
+      integer_command(["SETNX", namespaced(key), value.to_s])
     end
 
     # Sets the given keys to their respective values as defined in the hash.
@@ -295,7 +295,7 @@ class Redis
     # ```
     def msetnx(hash)
       q = ["MSETNX"] of RedisValue
-      hash.each { |key, value| q << key.to_s << value }
+      hash.each { |key, value| q << namespaced(key) << value }
       integer_command(q)
     end
 
@@ -310,14 +310,14 @@ class Redis
     # redis.incr("foo") # => 4
     # ```
     def incr(key)
-      integer_command(["INCR", key.to_s])
+      integer_command(["INCR", namespaced(key)])
     end
 
     # Decrements the number stored at key by one.
     #
     # **Return value**: Integer, the value of key after the decrement
     def decr(key)
-      integer_command(["DECR", key.to_s])
+      integer_command(["DECR", namespaced(key)])
     end
 
     # Increments the number stored at key by increment.
@@ -330,7 +330,7 @@ class Redis
     # redis.incrby("foo", 4)
     # ```
     def incrby(key, increment)
-      integer_command(["INCRBY", key.to_s, increment.to_s])
+      integer_command(["INCRBY", namespaced(key), increment.to_s])
     end
 
     # Increment the string representing a floating point number stored at key by the specified increment.
@@ -343,14 +343,14 @@ class Redis
     # redis.incrbyfloat("foo", 2.5)
     # ```
     def incrbyfloat(key, increment)
-      string_command(["INCRBYFLOAT", key.to_s, increment.to_s])
+      string_command(["INCRBYFLOAT", namespaced(key), increment.to_s])
     end
 
     # Decrements the number stored at key by decrement.
     #
     # **Return value**: Integer, the value of key after the decrement
     def decrby(key, decrement)
-      integer_command(["DECRBY", key.to_s, decrement.to_s])
+      integer_command(["DECRBY", namespaced(key), decrement.to_s])
     end
 
     # If key already exists and is a string, this command appends the value at the end of the string.
@@ -364,14 +364,14 @@ class Redis
     # redis.append("foo", " world")
     # ```
     def append(key, value)
-      integer_command(["APPEND", key.to_s, value.to_s])
+      integer_command(["APPEND", namespaced(key), value.to_s])
     end
 
     # Returns the length of the string value stored at key.
     #
     # **Return value**: Integer, the length of the string at key, or 0 when key does not exist.
     def strlen(key)
-      integer_command(["STRLEN", key.to_s])
+      integer_command(["STRLEN", namespaced(key)])
     end
 
     # Returns the substring of the string value stored at key, determined by the offsets start and end (both are inclusive).
@@ -385,7 +385,7 @@ class Redis
     # redis.getrange("foo", -3, -1) # => "ing"
     # ```
     def getrange(key, start_index, end_index)
-      string_command(["GETRANGE", key.to_s, start_index.to_s, end_index.to_s])
+      string_command(["GETRANGE", namespaced(key), start_index.to_s, end_index.to_s])
     end
 
     # Overwrites part of the string stored at key, starting at the specified offset, for the entire length of value.
@@ -398,7 +398,7 @@ class Redis
     # redis.setrange("foo", 6, "Redis")
     # ```
     def setrange(key, start_index, value)
-      integer_command(["SETRANGE", key.to_s, start_index.to_s, value.to_s])
+      integer_command(["SETRANGE", namespaced(key), start_index.to_s, value.to_s])
     end
 
     # Count the number of set bits (population counting) in a string.
@@ -416,7 +416,7 @@ class Redis
     # redis.bitcount("foo", 0, 0)
     # ```
     def bitcount(key, from = nil, to = nil)
-      q = ["BITCOUNT", key.to_s]
+      q = ["BITCOUNT", namespaced(key)]
       if from
         if to
           q << from.to_s
@@ -438,7 +438,7 @@ class Redis
     # redis.bitop("and", "dest", "key1", "key2")
     # ```
     def bitop(operation, key, keys : Array(String)) : Int64
-      integer_command(concat(["BITOP", operation.to_s, key.to_s], keys))
+      integer_command(concat(["BITOP", operation.to_s, namespaced(key)], namespaced(keys)))
     end
 
     # :ditto:
@@ -450,7 +450,7 @@ class Redis
     #
     # **Return value**: Integer, the bit value stored at offset.
     def getbit(key, index)
-      integer_command(["GETBIT", key.to_s, index.to_s])
+      integer_command(["GETBIT", namespaced(key), index.to_s])
     end
 
     # Sets or clears the bit at offset in the string value stored at key.
@@ -463,7 +463,7 @@ class Redis
     # redis.setbit("mykey", 7, 1)
     # ```
     def setbit(key, index, value)
-      integer_command(["SETBIT", key.to_s, index.to_s, value.to_s])
+      integer_command(["SETBIT", namespaced(key), index.to_s, value.to_s])
     end
 
     # Return the position of the first bit set to 1 or 0 in a string.
@@ -481,7 +481,7 @@ class Redis
     # redis.bitpos("mykey", 1) # => 2
     # ```
     def bitpos(key, bit, start = nil, to = nil)
-      q = ["BITPOS", key.to_s, bit.to_s] of RedisValue
+      q = ["BITPOS", namespaced(key), bit.to_s] of RedisValue
       if start
         q << start.to_s
         if to
@@ -495,14 +495,14 @@ class Redis
     #
     # **Return value**: String, the serialized value.
     def dump(key)
-      string_command(["DUMP", key.to_s])
+      string_command(["DUMP", namespaced(key)])
     end
 
     # Create a key associated with a value that is obtained by deserializing the provided serialized value (obtained via DUMP).
     #
     # **Return value**: The command returns "OK" on success.
     def restore(key, ttl_in_milis : Int, serialized_value : String, replace = false)
-      q = ["RESTORE", key.to_s, ttl_in_milis.to_s, serialized_value]
+      q = ["RESTORE", namespaced(key), ttl_in_milis.to_s, serialized_value]
       if replace
         q << "REPLACE"
       end
@@ -527,9 +527,13 @@ class Redis
     # ```
     def scan(cursor, match = nil, count = nil)
       q = ["SCAN", cursor.to_s]
-      q << "MATCH" << match.to_s if match
+      q << "MATCH" << namespaced(match) if match
       q << "COUNT" << count.to_s if count
-      string_array_command(q)
+      result = string_array_command(q)
+
+      result[1] = array_without_namespace(result[1])
+
+      result
     end
 
     # Return a random key from the currently selected database.
@@ -543,7 +547,7 @@ class Redis
     # * 1 if the key exists.
     # * 0 if the key does not exist.
     def exists(key)
-      integer_command(["EXISTS", key.to_s])
+      integer_command(["EXISTS", namespaced(key)])
     end
 
     # Returns all keys matching pattern.
@@ -556,7 +560,7 @@ class Redis
     # redis.keys("callmemaybe")
     # ```
     def keys(pattern)
-      string_array_command(["KEYS", pattern.to_s])
+      string_array_command(["KEYS", namespaced(pattern)]).map { |key| without_namespace("#{key}") }
     end
 
     # Insert all the specified values at the tail of the list stored at key.
@@ -569,7 +573,7 @@ class Redis
     # redis.rpush("mylist", "1", "2", "3")
     # ```
     def rpush(key, values : Array(RedisValue))
-      integer_command(concat(["RPUSH", key.to_s], values))
+      integer_command(concat(["RPUSH", namespaced(key)], values))
     end
 
     # :ditto:
@@ -586,21 +590,21 @@ class Redis
 
     # :ditto:
     def lpush(key, values : Array(RedisValue))
-      integer_command(concat(["LPUSH", key.to_s], values))
+      integer_command(concat(["LPUSH", namespaced(key)], values))
     end
 
     # Inserts value at the head of the list stored at key, only if key already exists and holds a list.
     #
     # **Return value**: Integer, the length of the list after the push operation.
     def lpushx(key, value)
-      integer_command(["LPUSHX", key.to_s, value.to_s])
+      integer_command(["LPUSHX", namespaced(key), value.to_s])
     end
 
     # Inserts value at the tail of the list stored at key, only if key already exists and holds a list.
     #
     # **Return value**: Integer, the length of the list after the push operation.
     def rpushx(key, value)
-      integer_command(["RPUSHX", key.to_s, value.to_s])
+      integer_command(["RPUSHX", namespaced(key), value.to_s])
     end
 
     # Removes the first count occurrences of elements equal to value from the list stored at key.
@@ -613,28 +617,28 @@ class Redis
     # redis.lrem("mylist", 1, "my")
     # ```
     def lrem(key, count, value)
-      integer_command(["LREM", key.to_s, count.to_s, value.to_s])
+      integer_command(["LREM", namespaced(key), count.to_s, value.to_s])
     end
 
     # Returns the length of the list stored at key.
     #
     # **Return value**: Integer, the length of the list at key.
     def llen(key)
-      integer_command(["LLEN", key.to_s])
+      integer_command(["LLEN", namespaced(key)])
     end
 
     # Returns the element at index index in the list stored at key.
     #
     # **Return value**: String, the requested element, or nil when index is out of range.
     def lindex(key, index)
-      string_or_nil_command(["LINDEX", key.to_s, index.to_s])
+      string_or_nil_command(["LINDEX", namespaced(key), index.to_s])
     end
 
     # Sets the list element at index to value.
     #
     # **Return value**: "OK"
     def lset(key, index, value)
-      string_command(["LSET", key.to_s, index.to_s, value.to_s])
+      string_command(["LSET", namespaced(key), index.to_s, value.to_s])
     end
 
     # Removes and returns the first element of the list stored at key.
@@ -647,14 +651,14 @@ class Redis
     # redis.lpop("mylist")
     # ```
     def lpop(key)
-      string_or_nil_command(["LPOP", key.to_s])
+      string_or_nil_command(["LPOP", namespaced(key)])
     end
 
     # Removes and returns the last element of the list stored at key.
     #
     # **Return value**: "OK"
     def rpop(key)
-      string_or_nil_command(["RPOP", key.to_s])
+      string_or_nil_command(["RPOP", namespaced(key)])
     end
 
     # Inserts value in the list stored at key either before or after the reference value pivot.
@@ -665,7 +669,7 @@ class Redis
     #
     # **Return value**: Integer, the length of the list after the insert operation, or -1 when the value pivot was not found.
     def linsert(key, where, pivot, value)
-      integer_command(["LINSERT", key.to_s, where.to_s, pivot.to_s, value.to_s])
+      integer_command(["LINSERT", namespaced(key), where.to_s, pivot.to_s, value.to_s])
     end
 
     # Returns the specified elements of the list stored at key.
@@ -678,14 +682,14 @@ class Redis
     # redis.lrange("mylist", 0, 2)
     # ```
     def lrange(key, from, to)
-      string_array_command(["LRANGE", key.to_s, from.to_s, to.to_s])
+      string_array_command(["LRANGE", namespaced(key), from.to_s, to.to_s])
     end
 
     # Trim an existing list so that it will contain only the specified range of elements specified.
     #
     # **Return value**: "OK"
     def ltrim(key, start, stop)
-      string_command(["LTRIM", key.to_s, start.to_s, stop.to_s])
+      string_command(["LTRIM", namespaced(key), start.to_s, stop.to_s])
     end
 
     # Add the specified members to the set stored at key.
@@ -696,14 +700,14 @@ class Redis
     end
 
     def sadd(key, values : Array(RedisValue))
-      integer_command(concat(["SADD", key.to_s], values))
+      integer_command(concat(["SADD", namespaced(key)], values))
     end
 
     # Returns all the members of the set value stored at key.
     #
     # **Return value**: Array(String), all elements of the set.
     def smembers(key)
-      string_array_command(["SMEMBERS", key.to_s])
+      string_array_command(["SMEMBERS", namespaced(key)])
     end
 
     # Returns if member is a member of the set stored at key.
@@ -712,7 +716,7 @@ class Redis
     # * 1 if the element is a member of the set.
     # * 0 if the element is not a member of the set, or if key does not exist.
     def sismember(key, value)
-      integer_command(["SISMEMBER", key.to_s, value.to_s])
+      integer_command(["SISMEMBER", namespaced(key), value.to_s])
     end
 
     # Remove the specified members from the set stored at key.
@@ -729,19 +733,19 @@ class Redis
     end
 
     def srem(key, values : Array(RedisValue))
-      integer_command(concat(["SREM", key.to_s], values))
+      integer_command(concat(["SREM", namespaced(key)], values))
     end
 
     # Returns the set cardinality (number of elements) of the set stored at key.
     def scard(key)
-      integer_command(["SCARD", key.to_s])
+      integer_command(["SCARD", namespaced(key)])
     end
 
     # Returns the members of the set resulting from the difference between the first set and all the successive sets.
     #
     # **Return value**: Array(String), a list with members of the resulting set.
     def sdiff(keys : Array(String)) : Array(RedisValue)
-      string_array_command(concat(["SDIFF"], keys))
+      string_array_command(concat(["SDIFF"], namespaced(keys)))
     end
 
     def sdiff(*keys : String) : Array(RedisValue)
@@ -752,7 +756,7 @@ class Redis
     #
     # **Return value**: Integer, the number of elements in the resulting set.
     def sdiffstore(destination, keys : Array(String)) : Int64
-      integer_command(concat(["SDIFFSTORE", destination.to_s], keys))
+      integer_command(concat(["SDIFFSTORE", namespaced(destination)], namespaced(keys)))
     end
 
     # :ditto:
@@ -764,7 +768,7 @@ class Redis
     #
     # **Return value**: Array(String), an array with members of the resulting set.
     def sinter(keys : Array(String)) : Array(RedisValue)
-      string_array_command(concat(["SINTER"], keys))
+      string_array_command(concat(["SINTER"], namespaced(keys)))
     end
 
     # :ditto:
@@ -782,7 +786,7 @@ class Redis
     # redis.sinterstore("destination", "key1", "key2")
     # ```
     def sinterstore(destination_key, keys : Array(String)) : Int64
-      integer_command(concat(["SINTERSTORE", destination_key.to_s], keys))
+      integer_command(concat(["SINTERSTORE", namespaced(destination_key)], namespaced(keys)))
     end
 
     # :ditto:
@@ -796,7 +800,7 @@ class Redis
     # * 1 if the element is moved.
     # * 0 if the element is not a member of source and no operation was performed.
     def smove(source, destination, member)
-      integer_command(["SMOVE", source.to_s, destination.to_s, member.to_s])
+      integer_command(["SMOVE", namespaced(source), namespaced(destination), member.to_s])
     end
 
     # Removes and returns one or more random elements from the set value store at key.
@@ -805,7 +809,7 @@ class Redis
     #
     # **Return value**: The removed element, or nil when key does not exist.
     def spop(key, count = nil)
-      q = ["SPOP", key.to_s]
+      q = ["SPOP", namespaced(key)]
       # Redis 3.0 should have the "count" argument, but doesn't yet.
       if count
         q << count.to_s
@@ -823,7 +827,7 @@ class Redis
     # * String: without the additional count argument the command returns a Bulk Reply with the randomly selected element, or nil when key does not exist.
     # * Array: when the additional count argument is passed the command returns an array of elements, or an empty array when key does not exist.
     def srandmember(key, count = nil)
-      q = ["SRANDMEMBER", key.to_s]
+      q = ["SRANDMEMBER", namespaced(key)]
       if count
         q << count.to_s
       end
@@ -847,17 +851,17 @@ class Redis
     # redis.sscan("myset", 0, "foo*", 1024)
     # ```
     def sscan(key, cursor, match = nil, count = nil)
-      q = ["SSCAN", key.to_s, cursor.to_s]
+      q = ["SSCAN", namespaced(key), cursor.to_s]
       q << "MATCH" << match.to_s if match
       q << "COUNT" << count.to_s if count
-      string_array_command(q)
+      string_array_command(q)# .map { |key| without_namespace(key) }
     end
 
     # Returns the members of the set resulting from the union of all the given sets.
     #
     # **Return value**: Array(String), with members of the resulting set.
     def sunion(keys : Array(String))
-      string_array_command(concat(["SUNION"], keys))
+      string_array_command(concat(["SUNION"], namespaced(keys)))
     end
 
     # :ditto:
@@ -869,7 +873,7 @@ class Redis
     #
     # **Return value**: Integer, the number of elements in the resulting set.
     def sunionstore(destination, keys : Array(String)) : Int64
-      integer_command(concat(["SUNIONSTORE", destination.to_s], keys))
+      integer_command(concat(["SUNIONSTORE", namespaced(destination)], namespaced(keys)))
     end
 
     # :ditto:
@@ -895,9 +899,14 @@ class Redis
     # redis.blpop(["myotherlist", "mylist"], 1) # => ["mylist", "hello"]
     # ```
     def blpop(keys, timeout_in_seconds)
-      q = concat(["BLPOP"], keys)
+      q = concat(["BLPOP"], namespaced(keys))
       q << timeout_in_seconds.to_s
-      array_or_nil_command(q)
+      result = array_or_nil_command(q)
+
+      return result unless result
+
+      result[0] = without_namespace("#{result.first}")
+      result
     end
 
     # BRPOP is a blocking list pop primitive.
@@ -919,9 +928,14 @@ class Redis
     # redis.brpop(["myotherlist", "mylist"], 1) # => ["mylist", "world"]
     # ```
     def brpop(keys, timeout_in_seconds)
-      q = concat(["BRPOP"], keys)
+      q = concat(["BRPOP"], namespaced(keys))
       q << timeout_in_seconds.to_s
-      array_or_nil_command(q)
+      result = array_or_nil_command(q)
+
+      return result unless result
+
+      result[0] = without_namespace("#{result.first}")
+      result
     end
 
     # Atomically returns and removes the last element (tail) of the list stored at source,
@@ -929,7 +943,7 @@ class Redis
     #
     # **Return value**: String, the element being popped and pushed.
     def rpoplpush(source, destination)
-      string_or_nil_command(["RPOPLPUSH", source.to_s, destination.to_s])
+      string_or_nil_command(["RPOPLPUSH", namespaced(source), namespaced(destination)])
     end
 
     # BRPOPLPUSH is the blocking variant of RPOPLPUSH.
@@ -969,7 +983,7 @@ class Redis
     # redis.hset("myhash", "a", "434")
     # ```
     def hset(key, field, value)
-      integer_command(["HSET", key.to_s, field.to_s, value.to_s])
+      integer_command(["HSET", namespaced(key), field.to_s, value.to_s])
     end
 
     # Returns the value associated with field in the hash stored at key.
@@ -982,7 +996,7 @@ class Redis
     # redis.hget("myhash", "a") # => "434"
     # ```
     def hget(key, field)
-      string_or_nil_command(["HGET", key.to_s, field.to_s])
+      string_or_nil_command(["HGET", namespaced(key), field.to_s])
     end
 
     # Returns all fields and values of the hash stored at key.
@@ -990,7 +1004,7 @@ class Redis
     # **Return value**: Array(String) of fields and their values stored in the hash,
     # or an empty array when key does not exist.
     def hgetall(key)
-      string_array_command(["HGETALL", key.to_s])
+      string_array_command(["HGETALL", namespaced(key)])
     end
 
     # Removes the specified fields from the hash stored at key.
@@ -998,7 +1012,7 @@ class Redis
     # **Return value**: Integer, the number of fields that were removed from the hash,
     # not including specified but non existing fields.
     def hdel(key, field)
-      integer_command(["HDEL", key.to_s, field.to_s])
+      integer_command(["HDEL", namespaced(key), field.to_s])
     end
 
     # Returns if field is an existing field in the hash stored at key.
@@ -1007,7 +1021,7 @@ class Redis
     # * 1 if the hash contains field.
     # * 0 if the hash does not contain field, or key does not exist.
     def hexists(key, field)
-      integer_command(["HEXISTS", key.to_s, field.to_s])
+      integer_command(["HEXISTS", namespaced(key), field.to_s])
     end
 
     # Increments the number stored at field in the hash stored at key by increment.
@@ -1020,7 +1034,7 @@ class Redis
     # redis.hincrby("myhash", "field1", "3") # => 4
     # ```
     def hincrby(key, field, increment)
-      integer_command(["HINCRBY", key.to_s, field.to_s, increment.to_s])
+      integer_command(["HINCRBY", namespaced(key), field.to_s, increment.to_s])
     end
 
     # Increment the specified field of an hash stored at key,
@@ -1028,28 +1042,28 @@ class Redis
     #
     # **Return value**: String, the value at field after the increment operation.
     def hincrbyfloat(key, field, increment)
-      string_command(["HINCRBYFLOAT", key.to_s, field.to_s, increment.to_s])
+      string_command(["HINCRBYFLOAT", namespaced(key), field.to_s, increment.to_s])
     end
 
     # Returns all field names in the hash stored at key.
     #
     # **Return value**: Array(String) - list of fields in the hash, or an empty list when key does not exist.
     def hkeys(key)
-      string_array_command(["HKEYS", key.to_s])
+      string_array_command(["HKEYS", namespaced(key)])
     end
 
     # Returns the number of fields contained in the hash stored at key.
     #
     # **Return value**: Integer, the number of fields in the hash, or 0 when key does not exist.
     def hlen(key)
-      integer_command(["HLEN", key.to_s])
+      integer_command(["HLEN", namespaced(key)])
     end
 
     # Returns the values associated with the specified fields in the hash stored at key.
     #
     # **Return value**: Array(RedisValue), the list of values associated with the given fields, in the same order as they are requested.
     def hmget(key, fields : Array(String)) : Array(RedisValue)
-      string_array_command(concat(["HMGET", key.to_s], fields))
+      string_array_command(concat(["HMGET", namespaced(key)], fields))
     end
 
     # :ditto:
@@ -1061,7 +1075,7 @@ class Redis
     #
     # **Return value**: "OK"
     def hmset(key, hash)
-      q = ["HMSET", key.to_s] of RedisValue
+      q = ["HMSET", namespaced(key)] of RedisValue
       hash.each { |field, value| q << field.to_s << value.to_s }
       string_command(q)
     end
@@ -1081,7 +1095,7 @@ class Redis
     # redis.hscan("myhash", 0, "foo*", 1024)
     # ```
     def hscan(key, cursor, match = nil, count = nil)
-      q = ["HSCAN", key.to_s, cursor.to_s]
+      q = ["HSCAN", namespaced(key), cursor.to_s]
       q << "MATCH" << match.to_s if match
       q << "COUNT" << count.to_s if count
       string_array_command(q)
@@ -1093,14 +1107,14 @@ class Redis
     # * 1 if field is a new field in the hash and value was set.
     # * 0 if field already exists in the hash and no operation was performed.
     def hsetnx(key, field, value)
-      integer_command(["HSETNX", key.to_s, field.to_s, value.to_s])
+      integer_command(["HSETNX", namespaced(key), field.to_s, value.to_s])
     end
 
     # Returns all values in the hash stored at key.
     #
     # **Return value**: Array(String), the list of values in the hash, or an empty list when key does not exist.
     def hvals(key)
-      string_array_command(["HVALS", key.to_s])
+      string_array_command(["HVALS", namespaced(key)])
     end
 
     # Adds all the specified members with the specified scores to the sorted set stored at key.
@@ -1118,7 +1132,7 @@ class Redis
         raise Error.new("zadd expects an array of scores mapped to members")
       end
 
-      integer_command(concat(["ZADD", key.to_s], scores_and_members))
+      integer_command(concat(["ZADD", namespaced(key)], scores_and_members))
     end
 
     def zadd(key, scores_and_members : Array(RedisValue))
@@ -1126,7 +1140,7 @@ class Redis
         raise Error.new("zadd expects an array of scores mapped to members")
       end
 
-      integer_command(concat(["ZADD", key.to_s], scores_and_members))
+      integer_command(concat(["ZADD", namespaced(key)], scores_and_members))
     end
 
     # Returns the specified range of elements in the sorted set stored at key.
@@ -1143,7 +1157,7 @@ class Redis
     # redis.zrange("myzset", 0, -1, with_scores: true) # => ["one", "1", "uno", "1", "two", "2", "three", "3"]
     # ```
     def zrange(key, start, stop, with_scores = false)
-      q = ["ZRANGE", key.to_s, start.to_s, stop.to_s]
+      q = ["ZRANGE", namespaced(key), start.to_s, stop.to_s]
       if with_scores
         q << "WITHSCORES"
       end
@@ -1154,42 +1168,42 @@ class Redis
     #
     # **Return value**: Integer, the cardinality (number of elements) of the sorted set, or 0 if key does not exist.
     def zcard(key)
-      integer_command(["ZCARD", key.to_s])
+      integer_command(["ZCARD", namespaced(key)])
     end
 
     # Returns the score of member in the sorted set at key.
     #
     # **Return value**: String, the score of member (a double precision floating point number).
     def zscore(key, member)
-      string_or_nil_command(["ZSCORE", key.to_s, member.to_s])
+      string_or_nil_command(["ZSCORE", namespaced(key), member.to_s])
     end
 
     # Returns the number of elements in the sorted set at key with a score between min and max.
     #
     # **Return value**: Integer, the number of elements in the specified score range.
     def zcount(key, min, max)
-      integer_command(["ZCOUNT", key.to_s, min.to_s, max.to_s])
+      integer_command(["ZCOUNT", namespaced(key), min.to_s, max.to_s])
     end
 
     # When all the elements in a sorted set are inserted with the same score, in order to force lexicographical ordering, this command returns the number of elements in the sorted set at key with a value between min and max.
     #
     # **Return value**: Integer, the number of elements in the specified score range.
     def zlexcount(key, min, max)
-      integer_command(["ZLEXCOUNT", key.to_s, min.to_s, max.to_s])
+      integer_command(["ZLEXCOUNT", namespaced(key), min.to_s, max.to_s])
     end
 
     # Increments the score of member in the sorted set stored at key by increment.
     #
     # **Return value**: String, the new score of member (a double precision floating point number represented as String).
     def zincrby(key, increment, member)
-      string_command(["ZINCRBY", key.to_s, increment.to_s, member.to_s])
+      string_command(["ZINCRBY", namespaced(key), increment.to_s, member.to_s])
     end
 
     # Removes the specified members from the sorted set stored at key.
     #
     # **Return value**: Integer, the number of members removed from the sorted set, not including non existing members.
     def zrem(key, member)
-      integer_command(["ZREM", key.to_s, member.to_s])
+      integer_command(["ZREM", namespaced(key), member.to_s])
     end
 
     # Returns the rank of member in the sorted set stored at key, with the scores ordered from low to high.
@@ -1198,7 +1212,7 @@ class Redis
     # * If member exists in the sorted set, Integer: the rank of member.
     # * If member does not exist in the sorted set or key does not exist: nil.
     def zrank(key, member)
-      integer_or_nil_command(["ZRANK", key.to_s, member.to_s])
+      integer_or_nil_command(["ZRANK", namespaced(key), member.to_s])
     end
 
     # Returns the rank of member in the sorted set stored at key,
@@ -1208,7 +1222,7 @@ class Redis
     # * If member exists in the sorted set, Integer: the rank of member.
     # * If member does not exist in the sorted set or key does not exist: nil.
     def zrevrank(key, member)
-      integer_or_nil_command(["ZREVRANK", key.to_s, member.to_s])
+      integer_or_nil_command(["ZREVRANK", namespaced(key), member.to_s])
     end
 
     # Computes the intersection of numkeys sorted sets given by the specified keys,
@@ -1228,7 +1242,7 @@ class Redis
     # ```
     def zinterstore(destination, keys : Array, weights = nil, aggregate = nil)
       numkeys = keys.size
-      q = concat(["ZINTERSTORE", destination.to_s, numkeys.to_s], keys)
+      q = concat(["ZINTERSTORE", namespaced(destination), numkeys.to_s], namespaced(keys))
       if weights
         q << "WEIGHTS"
         concat(q, weights)
@@ -1249,7 +1263,7 @@ class Redis
     # **Return value**: Integer, the number of elements in the resulting sorted set at destination.
     def zunionstore(destination, keys : Array, weights = nil, aggregate = nil)
       numkeys = keys.size
-      q = concat(["ZUNIONSTORE", destination.to_s, numkeys.to_s], keys)
+      q = concat(["ZUNIONSTORE", namespaced(destination), numkeys.to_s], namespaced(keys))
       if weights
         q << "WEIGHTS"
         concat(q, weights)
@@ -1270,7 +1284,7 @@ class Redis
     #
     # **Return value**:
     def zrangebylex(key, min, max, limit = nil)
-      q = ["ZRANGEBYLEX", key.to_s, min.to_s, max.to_s]
+      q = ["ZRANGEBYLEX", namespaced(key), min.to_s, max.to_s]
       if limit
         q << "LIMIT" << limit[0].to_s << limit[1].to_s
       end
@@ -1287,7 +1301,7 @@ class Redis
     #
     # **Return value**: Array(String), the list of elements in the specified score range (optionally with their scores).
     def zrangebyscore(key, min, max, limit = nil, with_scores = false)
-      q = ["ZRANGEBYSCORE", key.to_s, min.to_s, max.to_s]
+      q = ["ZRANGEBYSCORE", namespaced(key), min.to_s, max.to_s]
       if limit
         q << "LIMIT" << limit[0].to_s << limit[1].to_s
       end
@@ -1305,7 +1319,7 @@ class Redis
     #
     # **Return value**: Array(String), the list of elements in the specified range (optionally with their scores, in case the with_scores option is true).
     def zrevrange(key, start, stop, with_scores = false)
-      q = ["ZREVRANGE", key.to_s, start.to_s, stop.to_s]
+      q = ["ZREVRANGE", namespaced(key), start.to_s, stop.to_s]
       if with_scores
         q << "WITHSCORES"
       end
@@ -1323,7 +1337,7 @@ class Redis
     #
     # **Return value**:
     def zrevrangebylex(key, min, max, limit = nil)
-      q = ["ZREVRANGEBYLEX", key.to_s, min.to_s, max.to_s]
+      q = ["ZREVRANGEBYLEX", namespaced(key), min.to_s, max.to_s]
       if limit
         q << "LIMIT" << limit[0].to_s << limit[1].to_s
       end
@@ -1340,7 +1354,7 @@ class Redis
     #
     # **Return value**: Array(String), the list of elements in the specified score range (optionally with their scores).
     def zrevrangebyscore(key, min, max, limit = nil, with_scores = false)
-      q = ["ZREVRANGEBYSCORE", key.to_s, min.to_s, max.to_s]
+      q = ["ZREVRANGEBYSCORE", namespaced(key), min.to_s, max.to_s]
       if limit
         q << "LIMIT" << limit[0].to_s << limit[1].to_s
       end
@@ -1357,14 +1371,14 @@ class Redis
     #
     # **Return value**: Integer, the number of elements removed.
     def zremrangebylex(key, min, max)
-      integer_command(["ZREMRANGEBYLEX", key.to_s, min.to_s, max.to_s])
+      integer_command(["ZREMRANGEBYLEX", namespaced(key), min.to_s, max.to_s])
     end
 
     # Removes all elements in the sorted set stored at key with rank between start and stop.
     #
     # **Return value**: Integer, the number of elements removed.
     def zremrangebyrank(key, start, stop)
-      integer_command(["ZREMRANGEBYRANK", key.to_s, start.to_s, stop.to_s])
+      integer_command(["ZREMRANGEBYRANK", namespaced(key), start.to_s, stop.to_s])
     end
 
     # Removes all elements in the sorted set stored at key with a score
@@ -1372,7 +1386,7 @@ class Redis
     #
     # **Return value**: Integer, the number of elements removed.
     def zremrangebyscore(key, start, stop)
-      integer_command(["ZREMRANGEBYSCORE", key.to_s, start.to_s, stop.to_s])
+      integer_command(["ZREMRANGEBYSCORE", namespaced(key), start.to_s, stop.to_s])
     end
 
     # The SCAN command and the closely related commands SSCAN, HSCAN and ZSCAN are used in order to incrementally iterate over a collection of elements.
@@ -1392,7 +1406,7 @@ class Redis
     # redis.zscan("myzset", 0, "foo*", 1024)
     # ```
     def zscan(key, cursor, match = nil, count = nil)
-      q = ["ZSCAN", key.to_s, cursor.to_s]
+      q = ["ZSCAN", namespaced(key), cursor.to_s]
       q << "MATCH" << match.to_s if match
       q << "COUNT" << count.to_s if count
       string_array_command(q)
@@ -1409,7 +1423,7 @@ class Redis
     # redis.pfadd("hll", "a", "b", "c", "d", "e", "f", "g") # => 1
     # ```
     def pfadd(key, values : Array(String)) : Int64
-      integer_command(concat(["PFADD", key.to_s], values))
+      integer_command(concat(["PFADD", namespaced(key)], values))
     end
 
     # :ditto:
@@ -1421,7 +1435,7 @@ class Redis
     # approximate the cardinality of the union of the observed Sets of the
     # source HyperLogLog structures.
     def pfmerge(keys : Array(String))
-      string_command(concat(["PFMERGE"], keys))
+      string_command(concat(["PFMERGE"], namespaced(keys)))
     end
 
     # :ditto:
@@ -1436,7 +1450,7 @@ class Redis
     # **Return value**: Integer, the approximated number of unique elements
     # observed via PFADD.
     def pfcount(keys : Array(String)) : Int64
-      integer_command(concat(["PFCOUNT"], keys))
+      integer_command(concat(["PFCOUNT"], namespaced(keys)))
     end
 
     # :ditto:
@@ -1531,7 +1545,7 @@ class Redis
     # redis.expire("temp", 2)
     # ```
     def expire(key, seconds)
-      integer_command(["EXPIRE", key.to_s, seconds.to_s])
+      integer_command(["EXPIRE", namespaced(key), seconds.to_s])
     end
 
     # This command works exactly like EXPIRE but the time to live of the key is
@@ -1541,7 +1555,7 @@ class Redis
     # * 1 if the timeout was set.
     # * 0 if key does not exist or the timeout could not be set.
     def pexpire(key, milis)
-      integer_command(["PEXPIRE", key.to_s, milis.to_s])
+      integer_command(["PEXPIRE", namespaced(key), milis.to_s])
     end
 
     # EXPIREAT has the same effect and semantic as EXPIRE, but instead of
@@ -1552,7 +1566,7 @@ class Redis
     # * 1 if the timeout was set.
     # * 0 if key does not exist or the timeout could not be set.
     def expireat(key, unix_date)
-      integer_command(["EXPIREAT", key.to_s, unix_date.to_s])
+      integer_command(["EXPIREAT", namespaced(key), unix_date.to_s])
     end
 
     # PEXPIREAT has the same effect and semantic as EXPIREAT, but the Unix time
@@ -1562,7 +1576,7 @@ class Redis
     # * 1 if the timeout was set.
     # * 0 if key does not exist or the timeout could not be set.
     def pexpireat(key, unix_date_in_millis)
-      integer_command(["PEXPIREAT", key.to_s, unix_date_in_millis.to_s])
+      integer_command(["PEXPIREAT", namespaced(key), unix_date_in_millis.to_s])
     end
 
     # Remove the existing timeout on key, turning the key from volatile
@@ -1573,7 +1587,7 @@ class Redis
     # * 1 if the timeout was removed.
     # * 0 if key does not exist or does not have an associated timeout.
     def persist(key)
-      integer_command(["PERSIST", key.to_s])
+      integer_command(["PERSIST", namespaced(key)])
     end
 
     # Returns the remaining time to live of a key that has a timeout.
@@ -1581,7 +1595,7 @@ class Redis
     # **Return value**: Integer: TTL in seconds, or a negative value in order to
     # signal an error (see the description above).
     def ttl(key)
-      integer_command(["TTL", key.to_s])
+      integer_command(["TTL", namespaced(key)])
     end
 
     # Like TTL this command returns the remaining time to live of a key that has
@@ -1590,7 +1604,7 @@ class Redis
     #
     # **Return value**: Integer, the TTL in milliseconds, or a negative value in order to signal an error.
     def pttl(key)
-      integer_command(["PTTL", key.to_s])
+      integer_command(["PTTL", namespaced(key)])
     end
 
     # Returns the string representation of the type of the value stored at key.
@@ -1604,7 +1618,7 @@ class Redis
     # redis.type("foo") # => "string"
     # ```
     def type(key)
-      string_command(["TYPE", key.to_s])
+      string_command(["TYPE", namespaced(key)])
     end
 
     # Subscribes to channels and enters a subscription loop, waiting for events.
@@ -1735,7 +1749,7 @@ class Redis
     #
     # **Return value**: "OK"
     def watch(keys : Array(String))
-      string_command(concat(["WATCH"], keys))
+      string_command(concat(["WATCH"], namespaced(keys)))
     end
 
     def watch(*keys)
@@ -1771,7 +1785,7 @@ class Redis
     # **Return value**: Integer: returns the number of references
     # of the value associated with the specified key.
     def object_refcount(key)
-      integer_or_nil_command(["OBJECT", "REFCOUNT", key.to_s])
+      integer_or_nil_command(["OBJECT", "REFCOUNT", namespaced(key)])
     end
 
     # Returns the kind of internal representation used in order to store
@@ -1780,7 +1794,7 @@ class Redis
     # **Return value**: String: returns the kind of internal representation
     # used in order to store the value associated with a key.
     def object_encoding(key)
-      string_or_nil_command(["OBJECT", "ENCODING", key.to_s])
+      string_or_nil_command(["OBJECT", "ENCODING", namespaced(key)])
     end
 
     # Returns the number of seconds since the object stored at the specified key
@@ -1790,7 +1804,7 @@ class Redis
     # since the object stored at the specified key is idle
     # (not requested by read or write operations).
     def object_idletime(key)
-      integer_or_nil_command(["OBJECT", "IDLETIME", key.to_s])
+      integer_or_nil_command(["OBJECT", "IDLETIME", namespaced(key)])
     end
 
     # Concatenates the source array to the destination array.
@@ -1806,6 +1820,26 @@ class Redis
       concat(destination, source1)
       concat(destination, source2)
       destination
+    end
+
+    private def namespaced(keys : (Array(String) | Tuple(String, String)))
+      keys.map { |key| namespaced(key) }
+    end
+
+    private def namespaced(key : (String | Symbol | Int32))
+      return key.to_s if @namespace == ""
+
+      [@namespace, key.to_s].join("::")
+    end
+
+    private def without_namespace(key : String)
+      key.to_s.gsub(namespaced(""), "").as(RedisValue)
+    end
+
+    private def array_without_namespace(keys : (Array(Redis::RedisValue) | Int32 | Int64 | String | Nil))
+      return keys unless keys.is_a?(Array(RedisValue))
+
+      keys.map { |key| without_namespace("#{key}") }
     end
   end
 end

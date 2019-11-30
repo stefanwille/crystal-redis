@@ -94,7 +94,8 @@ class Redis
   # ```
   def initialize(@host = "localhost", @port = 6379, @unixsocket : String? = nil, @password : String? = nil,
                  @database : Int32? = nil, url = nil, @ssl = false, @ssl_context : OpenSSL::SSL::Context::Client? = nil,
-                 @dns_timeout : Time::Span? = nil, @connect_timeout : Time::Span? = nil, @reconnect = true, @command_timeout : Time::Span? = nil)
+                 @dns_timeout : Time::Span? = nil, @connect_timeout : Time::Span? = nil, @reconnect = true, @command_timeout : Time::Span? = nil,
+                 @namespace : String? = "")
     if url
       uri = URI.parse url
       @host = uri.host.to_s
@@ -192,8 +193,9 @@ class Redis
   # ```
   def self.open(host = "localhost", port = 6379, unixsocket = nil, password = nil,
                 database = nil, url = nil, ssl = false, ssl_context = nil,
-                dns_timeout = nil, connect_timeout = nil, reconnect = true, command_timeout = nil)
-    redis = Redis.new(host, port, unixsocket, password, database, url, ssl, ssl_context, dns_timeout, connect_timeout, reconnect, command_timeout)
+                dns_timeout = nil, connect_timeout = nil, reconnect = true, command_timeout = nil,
+                namespace : String? = "")
+    redis = Redis.new(host, port, unixsocket, password, database, url, ssl, ssl_context, dns_timeout, connect_timeout, reconnect, command_timeout, namespace)
     begin
       yield(redis)
     ensure
@@ -248,7 +250,7 @@ class Redis
   def pipelined
     @strategy = Redis::Strategy::PauseDuringPipeline.new
     pipeline_strategy = Redis::Strategy::Pipeline.new(connection)
-    pipeline_api = Redis::PipelineApi.new(pipeline_strategy)
+    pipeline_api = Redis::PipelineApi.new(pipeline_strategy, @namespace.to_s)
     yield(pipeline_api)
     pipeline_strategy.commit.as(Array(RedisValue))
   rescue ex : Redis::ConnectionError | Redis::CommandTimeoutError
@@ -285,7 +287,7 @@ class Redis
     @strategy = Redis::Strategy::PauseDuringTransaction.new
     transaction_strategy = Redis::Strategy::Transaction.new(connection)
     transaction_strategy.begin
-    transaction_api = Redis::TransactionApi.new(transaction_strategy)
+    transaction_api = Redis::TransactionApi.new(transaction_strategy, @namespace.to_s)
     yield(transaction_api)
     transaction_strategy.commit.as(Array(RedisValue))
   rescue ex : Redis::ConnectionError | Redis::CommandTimeoutError
