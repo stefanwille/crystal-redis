@@ -159,7 +159,7 @@
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L4" target="_blank">
+      <a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L4" target="_blank">
         redis/commands.cr
       </a>
     
@@ -332,6 +332,48 @@
       </li>
     
       <li class="entry-summary">
+        <a href="#geoadd%28key%2Clongitude%2Clatitude%2Cplace%29-instance-method" class="signature"><strong>#geoadd</strong>(key, longitude, latitude, place)</a>
+        
+          <div class="summary"><p>Adds the specified geospatial items (latitude, longitude, name) to the specified key.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#geodist%28key%2Cmember1%2Cmember2%2Cunit%3Dnil%29-instance-method" class="signature"><strong>#geodist</strong>(key, member1, member2, unit = <span class="n">nil</span>)</a>
+        
+          <div class="summary"><p>Return the distance between two members in the geospatial index represented by the sorted set.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#geohash%28key%2C%2Aargs%29-instance-method" class="signature"><strong>#geohash</strong>(key, *args)</a>
+        
+          <div class="summary"><p>Return valid Geohash strings representing the position of one or more elements in a sorted set value representing a geospatial index</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#geopos%28key%2C%2Aargs%29-instance-method" class="signature"><strong>#geopos</strong>(key, *args)</a>
+        
+          <div class="summary"><p>Return the positions (longitude,latitude) of all the specified members of the geospatial index represented by the sorted set at key</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#georadius%28key%2Clongitude%2Clatitude%2Cradius%2Cunit%2Cwithcoord%3Dnil%2Cwithdist%3Dnil%2Cwithhash%3Dnil%2Ccount%3Dnil%2Csort%3Dnil%29-instance-method" class="signature"><strong>#georadius</strong>(key, longitude, latitude, radius, unit, withcoord = <span class="n">nil</span>, withdist = <span class="n">nil</span>, withhash = <span class="n">nil</span>, count = <span class="n">nil</span>, sort = <span class="n">nil</span>)</a>
+        
+          <div class="summary"><p>Return the members of a sorted set populated with geospatial information using GEOADD, which are within the borders of the area specified with the center location and the maximum distance from the center (the radius).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#georadiusbymember%28key%2Cmember%2Cradius%2Cunit%2Cwithcoord%3Dnil%2Cwithdist%3Dnil%2Cwithhash%3Dnil%2Ccount%3Dnil%2Csort%3Dnil%29-instance-method" class="signature"><strong>#georadiusbymember</strong>(key, member, radius, unit, withcoord = <span class="n">nil</span>, withdist = <span class="n">nil</span>, withhash = <span class="n">nil</span>, count = <span class="n">nil</span>, sort = <span class="n">nil</span>)</a>
+        
+          <div class="summary"><p>Exactly like GEORADIUS with the sole difference that instead of taking, as the center of the area to query, a longitude and latitude value, it takes the name of a member already existing inside the geospatial index represented by the sorted set</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#get%28key%29-instance-method" class="signature"><strong>#get</strong>(key)</a>
         
           <div class="summary"><p>Get the value of key.</p></div>
@@ -416,14 +458,14 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#hmget%28key%2C%2Afields%3AString%29%3AArray%28RedisValue%29-instance-method" class="signature"><strong>#hmget</strong>(key, *fields : String) : Array(RedisValue)</a>
+        <a href="#hmget%28key%2Cfields%3AArray%28String%29%29%3AArray%28RedisValue%29-instance-method" class="signature"><strong>#hmget</strong>(key, fields : Array(String)) : Array(RedisValue)</a>
         
           <div class="summary"><p>Returns the values associated with the specified fields in the hash stored at key.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#hmget%28key%2Cfields%3AArray%28String%29%29%3AArray%28RedisValue%29-instance-method" class="signature"><strong>#hmget</strong>(key, fields : Array(String)) : Array(RedisValue)</a>
+        <a href="#hmget%28key%2C%2Afields%3AString%29%3AArray%28RedisValue%29-instance-method" class="signature"><strong>#hmget</strong>(key, *fields : String) : Array(RedisValue)</a>
         
           <div class="summary"><p>Returns the values associated with the specified fields in the hash stored at key.</p></div>
         
@@ -673,14 +715,14 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#pfmerge%28keys%3AArray%28String%29%29-instance-method" class="signature"><strong>#pfmerge</strong>(keys : Array(String))</a>
+        <a href="#pfmerge%28%2Akeys%3AString%29-instance-method" class="signature"><strong>#pfmerge</strong>(*keys : String)</a>
         
           <div class="summary"><p>Merge multiple HyperLogLog values into an unique value that will approximate the cardinality of the union of the observed Sets of the source HyperLogLog structures.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#pfmerge%28%2Akeys%3AString%29-instance-method" class="signature"><strong>#pfmerge</strong>(*keys : String)</a>
+        <a href="#pfmerge%28keys%3AArray%28String%29%29-instance-method" class="signature"><strong>#pfmerge</strong>(keys : Array(String))</a>
         
           <div class="summary"><p>Merge multiple HyperLogLog values into an unique value that will approximate the cardinality of the union of the observed Sets of the source HyperLogLog structures.</p></div>
         
@@ -701,7 +743,9 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#psubscribe%28%2Achannel_patterns%29-instance-method" class="signature"><strong>#psubscribe</strong>(*channel_patterns)</a>
+        <a href="#psubscribe%28%2Achannel_patterns%2C%26callback_setup_block%3ASubscription-%3E%29-instance-method" class="signature"><strong>#psubscribe</strong>(*channel_patterns, &callback_setup_block : Subscription -> )</a>
+        
+          <div class="summary"><p>Subscribes to channel patterns and enters a subscription loop, waiting for events.</p></div>
         
       </li>
     
@@ -713,9 +757,7 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#psubscribe%28%2Achannel_patterns%2C%26callback_setup_block%3ASubscription-%3E%29-instance-method" class="signature"><strong>#psubscribe</strong>(*channel_patterns, &callback_setup_block : Subscription -> )</a>
-        
-          <div class="summary"><p>Subscribes to channel patterns and enters a subscription loop, waiting for events.</p></div>
+        <a href="#psubscribe%28%2Achannel_patterns%29-instance-method" class="signature"><strong>#psubscribe</strong>(*channel_patterns)</a>
         
       </li>
     
@@ -1010,14 +1052,14 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#srem%28key%2Cvalues%3AArray%28RedisValue%29%29-instance-method" class="signature"><strong>#srem</strong>(key, values : Array(RedisValue))</a>
+        <a href="#srem%28key%2C%2Avalues%29-instance-method" class="signature"><strong>#srem</strong>(key, *values)</a>
+        
+          <div class="summary"><p>Remove the specified members from the set stored at key.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#srem%28key%2C%2Avalues%29-instance-method" class="signature"><strong>#srem</strong>(key, *values)</a>
-        
-          <div class="summary"><p>Remove the specified members from the set stored at key.</p></div>
+        <a href="#srem%28key%2Cvalues%3AArray%28RedisValue%29%29-instance-method" class="signature"><strong>#srem</strong>(key, values : Array(RedisValue))</a>
         
       </li>
     
@@ -1036,13 +1078,6 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#subscribe%28channels%3AArray%28String%29%29%3AVoid-instance-method" class="signature"><strong>#subscribe</strong>(channels : Array(String)) : Void</a>
-        
-          <div class="summary"><p>Subscribes to more channels while already being in a subscription loop.</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
         <a href="#subscribe%28%2Achannels%3AString%29-instance-method" class="signature"><strong>#subscribe</strong>(*channels : String)</a>
         
           <div class="summary"><p>Subscribes to more channels while already being in a subscription loop.</p></div>
@@ -1057,14 +1092,21 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#sunion%28keys%3AArray%28String%29%29-instance-method" class="signature"><strong>#sunion</strong>(keys : Array(String))</a>
+        <a href="#subscribe%28channels%3AArray%28String%29%29%3AVoid-instance-method" class="signature"><strong>#subscribe</strong>(channels : Array(String)) : Void</a>
+        
+          <div class="summary"><p>Subscribes to more channels while already being in a subscription loop.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#sunion%28%2Akeys%3AString%29-instance-method" class="signature"><strong>#sunion</strong>(*keys : String)</a>
         
           <div class="summary"><p>Returns the members of the set resulting from the union of all the given sets.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#sunion%28%2Akeys%3AString%29-instance-method" class="signature"><strong>#sunion</strong>(*keys : String)</a>
+        <a href="#sunion%28keys%3AArray%28String%29%29-instance-method" class="signature"><strong>#sunion</strong>(keys : Array(String))</a>
         
           <div class="summary"><p>Returns the members of the set resulting from the union of all the given sets.</p></div>
         
@@ -1099,14 +1141,14 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#unsubscribe%28channels%3AArray%28String%29%29%3ANil-instance-method" class="signature"><strong>#unsubscribe</strong>(channels : Array(String)) : Nil</a>
+        <a href="#unsubscribe%28%2Achannels%29-instance-method" class="signature"><strong>#unsubscribe</strong>(*channels)</a>
         
           <div class="summary"><p>Unsubscribes the client from the given channels, or from all of them if none is given.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#unsubscribe%28%2Achannels%29-instance-method" class="signature"><strong>#unsubscribe</strong>(*channels)</a>
+        <a href="#unsubscribe%28channels%3AArray%28String%29%29%3ANil-instance-method" class="signature"><strong>#unsubscribe</strong>(channels : Array(String)) : Nil</a>
         
           <div class="summary"><p>Unsubscribes the client from the given channels, or from all of them if none is given.</p></div>
         
@@ -1132,14 +1174,14 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#zadd%28key%2C%2Ascores_and_members%29-instance-method" class="signature"><strong>#zadd</strong>(key, *scores_and_members)</a>
-        
-          <div class="summary"><p>Adds all the specified members with the specified scores to the sorted set stored at key.</p></div>
+        <a href="#zadd%28key%2Cscores_and_members%3AArray%28RedisValue%29%29-instance-method" class="signature"><strong>#zadd</strong>(key, scores_and_members : Array(RedisValue))</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#zadd%28key%2Cscores_and_members%3AArray%28RedisValue%29%29-instance-method" class="signature"><strong>#zadd</strong>(key, scores_and_members : Array(RedisValue))</a>
+        <a href="#zadd%28key%2C%2Ascores_and_members%29-instance-method" class="signature"><strong>#zadd</strong>(key, *scores_and_members)</a>
+        
+          <div class="summary"><p>Adds all the specified members with the specified scores to the sorted set stored at key.</p></div>
         
       </li>
     
@@ -1320,7 +1362,7 @@ If key does not exist it is created and set as an empty string, so APPEND will b
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L366" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L366" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1340,7 +1382,7 @@ If key does not exist it is created and set as an empty string, so APPEND will b
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L87" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L87" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1369,7 +1411,7 @@ By default all the bytes contained in the string are examined.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L418" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L418" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1393,7 +1435,7 @@ By default all the bytes contained in the string are examined.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L445" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L445" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1417,7 +1459,7 @@ By default all the bytes contained in the string are examined.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L440" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L440" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1446,7 +1488,7 @@ redis.bitpos(<span class="s">&quot;mykey&quot;</span>, <span class="n">1</span>)
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L483" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L483" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1478,7 +1520,7 @@ with the given keys being checked in the order that they are given.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L901" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L901" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1511,7 +1553,7 @@ number of seconds to block.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L930" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L930" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1543,7 +1585,7 @@ If timeout is reached, nil is returned.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L966" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L966" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1563,7 +1605,7 @@ If timeout is reached, nil is returned.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L319" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L319" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1583,7 +1625,7 @@ If timeout is reached, nil is returned.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L352" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L352" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1607,7 +1649,7 @@ If timeout is reached, nil is returned.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L146" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L146" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1631,7 +1673,7 @@ If timeout is reached, nil is returned.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L133" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L133" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1651,7 +1693,7 @@ If timeout is reached, nil is returned.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L497" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L497" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1673,7 +1715,7 @@ If timeout is reached, nil is returned.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L12" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L12" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1698,7 +1740,7 @@ built into Redis starting from version 2.6.0.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1471" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1471" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1719,7 +1761,7 @@ built into Redis starting from version 2.6.0.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1479" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1479" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1741,7 +1783,7 @@ built into Redis starting from version 2.6.0.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L549" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L549" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1767,7 +1809,7 @@ built into Redis starting from version 2.6.0.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1547" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1547" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1791,7 +1833,7 @@ it takes an absolute Unix timestamp (seconds since January 1, 1970).</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1568" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1568" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1811,7 +1853,7 @@ it takes an absolute Unix timestamp (seconds since January 1, 1970).</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1525" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1525" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1831,7 +1873,134 @@ it takes an absolute Unix timestamp (seconds since January 1, 1970).</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1518" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1518" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="geoadd(key,longitude,latitude,place)-instance-method">
+      <div class="signature">
+        
+        def <strong>geoadd</strong>(key, longitude, latitude, place)
+
+        <a class="method-permalink" href="#geoadd%28key%2Clongitude%2Clatitude%2Cplace%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Adds the specified geospatial items (latitude, longitude, name) to the specified key.</p>
+
+<p><strong>Return value</strong>: Integer: The number of elements added to the sorted set, not including elements already existing for which the score was updated.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1813" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="geodist(key,member1,member2,unit=nil)-instance-method">
+      <div class="signature">
+        
+        def <strong>geodist</strong>(key, member1, member2, unit = <span class="n">nil</span>)
+
+        <a class="method-permalink" href="#geodist%28key%2Cmember1%2Cmember2%2Cunit%3Dnil%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Return the distance between two members in the geospatial index represented by the sorted set.</p>
+
+<p><strong>Return value</strong>: String: returns the distance as a double (represented as a string) in the specified unit,
+or NULL if one or both the elements are missing</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1821" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="geohash(key,*args)-instance-method">
+      <div class="signature">
+        
+        def <strong>geohash</strong>(key, *args)
+
+        <a class="method-permalink" href="#geohash%28key%2C%2Aargs%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Return valid Geohash strings representing the position of one or more elements in a sorted set value representing a geospatial index</p>
+
+<p><strong>Return value</strong>: Array(String): returns an array where each element is the Geohash corresponding to each
+member name passed as argument to the command</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1831" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="geopos(key,*args)-instance-method">
+      <div class="signature">
+        
+        def <strong>geopos</strong>(key, *args)
+
+        <a class="method-permalink" href="#geopos%28key%2C%2Aargs%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Return the positions (longitude,latitude) of all the specified members of the geospatial index represented by the sorted set at key</p>
+
+<p><strong>Return value</strong>: Array(String): returns an array where each element is a two elements array representing
+longitude and latitude (x,y) of each member name passed as argument to the command</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1843" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="georadius(key,longitude,latitude,radius,unit,withcoord=nil,withdist=nil,withhash=nil,count=nil,sort=nil)-instance-method">
+      <div class="signature">
+        
+        def <strong>georadius</strong>(key, longitude, latitude, radius, unit, withcoord = <span class="n">nil</span>, withdist = <span class="n">nil</span>, withhash = <span class="n">nil</span>, count = <span class="n">nil</span>, sort = <span class="n">nil</span>)
+
+        <a class="method-permalink" href="#georadius%28key%2Clongitude%2Clatitude%2Cradius%2Cunit%2Cwithcoord%3Dnil%2Cwithdist%3Dnil%2Cwithhash%3Dnil%2Ccount%3Dnil%2Csort%3Dnil%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Return the members of a sorted set populated with geospatial information using GEOADD, which are within the borders
+of the area specified with the center location and the maximum distance from the center (the radius).</p>
+
+<p><strong>Return value</strong>: Array(String): Returns a simple array or array of arrays, depending on the options passed
+https://redis.io/commands/georadius#return-value</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1856" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="georadiusbymember(key,member,radius,unit,withcoord=nil,withdist=nil,withhash=nil,count=nil,sort=nil)-instance-method">
+      <div class="signature">
+        
+        def <strong>georadiusbymember</strong>(key, member, radius, unit, withcoord = <span class="n">nil</span>, withdist = <span class="n">nil</span>, withhash = <span class="n">nil</span>, count = <span class="n">nil</span>, sort = <span class="n">nil</span>)
+
+        <a class="method-permalink" href="#georadiusbymember%28key%2Cmember%2Cradius%2Cunit%2Cwithcoord%3Dnil%2Cwithdist%3Dnil%2Cwithhash%3Dnil%2Ccount%3Dnil%2Csort%3Dnil%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Exactly like GEORADIUS with the sole difference that instead of taking, as the center of the area to query, a longitude
+and latitude value, it takes the name of a member already existing inside the geospatial index represented by the sorted set</p>
+
+<p><strong>Return value</strong>: Array(String): Returns a simple array or array of arrays, depending on the options passed
+https://redis.io/commands/georadius#return-value</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1871" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1856,7 +2025,7 @@ redis.get(<span class="s">&quot;foo&quot;</span>) <span class="c"># =&gt; &quot;
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L66" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L66" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1876,7 +2045,7 @@ redis.get(<span class="s">&quot;foo&quot;</span>) <span class="c"># =&gt; &quot;
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L452" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L452" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1900,7 +2069,7 @@ redis.getrange(<span class="s">&quot;foo&quot;</span>, <span class="n">-3</span>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L387" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L387" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1924,7 +2093,7 @@ redis.getrange(<span class="s">&quot;foo&quot;</span>, <span class="n">-3</span>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L251" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L251" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1945,7 +2114,7 @@ not including specified but non existing fields.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1014" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1014" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1967,7 +2136,7 @@ not including specified but non existing fields.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1023" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1023" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1991,7 +2160,7 @@ not including specified but non existing fields.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L998" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L998" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2012,7 +2181,7 @@ or an empty array when key does not exist.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1006" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1006" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2036,7 +2205,7 @@ or an empty array when key does not exist.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1036" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1036" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2057,7 +2226,7 @@ and representing a floating point number, by the specified increment.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1044" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1044" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2077,7 +2246,7 @@ and representing a floating point number, by the specified increment.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1051" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1051" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2097,27 +2266,7 @@ and representing a floating point number, by the specified increment.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1058" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="hmget(key,*fields:String):Array(RedisValue)-instance-method">
-      <div class="signature">
-        
-        def <strong>hmget</strong>(key, *fields : String) : Array(RedisValue)
-
-        <a class="method-permalink" href="#hmget%28key%2C%2Afields%3AString%29%3AArray%28RedisValue%29-instance-method">#</a>
-      </div>
-      
-        <div class="doc"><p>Returns the values associated with the specified fields in the hash stored at key.</p>
-
-<p><strong>Return value</strong>: Array(RedisValue), the list of values associated with the given fields, in the same order as they are requested.</p></div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1070" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1058" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2137,7 +2286,27 @@ and representing a floating point number, by the specified increment.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1065" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1065" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="hmget(key,*fields:String):Array(RedisValue)-instance-method">
+      <div class="signature">
+        
+        def <strong>hmget</strong>(key, *fields : String) : Array(RedisValue)
+
+        <a class="method-permalink" href="#hmget%28key%2C%2Afields%3AString%29%3AArray%28RedisValue%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Returns the values associated with the specified fields in the hash stored at key.</p>
+
+<p><strong>Return value</strong>: Array(RedisValue), the list of values associated with the given fields, in the same order as they are requested.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1070" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2157,7 +2326,7 @@ and representing a floating point number, by the specified increment.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1077" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1077" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2177,7 +2346,7 @@ redis.hscan(<span class="s">&quot;myhash&quot;</span>, <span class="n">0</span>,
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1097" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1097" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2203,7 +2372,7 @@ redis.hscan(<span class="s">&quot;myhash&quot;</span>, <span class="n">0</span>,
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L985" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L985" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2225,7 +2394,7 @@ redis.hscan(<span class="s">&quot;myhash&quot;</span>, <span class="n">0</span>,
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1109" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1109" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2245,7 +2414,7 @@ redis.hscan(<span class="s">&quot;myhash&quot;</span>, <span class="n">0</span>,
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1116" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1116" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2270,7 +2439,7 @@ redis.incr(<span class="s">&quot;foo&quot;</span>) <span class="c"># =&gt; 4</sp
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L312" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L312" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2294,7 +2463,7 @@ redis.incr(<span class="s">&quot;foo&quot;</span>) <span class="c"># =&gt; 4</sp
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L332" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L332" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2318,7 +2487,7 @@ redis.incr(<span class="s">&quot;foo&quot;</span>) <span class="c"># =&gt; 4</sp
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L345" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L345" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2338,7 +2507,7 @@ redis.incr(<span class="s">&quot;foo&quot;</span>) <span class="c"># =&gt; 4</sp
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1769" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1769" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2362,7 +2531,7 @@ redis.incr(<span class="s">&quot;foo&quot;</span>) <span class="c"># =&gt; 4</sp
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L562" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L562" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2382,7 +2551,7 @@ redis.incr(<span class="s">&quot;foo&quot;</span>) <span class="c"># =&gt; 4</sp
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L633" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L633" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2406,7 +2575,7 @@ redis.incr(<span class="s">&quot;foo&quot;</span>) <span class="c"># =&gt; 4</sp
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L671" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L671" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2426,7 +2595,7 @@ redis.incr(<span class="s">&quot;foo&quot;</span>) <span class="c"># =&gt; 4</sp
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L626" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L626" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2450,7 +2619,7 @@ redis.incr(<span class="s">&quot;foo&quot;</span>) <span class="c"># =&gt; 4</sp
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L653" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L653" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2470,7 +2639,7 @@ redis.incr(<span class="s">&quot;foo&quot;</span>) <span class="c"># =&gt; 4</sp
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L587" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L587" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2490,7 +2659,7 @@ redis.incr(<span class="s">&quot;foo&quot;</span>) <span class="c"># =&gt; 4</sp
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L592" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L592" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2510,7 +2679,7 @@ redis.incr(<span class="s">&quot;foo&quot;</span>) <span class="c"># =&gt; 4</sp
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L599" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L599" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2534,7 +2703,7 @@ redis.incr(<span class="s">&quot;foo&quot;</span>) <span class="c"># =&gt; 4</sp
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L684" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L684" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2558,7 +2727,7 @@ redis.incr(<span class="s">&quot;foo&quot;</span>) <span class="c"># =&gt; 4</sp
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L619" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L619" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2578,7 +2747,7 @@ redis.incr(<span class="s">&quot;foo&quot;</span>) <span class="c"># =&gt; 4</sp
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L640" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L640" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2598,7 +2767,7 @@ redis.incr(<span class="s">&quot;foo&quot;</span>) <span class="c"># =&gt; 4</sp
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L691" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L691" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2614,7 +2783,7 @@ redis.incr(<span class="s">&quot;foo&quot;</span>) <span class="c"># =&gt; 4</sp
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L223" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L223" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2641,7 +2810,7 @@ redis.mget(<span class="s">&quot;foo1&quot;</span>, <span class="s">&quot;foo2&q
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L219" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L219" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2665,7 +2834,7 @@ redis.mget(<span class="s">&quot;foo1&quot;</span>, <span class="s">&quot;foo2&q
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L236" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L236" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2692,7 +2861,7 @@ MSETNX will not perform any operation at all even if just a single key already e
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L296" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L296" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2714,7 +2883,7 @@ used in order to store the value associated with a key.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1796" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1796" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2737,7 +2906,7 @@ since the object stored at the specified key is idle
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1806" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1806" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2759,7 +2928,7 @@ of the value associated with the specified key.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1787" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1787" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2783,7 +2952,7 @@ as no timeout is associated).</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1589" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1589" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2806,7 +2975,7 @@ specified in milliseconds instead of seconds.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1557" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1557" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2829,7 +2998,7 @@ at which the key will expire is specified in milliseconds instead of seconds.</p
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1578" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1578" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2854,7 +3023,7 @@ the variable name specified as first argument.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1430" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1430" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2879,7 +3048,7 @@ the variable name specified as first argument.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1425" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1425" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2902,7 +3071,7 @@ observed via PFADD.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1452" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1452" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2925,27 +3094,7 @@ observed via PFADD.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1457" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="pfmerge(keys:Array(String))-instance-method">
-      <div class="signature">
-        
-        def <strong>pfmerge</strong>(keys : Array(String))
-
-        <a class="method-permalink" href="#pfmerge%28keys%3AArray%28String%29%29-instance-method">#</a>
-      </div>
-      
-        <div class="doc"><p>Merge multiple HyperLogLog values into an unique value that will
-approximate the cardinality of the union of the observed Sets of the
-source HyperLogLog structures.</p></div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1437" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1457" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2965,7 +3114,27 @@ source HyperLogLog structures.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1442" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1442" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="pfmerge(keys:Array(String))-instance-method">
+      <div class="signature">
+        
+        def <strong>pfmerge</strong>(keys : Array(String))
+
+        <a class="method-permalink" href="#pfmerge%28keys%3AArray%28String%29%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Merge multiple HyperLogLog values into an unique value that will
+approximate the cardinality of the union of the observed Sets of the
+source HyperLogLog structures.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1437" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2987,7 +3156,7 @@ source HyperLogLog structures.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L23" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L23" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3007,41 +3176,7 @@ source HyperLogLog structures.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L271" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="psubscribe(*channel_patterns)-instance-method">
-      <div class="signature">
-        
-        def <strong>psubscribe</strong>(*channel_patterns)
-
-        <a class="method-permalink" href="#psubscribe%28%2Achannel_patterns%29-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1707" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="psubscribe(channel_patterns:Array(String))-instance-method">
-      <div class="signature">
-        
-        def <strong>psubscribe</strong>(channel_patterns : Array(String))
-
-        <a class="method-permalink" href="#psubscribe%28channel_patterns%3AArray%28String%29%29-instance-method">#</a>
-      </div>
-      
-        <div class="doc"><p>Subscribes to more channel patterns while already being in a subscription loop.</p></div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1698" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L271" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3064,7 +3199,41 @@ which you can set your callbacks for the event subscription.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1682" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1682" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="psubscribe(channel_patterns:Array(String))-instance-method">
+      <div class="signature">
+        
+        def <strong>psubscribe</strong>(channel_patterns : Array(String))
+
+        <a class="method-permalink" href="#psubscribe%28channel_patterns%3AArray%28String%29%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Subscribes to more channel patterns while already being in a subscription loop.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1698" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="psubscribe(*channel_patterns)-instance-method">
+      <div class="signature">
+        
+        def <strong>psubscribe</strong>(*channel_patterns)
+
+        <a class="method-permalink" href="#psubscribe%28%2Achannel_patterns%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1707" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3086,7 +3255,7 @@ remaining time in seconds while PTTL returns it in milliseconds.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1606" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1606" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3110,7 +3279,7 @@ remaining time in seconds while PTTL returns it in milliseconds.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1744" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1744" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3128,7 +3297,7 @@ remaining time in seconds while PTTL returns it in milliseconds.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1731" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1731" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3146,7 +3315,7 @@ remaining time in seconds while PTTL returns it in milliseconds.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1726" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1726" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3166,7 +3335,7 @@ remaining time in seconds while PTTL returns it in milliseconds.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L73" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L73" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3184,7 +3353,7 @@ remaining time in seconds while PTTL returns it in milliseconds.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L540" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L540" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3208,7 +3377,7 @@ remaining time in seconds while PTTL returns it in milliseconds.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L107" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L107" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3232,7 +3401,7 @@ remaining time in seconds while PTTL returns it in milliseconds.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L120" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L120" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3252,7 +3421,7 @@ remaining time in seconds while PTTL returns it in milliseconds.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L504" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L504" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3272,7 +3441,7 @@ remaining time in seconds while PTTL returns it in milliseconds.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L660" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L660" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3293,7 +3462,7 @@ and pushes the element at the first element (head) of the list stored at destina
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L945" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L945" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3317,7 +3486,7 @@ and pushes the element at the first element (head) of the list stored at destina
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L580" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L580" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3341,7 +3510,7 @@ and pushes the element at the first element (head) of the list stored at destina
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L575" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L575" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3361,7 +3530,7 @@ and pushes the element at the first element (head) of the list stored at destina
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L606" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L606" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3381,7 +3550,7 @@ and pushes the element at the first element (head) of the list stored at destina
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L698" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L698" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3397,7 +3566,7 @@ and pushes the element at the first element (head) of the list stored at destina
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L702" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L702" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3427,7 +3596,7 @@ redis.scan(<span class="n">0</span>, <span class="s">&quot;foo*&quot;</span>, <s
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L528" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L528" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3445,7 +3614,7 @@ redis.scan(<span class="n">0</span>, <span class="s">&quot;foo*&quot;</span>, <s
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L740" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L740" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3468,7 +3637,7 @@ in the script cache, an 1 is returned, otherwise 0 is returned.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1511" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1511" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3488,7 +3657,7 @@ in the script cache, an 1 is returned, otherwise 0 is returned.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1532" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1532" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3509,7 +3678,7 @@ yet performed by the script.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1501" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1501" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3534,7 +3703,7 @@ added into the script cache.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1493" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1493" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3554,7 +3723,7 @@ added into the script cache.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L747" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L747" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3570,7 +3739,7 @@ added into the script cache.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L751" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L751" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3590,7 +3759,7 @@ added into the script cache.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L763" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L763" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3610,7 +3779,7 @@ added into the script cache.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L758" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L758" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3630,7 +3799,7 @@ added into the script cache.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L94" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L94" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3661,7 +3830,7 @@ redis.set(<span class="s">&quot;bar&quot;</span>, <span class="s">&quot;test&quo
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L47" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L47" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3685,7 +3854,7 @@ redis.set(<span class="s">&quot;bar&quot;</span>, <span class="s">&quot;test&quo
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L465" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L465" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3709,7 +3878,7 @@ redis.set(<span class="s">&quot;bar&quot;</span>, <span class="s">&quot;test&quo
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L264" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L264" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3731,7 +3900,7 @@ redis.set(<span class="s">&quot;bar&quot;</span>, <span class="s">&quot;test&quo
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L280" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L280" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3755,7 +3924,7 @@ redis.set(<span class="s">&quot;bar&quot;</span>, <span class="s">&quot;test&quo
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L400" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L400" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3775,7 +3944,7 @@ redis.set(<span class="s">&quot;bar&quot;</span>, <span class="s">&quot;test&quo
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L770" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L770" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3795,7 +3964,7 @@ redis.set(<span class="s">&quot;bar&quot;</span>, <span class="s">&quot;test&quo
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L775" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L775" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3819,7 +3988,7 @@ redis.set(<span class="s">&quot;bar&quot;</span>, <span class="s">&quot;test&quo
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L793" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L793" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3843,7 +4012,7 @@ redis.set(<span class="s">&quot;bar&quot;</span>, <span class="s">&quot;test&quo
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L788" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L788" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3865,7 +4034,7 @@ redis.set(<span class="s">&quot;bar&quot;</span>, <span class="s">&quot;test&quo
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L718" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L718" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3885,7 +4054,7 @@ redis.set(<span class="s">&quot;bar&quot;</span>, <span class="s">&quot;test&quo
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L709" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L709" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3907,7 +4076,7 @@ redis.set(<span class="s">&quot;bar&quot;</span>, <span class="s">&quot;test&quo
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L802" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L802" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3936,7 +4105,7 @@ redis.sort(<span class="s">&quot;mylist&quot;</span>, order: <span class="s">&qu
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L169" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L169" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3958,7 +4127,7 @@ redis.sort(<span class="s">&quot;mylist&quot;</span>, order: <span class="s">&qu
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L811" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L811" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3984,23 +4153,7 @@ redis.sort(<span class="s">&quot;mylist&quot;</span>, order: <span class="s">&qu
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L829" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="srem(key,values:Array(RedisValue))-instance-method">
-      <div class="signature">
-        
-        def <strong>srem</strong>(key, values : Array(RedisValue))
-
-        <a class="method-permalink" href="#srem%28key%2Cvalues%3AArray%28RedisValue%29%29-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L735" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L829" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4024,7 +4177,23 @@ redis.sort(<span class="s">&quot;mylist&quot;</span>, order: <span class="s">&qu
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L731" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L731" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="srem(key,values:Array(RedisValue))-instance-method">
+      <div class="signature">
+        
+        def <strong>srem</strong>(key, values : Array(RedisValue))
+
+        <a class="method-permalink" href="#srem%28key%2Cvalues%3AArray%28RedisValue%29%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L735" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4054,7 +4223,7 @@ redis.sscan(<span class="s">&quot;myset&quot;</span>, <span class="n">0</span>, 
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L853" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L853" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4074,25 +4243,7 @@ redis.sscan(<span class="s">&quot;myset&quot;</span>, <span class="n">0</span>, 
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L373" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="subscribe(channels:Array(String)):Void-instance-method">
-      <div class="signature">
-        
-        def <strong>subscribe</strong>(channels : Array(String)) : Void
-
-        <a class="method-permalink" href="#subscribe%28channels%3AArray%28String%29%29%3AVoid-instance-method">#</a>
-      </div>
-      
-        <div class="doc"><p>Subscribes to more channels while already being in a subscription loop.</p></div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1662" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L373" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4110,7 +4261,7 @@ redis.sscan(<span class="s">&quot;myset&quot;</span>, <span class="n">0</span>, 
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1672" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1672" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4147,27 +4298,25 @@ See also: Example <code>subscribe.cr</code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1646" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1646" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="sunion(keys:Array(String))-instance-method">
+    <div class="entry-detail" id="subscribe(channels:Array(String)):Void-instance-method">
       <div class="signature">
         
-        def <strong>sunion</strong>(keys : Array(String))
+        def <strong>subscribe</strong>(channels : Array(String)) : Void
 
-        <a class="method-permalink" href="#sunion%28keys%3AArray%28String%29%29-instance-method">#</a>
+        <a class="method-permalink" href="#subscribe%28channels%3AArray%28String%29%29%3AVoid-instance-method">#</a>
       </div>
       
-        <div class="doc"><p>Returns the members of the set resulting from the union of all the given sets.</p>
-
-<p><strong>Return value</strong>: Array(String), with members of the resulting set.</p></div>
+        <div class="doc"><p>Subscribes to more channels while already being in a subscription loop.</p></div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L863" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1662" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4187,7 +4336,27 @@ See also: Example <code>subscribe.cr</code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L868" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L868" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="sunion(keys:Array(String))-instance-method">
+      <div class="signature">
+        
+        def <strong>sunion</strong>(keys : Array(String))
+
+        <a class="method-permalink" href="#sunion%28keys%3AArray%28String%29%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Returns the members of the set resulting from the union of all the given sets.</p>
+
+<p><strong>Return value</strong>: Array(String), with members of the resulting set.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L863" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4207,7 +4376,7 @@ See also: Example <code>subscribe.cr</code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L875" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L875" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4227,7 +4396,7 @@ See also: Example <code>subscribe.cr</code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L880" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L880" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4248,7 +4417,7 @@ signal an error (see the description above).</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1597" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1597" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4273,25 +4442,7 @@ redis.<span class="k">type</span>(<span class="s">&quot;foo&quot;</span>) <span 
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1620" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="unsubscribe(channels:Array(String)):Nil-instance-method">
-      <div class="signature">
-        
-        def <strong>unsubscribe</strong>(channels : Array(String)) : Nil
-
-        <a class="method-permalink" href="#unsubscribe%28channels%3AArray%28String%29%29%3ANil-instance-method">#</a>
-      </div>
-      
-        <div class="doc"><p>Unsubscribes the client from the given channels, or from all of them if none is given.</p></div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1716" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1620" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4309,7 +4460,25 @@ redis.<span class="k">type</span>(<span class="s">&quot;foo&quot;</span>) <span 
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1721" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1721" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="unsubscribe(channels:Array(String)):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>unsubscribe</strong>(channels : Array(String)) : Nil
+
+        <a class="method-permalink" href="#unsubscribe%28channels%3AArray%28String%29%29%3ANil-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Unsubscribes the client from the given channels, or from all of them if none is given.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1716" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4329,7 +4498,7 @@ redis.<span class="k">type</span>(<span class="s">&quot;foo&quot;</span>) <span 
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1762" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1762" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4349,7 +4518,7 @@ redis.<span class="k">type</span>(<span class="s">&quot;foo&quot;</span>) <span 
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1751" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1751" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4365,7 +4534,23 @@ redis.<span class="k">type</span>(<span class="s">&quot;foo&quot;</span>) <span 
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1755" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1755" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="zadd(key,scores_and_members:Array(RedisValue))-instance-method">
+      <div class="signature">
+        
+        def <strong>zadd</strong>(key, scores_and_members : Array(RedisValue))
+
+        <a class="method-permalink" href="#zadd%28key%2Cscores_and_members%3AArray%28RedisValue%29%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1138" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4390,23 +4575,7 @@ redis.zadd(<span class="s">&quot;myzset&quot;</span>, <span class="n">2</span>, 
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1130" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="zadd(key,scores_and_members:Array(RedisValue))-instance-method">
-      <div class="signature">
-        
-        def <strong>zadd</strong>(key, scores_and_members : Array(RedisValue))
-
-        <a class="method-permalink" href="#zadd%28key%2Cscores_and_members%3AArray%28RedisValue%29%29-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1138" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1130" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4426,7 +4595,7 @@ redis.zadd(<span class="s">&quot;myzset&quot;</span>, <span class="n">2</span>, 
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1170" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1170" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4446,7 +4615,7 @@ redis.zadd(<span class="s">&quot;myzset&quot;</span>, <span class="n">2</span>, 
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1184" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1184" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4466,7 +4635,7 @@ redis.zadd(<span class="s">&quot;myzset&quot;</span>, <span class="n">2</span>, 
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1198" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1198" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4495,7 +4664,7 @@ and stores the result in destination.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1243" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1243" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4515,7 +4684,7 @@ and stores the result in destination.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1191" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1191" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4543,7 +4712,7 @@ and stores the result in destination.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1159" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1159" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4569,7 +4738,7 @@ elements in the sorted set at key with a value between min and max.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1286" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1286" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4594,7 +4763,7 @@ max and min (including elements with score equal to max or min).</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1303" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1303" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4616,7 +4785,7 @@ max and min (including elements with score equal to max or min).</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1214" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1214" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4636,7 +4805,7 @@ max and min (including elements with score equal to max or min).</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1205" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1205" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4659,7 +4828,7 @@ specified by min and max.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1373" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1373" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4679,7 +4848,7 @@ specified by min and max.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1380" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1380" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4700,7 +4869,7 @@ between min and max (inclusive).</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1388" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1388" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4724,7 +4893,7 @@ between min and max (inclusive).</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1321" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1321" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4750,7 +4919,7 @@ elements in the sorted set at key with a value between min and max.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1339" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1339" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4775,7 +4944,7 @@ max and min (including elements with score equal to max or min).</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1356" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1356" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4798,7 +4967,7 @@ with the scores ordered from high to low.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1224" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1224" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4828,7 +4997,7 @@ redis.zscan(<span class="s">&quot;myzset&quot;</span>, <span class="n">0</span>,
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1408" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1408" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4848,7 +5017,7 @@ redis.zscan(<span class="s">&quot;myzset&quot;</span>, <span class="n">0</span>,
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1177" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1177" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4872,7 +5041,7 @@ redis.zscan(<span class="s">&quot;myzset&quot;</span>, <span class="n">0</span>,
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1264" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/commands.cr#L1264" target="_blank">View source</a>]
         
       </div>
     </div>

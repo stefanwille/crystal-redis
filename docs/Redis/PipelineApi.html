@@ -171,7 +171,7 @@ object.</p>
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/pipeline_api.cr#L18" target="_blank">
+      <a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/pipeline_api.cr#L18" target="_blank">
         redis/pipeline_api.cr
       </a>
     
@@ -376,6 +376,36 @@ object.</p>
     flushdb</a>, 
     
   
+    <a href="../Redis/Commands.html#geoadd%28key%2Clongitude%2Clatitude%2Cplace%29-instance-method" class="tooltip">
+      <span>geoadd(key, longitude, latitude, place)</span>
+    geoadd</a>, 
+    
+  
+    <a href="../Redis/Commands.html#geodist%28key%2Cmember1%2Cmember2%2Cunit%3Dnil%29-instance-method" class="tooltip">
+      <span>geodist(key, member1, member2, unit = <span class="n">nil</span>)</span>
+    geodist</a>, 
+    
+  
+    <a href="../Redis/Commands.html#geohash%28key%2C%2Aargs%29-instance-method" class="tooltip">
+      <span>geohash(key, *args)</span>
+    geohash</a>, 
+    
+  
+    <a href="../Redis/Commands.html#geopos%28key%2C%2Aargs%29-instance-method" class="tooltip">
+      <span>geopos(key, *args)</span>
+    geopos</a>, 
+    
+  
+    <a href="../Redis/Commands.html#georadius%28key%2Clongitude%2Clatitude%2Cradius%2Cunit%2Cwithcoord%3Dnil%2Cwithdist%3Dnil%2Cwithhash%3Dnil%2Ccount%3Dnil%2Csort%3Dnil%29-instance-method" class="tooltip">
+      <span>georadius(key, longitude, latitude, radius, unit, withcoord = <span class="n">nil</span>, withdist = <span class="n">nil</span>, withhash = <span class="n">nil</span>, count = <span class="n">nil</span>, sort = <span class="n">nil</span>)</span>
+    georadius</a>, 
+    
+  
+    <a href="../Redis/Commands.html#georadiusbymember%28key%2Cmember%2Cradius%2Cunit%2Cwithcoord%3Dnil%2Cwithdist%3Dnil%2Cwithhash%3Dnil%2Ccount%3Dnil%2Csort%3Dnil%29-instance-method" class="tooltip">
+      <span>georadiusbymember(key, member, radius, unit, withcoord = <span class="n">nil</span>, withdist = <span class="n">nil</span>, withhash = <span class="n">nil</span>, count = <span class="n">nil</span>, sort = <span class="n">nil</span>)</span>
+    georadiusbymember</a>, 
+    
+  
     <a href="../Redis/Commands.html#get%28key%29-instance-method" class="tooltip">
       <span>get(key)</span>
     get</a>, 
@@ -436,8 +466,8 @@ object.</p>
     hlen</a>, 
     
   
-    <a href="../Redis/Commands.html#hmget%28key%2C%2Afields%3AString%29%3AArray%28RedisValue%29-instance-method" class="tooltip">
-      <span>hmget(key, *fields : String) : Array(RedisValue)<br/>hmget(key, fields : Array(String)) : Array(RedisValue)</span>
+    <a href="../Redis/Commands.html#hmget%28key%2Cfields%3AArray%28String%29%29%3AArray%28RedisValue%29-instance-method" class="tooltip">
+      <span>hmget(key, fields : Array(String)) : Array(RedisValue)<br/>hmget(key, *fields : String) : Array(RedisValue)</span>
     hmget</a>, 
     
   
@@ -596,8 +626,8 @@ object.</p>
     pfcount</a>, 
     
   
-    <a href="../Redis/Commands.html#pfmerge%28keys%3AArray%28String%29%29-instance-method" class="tooltip">
-      <span>pfmerge(keys : Array(String))<br/>pfmerge(*keys : String)</span>
+    <a href="../Redis/Commands.html#pfmerge%28%2Akeys%3AString%29-instance-method" class="tooltip">
+      <span>pfmerge(*keys : String)<br/>pfmerge(keys : Array(String))</span>
     pfmerge</a>, 
     
   
@@ -611,8 +641,8 @@ object.</p>
     psetex</a>, 
     
   
-    <a href="../Redis/Commands.html#psubscribe%28%2Achannel_patterns%29-instance-method" class="tooltip">
-      <span>psubscribe(*channel_patterns)<br/>psubscribe(channel_patterns : Array(String))<br/>psubscribe(*channel_patterns, &callback_setup_block : Subscription -> )</span>
+    <a href="../Redis/Commands.html#psubscribe%28%2Achannel_patterns%2C%26callback_setup_block%3ASubscription-%3E%29-instance-method" class="tooltip">
+      <span>psubscribe(*channel_patterns, &callback_setup_block : Subscription -> )<br/>psubscribe(channel_patterns : Array(String))<br/>psubscribe(*channel_patterns)</span>
     psubscribe</a>, 
     
   
@@ -791,8 +821,8 @@ object.</p>
     srandmember</a>, 
     
   
-    <a href="../Redis/Commands.html#srem%28key%2Cvalues%3AArray%28RedisValue%29%29-instance-method" class="tooltip">
-      <span>srem(key, values : Array(RedisValue))<br/>srem(key, *values)</span>
+    <a href="../Redis/Commands.html#srem%28key%2C%2Avalues%29-instance-method" class="tooltip">
+      <span>srem(key, *values)<br/>srem(key, values : Array(RedisValue))</span>
     srem</a>, 
     
   
@@ -806,13 +836,13 @@ object.</p>
     strlen</a>, 
     
   
-    <a href="../Redis/Commands.html#subscribe%28channels%3AArray%28String%29%29%3AVoid-instance-method" class="tooltip">
-      <span>subscribe(channels : Array(String)) : Void<br/>subscribe(*channels : String)<br/>subscribe(*channels, &callback_setup_block : Subscription -> )</span>
+    <a href="../Redis/Commands.html#subscribe%28%2Achannels%3AString%29-instance-method" class="tooltip">
+      <span>subscribe(*channels : String)<br/>subscribe(*channels, &callback_setup_block : Subscription -> )<br/>subscribe(channels : Array(String)) : Void</span>
     subscribe</a>, 
     
   
-    <a href="../Redis/Commands.html#sunion%28keys%3AArray%28String%29%29-instance-method" class="tooltip">
-      <span>sunion(keys : Array(String))<br/>sunion(*keys : String)</span>
+    <a href="../Redis/Commands.html#sunion%28%2Akeys%3AString%29-instance-method" class="tooltip">
+      <span>sunion(*keys : String)<br/>sunion(keys : Array(String))</span>
     sunion</a>, 
     
   
@@ -831,8 +861,8 @@ object.</p>
     type</a>, 
     
   
-    <a href="../Redis/Commands.html#unsubscribe%28channels%3AArray%28String%29%29%3ANil-instance-method" class="tooltip">
-      <span>unsubscribe(channels : Array(String)) : Nil<br/>unsubscribe(*channels)</span>
+    <a href="../Redis/Commands.html#unsubscribe%28%2Achannels%29-instance-method" class="tooltip">
+      <span>unsubscribe(*channels)<br/>unsubscribe(channels : Array(String)) : Nil</span>
     unsubscribe</a>, 
     
   
@@ -846,8 +876,8 @@ object.</p>
     watch</a>, 
     
   
-    <a href="../Redis/Commands.html#zadd%28key%2C%2Ascores_and_members%29-instance-method" class="tooltip">
-      <span>zadd(key, *scores_and_members)<br/>zadd(key, scores_and_members : Array(RedisValue))</span>
+    <a href="../Redis/Commands.html#zadd%28key%2Cscores_and_members%3AArray%28RedisValue%29%29-instance-method" class="tooltip">
+      <span>zadd(key, scores_and_members : Array(RedisValue))<br/>zadd(key, *scores_and_members)</span>
     zadd</a>, 
     
   
@@ -996,7 +1026,7 @@ object.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/pipeline_api.cr#L22" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/5ca515d8036319b7d624611abc2107a5dca8812c/src/redis/pipeline_api.cr#L22" target="_blank">View source</a>]
         
       </div>
     </div>
