@@ -24,10 +24,16 @@ class Redis::Strategy::Transaction < Redis::Strategy::Base
   end
 
   def discard
+    # Queue DISCARD
+    command(["DISCARD"])
+
+    # Send everything to Redis
     flush
-    receive_queued_responses
+
+    # Discard responses
+    @futures.size.times { @connection.receive }
+
     @discarded = true
-    single_command(["DISCARD"])
   end
 
   def commit
@@ -35,11 +41,26 @@ class Redis::Strategy::Transaction < Redis::Strategy::Base
       return [] of RedisValue
     end
 
-    flush
-    receive_queued_responses
+    # Queue COMMIT
+    exec
 
-    # Commit and receive the actual response values as an array
-    results = exec
+    # Send everything to Redis
+    flush
+
+    responses = [] of RedisValue
+
+    # receive actual responses
+    @futures.each do |future|
+      responses << @connection.receive
+    end
+
+    # Trim MULTI future & response and EXEC future
+    @futures.shift  # Result of MULTI
+    responses.shift # "OK"
+    @futures.pop    # Result of EXEC
+
+    # Grab remaining responses as actual results
+    results = responses.pop.as(Array(RedisValue))
 
     fulfill_futures(results)
 
@@ -65,12 +86,14 @@ class Redis::Strategy::Transaction < Redis::Strategy::Base
     end
   end
 
+  # queue MULTI
   private def multi
-    single_command(["MULTI"])
+    command(["MULTI"])
   end
 
+  # queue EXEC
   private def exec
-    single_command(["EXEC"]).as(Array(RedisValue))
+    command(["EXEC"])
   end
 
   private def single_command(request : Request)
