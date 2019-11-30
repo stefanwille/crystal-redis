@@ -17,6 +17,7 @@ A Redis client for the Crystal programming language.
 - All hyperloglog commands
 - All commands for bit operations
 - All sorted set commands
+- All geo commands
 - Publish/subscribe
 
 ## Installation
@@ -27,7 +28,7 @@ Add it to your `shard.yml`:
 dependencies:
   redis:
     github: stefanwille/crystal-redis
-    version: ~> 2.3.0
+    version: ~> 2.4.0
 ```
 
 and then install the library into your project:
