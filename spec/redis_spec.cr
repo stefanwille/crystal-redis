@@ -290,6 +290,13 @@ describe Redis do
     it "#set options" do
       redis.set("foo", "test", ex: 7)
       redis.ttl("foo").should eq(7)
+
+      redis.set("foo", "test", px: 7)
+      redis.ttl("foo").should eq(0)
+
+      redis.set("foo", "test", nx: true)
+
+      redis.set("foo", "test", xx: true)
     end
 
     it "#mget" do

@@ -48,8 +48,8 @@ class Redis
       q = ["SET", key.to_s, value.to_s]
       q << "EX" << ex.to_s if ex
       q << "PX" << px.to_s if px
-      q << "NX" << nx.to_s if nx
-      q << "XX" << xx.to_s if xx
+      q << "NX" if nx
+      q << "XX" if xx
       string_or_nil_command(q)
     end
 
@@ -1693,6 +1693,7 @@ class Redis
     def psubscribe(*channel_patterns)
       psubscribe channel_patterns.to_a
     end
+
     private def already_in_subscription_loop?
       strategy.is_a? Redis::Strategy::SubscriptionLoop
     end
