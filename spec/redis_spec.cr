@@ -1391,6 +1391,44 @@ describe Redis do
     end
   end
 
+  describe "GEO commands" do
+    redis = Redis.new
+
+    it "#geoadd" do
+      redis.geoadd("Nebraska", -96.8308123, 40.8005243, "Lincoln").should eq(1)
+      redis.geoadd("Nebraska", -96.3614327, 41.2915193, "Omaha").should eq(1)
+    end
+
+    it "#geodist" do
+      redis.geodist("Nebraska", "Lincoln", "Omaha", "mi").should eq("41.8340")
+    end
+
+    it "#geohash" do
+      geohash = redis.geohash("Nebraska", "Lincoln", "Omaha")
+      geohash.should eq(["9z70he9bq80", "9z76zhzsxc0"])
+    end
+
+    it "#geopos" do
+      pos = redis.geopos("Nebraska", "Lincoln")
+      pos.size.should eq(1)
+      pos[0].as(Array(Redis::RedisValue)).size.should eq(2)
+    end
+
+    it "#georadius" do
+      results = redis.georadius("Nebraska", -96.8308123, 40.8005243, 100, "mi")
+      results.size.should eq(2)
+      results.includes?("Lincoln").should be_true
+      results.includes?("Omaha").should be_true
+    end
+
+    it "#georadiusbymember" do
+      results = redis.georadiusbymember("Nebraska", "Lincoln", 100, "mi")
+      results.size.should eq(2)
+      results.includes?("Lincoln").should be_true
+      results.includes?("Omaha").should be_true
+    end
+  end
+
   describe "large values" do
     redis = Redis.new
 
