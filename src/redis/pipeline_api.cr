@@ -17,8 +17,9 @@ require "./command_execution/future_oriented"
 # object.
 class Redis::PipelineApi
   @strategy : Redis::Strategy::Pipeline
+  @namespace : String = ""
 
-  def initialize(@strategy)
+  def initialize(@strategy, @namespace = "")
   end
 
   include Redis::Commands

@@ -18,8 +18,9 @@ require "./command_execution/future_oriented"
 # object.
 class Redis::TransactionApi
   @strategy : Redis::Strategy::Transaction
+  @namespace : String = ""
 
-  def initialize(@strategy)
+  def initialize(@strategy, @namespace = "")
   end
 
   include Redis::Commands
