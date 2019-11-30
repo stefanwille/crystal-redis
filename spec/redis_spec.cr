@@ -1395,15 +1395,12 @@ describe Redis do
     redis = Redis.new
 
     it "#geoadd" do
-      x = redis.geoadd("Nebraska", -96.8308123, 40.8005243, "Lincoln")
-      y = redis.geoadd("Nebraska", -96.3614327, 41.2915193, "Omaha")
-      x.should eq(1)
-      y.should eq(1)
+      redis.geoadd("Nebraska", -96.8308123, 40.8005243, "Lincoln").should eq(1)
+      redis.geoadd("Nebraska", -96.3614327, 41.2915193, "Omaha").should eq(1)
     end
 
     it "#geodist" do
-      dist = redis.geodist("Nebraska", "Lincoln", "Omaha", "mi")
-      dist.should eq("41.8340")
+      redis.geodist("Nebraska", "Lincoln", "Omaha", "mi").should eq("41.8340")
     end
 
     it "#geohash" do
