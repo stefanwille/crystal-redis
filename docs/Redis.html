@@ -183,35 +183,35 @@ Each thread/coroutine that wants to talk to Redis needs its own Redis object ins
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/ef8cf5321123c3794933501b98c8a26175ce4053/src/redis/commands.cr#L1" target="_blank">
+      <a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/commands.cr#L1" target="_blank">
         redis/commands.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/ef8cf5321123c3794933501b98c8a26175ce4053/src/redis/command_execution/value_oriented.cr#L1" target="_blank">
+      <a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/command_execution/value_oriented.cr#L1" target="_blank">
         redis/command_execution/value_oriented.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/ef8cf5321123c3794933501b98c8a26175ce4053/src/redis.cr#L37" target="_blank">
+      <a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis.cr#L37" target="_blank">
         redis.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/ef8cf5321123c3794933501b98c8a26175ce4053/src/redis/command_execution/future_oriented.cr#L1" target="_blank">
+      <a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/command_execution/future_oriented.cr#L1" target="_blank">
         redis/command_execution/future_oriented.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/ef8cf5321123c3794933501b98c8a26175ce4053/src/redis/strategy/base.cr#L1" target="_blank">
+      <a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis/strategy/base.cr#L1" target="_blank">
         redis/strategy/base.cr
       </a>
     
@@ -226,7 +226,7 @@ Each thread/coroutine that wants to talk to Redis needs its own Redis object ins
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new%28host%3D%26quot%3Blocalhost%26quot%3B%2Cport%3D6379%2Cunixsocket%3AString%3F%3Dnil%2Cpassword%3AString%3F%3Dnil%2Cdatabase%3AInt32%3F%3Dnil%2Curl%3Dnil%2Cssl%3Dfalse%2Cssl_context%3AOpenSSL%3A%3ASSL%3A%3AContext%3A%3AClient%3F%3Dnil%2Cdns_timeout%3ATime%3A%3ASpan%3F%3Dnil%2Cconnect_timeout%3ATime%3A%3ASpan%3F%3Dnil%2Creconnect%3Dtrue%2Ccommand_timeout%3ATime%3A%3ASpan%3F%3Dnil%29-class-method" class="signature"><strong>.new</strong>(host = <span class="s">&quot;localhost&quot;</span>, port = <span class="n">6379</span>, unixsocket : String? = <span class="n">nil</span>, password : String? = <span class="n">nil</span>, database : Int32? = <span class="n">nil</span>, url = <span class="n">nil</span>, ssl = <span class="n">false</span>, ssl_context : OpenSSL::SSL::Context::Client? = <span class="n">nil</span>, dns_timeout : Time::Span? = <span class="n">nil</span>, connect_timeout : Time::Span? = <span class="n">nil</span>, reconnect = <span class="n">true</span>, command_timeout : Time::Span? = <span class="n">nil</span>)</a>
+        <a href="#new%28host%3D%26quot%3Blocalhost%26quot%3B%2Cport%3D6379%2Cunixsocket%3AString%3F%3Dnil%2Cpassword%3AString%3F%3Dnil%2Cdatabase%3AInt32%3F%3Dnil%2Curl%3Dnil%2Cssl%3Dfalse%2Cssl_context%3AOpenSSL%3A%3ASSL%3A%3AContext%3A%3AClient%3F%3Dnil%2Cdns_timeout%3ATime%3A%3ASpan%3F%3Dnil%2Cconnect_timeout%3ATime%3A%3ASpan%3F%3Dnil%2Creconnect%3Dtrue%2Ccommand_timeout%3ATime%3A%3ASpan%3F%3Dnil%2Cnamespace%3AString%3F%3D%26quot%3B%26quot%3B%29-class-method" class="signature"><strong>.new</strong>(host = <span class="s">&quot;localhost&quot;</span>, port = <span class="n">6379</span>, unixsocket : String? = <span class="n">nil</span>, password : String? = <span class="n">nil</span>, database : Int32? = <span class="n">nil</span>, url = <span class="n">nil</span>, ssl = <span class="n">false</span>, ssl_context : OpenSSL::SSL::Context::Client? = <span class="n">nil</span>, dns_timeout : Time::Span? = <span class="n">nil</span>, connect_timeout : Time::Span? = <span class="n">nil</span>, reconnect = <span class="n">true</span>, command_timeout : Time::Span? = <span class="n">nil</span>, namespace : String? = <span class="s">&quot;&quot;</span>)</a>
         
           <div class="summary"><p>Opens a Redis connection</p></div>
         
@@ -240,7 +240,7 @@ Each thread/coroutine that wants to talk to Redis needs its own Redis object ins
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#open%28host%3D%26quot%3Blocalhost%26quot%3B%2Cport%3D6379%2Cunixsocket%3Dnil%2Cpassword%3Dnil%2Cdatabase%3Dnil%2Curl%3Dnil%2Cssl%3Dfalse%2Cssl_context%3Dnil%2Cdns_timeout%3Dnil%2Cconnect_timeout%3Dnil%2Creconnect%3Dtrue%2Ccommand_timeout%3Dnil%2C%26block%29-class-method" class="signature"><strong>.open</strong>(host = <span class="s">&quot;localhost&quot;</span>, port = <span class="n">6379</span>, unixsocket = <span class="n">nil</span>, password = <span class="n">nil</span>, database = <span class="n">nil</span>, url = <span class="n">nil</span>, ssl = <span class="n">false</span>, ssl_context = <span class="n">nil</span>, dns_timeout = <span class="n">nil</span>, connect_timeout = <span class="n">nil</span>, reconnect = <span class="n">true</span>, command_timeout = <span class="n">nil</span>, &block)</a>
+        <a href="#open%28host%3D%26quot%3Blocalhost%26quot%3B%2Cport%3D6379%2Cunixsocket%3Dnil%2Cpassword%3Dnil%2Cdatabase%3Dnil%2Curl%3Dnil%2Cssl%3Dfalse%2Cssl_context%3Dnil%2Cdns_timeout%3Dnil%2Cconnect_timeout%3Dnil%2Creconnect%3Dtrue%2Ccommand_timeout%3Dnil%2Cnamespace%3AString%3F%3D%26quot%3B%26quot%3B%2C%26block%29-class-method" class="signature"><strong>.open</strong>(host = <span class="s">&quot;localhost&quot;</span>, port = <span class="n">6379</span>, unixsocket = <span class="n">nil</span>, password = <span class="n">nil</span>, database = <span class="n">nil</span>, url = <span class="n">nil</span>, ssl = <span class="n">false</span>, ssl_context = <span class="n">nil</span>, dns_timeout = <span class="n">nil</span>, connect_timeout = <span class="n">nil</span>, reconnect = <span class="n">true</span>, command_timeout = <span class="n">nil</span>, namespace : String? = <span class="s">&quot;&quot;</span>, &block)</a>
         
           <div class="summary"><p>Opens a Redis connection, yields the given block with a Redis object and closes the connection.</p></div>
         
@@ -1072,12 +1072,12 @@ Each thread/coroutine that wants to talk to Redis needs its own Redis object ins
 
   <h2>Constructor Detail</h2>
   
-    <div class="entry-detail" id="new(host=&amp;quot;localhost&amp;quot;,port=6379,unixsocket:String?=nil,password:String?=nil,database:Int32?=nil,url=nil,ssl=false,ssl_context:OpenSSL::SSL::Context::Client?=nil,dns_timeout:Time::Span?=nil,connect_timeout:Time::Span?=nil,reconnect=true,command_timeout:Time::Span?=nil)-class-method">
+    <div class="entry-detail" id="new(host=&amp;quot;localhost&amp;quot;,port=6379,unixsocket:String?=nil,password:String?=nil,database:Int32?=nil,url=nil,ssl=false,ssl_context:OpenSSL::SSL::Context::Client?=nil,dns_timeout:Time::Span?=nil,connect_timeout:Time::Span?=nil,reconnect=true,command_timeout:Time::Span?=nil,namespace:String?=&amp;quot;&amp;quot;)-class-method">
       <div class="signature">
         
-        def self.<strong>new</strong>(host = <span class="s">&quot;localhost&quot;</span>, port = <span class="n">6379</span>, unixsocket : String? = <span class="n">nil</span>, password : String? = <span class="n">nil</span>, database : Int32? = <span class="n">nil</span>, url = <span class="n">nil</span>, ssl = <span class="n">false</span>, ssl_context : OpenSSL::SSL::Context::Client? = <span class="n">nil</span>, dns_timeout : Time::Span? = <span class="n">nil</span>, connect_timeout : Time::Span? = <span class="n">nil</span>, reconnect = <span class="n">true</span>, command_timeout : Time::Span? = <span class="n">nil</span>)
+        def self.<strong>new</strong>(host = <span class="s">&quot;localhost&quot;</span>, port = <span class="n">6379</span>, unixsocket : String? = <span class="n">nil</span>, password : String? = <span class="n">nil</span>, database : Int32? = <span class="n">nil</span>, url = <span class="n">nil</span>, ssl = <span class="n">false</span>, ssl_context : OpenSSL::SSL::Context::Client? = <span class="n">nil</span>, dns_timeout : Time::Span? = <span class="n">nil</span>, connect_timeout : Time::Span? = <span class="n">nil</span>, reconnect = <span class="n">true</span>, command_timeout : Time::Span? = <span class="n">nil</span>, namespace : String? = <span class="s">&quot;&quot;</span>)
 
-        <a class="method-permalink" href="#new%28host%3D%26quot%3Blocalhost%26quot%3B%2Cport%3D6379%2Cunixsocket%3AString%3F%3Dnil%2Cpassword%3AString%3F%3Dnil%2Cdatabase%3AInt32%3F%3Dnil%2Curl%3Dnil%2Cssl%3Dfalse%2Cssl_context%3AOpenSSL%3A%3ASSL%3A%3AContext%3A%3AClient%3F%3Dnil%2Cdns_timeout%3ATime%3A%3ASpan%3F%3Dnil%2Cconnect_timeout%3ATime%3A%3ASpan%3F%3Dnil%2Creconnect%3Dtrue%2Ccommand_timeout%3ATime%3A%3ASpan%3F%3Dnil%29-class-method">#</a>
+        <a class="method-permalink" href="#new%28host%3D%26quot%3Blocalhost%26quot%3B%2Cport%3D6379%2Cunixsocket%3AString%3F%3Dnil%2Cpassword%3AString%3F%3Dnil%2Cdatabase%3AInt32%3F%3Dnil%2Curl%3Dnil%2Cssl%3Dfalse%2Cssl_context%3AOpenSSL%3A%3ASSL%3A%3AContext%3A%3AClient%3F%3Dnil%2Cdns_timeout%3ATime%3A%3ASpan%3F%3Dnil%2Cconnect_timeout%3ATime%3A%3ASpan%3F%3Dnil%2Creconnect%3Dtrue%2Ccommand_timeout%3ATime%3A%3ASpan%3F%3Dnil%2Cnamespace%3AString%3F%3D%26quot%3B%26quot%3B%29-class-method">#</a>
       </div>
       
         <div class="doc"><p>Opens a Redis connection</p>
@@ -1110,7 +1110,7 @@ redis.close</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/ef8cf5321123c3794933501b98c8a26175ce4053/src/redis.cr#L95" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis.cr#L95" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1120,12 +1120,12 @@ redis.close</code></pre>
 
   <h2>Class Method Detail</h2>
   
-    <div class="entry-detail" id="open(host=&amp;quot;localhost&amp;quot;,port=6379,unixsocket=nil,password=nil,database=nil,url=nil,ssl=false,ssl_context=nil,dns_timeout=nil,connect_timeout=nil,reconnect=true,command_timeout=nil,&amp;block)-class-method">
+    <div class="entry-detail" id="open(host=&amp;quot;localhost&amp;quot;,port=6379,unixsocket=nil,password=nil,database=nil,url=nil,ssl=false,ssl_context=nil,dns_timeout=nil,connect_timeout=nil,reconnect=true,command_timeout=nil,namespace:String?=&amp;quot;&amp;quot;,&amp;block)-class-method">
       <div class="signature">
         
-        def self.<strong>open</strong>(host = <span class="s">&quot;localhost&quot;</span>, port = <span class="n">6379</span>, unixsocket = <span class="n">nil</span>, password = <span class="n">nil</span>, database = <span class="n">nil</span>, url = <span class="n">nil</span>, ssl = <span class="n">false</span>, ssl_context = <span class="n">nil</span>, dns_timeout = <span class="n">nil</span>, connect_timeout = <span class="n">nil</span>, reconnect = <span class="n">true</span>, command_timeout = <span class="n">nil</span>, &block)
+        def self.<strong>open</strong>(host = <span class="s">&quot;localhost&quot;</span>, port = <span class="n">6379</span>, unixsocket = <span class="n">nil</span>, password = <span class="n">nil</span>, database = <span class="n">nil</span>, url = <span class="n">nil</span>, ssl = <span class="n">false</span>, ssl_context = <span class="n">nil</span>, dns_timeout = <span class="n">nil</span>, connect_timeout = <span class="n">nil</span>, reconnect = <span class="n">true</span>, command_timeout = <span class="n">nil</span>, namespace : String? = <span class="s">&quot;&quot;</span>, &block)
 
-        <a class="method-permalink" href="#open%28host%3D%26quot%3Blocalhost%26quot%3B%2Cport%3D6379%2Cunixsocket%3Dnil%2Cpassword%3Dnil%2Cdatabase%3Dnil%2Curl%3Dnil%2Cssl%3Dfalse%2Cssl_context%3Dnil%2Cdns_timeout%3Dnil%2Cconnect_timeout%3Dnil%2Creconnect%3Dtrue%2Ccommand_timeout%3Dnil%2C%26block%29-class-method">#</a>
+        <a class="method-permalink" href="#open%28host%3D%26quot%3Blocalhost%26quot%3B%2Cport%3D6379%2Cunixsocket%3Dnil%2Cpassword%3Dnil%2Cdatabase%3Dnil%2Curl%3Dnil%2Cssl%3Dfalse%2Cssl_context%3Dnil%2Cdns_timeout%3Dnil%2Cconnect_timeout%3Dnil%2Creconnect%3Dtrue%2Ccommand_timeout%3Dnil%2Cnamespace%3AString%3F%3D%26quot%3B%26quot%3B%2C%26block%29-class-method">#</a>
       </div>
       
         <div class="doc"><p>Opens a Redis connection, yields the given block with a Redis object and closes the connection.</p>
@@ -1143,7 +1143,7 @@ redis.close</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/ef8cf5321123c3794933501b98c8a26175ce4053/src/redis.cr#L193" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis.cr#L194" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1166,7 +1166,7 @@ redis.close</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/ef8cf5321123c3794933501b98c8a26175ce4053/src/redis.cr#L205" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis.cr#L207" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1202,7 +1202,7 @@ an object that has the same API as this class, except:</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/ef8cf5321123c3794933501b98c8a26175ce4053/src/redis.cr#L284" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis.cr#L286" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1237,7 +1237,7 @@ it participates in pipelining and all Redis commands return Futures.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/ef8cf5321123c3794933501b98c8a26175ce4053/src/redis.cr#L248" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis.cr#L250" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1255,7 +1255,7 @@ it participates in pipelining and all Redis commands return Futures.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/ef8cf5321123c3794933501b98c8a26175ce4053/src/redis.cr#L212" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/bf907622d053fd31225fcc77cf39c78a3a7e61fa/src/redis.cr#L214" target="_blank">View source</a>]
         
       </div>
     </div>
