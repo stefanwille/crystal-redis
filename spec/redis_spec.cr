@@ -277,6 +277,14 @@ describe Redis do
       redis.select(2)
       redis.get("test_database").should eq "2"
     end
+
+    it "does nothing if current database is the same as given one" do
+      redis1 = Redis.new
+      redis1.select(2).should eq "OK"
+      redis1.select(1).should eq "OK"
+      redis1.select(1).should eq "OK"
+      # There is no good way to assert that no command was sent
+    end
   end
 
   describe "strings" do
