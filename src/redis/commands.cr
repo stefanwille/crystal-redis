@@ -854,7 +854,7 @@ class Redis
       q = ["SSCAN", namespaced(key), cursor.to_s]
       q << "MATCH" << match.to_s if match
       q << "COUNT" << count.to_s if count
-      string_array_command(q)# .map { |key| without_namespace(key) }
+      string_array_command(q) # .map { |key| without_namespace(key) }
     end
 
     # Returns the members of the set resulting from the union of all the given sets.
@@ -1811,7 +1811,7 @@ class Redis
     #
     # **Return value**: Integer: The number of elements added to the sorted set, not including elements already existing for which the score was updated.
     def geoadd(key, longitude, latitude, place)
-      integer_command(["GEOADD", key.to_s, longitude.to_s, latitude.to_s, place.to_s])
+      integer_command(["GEOADD", namespaced(key), longitude.to_s, latitude.to_s, place.to_s])
     end
 
     # Return the distance between two members in the geospatial index represented by the sorted set.
@@ -1819,7 +1819,7 @@ class Redis
     # **Return value**: String: returns the distance as a double (represented as a string) in the specified unit,
     # or NULL if one or both the elements are missing
     def geodist(key, member1, member2, unit = nil)
-      q = ["GEODIST", key.to_s, member1.to_s, member2.to_s]
+      q = ["GEODIST", namespaced(key), member1.to_s, member2.to_s]
       q << unit.to_s if unit
       string_or_nil_command(q)
     end
@@ -1829,7 +1829,7 @@ class Redis
     # **Return value**: Array(String): returns an array where each element is the Geohash corresponding to each
     # member name passed as argument to the command
     def geohash(key, *args)
-      q = ["GEOHASH", key]
+      q = ["GEOHASH", namespaced(key)]
       args.each do |arg|
         q << arg.to_s
       end
@@ -1841,7 +1841,7 @@ class Redis
     # **Return value**: Array(String): returns an array where each element is a two elements array representing
     # longitude and latitude (x,y) of each member name passed as argument to the command
     def geopos(key, *args)
-      q = ["GEOPOS", key]
+      q = ["GEOPOS", namespaced(key)]
       args.each do |arg|
         q << arg.to_s
       end
@@ -1854,7 +1854,7 @@ class Redis
     # **Return value**: Array(String): Returns a simple array or array of arrays, depending on the options passed
     # https://redis.io/commands/georadius#return-value
     def georadius(key, longitude, latitude, radius, unit, withcoord = nil, withdist = nil, withhash = nil, count = nil, sort = nil)
-      q = ["GEORADIUS", key, longitude.to_s, latitude.to_s, radius.to_s, unit.to_s]
+      q = ["GEORADIUS", namespaced(key), longitude.to_s, latitude.to_s, radius.to_s, unit.to_s]
       q << "WITHCOORD" if withcoord
       q << "WITHDIST" if withdist
       q << "WITHHASH" if withhash
@@ -1869,7 +1869,7 @@ class Redis
     # **Return value**: Array(String): Returns a simple array or array of arrays, depending on the options passed
     # https://redis.io/commands/georadius#return-value
     def georadiusbymember(key, member, radius, unit, withcoord = nil, withdist = nil, withhash = nil, count = nil, sort = nil)
-      q = ["GEORADIUSBYMEMBER", key.to_s, member.to_s, radius.to_s, unit.to_s]
+      q = ["GEORADIUSBYMEMBER", namespaced(key), member.to_s, radius.to_s, unit.to_s]
       q << "WITHCOORD" if withcoord
       q << "WITHDIST" if withdist
       q << "WITHHASH" if withhash
