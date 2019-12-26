@@ -1867,7 +1867,10 @@ class Redis
       q << "WITHCOORD" if withcoord
       q << "WITHDIST" if withdist
       q << "WITHHASH" if withhash
-      q << count.to_s if count
+      if count
+        q << "COUNT"
+        q << count.to_s
+      end
       q << sort.to_s if sort
       string_array_command(q)
     end
@@ -1882,7 +1885,10 @@ class Redis
       q << "WITHCOORD" if withcoord
       q << "WITHDIST" if withdist
       q << "WITHHASH" if withhash
-      q << count.to_s if count
+      if count
+        q << "COUNT"
+        q << count.to_s
+      end
       q << sort.to_s if sort
       string_array_command(q)
     end
