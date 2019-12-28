@@ -1470,7 +1470,7 @@ class Redis
     # EVAL and EVALSHA are used to evaluate scripts using the Lua interpreter
     # built into Redis starting from version 2.6.0.
     #
-    # **Return value**: Array(String), depends on the executed script
+    # **Return value**: Depends on the executed script
     #
     # Example:
     #
@@ -1478,15 +1478,15 @@ class Redis
     # redis.eval("return {KEYS[1],KEYS[2],ARGV[1],ARGV[2]}", ["key1", "key2"], ["first art", "second arg"])
     # ```
     def eval(script : String, keys = [] of RedisValue, args = [] of RedisValue)
-      string_array_or_integer_command(concat(["EVAL", script, keys.size.to_s], keys, args))
+      string_array_or_string_or_integer_command(concat(["EVAL", script, keys.size.to_s], keys, args))
     end
 
     # EVAL and EVALSHA are used to evaluate scripts using the Lua interpreter
     # built into Redis starting from version 2.6.0.
     #
-    # **Return value**: Array(String), depends on the executed script
+    # **Return value**: Depends on the executed script
     def evalsha(sha1, keys = [] of RedisValue, args = [] of RedisValue)
-      string_array_or_integer_command(concat(["EVALSHA", sha1.to_s, keys.size.to_s], keys, args))
+      string_array_or_string_or_integer_command(concat(["EVALSHA", sha1.to_s, keys.size.to_s], keys, args))
     end
 
     # Load a script into the scripts cache, without executing it.

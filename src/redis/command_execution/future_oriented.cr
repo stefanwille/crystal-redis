@@ -47,6 +47,12 @@ class Redis
         command(request)
       end
 
+      # Executes a Redis command and casts the response to the correct type.
+      # This is an internal method.
+      def string_array_or_string_or_integer_command(request : Request) : Redis::Future
+        command(request)
+      end
+
       # Executes a Redis command and returns a Future.
       def string_array_or_string_or_nil_command(request : Request) : Redis::Future
         command(request)

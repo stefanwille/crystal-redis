@@ -53,6 +53,12 @@ class Redis
 
       # Executes a Redis command and casts the response to the correct type.
       # This is an internal method.
+      def string_array_or_string_or_integer_command(request : Request) : Array(RedisValue) | String | Int64
+        command(request).as(Array(RedisValue) | String | Int64)
+      end
+
+      # Executes a Redis command and casts the response to the correct type.
+      # This is an internal method.
       def string_array_or_string_command(request : Request) : Array(RedisValue) | String
         command(request).as(Array(RedisValue) | String)
       end

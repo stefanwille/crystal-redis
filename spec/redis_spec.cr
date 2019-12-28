@@ -1187,6 +1187,13 @@ describe Redis do
         result = redis.eval("return {KEYS[1],KEYS[2],ARGV[1],ARGV[2]}", keys, args)
         result.should eq(["key1", "key2", "first", "second"])
       end
+
+      it "handles different return types" do
+        keys = ["key1", "key2"] of Redis::RedisValue
+        args = ["first", "second"] of Redis::RedisValue
+        result = redis.eval("return KEYS[1]", keys, args)
+        result.should eq("key1")
+      end
     end
 
     describe "#script_load / #eval_sha" do
@@ -1196,6 +1203,14 @@ describe Redis do
         args = ["first", "second"] of Redis::RedisValue
         result = redis.evalsha(sha1, keys, args)
         result.should eq(["key1", "first"])
+      end
+
+      it "handles different return types" do
+        sha1 = redis.script_load("return KEYS[1]")
+        keys = ["key1", "key2"] of Redis::RedisValue
+        args = ["first", "second"] of Redis::RedisValue
+        result = redis.evalsha(sha1, keys, args)
+        result.should eq("key1")
       end
     end
 
