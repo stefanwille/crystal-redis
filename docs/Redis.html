@@ -183,35 +183,35 @@ Each thread/coroutine that wants to talk to Redis needs its own Redis object ins
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/38c6617f173dde20c1081317f74d9f6c1803fb85/src/redis/commands.cr#L1" target="_blank">
+      <a href="https://github.com/stefanwille/crystal-redis/blob/90dedfc994a72cd97e4b2f38efe66bcc50338348/src/redis/commands.cr#L1" target="_blank">
         redis/commands.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/38c6617f173dde20c1081317f74d9f6c1803fb85/src/redis/command_execution/value_oriented.cr#L1" target="_blank">
+      <a href="https://github.com/stefanwille/crystal-redis/blob/90dedfc994a72cd97e4b2f38efe66bcc50338348/src/redis/command_execution/value_oriented.cr#L1" target="_blank">
         redis/command_execution/value_oriented.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/38c6617f173dde20c1081317f74d9f6c1803fb85/src/redis.cr#L37" target="_blank">
+      <a href="https://github.com/stefanwille/crystal-redis/blob/90dedfc994a72cd97e4b2f38efe66bcc50338348/src/redis.cr#L37" target="_blank">
         redis.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/38c6617f173dde20c1081317f74d9f6c1803fb85/src/redis/command_execution/future_oriented.cr#L1" target="_blank">
+      <a href="https://github.com/stefanwille/crystal-redis/blob/90dedfc994a72cd97e4b2f38efe66bcc50338348/src/redis/command_execution/future_oriented.cr#L1" target="_blank">
         redis/command_execution/future_oriented.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/38c6617f173dde20c1081317f74d9f6c1803fb85/src/redis/strategy/base.cr#L1" target="_blank">
+      <a href="https://github.com/stefanwille/crystal-redis/blob/90dedfc994a72cd97e4b2f38efe66bcc50338348/src/redis/strategy/base.cr#L1" target="_blank">
         redis/strategy/base.cr
       </a>
     
@@ -327,6 +327,11 @@ Each thread/coroutine that wants to talk to Redis needs its own Redis object ins
     <a href="Redis/CommandExecution/ValueOriented.html#string_array_or_string_command%28request%3ARequest%29%3AArray%28RedisValue%29%7CString-instance-method" class="tooltip">
       <span>string_array_or_string_command(request : Request) : Array(RedisValue) | String</span>
     string_array_or_string_command</a>, 
+    
+  
+    <a href="Redis/CommandExecution/ValueOriented.html#string_array_or_string_or_integer_command%28request%3ARequest%29%3AArray%28RedisValue%29%7CString%7CInt64-instance-method" class="tooltip">
+      <span>string_array_or_string_or_integer_command(request : Request) : Array(RedisValue) | String | Int64</span>
+    string_array_or_string_or_integer_command</a>, 
     
   
     <a href="Redis/CommandExecution/ValueOriented.html#string_array_or_string_or_nil_command%28request%3ARequest%29%3AArray%28RedisValue%29%7CString%3F-instance-method" class="tooltip">
@@ -553,8 +558,8 @@ Each thread/coroutine that wants to talk to Redis needs its own Redis object ins
     hlen</a>, 
     
   
-    <a href="Redis/Commands.html#hmget%28key%2Cfields%3AArray%28String%29%29%3AArray%28RedisValue%29-instance-method" class="tooltip">
-      <span>hmget(key, fields : Array(String)) : Array(RedisValue)<br/>hmget(key, *fields : String) : Array(RedisValue)</span>
+    <a href="Redis/Commands.html#hmget%28key%2Cfields%3AArray%28String%29%29-instance-method" class="tooltip">
+      <span>hmget(key, fields : Array(String))<br/>hmget(key, *fields : String)</span>
     hmget</a>, 
     
   
@@ -1140,7 +1145,7 @@ redis.close</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/38c6617f173dde20c1081317f74d9f6c1803fb85/src/redis.cr#L95" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/90dedfc994a72cd97e4b2f38efe66bcc50338348/src/redis.cr#L95" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1173,7 +1178,7 @@ redis.close</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/38c6617f173dde20c1081317f74d9f6c1803fb85/src/redis.cr#L194" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/90dedfc994a72cd97e4b2f38efe66bcc50338348/src/redis.cr#L194" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1196,7 +1201,7 @@ redis.close</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/38c6617f173dde20c1081317f74d9f6c1803fb85/src/redis.cr#L207" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/90dedfc994a72cd97e4b2f38efe66bcc50338348/src/redis.cr#L207" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1232,7 +1237,7 @@ an object that has the same API as this class, except:</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/38c6617f173dde20c1081317f74d9f6c1803fb85/src/redis.cr#L286" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/90dedfc994a72cd97e4b2f38efe66bcc50338348/src/redis.cr#L286" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1267,7 +1272,7 @@ it participates in pipelining and all Redis commands return Futures.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/38c6617f173dde20c1081317f74d9f6c1803fb85/src/redis.cr#L250" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/90dedfc994a72cd97e4b2f38efe66bcc50338348/src/redis.cr#L250" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1285,7 +1290,7 @@ it participates in pipelining and all Redis commands return Futures.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/38c6617f173dde20c1081317f74d9f6c1803fb85/src/redis.cr#L214" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/90dedfc994a72cd97e4b2f38efe66bcc50338348/src/redis.cr#L214" target="_blank">View source</a>]
         
       </div>
     </div>
