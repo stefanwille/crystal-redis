@@ -7,3 +7,4 @@ lib/
 TODO.md
 experiments
 shard.lock
+*.code-workspace
