@@ -1071,12 +1071,12 @@ class Redis
     # Returns the values associated with the specified fields in the hash stored at key.
     #
     # **Return value**: Array(RedisValue), the list of values associated with the given fields, in the same order as they are requested.
-    def hmget(key, fields : Array(String)) : Array(RedisValue)
+    def hmget(key, fields : Array(String))
       string_array_command(concat(["HMGET", namespaced(key)], fields))
     end
 
     # :ditto:
-    def hmget(key, *fields : String) : Array(RedisValue)
+    def hmget(key, *fields : String)
       hmget key, fields.to_a
     end
 
