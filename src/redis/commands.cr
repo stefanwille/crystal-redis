@@ -941,7 +941,7 @@ class Redis
       q << timeout_in_seconds.to_s
       result = array_or_nil_command(q)
 
-      return result unless result
+      return result if result.nil? || result.empty?
 
       result[0] = without_namespace("#{result.first}")
       result

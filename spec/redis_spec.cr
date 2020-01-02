@@ -592,6 +592,9 @@ describe Redis do
       redis.del("myotherlist")
       redis.rpush("mylist", "hello", "world")
       redis.brpop(["myotherlist", "mylist"], 1).should eq(["mylist", "world"])
+
+      redis.del("mylist")
+      redis.brpop(["mylist"], 1).should eq([] of String)
     end
 
     it "#rpoplpush" do
