@@ -122,6 +122,8 @@ end
 This `redis` instance can be shared across fibers, and accepts the same Redis commands as the `Redis` class.
 It automatically allocates and frees connections from/to the pool, per command.
 
+:warning: If you are using Redis in a web context (e. g. with a framework like [Kemal](https://github.com/kemalcr/kemal)), you need to use connection pooling.
+
 ## Examples
 
 To get started, see the examples:
