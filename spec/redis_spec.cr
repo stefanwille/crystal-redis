@@ -1521,5 +1521,13 @@ describe Redis do
         other.get("foo").should eq(nil)
       end
     end
+
+    describe "regression on #keys: compile time error" do
+      # https://github.com/stefanwille/crystal-redis/issues/100
+      it "works" do
+        redis = Redis.new
+        redis.keys("*").each { |key| redis.del(key.as String) }
+      end
+    end
   end
 end
