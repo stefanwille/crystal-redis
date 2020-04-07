@@ -60,7 +60,7 @@ describe Redis do
     end
 
     it "raises ConnectionError when it cant connect to redis" do
-      expect_raises(Redis::CannotConnectError, "Errno: Error connecting to 'localhost:12345': Connection refused") do
+      expect_raises(Redis::CannotConnectError, "Socket::ConnectError: Error connecting to 'localhost:12345': Connection refused") do
         Redis.new(host: "localhost", port: 12345)
       end
     end

@@ -41,7 +41,7 @@ class Redis::PooledClient
   private def with_pool_connection
     conn = begin
       @pool.checkout
-    rescue IO::Timeout
+    rescue IO::TimeoutError
       raise Redis::PoolTimeoutError.new("No free connection (used #{@pool.size} of #{@pool.capacity}) after timeout of #{@pool.timeout}s")
     end
 

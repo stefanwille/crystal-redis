@@ -4,6 +4,8 @@ version: 2.5.3
 authors:
   - Stefan Wille <nospam-post@nospam-stefanwille-dot-com>
 
+crystal: 0.34.0
+
 dependencies:
   pool:
     github: ysbaddaden/pool
