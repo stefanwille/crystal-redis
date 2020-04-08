@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 0.27.2">
+<meta name="generator" content="Crystal Docs 0.33.0">
 
-
-<link href="css/style.css" rel="stylesheet" type="text/css">
-
+<link href="css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/doc.js"></script>
-<script type="text/javascript">
-  CrystalDoc.base_path = "";
-</script>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
 
   <meta id="repository-name" content="github.com/stefanwille/crystal-redis">
   <title>README - github.com/stefanwille/crystal-redis</title>
+  <script type="text/javascript">
+  CrystalDoc.base_path = "";
+  </script>
 </head>
 <body>
 
@@ -118,30 +122,46 @@
 
 
 <div class="main-content">
-<h1>Redis Client for Crystal</h1>
+<h1><a id="redis-client-for-crystal" class="anchor" href="#redis-client-for-crystal">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Redis Client for Crystal</h1>
 
 <p><a href="https://travis-ci.org/stefanwille/crystal-redis" target="_blank"><img src="https://img.shields.io/travis/stefanwille/crystal-redis/master.svg?style=flat" alt="Build Status"/></a> <a href="CONTRIBUTING.md#pull-requests" target="_blank"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"/></a></p>
 
 <p>A Redis client for the Crystal programming language.</p>
 
-<h2>Features</h2>
+<h2><a id="features" class="anchor" href="#features">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Features</h2>
 
 <ul><li>Performance (> 680,000 commands per second using pipeline on a MacBook Air with a single client thread)</li><li>Pipelining</li><li>Transactions</li><li>LUA Scripting</li><li>All string commands</li><li>All hash commands</li><li>All list commands</li><li>All set commands</li><li>All hyperloglog commands</li><li>All commands for bit operations</li><li>All sorted set commands</li><li>All geo commands</li><li>Publish/subscribe</li></ul>
 
-<h2>Installation</h2>
+<h2><a id="installation" class="anchor" href="#installation">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Installation</h2>
 
 <p>Add it to your <code>shard.yml</code>:</p>
 
 <pre><code class="language-crystal">dependencies:
   redis:
     github: stefanwille<span class="s">/crystal-redis
-    version: ~&gt; 2.5.2</code></pre>
+    version: ~&gt; 2.6.0</code></pre>
 
 <p>and then install the library into your project:</p>
 
 <pre><code class="language-bash">$ shards install</code></pre>
 
-<h3>Installation on MacOS X</h3>
+<h3><a id="installation-on-mac-os-x" class="anchor" href="#installation-on-mac-os-x">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Installation on MacOS X</h3>
 
 <p>On MacOS X you may get this error:</p>
 
@@ -172,13 +192,21 @@ Perhaps you should add the directory containing `</span>libcrypto.pc</code></pre
 
 <p>Note: Please write me if you know a better way!</p>
 
-<h2>Required Crystal Version</h2>
+<h2><a id="required-crystal-version" class="anchor" href="#required-crystal-version">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Required Crystal Version</h2>
 
-<p>This library needs Crystal version >= 0.25.0</p>
+<p>This library needs Crystal version >= 0.34.0</p>
 
 <p>I haven't tested older Crystal versions.</p>
 
-<h2>Usage</h2>
+<h2><a id="usage" class="anchor" href="#usage">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Usage</h2>
 
 <p>Require the package:</p>
 
@@ -193,7 +221,11 @@ Perhaps you should add the directory containing `</span>libcrypto.pc</code></pre
 <pre><code class="language-crystal">  redis.set(<span class="s">&quot;foo&quot;</span>, <span class="s">&quot;bar&quot;</span>)
   redis.get(<span class="s">&quot;foo&quot;</span>)</code></pre>
 
-<h4>Connection Pooling</h4>
+<h4><a id="connection-pooling" class="anchor" href="#connection-pooling">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Connection Pooling</h4>
 
 <p>Since version 2.0.0, a connection pool is built in. It is used implicitly through <code><a href="Redis/PooledClient.html">Redis::PooledClient</a></code>:</p>
 
@@ -208,18 +240,30 @@ end</code></pre>
 <p>This <code>redis</code> instance can be shared across fibers, and accepts the same Redis commands as the <code><a href="Redis.html">Redis</a></code> class.
 It automatically allocates and frees connections from/to the pool, per command.</p>
 
-<h2>Examples</h2>
+<h2><a id="examples" class="anchor" href="#examples">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Examples</h2>
 
 <p>To get started, see the examples:</p>
 
 <ul><li>There is a separate git repository <a href="https://github.com/stefanwille/crystal-redis-examples" target="_blank">crystal-redis-examples</a> with examples.</li><li>start with this <a href="https://github.com/stefanwille/crystal-redis-examples/blob/master/src/basic.cr" target="_blank">basic example</a></li><li>look at <a href="https://github.com/stefanwille/crystal-redis-examples/blob/master/src/" target="_blank">the other examples</a></li><li>the <a href="https://github.com/stefanwille/crystal-redis/blob/master/spec/redis_spec.cr" target="_blank">spec</a> contains even more usage examples</li></ul>
 
-<h2>Documentation</h2>
+<h2><a id="documentation" class="anchor" href="#documentation">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Documentation</h2>
 
 <ul><li><a href="http://stefanwille.github.io/crystal-redis" target="_blank">API documentation</a> -
   start reading it at the class <code><a href="Redis.html">Redis</a></code>.</li><li><a href="http://redis.io/commands" target="_blank">Redis commands documentation</a> - the original Redis documentation is necessary, as the API documentation above is just a quick reference</li><li><a href="http://redis.io/documentation" target="_blank">Redis documentation page</a> - general information about Redis and its concepts</li></ul>
 
-<h2>Performance</h2>
+<h2><a id="performance" class="anchor" href="#performance">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Performance</h2>
 
 <p>I have benchmarked Crystal-Redis against several other client libraries in various programming languages in this <a href="http://www.stefanwille.com/2015/05/redis-clients-crystal-vs-ruby-vs-c-vs-go/" target="_blank">blog article</a>.</p>
 
@@ -233,13 +277,21 @@ It automatically allocates and frees connections from/to the pool, per command.<
 
 <p><a href="http://www.stefanwille.com/2015/05/redis-clients-crystal-vs-ruby-vs-c-vs-go/" target="_blank">Read more results</a> for Go, Java, Node.js.</p>
 
-<h2>Status</h2>
+<h2><a id="status" class="anchor" href="#status">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Status</h2>
 
 <p>I have exercised every API method in the spec and built some example programs. Some people report production usage.</p>
 
 <p>I took great care to make this library very usable with respect to API, reliability and documentation.</p>
 
-<h2>Development</h2>
+<h2><a id="development" class="anchor" href="#development">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Development</h2>
 
 <p>This project requires a locally running redis server running on port 6379 and with a Unix socket located at /tmp/redis.sock. In Homebrew's default redis.config the Unix domain socket option is disabled. To enable, edit <code>/usr/local/etc/redis.conf</code> or whatever your <code>redis.conf</code> is and uncomment this line:</p>
 
@@ -255,11 +307,19 @@ It automatically allocates and frees connections from/to the pool, per command.<
 
 <p><a href="https://github.com/stefanwille/crystal-redis/blob/master/CONTRIBUTING.md" target="_blank">See more information</a>.</p>
 
-<h3>WARNING</h3>
+<h3><a id="warning" class="anchor" href="#warning">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>WARNING</h3>
 
 <p>Running the spec will delete database number 0!</p>
 
-<h2>Questions, Bugs & Support</h2>
+<h2><a id="questions-bugs-support" class="anchor" href="#questions-bugs-support">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Questions, Bugs & Support</h2>
 
 <p>If you have questions or need help, please open a ticket in the <a href="https://github.com/stefanwille/crystal-redis/issues" target="_blank">GitHub issue tracker</a>. This way others can benefit from the discussion.</p>
 </div>

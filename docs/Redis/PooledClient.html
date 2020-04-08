@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 0.27.2">
+<meta name="generator" content="Crystal Docs 0.33.0">
 
-
-<link href="../css/style.css" rel="stylesheet" type="text/css">
-
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="../js/doc.js"></script>
-<script type="text/javascript">
-  CrystalDoc.base_path = "../";
-</script>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
 
   <meta id="repository-name" content="github.com/stefanwille/crystal-redis">
   <title>Redis::PooledClient - github.com/stefanwille/crystal-redis</title>
+  <script type="text/javascript">
+    CrystalDoc.base_path = "../";
+  </script>
 </head>
 <body>
 
@@ -130,7 +134,14 @@
 
 
 
-  <h2>Overview</h2>
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
 
   <p>A Redis client object that can be shared across multiple fibers.
 It is backed by a connection pool of <code><a href="../Redis.html">Redis</a></code> instances and will automatically allocate and free these instances from/to the pool, per command.</p>
@@ -160,10 +171,17 @@ end</code></pre>
 
 
 
-  <h2>Defined in:</h2>
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
   
     
-      <a href="https://github.com/stefanwille/crystal-redis/blob/90dedfc994a72cd97e4b2f38efe66bcc50338348/src/redis/pooled_client.cr#L20" target="_blank">
+      <a href="https://github.com/stefanwille/crystal-redis/blob/6bb6fe335259fa882d057408b5ab7186febda5b5/src/redis/pooled_client.cr#L20" target="_blank">
         redis/pooled_client.cr
       </a>
     
@@ -174,11 +192,18 @@ end</code></pre>
 
 
 
-  <h2>Constructors</h2>
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new%28%2Aargs%2Cpool_size%3D5%2Cpool_timeout%3D5.0%2C%2A%2Aargs2%29-class-method" class="signature"><strong>.new</strong>(*args, pool_size = <span class="n">5</span>, pool_timeout = <span class="n">5.0</span>, **args2)</a>
+        <a href="#new(*args,pool_size=5,pool_timeout=5.0,**args2)-class-method" class="signature"><strong>.new</strong>(*args, pool_size = <span class="n">5</span>, pool_timeout = <span class="n">5.0</span>, **args2)</a>
         
           <div class="summary"><p>Accepts the same connection parameters like a <code><a href="../Redis.html">Redis</a></code> instance, plus the documented ones.</p></div>
         
@@ -190,23 +215,30 @@ end</code></pre>
 
 
 
-  <h2>Instance Method Summary</h2>
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#pool%3AConnectionPool%28Redis%29-instance-method" class="signature"><strong>#pool</strong> : ConnectionPool(Redis)</a>
+        <a href="#pool:ConnectionPool(Redis)-instance-method" class="signature"><strong>#pool</strong> : ConnectionPool(Redis)</a>
         
           <div class="summary"><p>The connection pool.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#psubscribe%28%2Achannel_patterns%2C%26callback_setup_block%3ARedis%3A%3ASubscription-%3E%29-instance-method" class="signature"><strong>#psubscribe</strong>(*channel_patterns, &callback_setup_block : Redis::Subscription -> )</a>
+        <a href="#psubscribe(*channel_patterns,&callback_setup_block:Redis::Subscription-%3E)-instance-method" class="signature"><strong>#psubscribe</strong>(*channel_patterns, &callback_setup_block : Redis::Subscription -> )</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#subscribe%28%2Achannels%2C%26callback_setup_block%3ARedis%3A%3ASubscription-%3E%29-instance-method" class="signature"><strong>#subscribe</strong>(*channels, &callback_setup_block : Redis::Subscription -> )</a>
+        <a href="#subscribe(*channels,&callback_setup_block:Redis::Subscription-%3E)-instance-method" class="signature"><strong>#subscribe</strong>(*channels, &callback_setup_block : Redis::Subscription -> )</a>
         
       </li>
     
@@ -214,11 +246,18 @@ end</code></pre>
 
 
 
-  <h2>Macro Summary</h2>
+  <h2>
+    <a id="macro-summary" class="anchor" href="#macro-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Macro Summary
+  </h2>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#method_missing%28call%29-macro" class="signature"><strong>method_missing</strong>(call)</a>
+        <a href="#method_missing(call)-macro" class="signature"><strong>method_missing</strong>(call)</a>
         
       </li>
     
@@ -251,24 +290,34 @@ end</code></pre>
 </div>
 
 
-  <h2>Constructor Detail</h2>
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
   
     <div class="entry-detail" id="new(*args,pool_size=5,pool_timeout=5.0,**args2)-class-method">
       <div class="signature">
         
         def self.<strong>new</strong>(*args, pool_size = <span class="n">5</span>, pool_timeout = <span class="n">5.0</span>, **args2)
 
-        <a class="method-permalink" href="#new%28%2Aargs%2Cpool_size%3D5%2Cpool_timeout%3D5.0%2C%2A%2Aargs2%29-class-method">#</a>
+        <a class="method-permalink" href="#new(*args,pool_size=5,pool_timeout=5.0,**args2)-class-method">#</a>
       </div>
       
-        <div class="doc"><p>Accepts the same connection parameters like a <code><a href="../Redis.html">Redis</a></code> instance, plus the documented ones.</p>
+        <div class="doc">
+          
+          <p>Accepts the same connection parameters like a <code><a href="../Redis.html">Redis</a></code> instance, plus the documented ones.</p>
 
-<ul><li>pool_size - the number of <code><a href="../Redis.html">Redis</a></code> to hold in the connection pool.</li><li>pool_timeout - the time to wait for a <code><a href="../Redis.html">Redis</a></code> instance to become available from the pool before dying with <code><a href="../Redis/PoolTimeoutError.html">Redis::PoolTimeoutError</a></code>.</li></ul></div>
+<ul><li>pool_size - the number of <code><a href="../Redis.html">Redis</a></code> to hold in the connection pool.</li><li>pool_timeout - the time to wait for a <code><a href="../Redis.html">Redis</a></code> instance to become available from the pool before dying with <code><a href="../Redis/PoolTimeoutError.html">Redis::PoolTimeoutError</a></code>.</li></ul>
+        </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/90dedfc994a72cd97e4b2f38efe66bcc50338348/src/redis/pooled_client.cr#L29" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/6bb6fe335259fa882d057408b5ab7186febda5b5/src/redis/pooled_client.cr#L29" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -278,23 +327,33 @@ end</code></pre>
 
 
 
-  <h2>Instance Method Detail</h2>
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
   
     <div class="entry-detail" id="pool:ConnectionPool(Redis)-instance-method">
       <div class="signature">
         
         def <strong>pool</strong> : ConnectionPool(<a href="../Redis.html">Redis</a>)
 
-        <a class="method-permalink" href="#pool%3AConnectionPool%28Redis%29-instance-method">#</a>
+        <a class="method-permalink" href="#pool:ConnectionPool(Redis)-instance-method">#</a>
       </div>
       
-        <div class="doc"><p>The connection pool.
-See <a href="https://github.com/ysbaddaden/pool" target="_blank">https://github.com/ysbaddaden/pool</a></p></div>
+        <div class="doc">
+          
+          <p>The connection pool.
+See <a href="https://github.com/ysbaddaden/pool" target="_blank">https://github.com/ysbaddaden/pool</a></p>
+        </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/90dedfc994a72cd97e4b2f38efe66bcc50338348/src/redis/pooled_client.cr#L23" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/6bb6fe335259fa882d057408b5ab7186febda5b5/src/redis/pooled_client.cr#L23" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -304,13 +363,13 @@ See <a href="https://github.com/ysbaddaden/pool" target="_blank">https://github.
         
         def <strong>psubscribe</strong>(*channel_patterns, &callback_setup_block : <a href="../Redis/Subscription.html">Redis::Subscription</a> -> )
 
-        <a class="method-permalink" href="#psubscribe%28%2Achannel_patterns%2C%26callback_setup_block%3ARedis%3A%3ASubscription-%3E%29-instance-method">#</a>
+        <a class="method-permalink" href="#psubscribe(*channel_patterns,&callback_setup_block:Redis::Subscription-%3E)-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/90dedfc994a72cd97e4b2f38efe66bcc50338348/src/redis/pooled_client.cr#L59" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/6bb6fe335259fa882d057408b5ab7186febda5b5/src/redis/pooled_client.cr#L59" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -320,13 +379,13 @@ See <a href="https://github.com/ysbaddaden/pool" target="_blank">https://github.
         
         def <strong>subscribe</strong>(*channels, &callback_setup_block : <a href="../Redis/Subscription.html">Redis::Subscription</a> -> )
 
-        <a class="method-permalink" href="#subscribe%28%2Achannels%2C%26callback_setup_block%3ARedis%3A%3ASubscription-%3E%29-instance-method">#</a>
+        <a class="method-permalink" href="#subscribe(*channels,&callback_setup_block:Redis::Subscription-%3E)-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/90dedfc994a72cd97e4b2f38efe66bcc50338348/src/redis/pooled_client.cr#L55" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/6bb6fe335259fa882d057408b5ab7186febda5b5/src/redis/pooled_client.cr#L55" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -334,20 +393,27 @@ See <a href="https://github.com/ysbaddaden/pool" target="_blank">https://github.
 
 
 
-  <h2>Macro Detail</h2>
+  <h2>
+    <a id="macro-detail" class="anchor" href="#macro-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Macro Detail
+  </h2>
   
     <div class="entry-detail" id="method_missing(call)-macro">
       <div class="signature">
         
         macro <strong>method_missing</strong>(call)
 
-        <a class="method-permalink" href="#method_missing%28call%29-macro">#</a>
+        <a class="method-permalink" href="#method_missing(call)-macro">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/stefanwille/crystal-redis/blob/90dedfc994a72cd97e4b2f38efe66bcc50338348/src/redis/pooled_client.cr#L35" target="_blank">View source</a>]
+          [<a href="https://github.com/stefanwille/crystal-redis/blob/6bb6fe335259fa882d057408b5ab7186febda5b5/src/redis/pooled_client.cr#L35" target="_blank">View source</a>]
         
       </div>
     </div>
