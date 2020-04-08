@@ -37,37 +37,20 @@ class Redis::PooledClient
     with_pool_connection { |conn| conn.{{call}} }
   end
 
-  {% if compare_versions(Crystal::VERSION, "0.34.0-0") > 0 %}
-    # Executes the given block, passing it a Redis client from the connection pool.
-    private def with_pool_connection
-      conn = begin
-        @pool.checkout
-      rescue IO::TimeoutError
-        raise Redis::PoolTimeoutError.new("No free connection (used #{@pool.size} of #{@pool.capacity}) after timeout of #{@pool.timeout}s")
-      end
-
-      begin
-        yield(conn)
-      ensure
-        @pool.checkin(conn)
-      end
+  # Executes the given block, passing it a Redis client from the connection pool.
+  private def with_pool_connection
+    conn = begin
+      @pool.checkout
+    rescue IO::TimeoutError
+      raise Redis::PoolTimeoutError.new("No free connection (used #{@pool.size} of #{@pool.capacity}) after timeout of #{@pool.timeout}s")
     end
-  {% else %}
-    # Executes the given block, passing it a Redis client from the connection pool.
-    private def with_pool_connection
-      conn = begin
-        @pool.checkout
-      rescue IO::Timeout
-        raise Redis::PoolTimeoutError.new("No free connection (used #{@pool.size} of #{@pool.capacity}) after timeout of #{@pool.timeout}s")
-      end
 
-      begin
-        yield(conn)
-      ensure
-        @pool.checkin(conn)
-      end
+    begin
+      yield(conn)
+    ensure
+      @pool.checkin(conn)
     end
-  {% end %}
+  end
 
   def subscribe(*channels, &callback_setup_block : Redis::Subscription ->)
     with_pool_connection &.subscribe(*channels) { |s| callback_setup_block.call(s) }
