@@ -8,7 +8,7 @@ struct Redis::SocketWrapper
 
   def self.new
     self.new(yield)
-  rescue ex : IO::Timeout | Errno | Socket::Error | OpenSSL::Error
+  rescue ex : IO::TimeoutError | Socket::Error | OpenSSL::Error
     raise Redis::CannotConnectError.new("#{ex.class}: #{ex.message}")
   end
 
@@ -18,9 +18,9 @@ struct Redis::SocketWrapper
 
   private def catch_errors
     yield
-  rescue ex : Errno | IO::Error | OpenSSL::Error
+  rescue ex : IO::Error | OpenSSL::Error
     raise Redis::ConnectionLostError.new("#{ex.class}: #{ex.message}")
-  rescue ex : IO::Timeout
+  rescue ex : IO::TimeoutError
     raise Redis::CommandTimeoutError.new("Command timed out")
   end
 
@@ -29,6 +29,6 @@ struct Redis::SocketWrapper
       @connected = false
       @socket.close
     end
-  rescue Errno
+  rescue Socket::Error
   end
 end
