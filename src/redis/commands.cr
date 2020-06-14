@@ -561,7 +561,7 @@ class Redis
 
     # Returns all keys matching pattern.
     #
-    # **Return value**: Array(String), array of keys matching pattern.
+    # **Return value**: Array(RediSValue), array of keys matching pattern.
     #
     # Example:
     #
@@ -1908,11 +1908,11 @@ class Redis
       destination
     end
 
-    private def namespaced(keys : (Array(String) | Tuple(String, String)))
-      keys.map { |key| namespaced(key) }
+    private def namespaced(keys : Array(RedisValue) | Tuple(String, String))
+      keys.map { |key| namespaced(key.as(String)) }
     end
 
-    private def namespaced(key : (String | Symbol | Int32))
+    private def namespaced(key : String | Symbol | Int32)
       return key.to_s if @namespace == ""
 
       [@namespace, key.to_s].join("::")

@@ -157,6 +157,11 @@ describe Redis do
 
       redis.mset({"foo1" => "bar1", "foo2" => "bar2"})
       redis.del(["foo1", "foo2"]).should eq(2)
+
+      redis.set("namespaced::key", 2)
+      list_of_keys = redis.keys("namespaced::*")
+      list_of_keys.should eq(["namespaced::key"])
+      redis.del(list_of_keys)
     end
 
     it "converts keys to strings" do
@@ -195,6 +200,7 @@ describe Redis do
     it "#keys" do
       redis.set("callmemaybe", 1)
       redis.keys("callmemaybe").should eq(["callmemaybe"])
+      redis.del("callmemaybe")
     end
 
     describe "#sort" do
