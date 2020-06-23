@@ -580,6 +580,12 @@ describe Redis do
       redis.blpop(["myotherlist", "mylist"], 1).should eq(["mylist", "hello"])
     end
 
+    it "#blpop with no data, should not raise" do
+      redis.del("mylist")
+      redis.del("myotherlist")
+      redis.blpop(["myotherlist", "mylist"], 1).should eq([] of String)
+    end
+
     it "#ltrim" do
       redis.del("mylist")
       redis.rpush("mylist", "hello", "good", "world")
@@ -595,6 +601,12 @@ describe Redis do
 
       redis.del("mylist")
       redis.brpop(["mylist"], 1).should eq([] of String)
+    end
+
+    it "#brpop with no data, should not raise" do
+      redis.del("mylist")
+      redis.del("myotherlist")
+      redis.brpop(["myotherlist", "mylist"], 1).should eq([] of String)
     end
 
     it "#rpoplpush" do

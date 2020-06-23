@@ -914,8 +914,7 @@ class Redis
 
       return result unless result
 
-      result[0] = without_namespace("#{result.first}")
-      result
+      result.map { |r| without_namespace(r.to_s) }
     end
 
     # BRPOP is a blocking list pop primitive.
@@ -943,8 +942,7 @@ class Redis
 
       return result if result.nil? || result.empty?
 
-      result[0] = without_namespace("#{result.first}")
-      result
+      result.map { |r| without_namespace(r.to_s) }
     end
 
     # Atomically returns and removes the last element (tail) of the list stored at source,
