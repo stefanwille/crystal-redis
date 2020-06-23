@@ -308,7 +308,11 @@ class Redis
   # :nodoc:
   def command(request : Request)
     with_reconnect do
-      strategy.command(request).as(RedisValue)
+      result = strategy.command(request).as(RedisValue)
+      if @strategy.is_a?(Redis::Strategy::SubscriptionLoop)
+        @strategy = Redis::Strategy::SingleStatement.new(@connection.not_nil!)
+      end
+      result
     end
   end
 

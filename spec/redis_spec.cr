@@ -1355,6 +1355,16 @@ describe Redis do
     end
   end
 
+  it "can be used after #unsubscribe" do
+    redis = Redis.new
+    redis.subscribe("mychannel") do |on|
+      on.subscribe do |c, s|
+        redis.unsubscribe(c)
+      end
+    end
+    redis.set("temp", "temp")
+  end
+
   describe "punsubscribe" do
     redis = Redis.new
 
