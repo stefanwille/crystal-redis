@@ -78,6 +78,12 @@ class Redis::Connection
     io << "$-1\r\n"
   end
 
+  def marshal(arg : Bytes, io)
+    io << "$" << arg.bytesize << "\r\n"
+    io.write(arg)
+    io << "\r\n"
+  end
+  
   # Receives n responses with the expected content "QUEUED".
   # This method exists to prevent many small read calls.
   #

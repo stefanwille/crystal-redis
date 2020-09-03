@@ -1922,7 +1922,7 @@ class Redis
       key.to_s.gsub(namespaced(""), "").as(RedisValue)
     end
 
-    private def array_without_namespace(keys : (Array(Redis::RedisValue) | Int32 | Int64 | String | Nil))
+    private def array_without_namespace(keys : (Array(Redis::RedisValue) | Int32 | Int64 | String | Bytes | Nil))
       return keys unless keys.is_a?(Array(RedisValue))
 
       keys.map { |key| without_namespace("#{key}") }
