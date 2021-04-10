@@ -791,6 +791,9 @@ describe Redis do
       redis.del("myhash")
       redis.hset("myhash", "a", "434")
       redis.hget("myhash", "a").should eq("434")
+
+      redis.hset("myhash", {"a" => "434", "b" => "435"})
+      redis.hget("myhash", "b").should eq("435")
     end
 
     it "#hgetall" do

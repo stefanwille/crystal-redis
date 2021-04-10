@@ -993,6 +993,21 @@ class Redis
       integer_command(["HSET", namespaced(key), field.to_s, value.to_s])
     end
 
+    # Sets fields in the hash stored at keys to values.
+    #
+    # **Return value**: Integer, specifically:
+    # * 1 if field is a new fields in the hash and value was set.
+    # * 0 if fields already exists in the hash and the value was updated.
+    #
+    # Example:
+    #
+    # ```
+    # redis.hset("myhash", {"a" => "434", "b" => "435"})
+    # ```
+    def hset(key, hash : Hash)
+      integer_command(["HSET", namespaced(key)] + hash.to_a.map { |t| t.to_a }.flatten)
+    end
+
     # Returns the value associated with field in the hash stored at key.
     #
     # **Return value**: String, the value associated with field, or nil
