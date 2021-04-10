@@ -1,8 +1,10 @@
 name: redis
-version: 2.6.0
+version: 2.7.0
 
 authors:
   - Stefan Wille <nospam-post@nospam-stefanwille-dot-com>
+
+crystal: ">= 0.34.0, < 2.0.0"
 
 dependencies:
   pool:

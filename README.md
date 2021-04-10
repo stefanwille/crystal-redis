@@ -28,7 +28,7 @@ Add it to your `shard.yml`:
 dependencies:
   redis:
     github: stefanwille/crystal-redis
-    version: ~> 2.6.0
+    version: ~> 2.7.0
 ```
 
 and then install the library into your project:
