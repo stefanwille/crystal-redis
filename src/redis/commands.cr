@@ -1906,6 +1906,45 @@ class Redis
       string_array_command(q)
     end
 
+    # Return the members of a sorted set of geospatial information that are within the borders of the area specified from either a member of the set or a series of coordiates
+    # Replaces the deprecated GEORADIUS and GEORADIUSBYMEMBER commands.
+    #
+    # **Return value**: Array(String): Returns a simple array or array of arrays, depending on the options passed
+    # https://redis.io/commands/geosearch#return-value
+    def geosearch(key, centerpoint : String | GeoCoordinate, shape : GeoRadius | GeoBox, unit, withcoord = nil, withdist = nil, withhash = nil, count = nil, sort = nil)
+      q = ["GEOSEARCH", namespaced(key)]
+      if centerpoint.is_a?(String)
+        q << "FROMMEMBER"
+        q << centerpoint
+      elsif centerpoint.is_a?(GeoCoordinate)
+        q << "FROMLONLAT"
+        q << centerpoint[:longitude].to_s
+        q << centerpoint[:latitude].to_s
+      end
+      if shape.is_a?(GeoRadius)
+        q << "BYRADIUS"
+        q << shape.to_s
+      elsif shape.is_a?(GeoBox)
+        q << "BYBOX"
+        q << shape[:height].to_s
+        q << shape[:width].to_s
+      end
+      q << unit.to_s
+      q << "WITHCOORD" if withcoord
+      q << "WITHDIST" if withdist
+      q << "WITHHASH" if withhash
+      if count
+        q << "COUNT"
+        q << count.to_s
+      end
+      q << sort.to_s if sort
+      string_array_command(q)
+    end
+
+    alias GeoCoordinate = {longitude: Float64, latitude: Float64} | {longitude: String, latitude: String}
+    alias GeoRadius = Int32 | String
+    alias GeoBox = {height: Int32 | String, width: Int32 | String}
+
     # Concatenates the source array to the destination array.
     # Is there a better way?
     private def concat(destination : Array(RedisValue), source)
