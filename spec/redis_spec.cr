@@ -1449,6 +1449,28 @@ describe Redis do
         end
       end
 
+      describe "regression on #keys: compile time error" do
+        redis = namespace ? Redis.new(namespace: namespace) : Redis.new
+
+        # https://github.com/stefanwille/crystal-redis/issues/100
+        it "del + key" do
+          redis.set("namespaced::key", 2)
+          redis.keys("namespaced::*").each { |key| redis.del(key) }
+          redis.keys("namespaced::*").size.should eq 0
+
+          redis.del("namespaced::key") # check that this also compile
+        end
+
+        it "del + keys" do
+          redis.set("namespaced::key", 2)
+          keys = redis.keys("namespaced::*")
+          redis.del(keys)
+          redis.keys("namespaced::*").size.should eq 0
+
+          redis.del(["namespaced::key"]) # check that this also compile
+        end
+      end
+
       context "namespace" do
         redis = namespace ? Redis.new(namespace: namespace) : Redis.new
 

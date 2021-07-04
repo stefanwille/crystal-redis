@@ -226,7 +226,7 @@ class Redis
     # redis.mget("foo1", "foo2") # => ["test1", "test2"]
     # ```
     def mget(*keys)
-      string_array_command(concat(["MGET"], namespaced(keys)))
+      string_array_command(concat(["MGET"], namespaced(keys.to_a)))
     end
 
     def mget(keys : Array(String)) : Array(RedisValue)
@@ -1921,23 +1921,22 @@ class Redis
       destination
     end
 
-    private def namespaced(keys : (Array(String) | Tuple(String, String)))
-      keys.map { |key| namespaced(key) }
+    private def namespaced(keys : Array(RedisValue))
+      keys.map { |key| namespaced(key.as(String)) }
     end
 
-    private def namespaced(key : (String | Symbol | Int32))
-      return key.to_s if @namespace == ""
+    private def namespaced(key : String | Symbol | Int) : String
+      return key.to_s if @namespace.empty?
 
-      [@namespace, key.to_s].join("::")
+      {@namespace, key.to_s}.join("::")
     end
 
-    private def without_namespace(key : String)
-      key.to_s.gsub(namespaced(""), "").as(RedisValue)
+    private def without_namespace(key : String) : RedisValue
+      key.sub(namespaced(""), "").as(RedisValue)
     end
 
-    private def array_without_namespace(keys : (Array(Redis::RedisValue) | Int32 | Int64 | String | Nil))
+    private def array_without_namespace(keys : RedisValue)
       return keys unless keys.is_a?(Array(RedisValue))
-
       keys.map { |key| without_namespace("#{key}") }
     end
   end
