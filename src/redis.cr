@@ -9,19 +9,19 @@ require "./redis/command_execution/value_oriented"
 #
 # Require the package:
 #
-# ```crystal
+# ```
 # require "redis"
 # ```
 #
 # Then instantiate this client class:
 #
-# ```crystal
+# ```
 # redis = Redis.new
 # ```
 #
 # Then you can call Redis commands on the `redis` object:
 #
-# ```crystal
+# ```
 # redis.set("foo", "bar")
 # redis.get("foo")
 # redis.incr("visitors")
@@ -95,7 +95,7 @@ class Redis
   def initialize(@host = "localhost", @port = 6379, @unixsocket : String? = nil, @password : String? = nil,
                  @database : Int32? = nil, url = nil, @ssl = false, @ssl_context : OpenSSL::SSL::Context::Client? = nil,
                  @dns_timeout : Time::Span? = nil, @connect_timeout : Time::Span? = nil, @reconnect = true, @command_timeout : Time::Span? = nil,
-                 @namespace : String? = "")
+                 @namespace : String = "")
     if url
       uri = URI.parse url
       @host = uri.host.to_s
@@ -194,7 +194,7 @@ class Redis
   def self.open(host = "localhost", port = 6379, unixsocket = nil, password = nil,
                 database = nil, url = nil, ssl = false, ssl_context = nil,
                 dns_timeout = nil, connect_timeout = nil, reconnect = true, command_timeout = nil,
-                namespace : String? = "")
+                namespace : String = "")
     redis = Redis.new(host, port, unixsocket, password, database, url, ssl, ssl_context, dns_timeout, connect_timeout, reconnect, command_timeout, namespace)
     begin
       yield(redis)
