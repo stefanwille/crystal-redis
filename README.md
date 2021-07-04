@@ -1,6 +1,7 @@
 # Redis Client for Crystal
 
-[![Build Status](https://img.shields.io/travis/stefanwille/crystal-redis/master.svg?style=flat)](https://travis-ci.org/stefanwille/crystal-redis) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md#pull-requests)
+[![Build Status](https://github.com/stefanwille/crystal-redis/actions/workflows/ci.yml/badge.svg)](https://github.com/stefanwille/crystal-redis/actions/workflows/ci.yml?query=branch%3Amaster+event%3Apush) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md#pull-requests)
+
 
 A Redis client for the Crystal programming language.
 

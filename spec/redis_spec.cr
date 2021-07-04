@@ -141,7 +141,7 @@ describe Redis do
 
   it "#auth" do
     Redis.open do |redis|
-      expect_raises(Redis::Error, "ERR Client sent AUTH, but no password is set") do
+      expect_raises(Redis::Error, "ERR AUTH <password> called without any password configured for the default user") do
         redis.auth("some-password").should eq("OK")
       end
     end
@@ -1138,7 +1138,7 @@ describe Redis do
       x.size.should be >= 70
 
       x = redis.info("cpu")
-      x.size.should eq(4)
+      (4..8).should contain(x.size)
 
       redis.info["redis_version"].should_not be_nil
     end
