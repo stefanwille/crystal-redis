@@ -38,7 +38,7 @@ class Redis
   # A value from the Redis type system.
 
   # :nodoc:
-  alias RedisValue = Nil | Int32 | Int64 | String | Array(RedisValue)
+  alias RedisValue = Nil | Int32 | Int64 | String | Bytes| Array(RedisValue)
 
   # A Redis request.
 
