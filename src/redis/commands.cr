@@ -971,7 +971,7 @@ class Redis
     # redis.brpoplpush("source", "destination", 0)
     # ```
     def brpoplpush(source, destination, timeout_in_seconds = nil)
-      q = ["BRPOPLPUSH", source.to_s, destination.to_s]
+      q = ["BRPOPLPUSH", namespaced(source), namespaced(destination)]
       if timeout_in_seconds
         q << timeout_in_seconds.to_s
       end
