@@ -1336,6 +1336,16 @@ describe Redis do
 
           callbacks_received.should eq(["subscribe", "message", "unsubscribe"])
         end
+
+        it "can be used after #unsubscribe" do
+          redis.subscribe("mychannel") do |on|
+            on.subscribe do |c, s|
+              redis.unsubscribe(c)
+            end
+          end
+          redis.set("temp", "temp1")
+          redis.get("temp").should eq "temp1"
+        end
       end
 
       describe "punsubscribe" do

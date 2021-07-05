@@ -1737,6 +1737,7 @@ class Redis
     # Unsubscribes the client from the given channels, or from all of them if none is given.
     def unsubscribe(channels : Array(String)) : Nil
       void_command(concat(["UNSUBSCRIBE"], channels))
+      @strategy = Redis::Strategy::SingleStatement.new(connection)
     end
 
     # :ditto:
