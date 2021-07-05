@@ -1911,23 +1911,27 @@ class Redis
     #
     # **Return value**: Array(String): Returns a simple array or array of arrays, depending on the options passed
     # https://redis.io/commands/geosearch#return-value
-    def geosearch(key, centerpoint : String | GeoCoordinate, shape : GeoRadius | GeoBox, unit, withcoord = nil, withdist = nil, withhash = nil, count = nil, sort = nil)
+    def geosearch(key, centerpoint : String | GeoCoordinate, shape : Int32 | String | GeoBox, unit, withcoord = nil, withdist = nil, withhash = nil, count = nil, sort = nil)
       q = ["GEOSEARCH", namespaced(key)]
-      if centerpoint.is_a?(String)
+
+      case centerpoint
+      when String
         q << "FROMMEMBER"
         q << centerpoint
-      elsif centerpoint.is_a?(GeoCoordinate)
+      when GeoCoordinate
         q << "FROMLONLAT"
-        q << centerpoint[:longitude].to_s
-        q << centerpoint[:latitude].to_s
+        q << centerpoint.longitude.to_s
+        q << centerpoint.latitude.to_s
       end
-      if shape.is_a?(GeoRadius)
+
+      case shape
+      when GeoBox
+        q << "BYBOX"
+        q << shape.height.to_s
+        q << shape.width.to_s
+      else
         q << "BYRADIUS"
         q << shape.to_s
-      elsif shape.is_a?(GeoBox)
-        q << "BYBOX"
-        q << shape[:height].to_s
-        q << shape[:width].to_s
       end
       q << unit.to_s
       q << "WITHCOORD" if withcoord
@@ -1941,9 +1945,8 @@ class Redis
       string_array_command(q)
     end
 
-    alias GeoCoordinate = {longitude: Float64, latitude: Float64} | {longitude: String, latitude: String}
-    alias GeoRadius = Int32 | String
-    alias GeoBox = {height: Int32 | String, width: Int32 | String}
+    record GeoCoordinate, longitude : Float64 | String | Int32, latitude : Float64 | String | Int32
+    record GeoBox, width : Int32 | String, height : Int32 | String
 
     # Concatenates the source array to the destination array.
     # Is there a better way?

@@ -1436,6 +1436,34 @@ describe Redis do
           results.includes?("Lincoln").should be_true
           results.includes?("Omaha").should be_true
         end
+
+        it "#geosearch with FROMLONLAT BYRADIUS" do
+          results = redis.geosearch("Nebraska", Redis::GeoCoordinate.new(-96.8308123, 40.8005243), 100, "mi")
+          results.size.should eq(2)
+          results.includes?("Lincoln").should be_true
+          results.includes?("Omaha").should be_true
+        end
+
+        it "#geosearch with FROMLONLAT BYBOX" do
+          results = redis.geosearch("Nebraska", Redis::GeoCoordinate.new(-96.8308123, 40.8005243), Redis::GeoBox.new(100, 100), "mi")
+          results.size.should eq(2)
+          results.includes?("Lincoln").should be_true
+          results.includes?("Omaha").should be_true
+        end
+
+        it "#geosearch with FROMMEMBER BYRADIUS" do
+          results = redis.geosearch("Nebraska", "Lincoln", 100, "mi")
+          results.size.should eq(2)
+          results.includes?("Lincoln").should be_true
+          results.includes?("Omaha").should be_true
+        end
+
+        it "#geosearch with FROMMEMBER BYBOX" do
+          results = redis.geosearch("Nebraska", "Lincoln", Redis::GeoBox.new(100, 100), "mi")
+          results.size.should eq(2)
+          results.includes?("Lincoln").should be_true
+          results.includes?("Omaha").should be_true
+        end
       end
 
       describe "large values" do
@@ -1498,34 +1526,6 @@ describe Redis do
           end
         end
       end
-    end
-
-    it "#geosearch with FROMLONLAT BYRADIUS" do
-      results = redis.geosearch("Nebraska", {longitude: -96.8308123, latitude: 40.8005243}, 100, "mi")
-      results.size.should eq(2)
-      results.includes?("Lincoln").should be_true
-      results.includes?("Omaha").should be_true
-    end
-
-    it "#geosearch with FROMLONLAT BYBOX" do
-      results = redis.geosearch("Nebraska", {longitude: -96.8308123, latitude: 40.8005243}, {height: 100, width: 100}, "mi")
-      results.size.should eq(2)
-      results.includes?("Lincoln").should be_true
-      results.includes?("Omaha").should be_true
-    end
-
-    it "#geosearch with FROMMEMBER BYRADIUS" do
-      results = redis.geosearch("Nebraska", "Lincoln", 100, "mi")
-      results.size.should eq(2)
-      results.includes?("Lincoln").should be_true
-      results.includes?("Omaha").should be_true
-    end
-
-    it "#geosearch with FROMMEMBER BYBOX" do
-      results = redis.geosearch("Nebraska", "Lincoln", {height: 100, width: 100}, "mi")
-      results.size.should eq(2)
-      results.includes?("Lincoln").should be_true
-      results.includes?("Omaha").should be_true
     end
   end
 
