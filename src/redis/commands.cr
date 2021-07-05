@@ -1167,11 +1167,11 @@ class Redis
     # redis.zadd("myzset", 2, "two", 3, "three")
     # redis.zadd("myzset", 4, "four", nx: true)
     # ```
-    def zadd(key, *scores_and_members, nx = false, xx = false, ch = false, incr = false) : Int64
+    def zadd(key, *scores_and_members, nx = false, xx = false, ch = false, incr = false) : Int64 | String
       zadd(key, scores_and_members.to_a, nx, xx, ch, incr)
     end
 
-    def zadd(key, scores_and_members : Array(RedisValue), nx = false, xx = false, ch = false, incr = false) : Int64
+    def zadd(key, scores_and_members : Array(RedisValue), nx = false, xx = false, ch = false, incr = false) : Int64 | String
       if scores_and_members.size % 2 > 0
         raise Error.new("zadd expects an array of scores mapped to members")
       end
@@ -1186,7 +1186,7 @@ class Redis
       options << "CH" if ch
       options << "INCR" if incr
 
-      integer_as_int_and_as_string_command(concat(["ZADD", namespaced(key)], options, scores_and_members))
+      integer_or_string_command(concat(["ZADD", namespaced(key)], options, scores_and_members))
     end
 
     # Returns the specified range of elements in the sorted set stored at key.

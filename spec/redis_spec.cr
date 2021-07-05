@@ -929,8 +929,8 @@ describe Redis do
 
         it "#zadd / zrange with incr" do
           redis.del("myzset")
-          redis.zadd("myzset", 1, "one", incr: true).should eq(1)
-          redis.zadd("myzset", 11, "one", incr: true).should eq(12)
+          redis.zadd("myzset", 1, "one", incr: true).should eq("1")
+          redis.zadd("myzset", 11, "one", incr: true).should eq("12")
           redis.zrange("myzset", 0, -1, with_scores: true).should eq(["one", "12"])
         end
 

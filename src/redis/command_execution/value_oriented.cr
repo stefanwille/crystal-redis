@@ -21,9 +21,9 @@ class Redis
 
       # Executes a Redis command and casts it to the correct type.
       # This is an internal method.
-      def integer_as_int_and_as_string_command(request : Request) : Int64
+      def integer_or_string_command(request : Request) : Int64 | String
         res = command(request)
-        res.is_a?(String) ? res.to_i64 : res.as(Int64)
+        res.is_a?(String) ? res.as(String) : res.as(Int64)
       end
 
       # Executes a Redis command and casts it to the correct type.
