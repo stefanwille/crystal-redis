@@ -1146,7 +1146,10 @@ class Redis
     # * Redis 3.0.2 or greater, ZADD supports a list of options, specified after the name of the key and before the first score argument. Options are:
     # * xx -- Only update elements that already exist. Never add elements.
     # * nx -- Don't update already existing elements. Always add new elements.
-    # * ch -- Modify the return value from the number of new elements added, to the total number of elements changed (CH is an abbreviation of changed). Changed elements are new elements added and elements already existing for which the score was updated. So elements specified in the command line having the same score as they had in the past are not counted. Note: normally the return value of ZADD only counts the number of new elements added.
+    # * ch -- Modify the return value from the number of new elements added, to the total number of elements changed (CH is an abbreviation of changed).
+    #         Changed elements are new elements added and elements already existing for which the score was updated.
+    #         So elements specified in the command line having the same score as they had in the past are not counted.
+    #         Note: normally the return value of ZADD only counts the number of new elements added.
     # * incr -- When this option is specified ZADD acts like ZINCRBY. Only one score-element pair can be specified in this mode.
     #
     # **Return value**:
@@ -1164,25 +1167,11 @@ class Redis
     # redis.zadd("myzset", 2, "two", 3, "three")
     # redis.zadd("myzset", 4, "four", nx: true)
     # ```
-    def zadd(key, *scores_and_members, nx = nil, xx = nil, ch = nil, incr = nil)
-      if scores_and_members.size % 2 > 0
-        raise Error.new("zadd expects an array of scores mapped to members")
-      end
-
-      if nx && xx
-        raise Error.new("zadd options cannot be specified for both NX and XX at the same time")
-      end
-
-      options = [] of String
-      options << "NX" if nx
-      options << "XX" if xx
-      options << "CH" if ch
-      options << "INCR" if incr
-
-      integer_command(concat(["ZADD", namespaced(key)], options, scores_and_members))
+    def zadd(key, *scores_and_members, nx = false, xx = false, ch = false, incr = false) : Int64
+      zadd(key, scores_and_members.to_a, nx, xx, ch, incr)
     end
 
-    def zadd(key, scores_and_members : Array(RedisValue), nx = nil, xx = nil, ch = nil, incr = nil)
+    def zadd(key, scores_and_members : Array(RedisValue), nx = false, xx = false, ch = false, incr = false) : Int64
       if scores_and_members.size % 2 > 0
         raise Error.new("zadd expects an array of scores mapped to members")
       end
@@ -1197,7 +1186,7 @@ class Redis
       options << "CH" if ch
       options << "INCR" if incr
 
-      integer_command(concat(["ZADD", namespaced(key)], options, scores_and_members))
+      integer_as_int_and_as_string_command(concat(["ZADD", namespaced(key)], options, scores_and_members))
     end
 
     # Returns the specified range of elements in the sorted set stored at key.
