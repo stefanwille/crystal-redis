@@ -900,6 +900,40 @@ describe Redis do
           redis.zrange("myzset", 0, -1, with_scores: true).should eq(["one", "1", "uno", "1", "two", "2", "three", "3"])
         end
 
+        it "#zadd / zrange with xx" do
+          redis.del("myzset")
+          redis.zadd("myzset", 1, "one").should eq(1)
+          redis.zadd("myzset", 11, "one", xx: true).should eq(0)
+          redis.zadd("myzset", 2, "two", xx: true).should eq(0)
+          redis.zadd("myzset", 3, "three", xx: false).should eq(1)
+          redis.zrange("myzset", 0, -1, with_scores: true).should eq(["three", "3", "one", "11"])
+        end
+
+        it "#zadd / zrange with nx" do
+          redis.del("myzset")
+          redis.zadd("myzset", 1, "one").should eq(1)
+          redis.zadd("myzset", 11, "one", nx: true).should eq(0)
+          redis.zadd("myzset", 2, "two", nx: true).should eq(1)
+          redis.zadd("myzset", 3, "three", nx: false).should eq(1)
+          redis.zrange("myzset", 0, -1, with_scores: true).should eq(["one", "1", "two", "2", "three", "3"])
+        end
+
+        it "#zadd / zrange with ch" do
+          redis.del("myzset")
+          redis.zadd("myzset", 1, "one", ch: true).should eq(1)
+          redis.zadd("myzset", 11, "one", ch: true).should eq(1)
+          redis.zadd("myzset", 2, "two", ch: true).should eq(1)
+          redis.zadd("myzset", 3, "three", ch: false).should eq(1)
+          redis.zrange("myzset", 0, -1, with_scores: true).should eq(["two", "2", "three", "3", "one", "11"])
+        end
+
+        it "#zadd / zrange with incr" do
+          redis.del("myzset")
+          redis.zadd("myzset", 1, "one", incr: true).should eq(1)
+          redis.zadd("myzset", 11, "one", incr: true).should eq(12)
+          redis.zrange("myzset", 0, -1, with_scores: true).should eq(["one", "12"])
+        end
+
         it "#zrangebylex" do
           redis.del("myzset")
           redis.zadd("myzset", 0, "a", 0, "b", 0, "c", 0, "d", 0, "e", 0, "f", 0, "g")

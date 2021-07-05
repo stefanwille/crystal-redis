@@ -18,6 +18,11 @@ class Redis
       end
 
       # Executes a Redis command and returns a Future.
+      def integer_as_int_and_as_string_command(request : Request) : Redis::Future
+        command(request)
+      end
+
+      # Executes a Redis command and returns a Future.
       def integer_array_command(request : Request) : Redis::Future
         command(request)
       end
