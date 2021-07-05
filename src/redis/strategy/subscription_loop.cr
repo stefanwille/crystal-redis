@@ -14,7 +14,11 @@ class Redis::Strategy::SubscriptionLoop < Redis::Strategy::Base
 
     # Enter the message reception loop only once.
     if @entered_loop
-      return
+      # process special commands which expect answer, right after send
+      case request[0]
+      when "PING", "QUIT"
+        @connection.receive.as(Array(RedisValue))[0].as(String)
+      end
     else
       enter_message_reception_loop
     end

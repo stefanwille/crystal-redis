@@ -1380,6 +1380,27 @@ describe Redis do
           redis.set("temp", "temp1")
           redis.get("temp").should eq "temp1"
         end
+
+        it "use ping in #subscribe" do
+          redis.del("mychannel")
+          res = [] of String
+
+          spawn do
+            redis.subscribe("mychannel") do |on|
+              on.message do |channel, message|
+                res << message
+                res << redis.ping
+                redis.unsubscribe("mychannel") if res.size >= 4
+              end
+            end
+          end
+
+          Redis.new.publish("mychannel", "11")
+          Redis.new.publish("mychannel", "22")
+
+          sleep 0.1
+          res.should eq ["11", "pong", "22", "pong"]
+        end
       end
 
       describe "punsubscribe" do
