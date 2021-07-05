@@ -1005,7 +1005,14 @@ class Redis
     # redis.hset("myhash", {"a" => "434", "b" => "435"})
     # ```
     def hset(key, hash : Hash)
-      integer_command(["HSET", namespaced(key)] + hash.to_a.map { |t| t.to_a }.flatten)
+      if hash.empty?
+        raise Error.new("hset hash size should be > 0")
+      end
+      cmd = Array(RedisValue).new(initial_capacity: hash.size * 2 + 2)
+      cmd << "HSET".as(RedisValue)
+      cmd << namespaced(key)
+      hash.each { |k, v| cmd << k.as(RedisValue) << v.as(RedisValue) }
+      integer_command(cmd)
     end
 
     # Returns the value associated with field in the hash stored at key.
@@ -1023,10 +1030,11 @@ class Redis
 
     # Returns all fields and values of the hash stored at key.
     #
-    # **Return value**: Array(String) of fields and their values stored in the hash,
-    # or an empty array when key does not exist.
-    def hgetall(key)
-      string_array_command(["HGETALL", namespaced(key)])
+    # **Return value**: Hash(String, String) of fields and their values stored in the hash,
+    # or an empty hash when key does not exist.
+    def hgetall(key) : Hash(String, String)
+      res = string_array_command(["HGETALL", namespaced(key)])
+      hashify(res)
     end
 
     # Removes the specified fields from the hash stored at key.
@@ -1109,7 +1117,7 @@ class Redis
     # * match - It is possible to only iterate elements matching a given glob-style pattern, similarly to the behavior of the KEYS command that takes a pattern as only argument.
     # * count - While SCAN does not provide guarantees about the number of elements returned at every iteration, it is possible to empirically adjust the behavior of SCAN using the COUNT option.
     #
-    # **Return value**: Array(String), two elements, a field and a value, for every returned element of the Hash.
+    # **Return value**: two elements, a cursor and a hash of elements.
 
     # ```
     # redis.hscan("myhash", 0)
@@ -1120,7 +1128,8 @@ class Redis
       q = ["HSCAN", namespaced(key), cursor.to_s]
       q << "MATCH" << match.to_s if match
       q << "COUNT" << count.to_s if count
-      string_array_command(q)
+      cursor, values = string_array_command(q)
+      {cursor, hashify(values.as(Array(RedisValue)))}
     end
 
     # Sets field in the hash stored at key to value, only if field does not yet exist.
@@ -2005,6 +2014,20 @@ class Redis
     private def array_without_namespace(keys : RedisValue)
       return keys unless keys.is_a?(Array(RedisValue))
       keys.map { |key| without_namespace("#{key}") }
+    end
+
+    private def hashify(value : Array(RedisValue)) : Hash(String, String)
+      if value.size % 2 > 0
+        raise Error.new("Hashify: odd numbers of elements: #{value.size}")
+      end
+
+      hsh = Hash(String, String).new(initial_capacity: value.size // 2)
+
+      value.in_groups_of(2) do |(k, v)|
+        hsh[k.as(String)] = v.as(String)
+      end
+
+      hsh
     end
   end
 end

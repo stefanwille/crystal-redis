@@ -774,11 +774,19 @@ describe Redis do
           redis.hget("myhash", "b").should eq("435")
         end
 
+        it "#hset with empty hash should raise" do
+          expect_raises(Redis::Error) do
+            redis.hset("myhash", {} of String => String)
+          end
+        end
+
         it "#hgetall" do
           redis.del("myhash")
           redis.hset("myhash", "a", "123")
           redis.hset("myhash", "b", "456")
-          redis.hgetall("myhash").should eq(["a", "123", "b", "456"])
+          redis.hgetall("myhash").should eq({"a" => "123", "b" => "456"})
+          redis.del("myhash")
+          redis.hgetall("myhash").should eq({} of String => String)
         end
 
         it "#hdel" do
@@ -844,7 +852,7 @@ describe Redis do
             redis.hmset("myhash", {"field1": "a", "field2": "b"})
             new_cursor, keys = redis.hscan("myhash", 0)
             new_cursor.should eq("0")
-            keys.should eq(["field1", "a", "field2", "b"])
+            keys.should eq({"field1" => "a", "field2" => "b"})
           end
 
           it "with match" do
@@ -852,9 +860,7 @@ describe Redis do
             redis.hmset("myhash", {"foo": "a", "bar": "b"})
             new_cursor, keys = redis.hscan("myhash", 0, "f*")
             new_cursor.should eq("0")
-            keys.is_a?(Array).should be_true
-            # {foo:a} is matched, and Redis returns the key and val as a single list
-            array(keys).should eq(["foo", "a"])
+            keys.should eq({"foo" => "a"})
           end
 
           # pending: hscan doesn't handle COUNT strictly
@@ -866,10 +872,7 @@ describe Redis do
             redis.hmset("myhash", {"foo": "a", "bar": "b", "baz": "c"})
             new_cursor, keys = redis.hscan("myhash", 0, "*a*", 1024)
             new_cursor.should eq("0")
-            keys.is_a?(Array).should be_true
-            # extract odd elements for keys because hscan returns (key, val) as a single list
-            keys = array(keys).in_groups_of(2).map(&.first.not_nil!)
-            keys.sort.should eq(["bar", "baz"])
+            keys.keys.sort.should eq(["bar", "baz"])
           end
         end
 
