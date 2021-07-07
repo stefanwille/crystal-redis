@@ -1,5 +1,5 @@
 ## 2.8.0
-* **breaking-change**: `zadd` return Int64 | String (instead of Int64)
+* **breaking-change**: `zadd` return Int64 | String (instead of Int64) (#112)
 * **breaking-change**: `hgetall` now returns Hash(String, String) instead of Array(String) (#4, #77)
 * **breaking-change**: `hscan` now returns Hash(String, String) instead of Array(String) as second result
 * Fix `del` to receive Array(RedisValue) (#100, #101, #105)
