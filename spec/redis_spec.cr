@@ -173,8 +173,6 @@ describe Redis do
         it "#keys" do
           redis.set("callmemaybe", 1)
           redis.keys("callmemaybe").should eq(["callmemaybe"])
-          key = redis.keys("callmemaybe")[0]
-          typeof(key).should eq String
         end
 
         describe "#sort" do
