@@ -1,8 +1,8 @@
 ## 2.8.0
-* **breaking-change**: `keys` return now Array(String) instead of Array(RedisValue), (#100, #101, #105)
 * **breaking-change**: `zadd` return Int64 | String (instead of Int64)
 * **breaking-change**: `hgetall` now returns Hash(String, String) instead of Array(String) (#4, #77)
 * **breaking-change**: `hscan` now returns Hash(String, String) instead of Array(String) as second result
+* Fix `del` to receive Array(RedisValue) (#100, #101, #105)
 * Add `hset` method with Hash argument (#113, thanks @tachyons)
 * Fix `brpoplpush` to work with namespaces
 * Add `geosearch` method (#115, thanks @yrgoldteeth)
