@@ -35,4 +35,6 @@ jobs:
 
       - name: Run tests
         run: crystal spec
+        env:
+          GITHUB_ACTIONS_CI: 1
      
