@@ -569,7 +569,7 @@ class Redis
     # redis.keys("callmemaybe")
     # ```
     def keys(pattern)
-      string_array_command(["KEYS", namespaced(pattern)]).map { |key| without_namespace("#{key}").as(String) }
+      string_array_command(["KEYS", namespaced(pattern)]).map { |key| without_namespace("#{key}") }
     end
 
     # Insert all the specified values at the tail of the list stored at key.
