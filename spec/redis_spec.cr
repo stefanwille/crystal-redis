@@ -16,11 +16,9 @@ describe Redis do
     end
 
     it "connects to Unix domain sockets" do
-      unless ENV["GITHUB_ACTIONS_CI"]?
-        redis = Redis.new(unixsocket: "/tmp/redis.sock")
-        redis.url.should eq("redis:///tmp/redis.sock/0")
-        redis.ping.should eq "PONG"
-      end
+      redis = Redis.new(unixsocket: TEST_UNIXSOCKET)
+      redis.url.should eq("redis://#{TEST_UNIXSOCKET}/0")
+      redis.ping.should eq "PONG"
     end
 
     context "when url argument is given" do

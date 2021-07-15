@@ -22,3 +22,6 @@ def array(a) : Array(String)
 rescue
   raise "Cannot convert to Array(Redis::RedisValue): #{a.class}"
 end
+
+TEST_UNIXSOCKET = ENV["CI_UNIXSOCKET"]? || "/tmp/redis.sock"
+PASSWORD_PORT   = 6380

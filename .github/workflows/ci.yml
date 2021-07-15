@@ -28,13 +28,24 @@ jobs:
       
       - name: Redis on ${{ runner.os }}
         uses: shogo82148/actions-setup-redis@v1
+        id: main_redis
         with:
           redis-version: 6.2
 
+      - name: Redis with password on ${{ runner.os }}
+        uses: shogo82148/actions-setup-redis@v1
+        with:
+          redis-version: 6.2
+          redis-port: 6380
+          redis-conf: |
+            requirepass secret_password
+
       - run: redis-cli info | grep version
+      - run: redis-cli -p 6380 -a secret_password info | grep version
 
       - name: Run tests
         run: crystal spec
         env:
           GITHUB_ACTIONS_CI: 1
+          CI_UNIXSOCKET: ${{ steps.main_redis.outputs.redis-unix-socket }}
      
