@@ -1,3 +1,6 @@
+## 2.8.1
+* Fix version in shard.yml
+
 ## 2.8.0
 * **breaking-change**: `zadd` return Int64 | String (instead of Int64) (#112)
 * **breaking-change**: `hgetall` now returns Hash(String, String) instead of Array(String) (#4, #77)
