@@ -1210,6 +1210,19 @@ describe Redis do
             end
           end
         end
+
+        it "zadd works in multi" do
+          futures = [] of Redis::Future
+          redis.del("myzset")
+
+          results = redis.multi do |multi|
+            multi.zadd("myzset", 1, "one")
+            multi.zadd("myzset", [1, "uno"])
+            redis.zadd("myzset", 2, "two", 3, "three")
+          end
+
+          redis.zrange("myzset", 0, -1, with_scores: true).should eq(["one", "1", "uno", "1", "two", "2", "three", "3"])
+        end
       end
 
       describe "LUA scripting" do

@@ -1176,11 +1176,11 @@ class Redis
     # redis.zadd("myzset", 2, "two", 3, "three")
     # redis.zadd("myzset", 4, "four", nx: true)
     # ```
-    def zadd(key, *scores_and_members, nx = false, xx = false, ch = false, incr = false) : Int64 | String
+    def zadd(key, *scores_and_members, nx = false, xx = false, ch = false, incr = false)
       zadd(key, scores_and_members.to_a, nx, xx, ch, incr)
     end
 
-    def zadd(key, scores_and_members : Array(RedisValue), nx = false, xx = false, ch = false, incr = false) : Int64 | String
+    def zadd(key, scores_and_members : Array(RedisValue), nx = false, xx = false, ch = false, incr = false)
       if scores_and_members.size % 2 > 0
         raise Error.new("zadd expects an array of scores mapped to members")
       end
