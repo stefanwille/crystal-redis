@@ -1,3 +1,6 @@
+## 2.8.2
+* Fix using zadd with multi (#121)
+
 ## 2.8.1
 * Fix version in shard.yml
 
