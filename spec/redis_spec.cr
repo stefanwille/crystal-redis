@@ -1218,7 +1218,7 @@ describe Redis do
           results = redis.multi do |multi|
             multi.zadd("myzset", 1, "one")
             multi.zadd("myzset", [1, "uno"])
-            redis.zadd("myzset", 2, "two", 3, "three")
+            multi.zadd("myzset", 2, "two", 3, "three")
           end
 
           redis.zrange("myzset", 0, -1, with_scores: true).should eq(["one", "1", "uno", "1", "two", "2", "three", "3"])
