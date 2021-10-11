@@ -27,6 +27,7 @@ jobs:
             stable: false
     continue-on-error: ${{ !matrix.stable }}
     runs-on: ${{ matrix.os }}
+    name: 'crystal: ${{ matrix.crystal }}, os: ${{ matrix.os }}'
     steps:
       - name: Download source
         uses: actions/checkout@v2
