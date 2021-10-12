@@ -11,21 +11,37 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
-    runs-on: ${{ matrix.os }}  
+        stable: [true]
+        crystal:
+          - 0.36.1
+          - 1.0.0
+          - 1.1.1
+        include:
+          - os: ubuntu-latest
+            crystal: nightly
+            stable: false
+          - os: macos-latest
+            crystal: nightly
+            stable: false
+    continue-on-error: ${{ !matrix.stable }}
+    runs-on: ${{ matrix.os }}
+    name: 'crystal: ${{ matrix.crystal }}, os: ${{ matrix.os }}'
     steps:
       - name: Download source
         uses: actions/checkout@v2
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: ${{ matrix.crystal }}
       - name: Cache shards
         uses: actions/cache@v2
         with:
           path: ~/.cache/shards
-          key: ${{ runner.os }}-shards-${{ hashFiles('shard.yml') }}
+          key: ${{ runner.os }}-${{matrix.crystal}}-shards-${{ hashFiles('shard.yml') }}
           restore-keys: ${{ runner.os }}-shards-
       - name: Install shards
         run: shards update
-      
+
       - name: Redis on ${{ runner.os }}
         uses: shogo82148/actions-setup-redis@v1
         id: main_redis
@@ -48,4 +64,3 @@ jobs:
         env:
           GITHUB_ACTIONS_CI: 1
           CI_UNIXSOCKET: ${{ steps.main_redis.outputs.redis-unix-socket }}
-     
