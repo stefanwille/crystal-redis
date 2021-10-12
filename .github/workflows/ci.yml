@@ -13,8 +13,6 @@ jobs:
         os: [ubuntu-latest, macos-latest]
         stable: [true]
         crystal:
-          - 0.34.0
-          - 0.35.1
           - 0.36.1
           - 1.0.0
           - 1.1.1
