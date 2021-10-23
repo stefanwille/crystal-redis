@@ -1216,7 +1216,7 @@ describe Redis do
           redis.del("myzset")
 
           results = redis.multi do |multi|
-            multi.zadd("myzset", 1, "one")
+            multi.zadd("myzset", 1.0, "one")
             multi.zadd("myzset", [1, "uno"])
             multi.zadd("myzset", 2, "two", 3, "three")
           end

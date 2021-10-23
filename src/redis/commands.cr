@@ -1177,7 +1177,21 @@ class Redis
     # redis.zadd("myzset", 4, "four", nx: true)
     # ```
     def zadd(key, *scores_and_members, nx = false, xx = false, ch = false, incr = false)
-      zadd(key, scores_and_members.to_a, nx, xx, ch, incr)
+      if scores_and_members.size % 2 > 0
+        raise Error.new("zadd expects an array of scores mapped to members")
+      end
+
+      if nx && xx
+        raise Error.new("zadd options cannot be specified for both NX and XX at the same time")
+      end
+
+      options = [] of String
+      options << "NX" if nx
+      options << "XX" if xx
+      options << "CH" if ch
+      options << "INCR" if incr
+
+      integer_or_string_command(concat(["ZADD", namespaced(key)], options, scores_and_members))
     end
 
     def zadd(key, scores_and_members : Array(RedisValue), nx = false, xx = false, ch = false, incr = false)
