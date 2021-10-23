@@ -1,3 +1,7 @@
+## 2.8.3
+* Fix using zadd with with float value
+* Fix hgetall with multi (#126)
+
 ## 2.8.2
 * Fix using zadd with multi (#121)
 
