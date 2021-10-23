@@ -1128,6 +1128,19 @@ describe Redis do
             end
           end
         end
+
+        it "work with hgetall" do
+          redis.del("myhash")
+          redis.hset("myhash", "a", "123")
+          redis.hset("myhash", "b", "456")
+
+          h = redis.pipelined do |pipeline|
+            pipeline.exists("myhash")
+            pipeline.hgetall("myhash")
+          end
+
+          h.should eq([1, ["a", "123", "b", "456"]])
+        end
       end
 
       describe "hyperloglog" do
