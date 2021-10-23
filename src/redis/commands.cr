@@ -1032,9 +1032,13 @@ class Redis
     #
     # **Return value**: Hash(String, String) of fields and their values stored in the hash,
     # or an empty hash when key does not exist.
-    def hgetall(key) : Hash(String, String)
+    def hgetall(key)
       res = string_array_command(["HGETALL", namespaced(key)])
-      hashify(res)
+      if res.is_a?(Redis::Future)
+        res
+      else
+        hashify(res)
+      end
     end
 
     # Removes the specified fields from the hash stored at key.
@@ -2016,7 +2020,7 @@ class Redis
       keys.map { |key| without_namespace("#{key}") }
     end
 
-    private def hashify(value : Array(RedisValue)) : Hash(String, String)
+    private def hashify(value : Array(RedisValue))
       if value.size % 2 > 0
         raise Error.new("Hashify: odd numbers of elements: #{value.size}")
       end
