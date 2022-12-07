@@ -1727,8 +1727,15 @@ class Redis
       callback_setup_block.call(subscription)
 
       @strategy = Redis::Strategy::SubscriptionLoop.new(connection, subscription)
-
       subscribe(*channels)
+    rescue ex : Redis::ConnectionError
+      if @reconnect
+        sleep 0.1 # small sleep between reconnects, just not to generate huge cpu load
+        close
+        subscribe(*channels, &callback_setup_block)
+      else
+        raise ex
+      end
     end
 
     # Subscribes to more channels while already being in a subscription loop.
@@ -1765,6 +1772,14 @@ class Redis
       @strategy = Redis::Strategy::SubscriptionLoop.new(connection, subscription)
 
       psubscribe(*channel_patterns)
+    rescue ex : Redis::ConnectionError
+      if @reconnect
+        sleep 0.1 # small sleep between reconnects, just not to generate huge cpu load
+        close
+        psubscribe(*channel_patterns, &callback_setup_block)
+      else
+        raise ex
+      end
     end
 
     # Subscribes to more channel patterns while already being in a subscription loop.
@@ -1787,7 +1802,7 @@ class Redis
 
     # Unsubscribes the client from the given channels, or from all of them if none is given.
     def unsubscribe(channels : Array(String)) : Nil
-      void_command(concat(["UNSUBSCRIBE"], channels))
+      command(concat(["UNSUBSCRIBE"], channels))
       @strategy = Redis::Strategy::SingleStatement.new(connection)
     end
 
@@ -1798,7 +1813,7 @@ class Redis
 
     # Unsubscribes the client from the given patterns, or from all of them if none is given.
     def punsubscribe(channel_patterns : Array(String))
-      void_command(concat(["PUNSUBSCRIBE"], channel_patterns))
+      command(concat(["PUNSUBSCRIBE"], channel_patterns))
     end
 
     # :ditto:
