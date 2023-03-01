@@ -9,3 +9,4 @@ crystal: ">= 0.36.1"
 dependencies:
   pool:
     github: ysbaddaden/pool
+    version: ">= 0.3.0"
