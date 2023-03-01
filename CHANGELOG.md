@@ -1,3 +1,7 @@
+## 2.9.0
+* Update pool to version 0.3.0 with fixes for MT
+* fix reconnection for subscribe (#128)
+
 ## 2.8.3
 * Fix using zadd with float values
 * Fix hgetall with multi (#126)
