@@ -1,5 +1,5 @@
 name: redis
-version: 2.9.0
+version: 2.9.1
 
 authors:
   - Stefan Wille <nospam-post@nospam-stefanwille-dot-com>
@@ -9,4 +9,4 @@ crystal: ">= 0.36.1"
 dependencies:
   pool:
     github: ysbaddaden/pool
-    version: ">= 0.3.0"
+    version: "<= 0.2.4"

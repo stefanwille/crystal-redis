@@ -1,3 +1,6 @@
+## 2.9.1
+* Revert pool to 0.2.4 version, because of #134
+
 ## 2.9.0
 * Update pool to version 0.3.0 with fixes for MT
 * fix reconnection for subscribe (#128)
