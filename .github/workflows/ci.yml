@@ -13,8 +13,8 @@ jobs:
         os: [ubuntu-latest, macos-latest]
         stable: [true]
         crystal:
-          - 1.6.2
           - 1.7.2
+          - 1.8.0
         include:
           - os: ubuntu-latest
             crystal: nightly
